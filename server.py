@@ -22,7 +22,7 @@
 __author__ = "Mariano Reingart (mariano@nsis.com.ar)"
 __copyright__ = "Copyright (C) 2010 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "0.1"
+__version__ = "0.02"
 
 from simplexml import SimpleXMLElement
 
@@ -215,20 +215,20 @@ class SoapDispatcher(object):
     
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-
 class SOAPHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         "User viewable help information and wsdl"
         args = self.path[1:].split("?")
-        if self.path != "/" and args[0] not in self.server.dispatcher.list_methods():
-            self.send_error(404, "Method not found")
+        print "serving", args
+        if self.path != "/" and args[0] not in self.server.dispatcher.methods.keys():
+            self.send_error(404, "Method not found: %s" % args[0])
         else:
             if self.path == "/":
                 # return wsdl if no method supplied
                 response = self.server.dispatcher.wsdl()
             else:
                 # return supplied method help (?request or ?response messages)
-                req, res = self.server.dispatcher.help(args[0])
+                req, res, doc = self.server.dispatcher.help(args[0])
                 if len(args)==1 or args[1]=="request":
                     response = req
                 else:
