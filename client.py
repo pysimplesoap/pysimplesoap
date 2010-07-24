@@ -17,7 +17,17 @@ __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.0"
 
-import httplib2
+try:
+    import httplib2
+    Http = httplib2.Http
+except ImportError:
+    import urllib2
+    class Http(): # wrapper to use when httplib2 not available
+        def request(self, url, method, body, headers):
+            f = urllib2.urlopen(urllib2.Request(url, body, headers))
+            return f.info(), f.read()
+
+    
 from simplexml import SimpleXMLElement
 
 class SoapFault(RuntimeError):
@@ -54,7 +64,7 @@ class SoapClient(object):
             self.__soap_ns = soap_ns
 
         if not proxy:
-            self.http = httplib2.Http()
+            self.http = Http()
         else:
             import socks
             ##httplib2.debuglevel=4
