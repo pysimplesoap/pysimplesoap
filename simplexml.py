@@ -56,7 +56,7 @@ class SimpleXMLElement(object):
                 element.appendChild(self.__document.createTextNode(text))
             else:
                 element.appendChild(self.__document.createTextNode(str(text)))
-        self.__element.appendChild(element)
+        self._element.appendChild(element)
         return SimpleXMLElement(
                     elements=[element],
                     document=self.__document,
@@ -74,7 +74,7 @@ class SimpleXMLElement(object):
     def add_comment(self, data):
         "Add an xml comment to this child"
         comment = self.__document.createComment(data)
-        self.__element.appendChild(comment)
+        self._element.appendChild(comment)
 
     def as_xml(self,filename=None,pretty=False):
         "Return the XML representation of the document"
@@ -85,37 +85,37 @@ class SimpleXMLElement(object):
 
     def __repr__(self):
         "Return the XML representation of this tag"
-        return self.__element.toxml('UTF-8')
+        return self._element.toxml('UTF-8')
 
     def get_name(self):
         "Return the tag name of this node"
-        return self.__element.tagName
+        return self._element.tagName
 
     def get_local_name(self):
         "Return the tag loca name (prefix:name) of this node"
-        return self.__element.localName
+        return self._element.localName
 
     def get_prefix(self):
         "Return the namespace prefix of this node"
-        return self.__element.prefix
+        return self._element.prefix
 
     def attributes(self):
         "Return a dict of attributes for this tag"
         #TODO: use slice syntax [:]?
-        return self.__element.attributes
+        return self._element.attributes
 
     def __getitem__(self, item):
         "Return xml tag attribute value or a slice of attributes (iter)"
         if DEBUG: print "__getitem__(%s)" % item 
         if isinstance(item,basestring):
-            return self.__element.attributes[item].value
+            return self._element.attributes[item].value
         elif isinstance(item, slice):
             # return a list with name:values
-            return self.__element.attributes.items()[item]
+            return self._element.attributes.items()[item]
             
     def add_attribute(self, name, value):
         "Set an attribute value from a string"
-        self.__element.setAttribute(name, value)
+        self._element.setAttribute(name, value)
  
     def __setitem__(self, item, value):
         "Set an attribute value"
@@ -144,15 +144,15 @@ class SimpleXMLElement(object):
                     prefix=self.__prefix)
             if ns:
                 if DEBUG: print "searching %s by ns=%s" % (tag,ns)
-                elements = self.__elements[0].getElementsByTagNameNS(ns, tag)
+                elements = self._element.getElementsByTagNameNS(ns, tag)
             if self.__ns:
                 if DEBUG: print "searching %s by ns=%s" % (tag, self.__ns)
-                elements = self.__elements[0].getElementsByTagNameNS(self.__ns, tag)
+                elements = self._element.getElementsByTagNameNS(self.__ns, tag)
             if not self.__ns or not elements:
                 if DEBUG: print "searching %s " % (tag)
-                elements = self.__elements[0].getElementsByTagName(tag)
+                elements = self._element.getElementsByTagName(tag)
             if not elements:
-                if DEBUG: print self.__elements[0].toxml()
+                if DEBUG: print self._element.toxml()
                 raise AttributeError("No elements found")
             return SimpleXMLElement(
                 elements=elements,
@@ -181,13 +181,13 @@ class SimpleXMLElement(object):
     def __dir__(self):
         "List xml children tags names"
         return [node.tagName for node 
-                in self.__element.childNodes
+                in self._element.childNodes
                 if node.nodeType != node.TEXT_NODE]
 
     def children(self):
         "Return xml children tags element"
         return SimpleXMLElement(
-                elements=[__element for __element in self.__element.childNodes
+                elements=[__element for __element in self._element.childNodes
                           if __element.nodeType == __element.ELEMENT_NODE],
                 document=self.__document,
                 namespace=self.__ns,
@@ -195,13 +195,13 @@ class SimpleXMLElement(object):
 
     def __contains__( self, item):
         "Search for a tag name in this element or child nodes"
-        return self.__element.getElementsByTagName(item)
+        return self._element.getElementsByTagName(item)
     
     def __unicode__(self):
         "Returns the unicode text nodes of the current element"
-        if self.__element.childNodes:
+        if self._element.childNodes:
             rc = u""
-            for node in self.__element.childNodes:
+            for node in self._element.childNodes:
                 if node.nodeType == node.TEXT_NODE:
                     rc = rc + node.data
             return rc
@@ -220,9 +220,9 @@ class SimpleXMLElement(object):
         try:
             return float(self.__str__())
         except:
-            raise IndexError(self.__element.toxml())    
+            raise IndexError(self._element.toxml())    
     
-    __element = property(lambda self: self.__elements[0])
+    _element = property(lambda self: self.__elements[0])
 
     def unmarshall(self, types):
         "Convert to python values the current serialized xml element"
@@ -283,25 +283,24 @@ class SimpleXMLElement(object):
         else: # the rest of object types are converted to string 
             self.add_child(name,str(value),ns=ns) # check for a asXML?
 
+    def import_node(self, other):
+        x = self.__document.importNode(other._element, True)  # deep copy
+        self._element.appendChild(x)
+
 
 if __name__ == "__main__":
-    span = SimpleXMLElement('<span><a href="google.com">google</a><prueba><i>1</i><float>1.5</float></prueba></span>')
-    print str(span.a)
-    print span('a')
-    print span(0)
-    print span.a['href']
-    print int(span.prueba.i)
-    print float(span.prueba.float)
-
-    span = SimpleXMLElement('<span><a href="google.com">google</a><a>yahoo</a><a>hotmail</a></span>')
-    for a in span.a():
-        print str(a)
-
-    span.add_child('a','altavista')
-    span.b = "ex msn"
-    span.b[:] = {'href':'http://www.bing.com/', 'alt': 'Bing'} 
-    for k,v in span.b[:]:
-        print "%s=%s" % (k,v)
+    span = SimpleXMLElement('<span><a href="python.org.ar">pyar</a><prueba><i>1</i><float>1.5</float></prueba></span>')
+    assert str(span.a)==str(span('a'))==str(span.a(0))=="pyar"
+    assert span.a['href']=="python.org.ar"
+    assert int(span.prueba.i)==1 and float(span.prueba.float)==1.5
+    span1 = SimpleXMLElement('<span><a href="google.com">google</a><a>yahoo</a><a>hotmail</a></span>')
+    assert [str(a) for a in span1.a()] == ['google', 'yahoo', 'hotmail']
+    span1.add_child('a','altavista')
+    span1.b = "ex msn"
+    d = {'href':'http://www.bing.com/', 'alt': 'Bing'} 
+    span1.b[:] = d
+    assert sorted([(k,v) for k,v in span1.b[:]]) == sorted(d.items())
+    print span1.as_xml()
+    assert 'b' in span1
+    span.import_node(span1)
     print span.as_xml()
-    
-    print 'b' in span

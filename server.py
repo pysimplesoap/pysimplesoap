@@ -13,11 +13,6 @@
 "Simple SOAP Server implementation"
 
 # WARNING: EXPERIMENTAL PROOF-OF-CONCEPT IN EARLY DEVELOPMENT STAGE 
-# TODO:
-# * Refactory: cleanup and remove duplicates between server ad client 
-# * Generalize harcoded code
-# * Handle and Enforce SoapAction, namespaces, and exceptions
-# * Generate a WSDL suitable for testing with SoapUI
 
 __author__ = "Mariano Reingart (mariano@nsis.com.ar)"
 __copyright__ = "Copyright (C) 2010 Mariano Reingart"
@@ -28,18 +23,6 @@ from simplexml import SimpleXMLElement
 
 DEBUG = False
 
-class SoapFault(RuntimeError):
-    def __init__(self,faultcode,faultstring):
-        self.faultcode = faultcode
-        self.faultstring = faultstring
-
-# soap protocol specification & namespace
-soap_namespaces = dict(
-    soap11="http://schemas.xmlsoap.org/soap/envelope/",
-    soap="http://schemas.xmlsoap.org/soap/envelope/",
-    soapenv="http://schemas.xmlsoap.org/soap/envelope/",
-    soap12="http://www.w3.org/2003/05/soap-env",
-)
 
 class SoapDispatcher(object):
     "Simple Dispatcher for SOAP Server"
@@ -59,37 +42,41 @@ class SoapDispatcher(object):
         self.soap_ns = soap_ns
         self.soap_uri = soap_uri
     
-    def register_function(self, method, function, returns, args):
-        self.methods[method] = function, returns, args
+    def register_function(self, name, fn, returns=None, args=None, doc=None):
+        self.methods[name] = fn, returns, args, doc or getattr(fn,"__doc__","")
         
     def dispatch(self, xml):
         "Receive and proccess SOAP call"
         # default values:
         prefix = self.prefix
-        ret = None
-        fault = None
-        soap_ns = self.soap_ns
-        soap_uri = self.soap_uri
-        soap_fault_code = 'Client'
+        ret = fault = None
+        soap_ns, soap_uri = self.soap_ns, self.soap_uri
+        soap_fault_code = 'VersionMismatch'
 
         try:
             request = SimpleXMLElement(xml, namespace=self.namespace)
 
-            # detect soap prefix and uri (attributes of Envelope)
+            # detect soap prefix and uri (xmlns attributes of Envelope)
             for k, v in request[:]:
                 if v in ("http://schemas.xmlsoap.org/soap/envelope/",
                                   "http://www.w3.org/2003/05/soap-env",):
                     soap_ns = request.attributes()[k].localName
                     soap_uri = request.attributes()[k].value
-                
+            
+            soap_fault_code = 'Client'
+            
             # parse request message and get local method            
             method = request('%s:Body' % soap_ns).children()(0)
+            name = method.get_local_name()
             prefix = method.get_prefix()
-            if DEBUG: print "dispatch method", method.get_name()
-            function, returns_types, args_types = self.methods[method.get_local_name()]
+            if DEBUG: print "dispatch method", name
+            function, returns_types, args_types, doc = self.methods[name]
         
-            # de-serialize parameters
-            args = method.children().unmarshall(args_types)
+            # de-serialize parameters (if type definitions given)
+            if args_types:
+                args = method.children().unmarshall(args_types)
+            else:
+                args = {'request':method}
  
             soap_fault_code = 'Server'
             # execute function
@@ -119,18 +106,24 @@ class SoapDispatcher(object):
         print xml
         response = SimpleXMLElement(xml, namespace=self.namespace,
                                     prefix=prefix)
+    
+        response['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
+        response['xmlns:xsd'] = "http://www.w3.org/2001/XMLSchema"
 
         body = response.add_child("%s:Body" % soap_ns, ns=False)
         if fault:
             # generate a Soap Fault (with the python exception)
-            body = response.add_child("%s:Body" % soap_ns, ns=False)
             body.marshall("%s:Fault" % soap_ns, fault, ns=False)
         else:
             # return normal value
-            res = body.add_child("%sResponse" % method.get_local_name(), 
-                                 ns=method.get_prefix())
-            # serialize returned values (response)
-            res.marshall(returns_types.keys()[0], ret, )
+            res = body.add_child("%sResponse" % name, ns=prefix)
+
+            # serialize returned values (response) if type definition available
+            if returns_types:
+                res.marshall(returns_types.keys()[0], ret, )
+            elif returns_types is None:
+                # merge xmlelement returned
+                res.import_node(ret)
 
         return response.as_xml()
 
@@ -138,17 +131,17 @@ class SoapDispatcher(object):
 
     def list_methods(self):
         "Return a list of aregistered operations"
-        return [(method, function.__doc__) for method, (function, returns, args) in self.methods.items()] 
+        return [(method, doc) for method, (function, returns, args, doc) in self.methods.items()] 
 
     def help(self, method=None):
         "Generate sample request and response messages"
-        (function, returns, args) = self.methods[method]
+        (function, returns, args, doc) = self.methods[method]
         xml = """
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
 <soap:Body><%(method)s xmlns="%(namespace)s"/></soap:Body>
 </soap:Envelope>"""  % {'method':method, 'namespace':self.namespace}
         request = SimpleXMLElement(xml, namespace=self.namespace, prefix=self.prefix)
-        for k,v in args.items():
+        for k,v in args and args.items() or [('value', None)]:
             request(method).marshall(k, v, add_comments=True, ns=False)
 
         xml = """
@@ -156,10 +149,10 @@ class SoapDispatcher(object):
 <soap:Body><%(method)sResponse xmlns="%(namespace)s"/></soap:Body>
 </soap:Envelope>"""  % {'method':method, 'namespace':self.namespace}
         response = SimpleXMLElement(xml, namespace=self.namespace, prefix=self.prefix)
-        for k,v in returns.items():
+        for k,v in returns and returns.items() or [('value', None)]:
             response('%sResponse'%method).marshall(k, v, add_comments=True, ns=False)
 
-        return request.as_xml(pretty=True), response.as_xml(pretty=True), function.__doc__
+        return request.as_xml(pretty=True), response.as_xml(pretty=True), doc
 
 
     def wsdl(self):
@@ -184,7 +177,7 @@ class SoapDispatcher(object):
 """ % {'namespace': self.namespace, 'name': self.name, 'documentation': self.documentation}
         wsdl = SimpleXMLElement(xml)
 
-        for method, (function, returns, args) in self.methods.items():
+        for method, (function, returns, args, doc) in self.methods.items():
             # create elements:
                 
             def parse_element(name, values, array=False, complex=False):
@@ -199,7 +192,7 @@ class SoapDispatcher(object):
                     all = complex.add_child("xsd:all")
                 else:
                     all = complex.add_child("xsd:sequence")
-                for k,v in values:
+                for k,v in values or (('value',None),):
                     e = all.add_child("xsd:element")
                     e['name'] = k
                     if array:
@@ -207,6 +200,8 @@ class SoapDispatcher(object):
                     if v in (int, str, float, bool, unicode):
                         type_map={str:'xsd:string',bool:'xsd:boolean',int:'xsd:integer',float:'xsd:float',unicode:'xsd:string'}
                         t=type_map[v]
+                    elif v is None:
+                        t='xsd:anyType'
                     elif isinstance(v, list):
                         n="ArrayOf%s%s" % (name, k)
                         l = []
@@ -220,8 +215,8 @@ class SoapDispatcher(object):
                         t = "tns:%s" % n
                     e.add_attribute('type', t)
             
-            parse_element("%s" % method, args.items())
-            parse_element("%sResponse" % method, returns.items())
+            parse_element("%s" % method, args and args.items())
+            parse_element("%sResponse" % method, returns and returns.items())
 
             # create messages:
             for m,e in ('Input',''), ('Output','Response'):
@@ -234,9 +229,11 @@ class SoapDispatcher(object):
         # create ports
         portType = wsdl.add_child('wsdl:portType')
         portType['name'] = "%sPortType" % self.name
-        for method in self.methods.keys():
+        for method, (function, returns, args, doc) in self.methods.items():
             op = portType.add_child('wsdl:operation')
             op['name'] = method
+            if doc:
+                op.add_child("wsdl:documentation", doc)
             input = op.add_child("wsdl:input")
             input['message'] = "tns:%sInput" % method
             output = op.add_child("wsdl:output")
@@ -322,11 +319,17 @@ if __name__=="__main__":
         ns = True)
     
     def adder(p,c):
+        "Add several values"
         print c[0]['d'],c[1]['d'],
         return {'ab': p['a']+p['b'], 'dd': c[0]['d']+c[1]['d']}
 
     def dummy(in0):
+        "Just return input"
         return in0
+
+    def echo(request):
+        "Copy request->response (generic, any type)"
+        return request.value
 
     dispatcher.register_function('Adder', adder,
         returns={'AddResult': {'ab': int, 'dd': str } }, 
@@ -335,6 +338,8 @@ if __name__=="__main__":
     dispatcher.register_function('Dummy', dummy,
         returns={'out0': str}, 
         args={'in0': str})
+
+    dispatcher.register_function('Echo', echo)
 
     if '--local' in sys.argv:
 
@@ -346,14 +351,7 @@ if __name__=="__main__":
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
        <soap:Body>
          <Adder xmlns="http://example.com/sample.wsdl">
-           <p>
-            <a>1</a>
-            <b>2</b>
-           </p>
-           <c>
-            <d>hola</d>
-            <d>chau</d>
-           </c>
+           <p><a>1</a><b>2</b></p><c><d>hola</d><d>chau</d></c>
         </Adder>
        </soap:Body>
     </soap:Envelope>"""
@@ -366,26 +364,28 @@ if __name__=="__main__":
    <soapenv:Header/>
    <soapenv:Body>
       <pys:Adder>
-         <!--You may enter the following 2 items in any order-->
-         <pys:p>
-            <!--You may enter the following 2 items in any order-->
-            <!--type: integer-->
-            <pys:a>9</pys:a>
-            <!--type: integer-->
-            <pys:b>3</pys:b>
-         </pys:p>
-         <pys:c>
-            <!--Zero or more repetitions:-->
-            <!--type: string-->
-            <pys:d>foo</pys:d>
-            <pys:d></pys:d>
-         </pys:c>
+         <pys:p><pys:a>9</pys:a><pys:b>3</pys:b></pys:p>
+         <pys:c><pys:d>foo</pys:d><pys:d></pys:d></pys:c>
       </pys:Adder>
    </soapenv:Body>
 </soapenv:Envelope>
     """
-    
         print dispatcher.dispatch(xml)
+
+        # echo local test (generic soap service)
+        xml = """<?xml version="1.0" encoding="UTF-8"?> 
+    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+       <soap:Body>
+         <Echo xmlns="http://example.com/sample.wsdl">
+           <value xsi:type="xsd:string">Hello world</value>
+        </Echo>
+       </soap:Body>
+    </soap:Envelope>"""
+
+        print dispatcher.dispatch(xml)
+
 
         for method, doc in dispatcher.list_methods():
             request, response, doc = dispatcher.help(method)
