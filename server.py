@@ -76,20 +76,17 @@ class SoapDispatcher(object):
             request = SimpleXMLElement(xml, namespace=self.namespace)
 
             # detect soap prefix and uri (attributes of Envelope)
-            attrs = request.attributes()
-            for k in attrs.keys():
-                attr = attrs[k]
-                if attr.value in ("http://schemas.xmlsoap.org/soap/envelope/",
+            for k, v in request[:]:
+                if v in ("http://schemas.xmlsoap.org/soap/envelope/",
                                   "http://www.w3.org/2003/05/soap-env",):
-                    soap_ns = attr.localName
-                    soap_uri = attr.value
+                    soap_ns = request.attributes()[k].localName
+                    soap_uri = request.attributes()[k].value
                 
-            # parse request message and get local method
-            
-            method = request['%s:Body' % soap_ns].children()[0]
-            prefix = method.getPrefix()
-            if DEBUG: print "dispatch method", method.getName()
-            function, returns_types, args_types = self.methods[method.getLocalName()]
+            # parse request message and get local method            
+            method = request('%s:Body' % soap_ns).children()(0)
+            prefix = method.get_prefix()
+            if DEBUG: print "dispatch method", method.get_name()
+            function, returns_types, args_types = self.methods[method.get_local_name()]
         
             # de-serialize parameters
             args = method.children().unmarshall(args_types)
@@ -123,19 +120,19 @@ class SoapDispatcher(object):
         response = SimpleXMLElement(xml, namespace=self.namespace,
                                     prefix=prefix)
 
-        body = response.addChild("%s:Body" % soap_ns, ns=False)
+        body = response.add_child("%s:Body" % soap_ns, ns=False)
         if fault:
             # generate a Soap Fault (with the python exception)
-            body = response.addChild("%s:Body" % soap_ns, ns=False)
+            body = response.add_child("%s:Body" % soap_ns, ns=False)
             body.marshall("%s:Fault" % soap_ns, fault, ns=False)
         else:
             # return normal value
-            res = body.addChild("%sResponse" % method.getLocalName(), 
-                                 ns=method.getPrefix())
+            res = body.add_child("%sResponse" % method.get_local_name(), 
+                                 ns=method.get_prefix())
             # serialize returned values (response)
             res.marshall(returns_types.keys()[0], ret, )
 
-        return response.asXML()
+        return response.as_xml()
 
     # Introspection functions:
 
@@ -152,7 +149,7 @@ class SoapDispatcher(object):
 </soap:Envelope>"""  % {'method':method, 'namespace':self.namespace}
         request = SimpleXMLElement(xml, namespace=self.namespace, prefix=self.prefix)
         for k,v in args.items():
-            request[method].marshall(k, v, add_comments=True, ns=False)
+            request(method).marshall(k, v, add_comments=True, ns=False)
 
         xml = """
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -160,9 +157,9 @@ class SoapDispatcher(object):
 </soap:Envelope>"""  % {'method':method, 'namespace':self.namespace}
         response = SimpleXMLElement(xml, namespace=self.namespace, prefix=self.prefix)
         for k,v in returns.items():
-            response['%sResponse'%method].marshall(k, v, add_comments=True, ns=False)
+            response('%sResponse'%method).marshall(k, v, add_comments=True, ns=False)
 
-        return request.asXML(pretty=True), response.asXML(pretty=True), function.__doc__
+        return request.as_xml(pretty=True), response.as_xml(pretty=True), function.__doc__
 
 
     def wsdl(self):
@@ -190,24 +187,23 @@ class SoapDispatcher(object):
         for method, (function, returns, args) in self.methods.items():
             # create elements:
                 
-            def parseElement(name, values, array=False, complex=False):
+            def parse_element(name, values, array=False, complex=False):
                 if not complex:
-                    element = wsdl['wsdl:types']['xsd:schema'].addChild('xsd:element')
-                    complex = element.addChild("xsd:complexType")
+                    element = wsdl('wsdl:types')('xsd:schema').add_child('xsd:element')
+                    complex = element.add_child("xsd:complexType")
                 else:
-                    complex = wsdl['wsdl:types']['xsd:schema'].addChild('xsd:complexType')
+                    complex = wsdl('wsdl:types')('xsd:schema').add_child('xsd:complexType')
                     element = complex
-                element.addAttribute('name', name)
+                element['name'] = name
                 if not array:
-                    all = complex.addChild("xsd:all")
+                    all = complex.add_child("xsd:all")
                 else:
-                    all = complex.addChild("xsd:sequence")
+                    all = complex.add_child("xsd:sequence")
                 for k,v in values:
-                    e = all.addChild("xsd:element")
-                    e.addAttribute('name', k)
+                    e = all.add_child("xsd:element")
+                    e['name'] = k
                     if array:
-                        e.addAttribute('minOccurs',"0")
-                        e.addAttribute('maxOccurs',"unbounded")
+                        e[:]={'minOccurs': "0", 'maxOccurs': "unbounded"}
                     if v in (int, str, float, bool, unicode):
                         type_map={str:'xsd:string',bool:'xsd:boolean',int:'xsd:integer',float:'xsd:float',unicode:'xsd:string'}
                         t=type_map[v]
@@ -216,67 +212,67 @@ class SoapDispatcher(object):
                         l = []
                         for d in v:
                             l.extend(d.items())
-                        parseElement(n, l, array=True, complex=True)
+                        parse_element(n, l, array=True, complex=True)
                         t = "tns:%s" % n
                     elif isinstance(v, dict): 
                         n="%s%s" % (name, k)
-                        parseElement(n, v.items(), complex=True)
+                        parse_element(n, v.items(), complex=True)
                         t = "tns:%s" % n
-                    e.addAttribute('type', t)
+                    e.add_attribute('type', t)
             
-            parseElement("%s" % method, args.items())
-            parseElement("%sResponse" % method, returns.items())
+            parse_element("%s" % method, args.items())
+            parse_element("%sResponse" % method, returns.items())
 
             # create messages:
             for m,e in ('Input',''), ('Output','Response'):
-                message = wsdl.addChild('wsdl:message')
-                message.addAttribute('name', "%s%s" % (method, m))
-                part = message.addChild("wsdl:part")
-                part.addAttribute('name', 'parameters')
-                part.addAttribute('element', 'tns:%s%s' % (method,e))
+                message = wsdl.add_child('wsdl:message')
+                message['name'] = "%s%s" % (method, m)
+                part = message.add_child("wsdl:part")
+                part[:] = {'name': 'parameters', 
+                           'element': 'tns:%s%s' % (method,e)}
 
         # create ports
-        portType = wsdl.addChild('wsdl:portType')
-        portType.addAttribute('name', "%sPortType" % self.name)
+        portType = wsdl.add_child('wsdl:portType')
+        portType['name'] = "%sPortType" % self.name
         for method in self.methods.keys():
-            op = portType.addChild('wsdl:operation')
-            op.addAttribute('name', method)
-            input = op.addChild("wsdl:input")
-            input.addAttribute('message', "tns:%sInput" % method)
-            output = op.addChild("wsdl:output")
-            output.addAttribute('message', "tns:%sOutput" % method)
+            op = portType.add_child('wsdl:operation')
+            op['name'] = method
+            input = op.add_child("wsdl:input")
+            input['message'] = "tns:%sInput" % method
+            output = op.add_child("wsdl:output")
+            output['message'] = "tns:%sOutput" % method
 
         # create bindings
-        binding = wsdl.addChild('wsdl:binding')
-        binding.addAttribute('name', "%sBinding" % self.name)
-        binding.addAttribute('type', "tns:%sPortType" % self.name)
-        soapbinding= binding.addChild('soap:binding')
-        soapbinding.addAttribute('style',"document")
-        soapbinding.addAttribute('transport',"http://schemas.xmlsoap.org/soap/http")
+        binding = wsdl.add_child('wsdl:binding')
+        binding['name'] = "%sBinding" % self.name
+        binding['type'] = "tns:%sPortType" % self.name
+        soapbinding = binding.add_child('soap:binding')
+        soapbinding['style'] = "document"
+        soapbinding['transport'] = "http://schemas.xmlsoap.org/soap/http"
         for method in self.methods.keys():
-            op = binding.addChild('wsdl:operation')
-            op.addAttribute('name', method)
-            soapop = op.addChild('soap:operation')
-            soapop.addAttribute('soapAction', self.action)
-            soapop.addAttribute('style', 'document')
-            input = op.addChild("wsdl:input")
-            ##input.addAttribute('name', "%sInput" % method)
-            soapbody = input.addChild("soap:body")
-            soapbody.addAttribute("use","literal")
-            output = op.addChild("wsdl:output")
-            ##output.addAttribute('name', "%sOutput" % method)
-            soapbody = output.addChild("soap:body")
-            soapbody.addAttribute("use","literal")
+            op = binding.add_child('wsdl:operation')
+            op['name'] = method
+            soapop = op.add_child('soap:operation')
+            soapop['soapAction'] = self.action
+            soapop['style'] = 'document'
+            input = op.add_child("wsdl:input")
+            ##input.add_attribute('name', "%sInput" % method)
+            soapbody = input.add_child("soap:body")
+            soapbody["use"] = "literal"
+            output = op.add_child("wsdl:output")
+            ##output.add_attribute('name', "%sOutput" % method)
+            soapbody = output.add_child("soap:body")
+            soapbody["use"] = "literal"
 
-        service = wsdl.addChild('wsdl:service')
-        service.addAttribute("name", "%sService" % self.name)
-        service.addChild('wsdl:documentation', text=self.documentation)
-        port=service.addChild('wsdl:port')
-        port.addAttribute("name","%s" % self.name)
-        port.addAttribute("binding","tns:%sBinding" % self.name)
-        soapaddress = port.addChild('soap:address')
-        soapaddress.addAttribute("location", self.location)
-        return wsdl.asXML(pretty=True)
+        service = wsdl.add_child('wsdl:service')
+        service["name"] = "%sService" % self.name
+        service.add_child('wsdl:documentation', text=self.documentation)
+        port=service.add_child('wsdl:port')
+        port["name"] = "%s" % self.name
+        port["binding"] = "tns:%sBinding" % self.name
+        soapaddress = port.add_child('soap:address')
+        soapaddress["location"] = self.location
+        return wsdl.as_xml(pretty=True)
     
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
@@ -381,7 +377,7 @@ if __name__=="__main__":
          <pys:c>
             <!--Zero or more repetitions:-->
             <!--type: string-->
-            <pys:dx>foo</pys:dx>
+            <pys:d>foo</pys:d>
             <pys:d></pys:d>
          </pys:c>
       </pys:Adder>
