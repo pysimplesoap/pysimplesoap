@@ -40,7 +40,7 @@ class SimpleXMLElement(object):
             self.__elements = elements
             self.__document = document
     
-    def addChild(self,name,text=None,ns=True):
+    def add_child(self,name,text=None,ns=True):
         "Adding a child tag to a node"
         if not ns or not self.__ns:
             if DEBUG: print "adding %s" % (name)
@@ -63,16 +63,20 @@ class SimpleXMLElement(object):
                     namespace=self.__ns,
                     prefix=self.__prefix)
     
-    def __setattribute__(self, name, text):
+    def __setattr__(self, tag, text):
         "Add text child tag node (short form)"
-        self.addChild(name,text)
+        if tag.startswith("_"):
+            object.__setattr__(self, tag, text)
+        else:
+            if DEBUG: print "__setattr__(%s,%s)" % (tag, text)
+            self.add_child(tag,text)
 
-    def addComment(self, data):
+    def add_comment(self, data):
         "Add an xml comment to this child"
         comment = self.__document.createComment(data)
         self.__element.appendChild(comment)
 
-    def asXML(self,filename=None,pretty=False):
+    def as_xml(self,filename=None,pretty=False):
         "Return the XML representation of the document"
         if not pretty:
             return self.__document.toxml('UTF-8')
@@ -83,15 +87,15 @@ class SimpleXMLElement(object):
         "Return the XML representation of this tag"
         return self.__element.toxml('UTF-8')
 
-    def getName(self):
+    def get_name(self):
         "Return the tag name of this node"
         return self.__element.tagName
 
-    def getLocalName(self):
+    def get_local_name(self):
         "Return the tag loca name (prefix:name) of this node"
         return self.__element.localName
 
-    def getPrefix(self):
+    def get_prefix(self):
         "Return the namespace prefix of this node"
         return self.__element.prefix
 
@@ -100,32 +104,69 @@ class SimpleXMLElement(object):
         #TODO: use slice syntax [:]?
         return self.__element.attributes
 
-    def addAttribute(self, name, value):
+    def __getitem__(self, item):
+        "Return xml tag attribute value or a slice of attributes (iter)"
+        if DEBUG: print "__getitem__(%s)" % item 
+        if isinstance(item,basestring):
+            return self.__element.attributes[item].value
+        elif isinstance(item, slice):
+            # return a list with name:values
+            return self.__element.attributes.items()[item]
+            
+    def add_attribute(self, name, value):
         "Set an attribute value from a string"
-        #TODO: use __setitem__?
         self.__element.setAttribute(name, value)
-     
-    def __getattr__(self, name):
+ 
+    def __setitem__(self, item, value):
+        "Set an attribute value"
+        if isinstance(item,basestring):
+            self.add_attribute(item, value)
+        elif isinstance(item, slice):
+            # set multiple attributes at once
+            for k, v in value.items():
+                self.add_attribute(k, v)
+
+    def __call__(self, tag=None, ns=None, children=False):
         "Search (even in child nodes) and return a child tag by name"
         try:
+            if tag is None:
+                # if no name given, iterate over siblings (same level)
+                return self._iter()
+            if children:
+                # future: filter children? by ns?
+                return self.children()
+            if isinstance(tag, int):
+                # return tag by index
+                return SimpleXMLElement(
+                    elements=[self.__elements[tag]],
+                    document=self.__document,
+                    namespace=self.__ns,
+                    prefix=self.__prefix)
+            if ns:
+                if DEBUG: print "searching %s by ns=%s" % (tag,ns)
+                elements = self.__elements[0].getElementsByTagNameNS(ns, tag)
             if self.__ns:
-                if DEBUG: print "searching %s by ns=%s" % (name,self.__ns)
-                elements = self.__elements[0].getElementsByTagNameNS(self.__ns, name)
+                if DEBUG: print "searching %s by ns=%s" % (tag, self.__ns)
+                elements = self.__elements[0].getElementsByTagNameNS(self.__ns, tag)
             if not self.__ns or not elements:
-                if DEBUG: print "searching %s " % (name)
-                elements = self.__elements[0].getElementsByTagName(name)
+                if DEBUG: print "searching %s " % (tag)
+                elements = self.__elements[0].getElementsByTagName(tag)
             if not elements:
                 if DEBUG: print self.__elements[0].toxml()
-                raise AttributeError("Sin elementos")
+                raise AttributeError("No elements found")
             return SimpleXMLElement(
                 elements=elements,
                 document=self.__document,
                 namespace=self.__ns,
                 prefix=self.__prefix)
         except AttributeError, e:
-            raise AttributeError("Tag not found: %s (%s)" % (name, str(e)))
+            raise AttributeError("Tag not found: %s (%s)" % (tag, str(e)))
 
-    def __iter__(self):
+    def __getattr__(self, tag):
+        "Shortcut for __call__"
+        return self.__call__(tag)
+        
+    def _iter(self):
         "Iterate over xml tags at this level"
         try:
             for __element in self.__elements:
@@ -136,18 +177,6 @@ class SimpleXMLElement(object):
                     prefix=self.__prefix)
         except:
             raise
-
-    def __getitem__(self,item):
-        "Return xml tag (by name o numerical index)"
-        #TODO: use string names for real tag attributes?
-        if isinstance(item, basestring):
-            return getattr(self,item)
-        else:
-            return SimpleXMLElement(
-                elements=[self.__elements[item]],
-                document=self.__document,
-                namespace=self.__ns,
-                prefix=self.__prefix)
 
     def __dir__(self):
         "List xml children tags names"
@@ -202,15 +231,15 @@ class SimpleXMLElement(object):
         #   expected xml: <p><a>1</a><b>2</b></p><c><d>hola</d><d>chau</d>
         #   returnde value: {'p': {'a':1,'b':2}, `'c':[{'d':'hola'},{'d':'chau'}]}
         d = {}
-        for node in self:
-            name = str(node.getLocalName())
+        for node in self():
+            name = str(node.get_local_name())
             try:
                 fn = types[name]
             except (KeyError, ), e:
                 raise TypeError("Tag: %s invalid" % (name,))
             if isinstance(fn,list):
                 value = []
-                for child in node.children():
+                for child in node.children()():
                     value.append(child.unmarshall(fn[0]))
             elif isinstance(fn,dict):
                 value = node.children().unmarshall(fn)
@@ -228,42 +257,51 @@ class SimpleXMLElement(object):
     def marshall(self, name, value, add_child=True, add_comments=False, ns=False):
         "Analize python value and add the serialized XML element using tag name"
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
-            child = add_child and self.addChild(name,ns=ns) or self
+            child = add_child and self.add_child(name,ns=ns) or self
             for k,v in value.items():
                 child.marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, tuple):  # serialize tuple (<key>value</key>)
-            child = add_child and self.addChild(name,ns=ns) or self
+            child = add_child and self.add_child(name,ns=ns) or self
             for k,v in value:
                 getattr(self,name).marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, list): # serialize lists
-            child=self.addChild(name,ns=ns)
+            child=self.add_child(name,ns=ns)
             if add_comments:
-                child.addComment("Repetitive array of:")
+                child.add_comment("Repetitive array of:")
             for t in value:
                 child.marshall(name,t, False, add_comments=add_comments, ns=ns)
         elif isinstance(value, basestring): # do not convert strings or unicodes
-            self.addChild(name,value,ns=ns)
+            self.add_child(name,value,ns=ns)
         elif value is None: # sent a empty tag?
-            self.addChild(name,ns=ns)
+            self.add_child(name,ns=ns)
         elif value in (int, str, float, bool, unicode):
             # add commented placeholders for simple tipes (for examples/help only)
             type_map={str:'string',unicode:'string',
                       bool:'boolean',int:'integer',float:'float'}
-            child = self.addChild(name,ns=ns) 
-            child.addComment(type_map[value])
+            child = self.add_child(name,ns=ns) 
+            child.add_comment(type_map[value])
         else: # the rest of object types are converted to string 
-            self.addChild(name,str(value),ns=ns) # check for a asXML?
+            self.add_child(name,str(value),ns=ns) # check for a asXML?
 
 
 if __name__ == "__main__":
     span = SimpleXMLElement('<span><a href="google.com">google</a><prueba><i>1</i><float>1.5</float></prueba></span>')
     print str(span.a)
+    print span('a')
+    print span(0)
+    print span.a['href']
     print int(span.prueba.i)
     print float(span.prueba.float)
 
     span = SimpleXMLElement('<span><a href="google.com">google</a><a>yahoo</a><a>hotmail</a></span>')
-    for a in span.a:
+    for a in span.a():
         print str(a)
 
-    span.addChild('a','altavista')
-    print span.asXML()
+    span.add_child('a','altavista')
+    span.b = "ex msn"
+    span.b[:] = {'href':'http://www.bing.com/', 'alt': 'Bing'} 
+    for k,v in span.b[:]:
+        print "%s=%s" % (k,v)
+    print span.as_xml()
+    
+    print 'b' in span

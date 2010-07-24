@@ -100,7 +100,7 @@ class SoapClient(object):
             parameters = args
         for k,v in parameters: # dict: tag=valor
             getattr(request,method).marshall(k,v)
-        self.xml_request = request.asXML()
+        self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace)
         if self.exceptions and ("soapenv:Fault" in response or "soap:Fault" in response):
@@ -213,7 +213,7 @@ if __name__=="__main__":
             trace = True)
         dt1 = datetime.today() - timedelta(days=60)
         dt2 = datetime.today() + timedelta(days=60)
-        feriadosXML = client.FeriadosEntreFechasAsXml(dt1=dt1.isoformat(), dt2=dt2.isoformat());
+        feriadosXML = client.FeriadosEntreFechasas_xml(dt1=dt1.isoformat(), dt2=dt2.isoformat());
         print feriadosXML
 
     ##print parse_proxy(None)
