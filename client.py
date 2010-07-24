@@ -28,7 +28,7 @@ except ImportError:
             return f.info(), f.read()
 
     
-from simplexml import SimpleXMLElement
+from simplexml import SimpleXMLElement, TYPE_MAP
 
 class SoapFault(RuntimeError):
     def __init__(self,faultcode,faultstring):
@@ -142,7 +142,113 @@ class SoapClient(object):
             print "="*80
         return content
 
+    def wsdl(self, xml):
+        "Parse Web Service Description v1.1"
+        soap_ns="http://schemas.xmlsoap.org/wsdl/soap/"
+        wsdl_ns="http://schemas.xmlsoap.org/wsdl/"
+        xsd_ns="http://www.w3.org/2001/XMLSchema"
+        xsi_ns="http://www.w3.org/2001/XMLSchema-instance"
 
+        get_local_name = lambda s: str((':' in s) and s.split(':')[1] or s)
+        
+        REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
+        
+        # Parse WSDL XML:
+        wsdl = SimpleXMLElement(xml, namespace=wsdl_ns)
+        
+        # Extract useful data:
+        self.namespace = wsdl['targetNamespace']
+        self.documentation = str(wsdl.documentation)
+        
+        bindings = {}           # binding_name: binding
+        operations = {}
+        port_type_bindings = {} # port_type_name: binding
+        messages = {}           # message:element
+        elements = {}           # element: type def
+
+        ##schema = wsdl.types('schema',ns=xsd_ns)
+        for service in wsdl.service:
+            service_name=service['name']
+            ##self.documentation=service['documentation']
+            port = service.port
+            binding_name = get_local_name(port['binding'])
+
+            bindings[binding_name] = {'service': service_name,
+                'location': port('address', ns=soap_ns)['location'],
+                }
+             
+        for binding in wsdl.binding:
+            binding_name = binding['name']
+            # transport can be soap 1.2, ignore (None)
+            soap_binding = binding('binding', ns=soap_ns, error=False)
+            transport = soap_binding and soap_binding['transport'] or None
+            port_type_name = get_local_name(binding['type'])
+            bindings[binding_name] = {
+                'port_type_name': port_type_name,
+                'transport': transport, 'operations': {},
+                }
+            port_type_bindings[port_type_name] = bindings[binding_name]
+            for operation in binding.operation:
+                op_name = operation['name']
+                # operation can be soap 1.2, ignore (None)
+                op = operation('operation',ns=soap_ns, error=False)
+                action = op and op['soapAction'] or None
+                d = operations.setdefault(op_name, {})
+                bindings[binding_name]['operations'][op_name] = d
+                d.update({'name': op_name, "action": action})
+        
+        def process_element(element_name, children):
+            print "Processing element", element_name
+            for tag in children:
+                print tag.get_name()
+                d = {}
+                for e in tag.children():
+                    t = e['type'].split(":")
+                    if len(t)>1:
+                        ns, type_name = t
+                    else:
+                        ns, type_name = "xsd", t[0]
+                    if ns=='xsd' or ns=='s': #TODO:FIX!
+                        # look for the type, None == any
+                        fn = REVERSE_TYPE_MAP.get(str(type_name), None)
+                    else:
+                        # complex type, postprocess later
+                        fn = elements.setdefault(str(type_name), {})
+                    e_name = str(e['name'])
+                    if e['maxOccurs']=="unbounded":
+                        # it's an array...
+                        d[e_name] =[fn]
+                    else:
+                        d[e_name] = fn
+                
+                elements.setdefault(element_name,{}).update(d)
+
+        for element in wsdl.types("schema", ns=xsd_ns).children():
+                element_name = str(element['name'])
+                if element.get_local_name() == 'complexType':
+                    children = element.children()
+                else:
+                    children = element.children().children()
+                process_element(element_name, children)
+                    
+        for message in wsdl.message:
+            messages[message['name']] = elements.get(get_local_name(message.part['element']), {})
+        
+        for port_type in wsdl.portType:
+            port_type_name = port_type['name']
+            binding = port_type_bindings[port_type_name]
+
+            for operation in port_type.operation:
+                op_name = operation['name']
+                op = operations[op_name] 
+                op['documentation'] = str(operation('documentation', error=False) or '')
+                op['input'] = messages[get_local_name(operation.input['message'])]
+                op['output'] = messages[get_local_name(operation.output['message'])]
+
+        import pprint
+        pprint.pprint(bindings)
+        #pprint.pprint(messages)
+        
 def parse_proxy(proxy_str):
     "Parses proxy address user:pass@host:port into a dict suitable for httplib2"
     proxy_dict = {}
@@ -226,6 +332,9 @@ if __name__=="__main__":
         feriadosXML = client.FeriadosEntreFechasas_xml(dt1=dt1.isoformat(), dt2=dt2.isoformat());
         print feriadosXML
 
+    client = SoapClient()
+    client.wsdl(open("C:/wsfex.wsdl").read())
+    
     ##print parse_proxy(None)
     ##print parse_proxy("host:1234")
     ##print parse_proxy("user:pass@host:1234")
