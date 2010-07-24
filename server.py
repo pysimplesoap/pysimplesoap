@@ -19,7 +19,7 @@ __copyright__ = "Copyright (C) 2010 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "0.02"
 
-from simplexml import SimpleXMLElement
+from simplexml import SimpleXMLElement, TYPE_MAP
 
 DEBUG = False
 
@@ -198,9 +198,8 @@ class SoapDispatcher(object):
                     e['name'] = k
                     if array:
                         e[:]={'minOccurs': "0", 'maxOccurs': "unbounded"}
-                    if v in (int, str, float, bool, unicode):
-                        type_map={str:'xsd:string',bool:'xsd:boolean',int:'xsd:integer',float:'xsd:float',unicode:'xsd:string'}
-                        t=type_map[v]
+                    if v in TYPE_MAP.keys():
+                        t='xsd:%s' % TYPE_MAP[v]
                     elif v is None:
                         t='xsd:anyType'
                     elif isinstance(v, list):

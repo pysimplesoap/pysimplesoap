@@ -22,6 +22,9 @@ import xml.dom.minidom
 
 DEBUG = False
 
+# Define convertion function: xml schema type
+TYPE_MAP = {str:'string',unicode:'string',
+            bool:'boolean',int:'integer',float:'float'}
 
 class SimpleXMLElement(object):
     "Simple XML manipulation (simil PHP)"
@@ -274,12 +277,10 @@ class SimpleXMLElement(object):
             self.add_child(name,value,ns=ns)
         elif value is None: # sent a empty tag?
             self.add_child(name,ns=ns)
-        elif value in (int, str, float, bool, unicode):
+        elif value in TYPE_MAP.keys():
             # add commented placeholders for simple tipes (for examples/help only)
-            type_map={str:'string',unicode:'string',
-                      bool:'boolean',int:'integer',float:'float'}
             child = self.add_child(name,ns=ns) 
-            child.add_comment(type_map[value])
+            child.add_comment(TYPE_MAP[value])
         else: # the rest of object types are converted to string 
             self.add_child(name,str(value),ns=ns) # check for a asXML?
 
