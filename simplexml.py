@@ -131,7 +131,7 @@ class SimpleXMLElement(object):
         try:
             if tag is None:
                 # if no name given, iterate over siblings (same level)
-                return self._iter()
+                return self.__iter__()
             if children:
                 # future: filter children? by ns?
                 return self.children()
@@ -166,7 +166,7 @@ class SimpleXMLElement(object):
         "Shortcut for __call__"
         return self.__call__(tag)
         
-    def _iter(self):
+    def __iter__(self):
         "Iterate over xml tags at this level"
         try:
             for __element in self.__elements:
