@@ -18,13 +18,50 @@ __license__ = "LGPL 3.0"
 __version__ = "1.0"
 
 import xml.dom.minidom
-
+from decimal import Decimal
+import datetime 
+import time
 
 DEBUG = False
 
+# Classes to convert xml schema types to python
+
+# Immutable types:
+class DateTime(datetime.datetime):
+    def __new__(cls, s=None,v=None):
+        if s:
+            v = time.strptime(s, "%Y-%m-%dT%H:%M:%S")
+        return datetime.datetime.__new__(cls, *v[0:6])
+    def __add__(self, other):
+        return DateTime(v=(datetime.datetime.__add__(self,other)).timetuple())
+    def __sub__(self, other):
+        return DateTime(v=(datetime.datetime.__sub__(self,other)).timetuple())
+    def __str__(self):
+        return self.isoformat('T')
+
+class Date(datetime.date):
+    def __new__(cls, s=None, v=None):
+        if s:
+            v = time.strptime(s, "%Y%m%d")
+        return datetime.date.__new__(cls, *v[0:3])
+    def __add__(self, other):
+        return Date(v=(datetime.date.__add__(self,other)).timetuple())
+    def __sub__(self, other):
+        return Date(v=(datetime.date.__sub__(self,other)).timetuple())
+    def __str__(self):
+        return self.strftime("%Y%m%d")
+
+double = lambda x: float(x)
+integer = lambda x: long(x)
+
 # Define convertion function: xml schema type
 TYPE_MAP = {str:'string',unicode:'string',
-            bool:'boolean',int:'integer',float:'float'}
+            bool:'boolean',
+            int:'int', long:'long', integer:'integer',
+            float:'float', double:'double',
+            Decimal:'decimal',
+            DateTime:'dateTime', Date:'date',
+            }
 
 class SimpleXMLElement(object):
     "Simple XML manipulation (simil PHP)"

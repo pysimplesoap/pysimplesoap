@@ -19,7 +19,7 @@ __copyright__ = "Copyright (C) 2010 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "0.02"
 
-from simplexml import SimpleXMLElement, TYPE_MAP
+from simplexml import SimpleXMLElement, TYPE_MAP, DateTime, Date, Decimal
 
 DEBUG = False
 
@@ -318,10 +318,12 @@ if __name__=="__main__":
         trace = True,
         ns = True)
     
-    def adder(p,c):
+    def adder(p,c, dt=None):
         "Add several values"
         print c[0]['d'],c[1]['d'],
-        return {'ab': p['a']+p['b'], 'dd': c[0]['d']+c[1]['d']}
+        import datetime
+        dt = dt + datetime.timedelta(365)
+        return {'ab': p['a']+p['b'], 'dd': c[0]['d']+c[1]['d'], 'dt': dt}
 
     def dummy(in0):
         "Just return input"
@@ -333,7 +335,7 @@ if __name__=="__main__":
 
     dispatcher.register_function('Adder', adder,
         returns={'AddResult': {'ab': int, 'dd': str } }, 
-        args={'p': {'a': int,'b': int}, 'c': [{'d': str}]})
+        args={'p': {'a': int,'b': int}, 'dt': Date, 'c': [{'d': Decimal}]})
 
     dispatcher.register_function('Dummy', dummy,
         returns={'out0': str}, 
@@ -351,7 +353,7 @@ if __name__=="__main__":
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
        <soap:Body>
          <Adder xmlns="http://example.com/sample.wsdl">
-           <p><a>1</a><b>2</b></p><c><d>hola</d><d>chau</d></c>
+           <p><a>1</a><b>2</b></p><c><d>5000000.1</d><d>.2</d></c><dt>20100724</dt>
         </Adder>
        </soap:Body>
     </soap:Envelope>"""
@@ -365,7 +367,8 @@ if __name__=="__main__":
    <soapenv:Body>
       <pys:Adder>
          <pys:p><pys:a>9</pys:a><pys:b>3</pys:b></pys:p>
-         <pys:c><pys:d>foo</pys:d><pys:d></pys:d></pys:c>
+         <pys:dt>19690720<!--1969-07-20T21:28:00--></pys:dt>
+         <pys:c><pys:d>10.001</pys:d><pys:d>5.02</pys:d></pys:c>
       </pys:Adder>
    </soapenv:Body>
 </soapenv:Envelope>
@@ -407,7 +410,7 @@ if __name__=="__main__":
             soap_ns='soap',
             trace = True,
             ns = False)
-        response = client.Adder(p={'a':1,'b':2},c=[{'d':'hola'},{'d':'chau'}])
+        response = client.Adder(p={'a':1,'b':2},dt='20100724',c=[{'d':'1.20'},{'d':'2.01'}])
         result = response.AddResult
         print int(result.ab)
         print str(result.dd)
