@@ -84,8 +84,9 @@ class SoapDispatcher(object):
             if DEBUG: print ret
 
         except Exception, e:
+            import sys
             etype, evalue, etb = sys.exc_info()
-            if DEBUG or True: 
+            if DEBUG: 
                 import traceback
                 detail = ''.join(traceback.format_exception(etype, evalue, etb))
             else:

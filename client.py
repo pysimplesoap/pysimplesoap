@@ -157,9 +157,9 @@ if __name__=="__main__":
         # test sample webservice exposed by web2py
         from client import SoapClient
         client = SoapClient(
-            location = "http://localhost:8000/webservice/services/call/soap",
-            action = 'http://localhost:8000/webservice/services/call/soap', # SOAPAction
-            namespace = "http://localhost:8000/webservice/services/soap", 
+            location = "http://127.0.0.1:8000/webservices/sample/call/soap",
+            action = 'http://127.0.0.1:8000/webservices/sample/call/soap', # SOAPAction
+            namespace = "http://127.0.0.1:8000/webservices/sample/call/soap", 
             soap_ns='soap',
             trace = True,
             ns = False)
