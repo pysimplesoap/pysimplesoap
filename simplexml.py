@@ -34,6 +34,8 @@ time_m = lambda d: d.strftime("%H%M%S")
 bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
 
 # aliases:
+byte = lambda x: str(x)
+short = lambda x: int(x)
 double = lambda x: float(x)
 integer = lambda x: long(x)
 DateTime = datetime.datetime
@@ -42,8 +44,8 @@ Time = datetime.time
 
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {str:'string',unicode:'string',
-            bool:'boolean',
-            int:'int', long:'long', integer:'integer',
+            bool:'boolean', short:'short', byte:'byte',
+            int:'int', long:'long', integer:'integer', 
             float:'float', double:'double',
             Decimal:'decimal',
             datetime.datetime:'dateTime', datetime.date:'date',
@@ -156,7 +158,7 @@ class SimpleXMLElement(object):
             for k, v in value.items():
                 self.add_attribute(k, v)
 
-    def __call__(self, tag=None, ns=None, children=False):
+    def __call__(self, tag=None, ns=None, children=False, error=True):
         "Search (even in child nodes) and return a child tag by name"
         try:
             if tag is None:
@@ -165,25 +167,25 @@ class SimpleXMLElement(object):
             if children:
                 # future: filter children? by ns?
                 return self.children()
+            elements = None
             if isinstance(tag, int):
                 # return tag by index
-                return SimpleXMLElement(
-                    elements=[self.__elements[tag]],
-                    document=self.__document,
-                    namespace=self.__ns,
-                    prefix=self.__prefix)
-            if ns:
-                if DEBUG: print "searching %s by ns=%s" % (tag,ns)
+                elements=[self.__elements[tag]]
+            if ns and not elements:
+                if DEBUG : print "searching %s by ns=%s" % (tag,ns)
                 elements = self._element.getElementsByTagNameNS(ns, tag)
-            if self.__ns:
+            if self.__ns and not elements:
                 if DEBUG: print "searching %s by ns=%s" % (tag, self.__ns)
                 elements = self._element.getElementsByTagNameNS(self.__ns, tag)
-            if not self.__ns or not elements:
+            if not elements:
                 if DEBUG: print "searching %s " % (tag)
                 elements = self._element.getElementsByTagName(tag)
             if not elements:
                 if DEBUG: print self._element.toxml()
-                raise AttributeError("No elements found")
+                if error:
+                    raise AttributeError("No elements found")
+                else:
+                    return
             return SimpleXMLElement(
                 elements=elements,
                 document=self.__document,
