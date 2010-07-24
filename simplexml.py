@@ -43,11 +43,14 @@ class SimpleXMLElement(object):
     def addChild(self,name,text=None,ns=True):
         "Adding a child tag to a node"
         if not ns or not self.__ns:
-            if DEBUG: print "adding %s ns %s %s" % (name, self.__ns,ns)
+            if DEBUG: print "adding %s" % (name)
             element = self.__document.createElement(name)
         else:
             if DEBUG: print "adding %s ns %s %s" % (name, self.__ns,ns)
-            element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
+            if self.__prefix:
+                element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
+            else:
+                element = self.__document.createElementNS(self.__ns, name)
         if text:
             if isinstance(text, unicode):
                 element.appendChild(self.__document.createTextNode(text))
@@ -83,7 +86,15 @@ class SimpleXMLElement(object):
     def getName(self):
         "Return the tag name of this node"
         return self.__element.tagName
-    
+
+    def getLocalName(self):
+        "Return the tag loca name (prefix:name) of this node"
+        return self.__element.localName
+
+    def getPrefix(self):
+        "Return the namespace prefix of this node"
+        return self.__element.prefix
+
     def attributes(self):
         "Return a dict of attributes for this tag"
         #TODO: use slice syntax [:]?
@@ -192,16 +203,23 @@ class SimpleXMLElement(object):
         #   returnde value: {'p': {'a':1,'b':2}, `'c':[{'d':'hola'},{'d':'chau'}]}
         d = {}
         for node in self:
-            name = str(node.getName())
-            if isinstance(types[name],list):
+            name = str(node.getLocalName())
+            try:
+                fn = types[name]
+            except (KeyError, ), e:
+                raise TypeError("Tag: %s invalid" % (name,))
+            if isinstance(fn,list):
                 value = []
                 for child in node.children():
-                    value.append(child.unmarshall(types[name][0]))
-            elif isinstance(types[name],dict):
-                value = node.children().unmarshall(types[name])
+                    value.append(child.unmarshall(fn[0]))
+            elif isinstance(fn,dict):
+                value = node.children().unmarshall(fn)
             else:
-                if str(node):
-                    value = types[name](str(node))
+                if str(node) or fn == str:
+                    try:
+                        value = fn(str(node))
+                    except (ValueError, TypeError), e:
+                        raise ValueError("Tag: %s: %s" % (name, unicode(e)))
                 else:
                     value = None
             d[name] = value
@@ -225,6 +243,8 @@ class SimpleXMLElement(object):
                 child.marshall(name,t, False, add_comments=add_comments, ns=ns)
         elif isinstance(value, basestring): # do not convert strings or unicodes
             self.addChild(name,value,ns=ns)
+        elif value is None: # sent a empty tag?
+            self.addChild(name,ns=ns)
         elif value in (int, str, float, bool, unicode):
             # add commented placeholders for simple tipes (for examples/help only)
             type_map={str:'string',unicode:'string',
