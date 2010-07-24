@@ -24,43 +24,33 @@ import time
 
 DEBUG = False
 
-# Classes to convert xml schema types to python
+# Functions to serialize/unserialize special immutable types:
+datetime_u = lambda s: datetime.datetime.strptime(s, "%Y-%m-%dT%H:%M:%S")
+datetime_m = lambda dt: dt.isoformat('T')
+date_u = lambda s: datetime.datetime.strptime(s, "%Y%m%d").date()
+date_m = lambda d: d.strftime("%Y%m%d")
+time_u = lambda s: datetime.datetime.strptime(s, "%H:%M:%S").time()
+time_m = lambda d: d.strftime("%H%M%S")
+bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
 
-# Immutable types:
-class DateTime(datetime.datetime):
-    def __new__(cls, s=None,v=None):
-        if s:
-            v = time.strptime(s, "%Y-%m-%dT%H:%M:%S")
-        return datetime.datetime.__new__(cls, *v[0:6])
-    def __add__(self, other):
-        return DateTime(v=(datetime.datetime.__add__(self,other)).timetuple())
-    def __sub__(self, other):
-        return DateTime(v=(datetime.datetime.__sub__(self,other)).timetuple())
-    def __str__(self):
-        return self.isoformat('T')
-
-class Date(datetime.date):
-    def __new__(cls, s=None, v=None):
-        if s:
-            v = time.strptime(s, "%Y%m%d")
-        return datetime.date.__new__(cls, *v[0:3])
-    def __add__(self, other):
-        return Date(v=(datetime.date.__add__(self,other)).timetuple())
-    def __sub__(self, other):
-        return Date(v=(datetime.date.__sub__(self,other)).timetuple())
-    def __str__(self):
-        return self.strftime("%Y%m%d")
-
+# aliases:
 double = lambda x: float(x)
 integer = lambda x: long(x)
+DateTime = datetime.datetime
+Date = datetime.date
+Time = datetime.time
 
-# Define convertion function: xml schema type
+# Define convertion function (python type): xml schema type
 TYPE_MAP = {str:'string',unicode:'string',
             bool:'boolean',
             int:'int', long:'long', integer:'integer',
             float:'float', double:'double',
             Decimal:'decimal',
-            DateTime:'dateTime', Date:'date',
+            datetime.datetime:'dateTime', datetime.date:'date',
+            }
+TYPE_MARSHAL_FN = {datetime.datetime:datetime_m, datetime.date:date_m,}
+TYPE_UNMARSHAL_FN = {datetime.datetime:datetime_u, datetime.date:date_u,
+                     bool:bool_u,
             }
 
 class SimpleXMLElement(object):
@@ -286,6 +276,8 @@ class SimpleXMLElement(object):
             else:
                 if str(node) or fn == str:
                     try:
+                        # get special desserialization function (if any)
+                        fn = TYPE_UNMARSHAL_FN.get(fn,fn) 
                         value = fn(str(node))
                     except (ValueError, TypeError), e:
                         raise ValueError("Tag: %s: %s" % (name, unicode(e)))
@@ -319,7 +311,9 @@ class SimpleXMLElement(object):
             child = self.add_child(name,ns=ns) 
             child.add_comment(TYPE_MAP[value])
         else: # the rest of object types are converted to string 
-            self.add_child(name,str(value),ns=ns) # check for a asXML?
+            # get special serialization function (if any)
+            fn = TYPE_MARSHAL_FN.get(type(value),str)
+            self.add_child(name,fn(value),ns=ns) 
 
     def import_node(self, other):
         x = self.__document.importNode(other._element, True)  # deep copy
