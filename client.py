@@ -145,6 +145,7 @@ class SoapClient(object):
     def wsdl(self, xml):
         "Parse Web Service Description v1.1"
         soap_ns="http://schemas.xmlsoap.org/wsdl/soap/"
+        soap12_ns="http://schemas.xmlsoap.org/wsdl/soap12/"
         wsdl_ns="http://schemas.xmlsoap.org/wsdl/"
         xsd_ns="http://www.w3.org/2001/XMLSchema"
         xsi_ns="http://www.w3.org/2001/XMLSchema-instance"
@@ -158,7 +159,7 @@ class SoapClient(object):
         
         # Extract useful data:
         self.namespace = wsdl['targetNamespace']
-        self.documentation = str(wsdl.documentation)
+        self.documentation = str(wsdl('documentation', error=False) or '')
         
         bindings = {}           # binding_name: binding
         operations = {}
@@ -169,29 +170,27 @@ class SoapClient(object):
         ##schema = wsdl.types('schema',ns=xsd_ns)
         for service in wsdl.service:
             service_name=service['name']
-            ##self.documentation=service['documentation']
-            port = service.port
-            binding_name = get_local_name(port['binding'])
+            self.documentation=service['documentation'] or ''
+            for port in service.port:
+                binding_name = get_local_name(port['binding'])
 
-            bindings[binding_name] = {'service': service_name,
-                'location': port('address', ns=soap_ns)['location'],
-                }
+                bindings[binding_name] = {'service': service_name,
+                    'location': port('address', ns=(soap_ns, soap12_ns))['location'],
+                    }
              
         for binding in wsdl.binding:
             binding_name = binding['name']
-            # transport can be soap 1.2, ignore (None)
-            soap_binding = binding('binding', ns=soap_ns, error=False)
+            soap_binding = binding('binding', ns=(soap_ns, soap12_ns), error=False)
             transport = soap_binding and soap_binding['transport'] or None
             port_type_name = get_local_name(binding['type'])
-            bindings[binding_name] = {
+            bindings[binding_name].update({
                 'port_type_name': port_type_name,
                 'transport': transport, 'operations': {},
-                }
+                })
             port_type_bindings[port_type_name] = bindings[binding_name]
             for operation in binding.operation:
                 op_name = operation['name']
-                # operation can be soap 1.2, ignore (None)
-                op = operation('operation',ns=soap_ns, error=False)
+                op = operation('operation',ns=(soap_ns, soap12_ns), error=False)
                 action = op and op['soapAction'] or None
                 d = operations.setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
@@ -224,6 +223,7 @@ class SoapClient(object):
                 elements.setdefault(element_name,{}).update(d)
 
         for element in wsdl.types("schema", ns=xsd_ns).children():
+            if element.get_local_name() in ('element', 'complexType'):
                 element_name = str(element['name'])
                 if element.get_local_name() == 'complexType':
                     children = element.children()
@@ -232,7 +232,8 @@ class SoapClient(object):
                 process_element(element_name, children)
                     
         for message in wsdl.message:
-            messages[message['name']] = elements.get(get_local_name(message.part['element']), {})
+            part = message('part', error=False)
+            messages[message['name']] = part and elements.get(get_local_name(part['element'])) or {}
         
         for port_type in wsdl.portType:
             port_type_name = port_type['name']
@@ -333,7 +334,11 @@ if __name__=="__main__":
         print feriadosXML
 
     client = SoapClient()
-    client.wsdl(open("C:/wsfex.wsdl").read())
+    #client.wsdl(open("C:/wsfex.wsdl").read())
+    #client.wsdl(open("C:/wsaa.wsdl").read())
+    #client.wsdl(open("C:/ctg.wsdl").read())
+    #client.wsdl(open("C:/test.wsdl").read())
+    client.wsdl(open("C:/wDigDepFiel.wsdl.xml").read())
     
     ##print parse_proxy(None)
     ##print parse_proxy("host:1234")
