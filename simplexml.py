@@ -34,10 +34,18 @@ time_m = lambda d: d.strftime("%H%M%S")
 bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
 
 # aliases:
-byte = lambda x: str(x)
-short = lambda x: int(x)
-double = lambda x: float(x)
-integer = lambda x: long(x)
+class Alias():
+    def __init__(self, py_type, xml_type):
+        self.py_type, self.xml_type = py_type, xml_type
+    def __call__(self, value):
+        return self.py_type(value)
+    def __repr__(self):
+        return "<alias '%s' for type '%s'>" % (self.xml_type, self.py_type)
+        
+byte = Alias(str,'byte')
+short = Alias(int,'short')
+double = Alias(float,'double')
+integer = Alias(long,'integer')
 DateTime = datetime.datetime
 Date = datetime.date
 Time = datetime.time
@@ -140,7 +148,8 @@ class SimpleXMLElement(object):
         "Return xml tag attribute value or a slice of attributes (iter)"
         if DEBUG: print "__getitem__(%s)" % item 
         if isinstance(item,basestring):
-            return self._element.attributes[item].value
+            if self._element.hasAttribute(item):
+                return self._element.attributes[item].value
         elif isinstance(item, slice):
             # return a list with name:values
             return self._element.attributes.items()[item]
@@ -172,8 +181,11 @@ class SimpleXMLElement(object):
                 # return tag by index
                 elements=[self.__elements[tag]]
             if ns and not elements:
-                if DEBUG : print "searching %s by ns=%s" % (tag,ns)
-                elements = self._element.getElementsByTagNameNS(ns, tag)
+                for ns_uri in isinstance(ns, tuple) and ns or (ns, ):
+                    if DEBUG: print "searching %s by ns=%s" % (tag,ns_uri)
+                    elements = self._element.getElementsByTagNameNS(ns_uri, tag)
+                    if elements: 
+                        break
             if self.__ns and not elements:
                 if DEBUG: print "searching %s by ns=%s" % (tag, self.__ns)
                 elements = self._element.getElementsByTagNameNS(self.__ns, tag)
