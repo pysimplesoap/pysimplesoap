@@ -230,9 +230,13 @@ class SimpleXMLElement(object):
 
     def children(self):
         "Return xml children tags element"
+        elements=[__element for __element in self._element.childNodes
+                          if __element.nodeType == __element.ELEMENT_NODE]
+        if not elements:
+            return None
+            #raise IndexError("Tag %s has no children" % self._element.tagName)
         return SimpleXMLElement(
-                elements=[__element for __element in self._element.childNodes
-                          if __element.nodeType == __element.ELEMENT_NODE],
+                elements=elements,
                 document=self.__document,
                 namespace=self.__ns,
                 prefix=self.__prefix)

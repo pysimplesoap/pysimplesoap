@@ -17,6 +17,7 @@ __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.0"
 
+import urllib
 try:
     import httplib2
     Http = httplib2.Http
@@ -142,45 +143,61 @@ class SoapClient(object):
             print "="*80
         return content
 
-    def wsdl(self, xml):
+    def wsdl(self, url, debug=False):
         "Parse Web Service Description v1.1"
-        soap_ns="http://schemas.xmlsoap.org/wsdl/soap/"
-        soap12_ns="http://schemas.xmlsoap.org/wsdl/soap12/"
-        wsdl_ns="http://schemas.xmlsoap.org/wsdl/"
-        xsd_ns="http://www.w3.org/2001/XMLSchema"
-        xsi_ns="http://www.w3.org/2001/XMLSchema-instance"
+        soap_uri="http://schemas.xmlsoap.org/wsdl/soap/"
+        soap12_uri="http://schemas.xmlsoap.org/wsdl/soap12/"
+        wsdl_uri="http://schemas.xmlsoap.org/wsdl/"
+        xsd_uri="http://www.w3.org/2001/XMLSchema"
+        xsi_uri="http://www.w3.org/2001/XMLSchema-instance"
 
+        soap_uris = {'soap11': soap_uri, 'soap12': soap12_uri}
+        
         get_local_name = lambda s: str((':' in s) and s.split(':')[1] or s)
         
         REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
         
+        # Open uri and read xml:
+        f = urllib.urlopen(url)
+        xml = f.read()
         # Parse WSDL XML:
-        wsdl = SimpleXMLElement(xml, namespace=wsdl_ns)
-        
+        wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
+
+        # detect soap prefix and uri (xmlns attributes of <definitions>)
+        xsd_ns = soap_ns = None
+        for k, v in wsdl[:]:
+            if v in (soap_uri, soap12_uri) and k.startswith("xmlns:"):
+                soap_ns = get_local_name(v)
+            if v== xsd_uri and k.startswith("xmlns:"):
+                xsd_ns = get_local_name(v)
+
         # Extract useful data:
         self.namespace = wsdl['targetNamespace']
-        self.documentation = str(wsdl('documentation', error=False) or '')
+        self.documentation = unicode(wsdl('documentation', error=False) or '')
         
         bindings = {}           # binding_name: binding
-        operations = {}
+        operations = {}         # operation_name: operation
         port_type_bindings = {} # port_type_name: binding
-        messages = {}           # message:element
+        messages = {}           # message: element
         elements = {}           # element: type def
-
-        ##schema = wsdl.types('schema',ns=xsd_ns)
+        
         for service in wsdl.service:
             service_name=service['name']
+            if debug: print "Processing service", service_name
             self.documentation=service['documentation'] or ''
             for port in service.port:
                 binding_name = get_local_name(port['binding'])
-
+                address = port('address', ns=(soap_uri, soap12_uri), error=False)
+                location = address and address['location'] or None
+                soap_uri = address and soap_uris.get(address.get_prefix())
                 bindings[binding_name] = {'service': service_name,
-                    'location': port('address', ns=(soap_ns, soap12_ns))['location'],
+                    'location': location, 'soap_uri': soap_uri,
                     }
              
         for binding in wsdl.binding:
             binding_name = binding['name']
-            soap_binding = binding('binding', ns=(soap_ns, soap12_ns), error=False)
+            if debug: print "Processing binding", service_name
+            soap_binding = binding('binding', ns=(soap_uri, soap12_uri), error=False)
             transport = soap_binding and soap_binding['transport'] or None
             port_type_name = get_local_name(binding['type'])
             bindings[binding_name].update({
@@ -190,16 +207,15 @@ class SoapClient(object):
             port_type_bindings[port_type_name] = bindings[binding_name]
             for operation in binding.operation:
                 op_name = operation['name']
-                op = operation('operation',ns=(soap_ns, soap12_ns), error=False)
+                op = operation('operation',ns=(soap_uri, soap12_uri), error=False)
                 action = op and op['soapAction'] or None
                 d = operations.setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
                 d.update({'name': op_name, "action": action})
         
         def process_element(element_name, children):
-            print "Processing element", element_name
+            if debug: print "Processing element", element_name
             for tag in children:
-                print tag.get_name()
                 d = {}
                 for e in tag.children():
                     t = e['type'].split(":")
@@ -207,13 +223,13 @@ class SoapClient(object):
                         ns, type_name = t
                     else:
                         ns, type_name = "xsd", t[0]
-                    if ns=='xsd' or ns=='s': #TODO:FIX!
+                    if ns==xsd_ns:
                         # look for the type, None == any
-                        fn = REVERSE_TYPE_MAP.get(str(type_name), None)
+                        fn = REVERSE_TYPE_MAP.get(unicode(type_name), None)
                     else:
                         # complex type, postprocess later
-                        fn = elements.setdefault(str(type_name), {})
-                    e_name = str(e['name'])
+                        fn = elements.setdefault(unicode(type_name), {})
+                    e_name = unicode(e['name'])
                     if e['maxOccurs']=="unbounded":
                         # it's an array...
                         d[e_name] =[fn]
@@ -222,33 +238,40 @@ class SoapClient(object):
                 
                 elements.setdefault(element_name,{}).update(d)
 
-        for element in wsdl.types("schema", ns=xsd_ns).children():
+        for element in wsdl.types("schema", ns=xsd_uri).children():
             if element.get_local_name() in ('element', 'complexType'):
-                element_name = str(element['name'])
+                element_name = unicode(element['name'])
+                if debug: print "Parsing Element %s: %s" % (element.get_local_name(),element_name)
                 if element.get_local_name() == 'complexType':
                     children = element.children()
                 else:
-                    children = element.children().children()
-                process_element(element_name, children)
+                    children = element.children()
+                    if children:
+                        children = children.children()
+                if children:
+                    process_element(element_name, children)
                     
         for message in wsdl.message:
+            if debug: print "Processing message", message['name']
             part = message('part', error=False)
             messages[message['name']] = part and elements.get(get_local_name(part['element'])) or {}
         
         for port_type in wsdl.portType:
             port_type_name = port_type['name']
+            if debug: print "Processing port type", port_type_name
             binding = port_type_bindings[port_type_name]
 
             for operation in port_type.operation:
                 op_name = operation['name']
                 op = operations[op_name] 
-                op['documentation'] = str(operation('documentation', error=False) or '')
+                op['documentation'] = unicode(operation('documentation', error=False) or '')
                 op['input'] = messages[get_local_name(operation.input['message'])]
                 op['output'] = messages[get_local_name(operation.output['message'])]
 
-        import pprint
-        pprint.pprint(bindings)
-        #pprint.pprint(messages)
+        if debug:
+            import pprint
+            pprint.pprint(bindings)
+            #pprint.pprint(messages)
         
 def parse_proxy(proxy_str):
     "Parses proxy address user:pass@host:port into a dict suitable for httplib2"
@@ -333,12 +356,18 @@ if __name__=="__main__":
         feriadosXML = client.FeriadosEntreFechasas_xml(dt1=dt1.isoformat(), dt2=dt2.isoformat());
         print feriadosXML
 
-    client = SoapClient()
-    #client.wsdl(open("C:/wsfex.wsdl").read())
-    #client.wsdl(open("C:/wsaa.wsdl").read())
-    #client.wsdl(open("C:/ctg.wsdl").read())
-    #client.wsdl(open("C:/test.wsdl").read())
-    client.wsdl(open("C:/wDigDepFiel.wsdl.xml").read())
+    if '--wsdl' in sys.argv:
+        client = SoapClient()
+        # Test PySimpleSOAP WSDL
+        client.wsdl("file:C:/test.wsdl", debug=True)
+        # Test Java Axis WSDL:
+        client.wsdl('https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl',debug=True)
+        # Test .NET 2.0 WSDL:
+        client.wsdl('https://wswhomo.afip.gov.ar/wsfe/service.asmx?WSDL',debug=True)
+        client.wsdl('https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL',debug=True)
+        client.wsdl('https://testdia.afip.gov.ar/Dia/Ws/wDigDepFiel/wDigDepFiel.asmx?WSDL',debug=True)
+        # Test JBoss WSDL:
+        client.wsdl('https://fwshomo.afip.gov.ar/wsctg/services/CTGService?wsdl',debug=True)
     
     ##print parse_proxy(None)
     ##print parse_proxy("host:1234")
