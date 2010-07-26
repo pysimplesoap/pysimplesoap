@@ -181,7 +181,7 @@ class SimpleXMLElement(object):
                 # return tag by index
                 elements=[self.__elements[tag]]
             if ns and not elements:
-                for ns_uri in isinstance(ns, tuple) and ns or (ns, ):
+                for ns_uri in isinstance(ns, (tuple, list)) and ns or (ns, ):
                     if DEBUG: print "searching %s by ns=%s" % (tag,ns_uri)
                     elements = self._element.getElementsByTagNameNS(ns_uri, tag)
                     if elements: 
@@ -287,10 +287,12 @@ class SimpleXMLElement(object):
                 raise TypeError("Tag: %s invalid" % (name,))
             if isinstance(fn,list):
                 value = []
-                for child in node.children()():
+                children = node.children()
+                for child in children and children() or []:
                     value.append(child.unmarshall(fn[0]))
             elif isinstance(fn,dict):
-                value = node.children().unmarshall(fn)
+                children = node.children()
+                value = children and children.unmarshall(fn)
             else:
                 if str(node) or fn == str:
                     try:
