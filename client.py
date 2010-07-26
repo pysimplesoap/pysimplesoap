@@ -352,18 +352,23 @@ if __name__=="__main__":
     import sys
     
     if '--web2py' in sys.argv:
-        # test sample webservice exposed by web2py
+        # test local sample webservice exposed by web2py
         from client import SoapClient
-        client = SoapClient(
-            location = "http://127.0.0.1:8000/webservices/sample/call/soap",
-            action = 'http://127.0.0.1:8000/webservices/sample/call/soap', # SOAPAction
-            namespace = "http://127.0.0.1:8000/webservices/sample/call/soap", 
-            soap_ns='soap',
-            trace = True,
-            ns = False)
+        if not '--wsdl' in sys.argv:
+            client = SoapClient(
+                location = "http://127.0.0.1:8000/webservices/sample/call/soap",
+                action = 'http://127.0.0.1:8000/webservices/sample/call/soap', # SOAPAction
+                namespace = "http://127.0.0.1:8000/webservices/sample/call/soap", 
+                soap_ns='soap', trace = True, ns = False)
+        else:
+            client = SoapClient(wsdl="http://127.0.0.1:8000/webservices/sample/call/soap?WSDL")
         response = client.AddIntegers(a=3,b=2)
-        result = response.AddResult
-        print int(result)
+        if not '--wsdl' in sys.argv:
+            result = response.AddResult # manully convert returned type
+            print int(result)
+        else:
+            result = response['AddResult']
+            print result, type(result), "auto-unmarshalled"
 
     if '--ctg' in sys.argv:
         # test AFIP Agriculture webservice
@@ -414,7 +419,7 @@ if __name__=="__main__":
         feriadosXML = client.FeriadosEntreFechasas_xml(dt1=dt1.isoformat(), dt2=dt2.isoformat());
         print feriadosXML
 
-    if '--wsdl' in sys.argv:
+    if '--wsdl-parse' in sys.argv:
         client = SoapClient()
         # Test PySimpleSOAP WSDL
         client.wsdl("file:C:/test.wsdl", debug=True)
@@ -426,9 +431,9 @@ if __name__=="__main__":
         client.wsdl('https://testdia.afip.gov.ar/Dia/Ws/wDigDepFiel/wDigDepFiel.asmx?WSDL',debug=True)
         # Test JBoss WSDL:
         client.wsdl('https://fwshomo.afip.gov.ar/wsctg/services/CTGService?wsdl',debug=True)
+        client.wsdl('https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl',debug=True)
 
-
-    if '--wsdl-client':
+    if '--wsdl-client' in sys.argv:
         client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL',trace=True)
         print client.FEXDummy()
         ta_string=open("TA.xml").read()   # read access ticket (wsaa.py)
@@ -439,11 +444,10 @@ if __name__=="__main__":
             Auth={"Token": token, "Sign": sign, "Cuit": 20267565393},
             Cmp={"Tipo_cbte": 19, "Punto_vta": 1, "Cbte_nro": 1}) 
         result = response['FEXGetCMPResult']
-        print result
+        if False: print result
         if 'FEXErr' in result:
             print "FEXError:", result['FEXErr']['ErrCode'], result['FEXErr']['ErrCode'] 
         cbt = result['FEXResultGet']
-        print cbt
         print cbt['Cae']
         FEX_event = result['FEXEvents']
         print FEX_event['EventCode'], FEX_event['EventMsg']
