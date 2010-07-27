@@ -66,7 +66,7 @@ class SoapDispatcher(object):
             soap_fault_code = 'Client'
             
             # parse request message and get local method            
-            method = request('%s:Body' % soap_ns).children()(0)
+            method = request('Body', ns=soap_uri).children()(0)
             name = method.get_local_name()
             prefix = method.get_prefix()
             if DEBUG: print "dispatch method", name
@@ -75,8 +75,10 @@ class SoapDispatcher(object):
             # de-serialize parameters (if type definitions given)
             if args_types:
                 args = method.children().unmarshall(args_types)
+            elif args_types is None:
+                args = {'request':method} # send raw request
             else:
-                args = {'request':method}
+                args = {} # no parameters
  
             soap_fault_code = 'Server'
             # execute function
@@ -89,6 +91,7 @@ class SoapDispatcher(object):
             if DEBUG: 
                 import traceback
                 detail = ''.join(traceback.format_exception(etype, evalue, etb))
+                detail += '\n\nXML REQUEST\n\n' + xml
             else:
                 detail = None
             fault = {'faultcode': "%s.%s" % (soap_fault_code, etype.__name__), 
@@ -104,7 +107,7 @@ class SoapDispatcher(object):
             
         xml = xml % {'namespace': self.namespace, 'prefix': prefix,
                      'soap_ns': soap_ns, 'soap_uri': soap_uri}
-        print xml
+
         response = SimpleXMLElement(xml, namespace=self.namespace,
                                     prefix=prefix)
     
