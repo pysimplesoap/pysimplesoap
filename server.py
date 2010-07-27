@@ -21,7 +21,7 @@ __version__ = "0.02"
 
 from simplexml import SimpleXMLElement, TYPE_MAP, DateTime, Date, Decimal
 
-DEBUG = True
+DEBUG = False
 
 
 class SoapDispatcher(object):
