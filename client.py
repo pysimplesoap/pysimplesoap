@@ -47,7 +47,7 @@ soap_namespaces = dict(
 class SoapClient(object):
     "Simple SOAP Client (símil PHP)"
     def __init__(self, location = None, action = None, namespace = None,
-                 cert = None, trace = False, exceptions = False, proxy = None, ns=False, 
+                 cert = None, trace = False, exceptions = True, proxy = None, ns=False, 
                  soap_ns=None, wsdl = None):
         self.certssl = cert             
         self.keyssl = None              
@@ -115,12 +115,18 @@ class SoapClient(object):
             parameters = kwargs.items()
         else:
             parameters = args
-        for k,v in parameters: # dict: tag=valor
-            getattr(request,method).marshall(k,v)
+        if parameters and isinstance(parameters[0], SimpleXMLElement):
+            # merge xmlelement parameter ("raw" - already marshalled)
+            for param in parameters[0].children():
+                getattr(request,method).import_node(param)
+        else:
+            # marshall parameters:
+            for k,v in parameters: # dict: tag=valor
+                getattr(request,method).marshall(k,v)
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace)
-        if self.exceptions and ("soapenv:Fault" in response or "soap:Fault" in response):
+        if self.exceptions and ("%s:Fault" % self.__soap_ns) in response:
             raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
         return response    
     
@@ -359,10 +365,10 @@ if __name__=="__main__":
                 location = "http://127.0.0.1:8000/webservices/sample/call/soap",
                 action = 'http://127.0.0.1:8000/webservices/sample/call/soap', # SOAPAction
                 namespace = "http://127.0.0.1:8000/webservices/sample/call/soap", 
-                soap_ns='soap', trace = True, ns = False)
+                soap_ns='soap', trace = True, ns = False, exceptions=True)
         else:
             client = SoapClient(wsdl="http://127.0.0.1:8000/webservices/sample/call/soap?WSDL")
-        response = client.AddIntegers(a=3,b=2)
+        response = client.AddIntegers(a=1,b=2)
         if not '--wsdl' in sys.argv:
             result = response.AddResult # manully convert returned type
             print int(result)
@@ -370,6 +376,19 @@ if __name__=="__main__":
             result = response['AddResult']
             print result, type(result), "auto-unmarshalled"
 
+    if '--raw' in sys.argv:
+        # raw (unmarshalled parameter) local sample webservice exposed by web2py
+        from client import SoapClient
+        client = SoapClient(
+            location = "http://127.0.0.1:8000/webservices/sample/call/soap",
+            action = 'http://127.0.0.1:8000/webservices/sample/call/soap', # SOAPAction
+            namespace = "http://127.0.0.1:8000/webservices/sample/call/soap", 
+            soap_ns='soap', trace = True, ns = False)
+        params = SimpleXMLElement("""<?xml version="1.0" encoding="UTF-8"?><AddIntegers><a>3</a><b>2</b></AddIntegers>""") # manully convert returned type
+        response = client.call('AddIntegers',params)
+        result = response.AddResult 
+        print int(result) # manully convert returned type
+            
     if '--ctg' in sys.argv:
         # test AFIP Agriculture webservice
         client = SoapClient(
