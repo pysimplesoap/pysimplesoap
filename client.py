@@ -162,15 +162,16 @@ class SoapClient(object):
         soap_uri = soap_namespaces[self.__soap_ns]
         soap_ver = self.__soap_ns == 'soap12' and 'soap12' or 'soap11'
         if not self.service_port:
-            for service in self.services.values():
-                for port in [port for port in service['ports'].values()]:
+            for service_name, service in self.services.items():
+                for port_name, port in [port for port in service['ports'].items()]:
                     if port['soap_ver'] == soap_ver:
-                        self.service_port = port['service_name'], port['port_type_name']
+                        self.service_port = service_name, port_name
                         break
                 else:
                     raise RuntimeError("Cannot determine service in WSDL: "
                                        "SOAP version: %s" % soap_ver)
         else:
+            print self.services[self.service_port[0]]['ports'].keys(),self.service_port[1]
             port = self.services[self.service_port[0]]['ports'][self.service_port[1]]
         operation = port['operations'].get(unicode(method))
         if not operation:
@@ -367,7 +368,12 @@ if __name__=="__main__":
                 namespace = "http://127.0.0.1:8000/webservices/sample/call/soap", 
                 soap_ns='soap', trace = True, ns = False, exceptions=True)
         else:
-            client = SoapClient(wsdl="http://127.0.0.1:8000/webservices/sample/call/soap?WSDL")
+            client = SoapClient(wsdl="http://127.0.0.1:8000/webservices/sample/call/soap?WSDL",trace=True)
+        response = client.Dummy()
+        print 'dummy', response
+        if not '--wsdl' in sys.argv:
+            response = client.Echo(value='hola')
+            print 'echo', response.value
         response = client.AddIntegers(a=1,b=2)
         if not '--wsdl' in sys.argv:
             result = response.AddResult # manully convert returned type
@@ -454,7 +460,10 @@ if __name__=="__main__":
 
     if '--wsdl-client' in sys.argv:
         client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL',trace=True)
-        print client.FEXDummy()
+        results = client.FEXDummy()
+        print results['FEXDummyResult']['AppServer']
+        print results['FEXDummyResult']['DbServer']
+        print results['FEXDummyResult']['AuthServer']
         ta_string=open("TA.xml").read()   # read access ticket (wsaa.py)
         ta = SimpleXMLElement(ta_string)
         token = str(ta.credentials.token)
