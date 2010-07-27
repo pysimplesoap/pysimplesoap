@@ -145,7 +145,13 @@ class SoapDispatcher(object):
 <soap:Body><%(method)s xmlns="%(namespace)s"/></soap:Body>
 </soap:Envelope>"""  % {'method':method, 'namespace':self.namespace}
         request = SimpleXMLElement(xml, namespace=self.namespace, prefix=self.prefix)
-        for k,v in args and args.items() or [('value', None)]:
+        if args:
+            items = args.items()
+        elif args is None:
+            items = [('value', None)]
+        else:
+            items = []
+        for k,v in items:
             request(method).marshall(k, v, add_comments=True, ns=False)
 
         xml = """
@@ -153,7 +159,13 @@ class SoapDispatcher(object):
 <soap:Body><%(method)sResponse xmlns="%(namespace)s"/></soap:Body>
 </soap:Envelope>"""  % {'method':method, 'namespace':self.namespace}
         response = SimpleXMLElement(xml, namespace=self.namespace, prefix=self.prefix)
-        for k,v in returns and returns.items() or [('value', None)]:
+        if returns:
+            items = returns.items()
+        elif args is None:
+            items = [('value', None)]
+        else:
+            items = []
+        for k,v in items:
             response('%sResponse'%method).marshall(k, v, add_comments=True, ns=False)
 
         return request.as_xml(pretty=True), response.as_xml(pretty=True), doc
@@ -192,11 +204,17 @@ class SoapDispatcher(object):
                     complex = wsdl('wsdl:types')('xsd:schema').add_child('xsd:complexType')
                     element = complex
                 element['name'] = name
-                if not array:
-                    all = complex.add_child("xsd:all")
+                if values:
+                    items = values
+                elif values is None:
+                    items = [('value', None)]
                 else:
+                    items = []
+                if not array and items:
+                    all = complex.add_child("xsd:all")
+                elif items:
                     all = complex.add_child("xsd:sequence")
-                for k,v in values or (('value',None),):
+                for k,v in items:
                     e = all.add_child("xsd:element")
                     e['name'] = k
                     if array:
