@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.01a"
+__version__ = "1.01b"
 
 import xml.dom.minidom
 from decimal import Decimal
