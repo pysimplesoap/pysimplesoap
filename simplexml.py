@@ -294,7 +294,9 @@ class SimpleXMLElement(object):
                 children = node.children()
                 value = children and children.unmarshall(fn)
             else:
-                if str(node) or fn == str:
+                if fn is None: # xsd:anyType not unmarshalled
+                    value = node
+                elif str(node) or fn == str:
                     try:
                         # get special desserialization function (if any)
                         fn = TYPE_UNMARSHAL_FN.get(fn,fn) 
