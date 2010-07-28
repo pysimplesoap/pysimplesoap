@@ -171,7 +171,6 @@ class SoapClient(object):
                     raise RuntimeError("Cannot determine service in WSDL: "
                                        "SOAP version: %s" % soap_ver)
         else:
-            print self.services[self.service_port[0]]['ports'].keys(),self.service_port[1]
             port = self.services[self.service_port[0]]['ports'][self.service_port[1]]
         operation = port['operations'].get(unicode(method))
         if not operation:
@@ -371,9 +370,8 @@ if __name__=="__main__":
             client = SoapClient(wsdl="http://127.0.0.1:8000/webservices/sample/call/soap?WSDL",trace=True)
         response = client.Dummy()
         print 'dummy', response
-        if not '--wsdl' in sys.argv:
-            response = client.Echo(value='hola')
-            print 'echo', response.value
+        response = client.Echo(value='hola')
+        print 'echo', repr(response)
         response = client.AddIntegers(a=1,b=2)
         if not '--wsdl' in sys.argv:
             result = response.AddResult # manully convert returned type
