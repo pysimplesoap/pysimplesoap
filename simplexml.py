@@ -63,6 +63,30 @@ TYPE_UNMARSHAL_FN = {datetime.datetime:datetime_u, datetime.date:date_u,
                      bool:bool_u,
             }
 
+
+class OrderedDict(dict):
+    "Minimal ordered dictionary for xsd:sequences"
+    def __init__(self):
+        self.__keys = []
+    def __setitem__(self, key, value):
+        if key not in self.__keys:
+            self.__keys.append(key)
+        dict.__setitem__(self, key, value)
+    def __iter__(self):
+        return iter(self.__keys)
+    def keys(self):
+        return self.__keys
+    def items(self):
+        return [(key, self[key]) for key in self.__keys]
+    def update(self, other):
+        for k,v in other.items():
+            self[k] = v
+    def __str__(self):
+        return "*%s*" % dict.__str__(self)
+    def __repr__(self):
+        return "*{%s}*" % ", ".join(['%s: %s' % (repr(k),repr(v)) for k,v in self.items()])
+
+
 class SimpleXMLElement(object):
     "Simple XML manipulation (simil PHP)"
     
@@ -300,7 +324,7 @@ class SimpleXMLElement(object):
                     try:
                         # get special desserialization function (if any)
                         fn = TYPE_UNMARSHAL_FN.get(fn,fn) 
-                        value = fn(str(node))
+                        value = fn(unicode(node))
                     except (ValueError, TypeError), e:
                         raise ValueError("Tag: %s: %s" % (name, unicode(e)))
                 else:

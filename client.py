@@ -29,7 +29,7 @@ except ImportError:
             return f.info(), f.read()
 
     
-from simplexml import SimpleXMLElement, TYPE_MAP
+from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
 class SoapFault(RuntimeError):
     def __init__(self,faultcode,faultstring):
@@ -134,7 +134,10 @@ class SoapClient(object):
         "Send SOAP request using HTTP"
         if self.location == 'test': return
         location = "%s" % self.location #?op=%s" % (self.location, method)
-        soap_action = self.services and self.action or self.action+method
+        if self.services:
+            soap_action = self.action 
+        else:
+            soap_action = self.action+method
         headers={
                 'Content-type': 'text/xml; charset="UTF-8"',
                 'Content-length': str(len(xml)),
@@ -183,8 +186,21 @@ class SoapClient(object):
         if operation['action']:
             self.action = operation['action']
         self.location = port['location']
+        # sort parameters (same order as xsd:sequence)
+        def sort_dict(od, d):
+            ret = OrderedDict()
+            for k in od.keys():
+                v = d[k]
+                if isinstance(v, dict):
+                    v = sort_dict(od[k], v)
+                ret[str(k)] = v 
+            return ret
+        if input:
+            params = sort_dict(input.values()[0], kwargs)
+        else:
+            params = kwargs
         # call remote procedure
-        response = self.call(method, *args, **kwargs)
+        response = self.call(method, *args, **params)
         # parse results:
         resp = response('Body',ns=soap_uri).children().unmarshall(output)
         return resp and resp.values()[0] # pass Response tag children
@@ -260,17 +276,20 @@ class SoapClient(object):
             for operation in binding.operation:
                 op_name = operation['name']
                 op = operation('operation',ns=soap_uris.values(), error=False)
-                action = op and op['soapAction'] or None
+                action = op and op['soapAction']
                 d = operations.setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
                 d.update({'name': op_name})
-                if action: #TODO: separe operation_binding from operation
-                     d["action"] = action
+                #if action: #TODO: separe operation_binding from operation
+                d["action"] = action
         
         def process_element(element_name, children):
             if debug: print "Processing element", element_name
             for tag in children:
-                d = {}
+                if tag.get_local_name()=='sequence':  
+                    d = OrderedDict()
+                elif tag.get_local_name()=='any': # unordered
+                    d = {}
                 for e in tag.children():
                     t = e['type'].split(":")
                     if len(t)>1:
@@ -282,14 +301,14 @@ class SoapClient(object):
                         fn = REVERSE_TYPE_MAP.get(unicode(type_name), None)
                     else:
                         # complex type, postprocess later
-                        fn = elements.setdefault(unicode(type_name), {})
+                        fn = elements.setdefault(unicode(type_name), OrderedDict())
                     e_name = unicode(e['name'])
                     d[e_name] = fn
                     if e['maxOccurs']=="unbounded":
                         # it's an array... TODO: compound arrays?
                         d = [d]
                 if isinstance(d, dict):
-                    elements.setdefault(element_name,{}).update(d)
+                    elements.setdefault(element_name, OrderedDict()).update(d)
                 else:
                     elements[element_name] = d
 
@@ -477,8 +496,26 @@ if __name__=="__main__":
         print cbt['Cae']
         FEX_event = result['FEXEvents']
         print FEX_event['EventCode'], FEX_event['EventMsg']
-    
 
+    if '--wsdl-ctg' in sys.argv:
+        client = SoapClient(wsdl='https://fwshomo.afip.gov.ar/wsctg/services/CTGService?wsdl',
+                            trace=True, ns = "ctg")
+        import pprint
+        pprint.pprint(client.services)
+        results = client.dummy()
+        print results
+        print results['DummyResponse']['appserver']
+        print results['DummyResponse']['dbserver']
+        print results['DummyResponse']['authserver']
+        ta_string=open("TA.xml").read()   # read access ticket (wsaa.py)
+        ta = SimpleXMLElement(ta_string)
+        token = str(ta.credentials.token)
+        sign = str(ta.credentials.sign)
+        response = client.obtenerProvincias(auth={"token":token, "sign":sign, "cuitRepresentado":20267565393})
+        print "response=",response
+        for ret in response["return"]:
+            print ret['codigoProvincia'], ret['descripcionProvincia']
+            
     ##print parse_proxy(None)
     ##print parse_proxy("host:1234")
     ##print parse_proxy("user:pass@host:1234")
