@@ -126,7 +126,7 @@ class SoapClient(object):
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace)
-        if self.exceptions and ("%s:Fault" % self.__soap_ns) in response:
+        if self.exceptions and response("Fault", ns=soap_namespaces.values(), error=False):
             raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
         return response    
     
