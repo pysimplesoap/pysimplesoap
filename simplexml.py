@@ -40,7 +40,7 @@ class Alias():
     def __call__(self, value):
         return self.py_type(value)
     def __repr__(self):
-        return "<alias '%s' for type '%s'>" % (self.xml_type, self.py_type)
+        return "<alias '%s' for '%s'>" % (self.xml_type, self.py_type)
         
 byte = Alias(str,'byte')
 short = Alias(int,'short')
@@ -68,6 +68,7 @@ class OrderedDict(dict):
     "Minimal ordered dictionary for xsd:sequences"
     def __init__(self):
         self.__keys = []
+        self.array = False
     def __setitem__(self, key, value):
         if key not in self.__keys:
             self.__keys.append(key)
@@ -81,10 +82,15 @@ class OrderedDict(dict):
     def update(self, other):
         for k,v in other.items():
             self[k] = v
+        if isinstance(other, OrderedDict):
+            self.array = other.array
     def __str__(self):
         return "*%s*" % dict.__str__(self)
     def __repr__(self):
-        return "*{%s}*" % ", ".join(['%s: %s' % (repr(k),repr(v)) for k,v in self.items()])
+        s= "*{%s}*" % ", ".join(['%s: %s' % (repr(k),repr(v)) for k,v in self.items()])
+        if self.array and False:
+            s = "[%s]" % s
+        return s
 
 
 class SimpleXMLElement(object):
