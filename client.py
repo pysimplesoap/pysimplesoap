@@ -155,7 +155,7 @@ class SoapClient(object):
         if self.trace: 
             print 
             print '\n'.join(["%s: %s" % (k,v) for k,v in response.items()])
-            print content.decode("utf8","ignore")
+            print content#.decode("utf8","ignore")
             print "="*80
         return content
 
@@ -199,12 +199,12 @@ class SoapClient(object):
                     v = sort_dict(od[k], v)
                 ret[str(k)] = v 
             return ret
-        if input:
-            params = sort_dict(input.values()[0], kwargs)
+        if input and kwargs:
+            params = sort_dict(input.values()[0], kwargs).items()
         else:
-            params = kwargs
+            params = kwargs and kwargs.items()
         # call remote procedure
-        response = self.call(method, *args, **params)
+        response = self.call(method, *params)
         # parse results:
         resp = response('Body',ns=soap_uri).children().unmarshall(output)
         return resp and resp.values()[0] # pass Response tag children
@@ -447,9 +447,11 @@ if __name__=="__main__":
     
     if '--wsfe' in sys.argv:
         # Demo & Test (AFIP Electronic Invoice):
-        token = "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYW"
-        sign = "gXVvzVwRrfkUAZKoy8ZqA3AL8IZgVxUvOHQH6g1/XzZJns1/k0lUdJslkzW"
-        cuit = long(30199999)
+        ta_string=open("TA.xml").read()   # read access ticket (wsaa.py)
+        ta = SimpleXMLElement(ta_string)
+        token = str(ta.credentials.token)
+        sign = str(ta.credentials.sign)
+        cuit = long(20267565393)
         id = 1234
         cbte =199
         client = SoapClient(
@@ -532,8 +534,21 @@ if __name__=="__main__":
         response = client.obtenerProvincias(auth={"token":token, "sign":sign, "cuitRepresentado":20267565393})
         print "response=",response
         for ret in response:
-            print ret['return']['codigoProvincia'], ret['return']['descripcionProvincia']
-            
+            print ret['return']['codigoProvincia'], ret['return']['descripcionProvincia'].encode("latin1")
+        prueba = dict(numeroCartaDePorte=512345678, codigoEspecie=23,
+                cuitRemitenteComercial=20267565393, cuitDestino=20267565393, cuitDestinatario=20267565393, 
+                codigoLocalidadOrigen=3058, codigoLocalidadDestino=3059, 
+                codigoCosecha='0910', pesoNetoCarga=1000, cantHoras=1, 
+                patenteVehiculo='CZO985', cuitTransportista=20267565393,
+                numeroCTG="43816783", transaccion='10000001681', observaciones='',
+            )
+
+        response = client.solicitarCTG( 
+            auth={"token": token, "sign": sign, "cuitRepresentado": 20267565393},
+            solicitarCTGRequest= prueba)
+
+        print response['return']['numeroCTG']
+
     ##print parse_proxy(None)
     ##print parse_proxy("host:1234")
     ##print parse_proxy("user:pass@host:1234")
