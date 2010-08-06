@@ -121,6 +121,8 @@ class SoapDispatcher(object):
         else:
             # return normal value
             res = body.add_child("%sResponse" % name, ns=prefix)
+            if not prefix:
+                res['xmlns'] = self.namespace # add target namespace
 
             # serialize returned values (response) if type definition available
             if returns_types:
