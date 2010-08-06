@@ -12,12 +12,10 @@
 
 "Simple SOAP Server implementation"
 
-# WARNING: EXPERIMENTAL PROOF-OF-CONCEPT IN EARLY DEVELOPMENT STAGE 
-
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2010 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.02a"
+__version__ = "1.02b"
 
 from simplexml import SimpleXMLElement, TYPE_MAP, DateTime, Date, Decimal
 
