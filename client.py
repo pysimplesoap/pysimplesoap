@@ -188,7 +188,7 @@ class SoapClient(object):
         # get i/o type declarations:
         input = operation['input']
         output = operation['output']
-        if operation['action']:
+        if 'action' in operation:
             self.action = operation['action']
         # sort parameters (same order as xsd:sequence)
         def sort_dict(od, d):
