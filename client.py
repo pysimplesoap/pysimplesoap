@@ -272,7 +272,7 @@ class SoapClient(object):
                 soap_uri = address and soap_uris.get(address.get_prefix())
                 soap_ver = soap_uri and soap_ns.get(soap_uri)
                 bindings[binding_name] = {'service_name': service_name,
-                    'location': location, 
+                    'location': location,
                     'soap_uri': soap_uri, 'soap_ver': soap_ver,
                     }
                 serv['ports'][port['name']] = bindings[binding_name]
@@ -296,7 +296,8 @@ class SoapClient(object):
                 bindings[binding_name]['operations'][op_name] = d
                 d.update({'name': op_name})
                 #if action: #TODO: separe operation_binding from operation
-                d["action"] = action
+                if action:
+                    d["action"] = action
         
         def process_element(element_name, children):
             if debug: print "Processing element", element_name
