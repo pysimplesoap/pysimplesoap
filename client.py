@@ -321,6 +321,9 @@ class SoapClient(object):
                         d.array = True
                 elements.setdefault(element_name, OrderedDict()).update(d)
 
+        # check axis2 namespace at schema types attributes
+        self.namespace = dict(wsdl.types("schema", ns=xsd_uri)[:]).get('targetNamespace', self.namespace) 
+
         for element in wsdl.types("schema", ns=xsd_uri).children():
             if element.get_local_name() in ('element', 'complexType'):
                 element_name = unicode(element['name'])
