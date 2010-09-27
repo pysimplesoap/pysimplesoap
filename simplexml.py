@@ -27,8 +27,8 @@ DEBUG = False
 # Functions to serialize/unserialize special immutable types:
 datetime_u = lambda s: datetime.datetime.strptime(s, "%Y-%m-%dT%H:%M:%S")
 datetime_m = lambda dt: dt.isoformat('T')
-date_u = lambda s: datetime.datetime.strptime(s, "%Y%m%d").date()
-date_m = lambda d: d.strftime("%Y%m%d")
+date_u = lambda s: datetime.datetime.strptime(s[0:10], "%Y-%m-%d").date()
+date_m = lambda d: d.strftime("%Y-%m-%d")
 time_u = lambda s: datetime.datetime.strptime(s, "%H:%M:%S").time()
 time_m = lambda d: d.strftime("%H%M%S")
 bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
