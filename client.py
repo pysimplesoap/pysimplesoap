@@ -48,7 +48,7 @@ class SoapClient(object):
     "Simple SOAP Client (símil PHP)"
     def __init__(self, location = None, action = None, namespace = None,
                  cert = None, trace = False, exceptions = True, proxy = None, ns=False, 
-                 soap_ns=None, wsdl = None):
+                 soap_ns=None, wsdl = None, cache = False):
         self.certssl = cert             
         self.keyssl = None              
         self.location = location        # server location (url)
@@ -64,7 +64,8 @@ class SoapClient(object):
         else:
             self.__soap_ns = soap_ns
         
-        self.services = wsdl and self.wsdl(wsdl) # parse wsdl url
+        # parse wsdl url
+        self.services = wsdl and self.wsdl(wsdl, debug=trace, cache=cache) 
         self.service_port = None                 # service port for late binding
 
         if not proxy:
@@ -220,7 +221,7 @@ class SoapClient(object):
             operation.get("documentation",""),
             )
 
-    def wsdl(self, url, debug=False):
+    def wsdl(self, url, debug=False, cache=False):
         "Parse Web Service Description v1.1"
         soap_ns = {
             "http://schemas.xmlsoap.org/wsdl/soap/": 'soap11',
@@ -233,10 +234,30 @@ class SoapClient(object):
         get_local_name = lambda s: str((':' in s) and s.split(':')[1] or s)
         
         REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
-        
+
+        def fetch(url):
+            "Fetch a document from a URL, save it locally if cache enabled"
+            import os, hashlib
+            # make md5 hash of the url for caching... 
+            filename = "%s.xml" % hashlib.md5(url).hexdigest()
+            if os.path.exists(filename) and cache:
+                if debug: print "Reading file %s" % (filename, )
+                f = open(filename, "r")
+                xml = f.read()
+                f.close()
+            else:
+                if debug: print "Fetching url %s" % (url, )
+                f = urllib.urlopen(url)
+                xml = f.read()
+                if cache:
+                    if debug: print "Writing file %s" % (filename, )
+                    f = open(filename, "w")
+                    f.write(xml)
+                    f.close()
+            return xml
+            
         # Open uri and read xml:
-        f = urllib.urlopen(url)
-        xml = f.read()
+        xml = fetch(url)
         # Parse WSDL XML:
         wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
@@ -300,16 +321,23 @@ class SoapClient(object):
                     d["action"] = action
         
         def process_element(element_name, children):
+            "Parse and define simple element types"
             if debug: print "Processing element", element_name
             for tag in children:
+                if tag is None or not tag.children():
+                    continue #TODO: extension not supported now
                 d = OrderedDict()
                 for e in tag.children():
-                    t = e['type'].split(":")
+                    t = e['type']
+                    if t is None:
+                        continue #TODO: extension not supported now
+                    t = t.split(":")
                     if len(t)>1:
                         ns, type_name = t
                     else:
                         ns, type_name = xsd_ns, t[0]
-                    if ns==xsd_ns:
+                    uri =  e.get_namespace_uri(ns)
+                    if uri==xsd_uri:
                         # look for the type, None == any
                         fn = REVERSE_TYPE_MAP.get(unicode(type_name), None)
                     else:
@@ -325,20 +353,39 @@ class SoapClient(object):
         # check axis2 namespace at schema types attributes
         self.namespace = dict(wsdl.types("schema", ns=xsd_uri)[:]).get('targetNamespace', self.namespace) 
 
-        for element in wsdl.types("schema", ns=xsd_uri).children():
-            if element.get_local_name() in ('element', 'complexType'):
-                element_name = unicode(element['name'])
-                if debug: print "Parsing Element %s: %s" % (element.get_local_name(),element_name)
-                if element.get_local_name() == 'complexType':
-                    children = element.children()
-                else:
-                    children = element.children()
+        imported_schemas = {}
+
+        def preprocess_schema(schema):
+            "Find schema elements and complex types"
+            for element in schema.children():
+                if element.get_local_name() in ('import', ):
+                    schema_namespace = element['namespace']
+                    schema_location = element['schemaLocation']
+                    if schema_location in imported_schemas:
+                        if debug: print "Schema %s already imported!" % (schema_location, )
+                        continue
+                    imported_schemas[schema_location] = schema_namespace
+                    if debug: print "Importing schema %s from %s" % (schema_namespace, schema_location)
+                    # Open uri and read xml:
+                    xml = fetch(schema_location)
+                    # Parse imported XML schema (recursively):
+                    imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
+                    preprocess_schema(imported_schema)
+
+                if element.get_local_name() in ('element', 'complexType'):
+                    element_name = unicode(element['name'])
+                    if debug: print "Parsing Element %s: %s" % (element.get_local_name(),element_name)
+                    if element.get_local_name() == 'complexType':
+                        children = element.children()
+                    else:
+                        children = element.children()
+                        if children:
+                            children = children.children()
                     if children:
-                        children = children.children()
-                if children:
-                    process_element(element_name, children)
+                        process_element(element_name, children)
 
         def postprocess_element(elements):
+            "Fix unresolved references (elements referenced before its definition, thanks .net)"
             for k,v in elements.items():
                 if isinstance(v, OrderedDict):
                     if v.array:
@@ -346,6 +393,10 @@ class SoapClient(object):
                     if v!=elements: #TODO: fix recursive elements
                         postprocess_element(v)
                     
+        # process current wsdl schema:
+        for schema in wsdl.types("schema", ns=xsd_uri): 
+            preprocess_schema(schema)                
+
         postprocess_element(elements)
 
         for message in wsdl.message:

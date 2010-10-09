@@ -169,6 +169,11 @@ class SimpleXMLElement(object):
         "Return the namespace prefix of this node"
         return self._element.prefix
 
+    def get_namespace_uri(self, ns):
+        "Return the namespace uri for a prefix"
+        v = self.__document.documentElement.attributes['xmlns:%s' % ns]
+        return v.value
+
     def attributes(self):
         "Return a dict of attributes for this tag"
         #TODO: use slice syntax [:]?
