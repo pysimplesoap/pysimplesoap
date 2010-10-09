@@ -193,13 +193,16 @@ class SoapClient(object):
             self.action = operation['action']
         # sort parameters (same order as xsd:sequence)
         def sort_dict(od, d):
-            ret = OrderedDict()
-            for k in od.keys():
-                v = d[k]
-                if isinstance(v, dict):
-                    v = sort_dict(od[k], v)
-                ret[str(k)] = v 
-            return ret
+            if isinstance(od, dict):
+                ret = OrderedDict()
+                for k in od.keys():
+                    v = d[k]
+                    if isinstance(v, dict):
+                        v = sort_dict(od[k], v)
+                    ret[str(k)] = v 
+                return ret
+            else:
+                return d
         if input and kwargs:
             params = sort_dict(input.values()[0], kwargs).items()
         else:
