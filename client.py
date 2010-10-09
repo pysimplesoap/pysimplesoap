@@ -216,11 +216,13 @@ class SoapClient(object):
     def help(self, method):
         "Return operation documentation and invocation/returned value example"
         operation = self.get_operation(method)
-        return "%s(%s)\n -> %s:\n\n%s" % (
+        input = operation['input'].values()[0]
+        output = operation['output'].values()[0]
+        return u"%s(%s)\n -> %s:\n\n%s" % (
             method, 
-            ", ".join("%s=%s" % (k,repr(v)) for k,v 
-                                 in operation['input'].values()[0].items()),
-            operation['output'].values()[0],
+            input and ", ".join("%s=%s" % (k,repr(v)) for k,v 
+                                 in input.items()) or "",
+            output and output or "",
             operation.get("documentation",""),
             )
 
