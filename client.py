@@ -240,7 +240,9 @@ class SoapClient(object):
             import os, hashlib
             # make md5 hash of the url for caching... 
             filename = "%s.xml" % hashlib.md5(url).hexdigest()
-            if os.path.exists(filename) and cache:
+            if isinstance(cache, basestring):
+                filename = os.path.join(cache, filename) 
+            if cache and os.path.exists(filename):
                 if debug: print "Reading file %s" % (filename, )
                 f = open(filename, "r")
                 xml = f.read()
