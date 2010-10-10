@@ -331,30 +331,40 @@ class SoapClient(object):
             "Parse and define simple element types"
             if debug: print "Processing element", element_name
             for tag in children:
-                if tag is None or not tag.children():
-                    continue #TODO: extension not supported now
-                d = OrderedDict()
+                if not tag.children():
+                    print element_name,"has not children!",tag
+                    continue #TODO: abstract?
+                d = OrderedDict()                    
                 for e in tag.children():
                     t = e['type']
-                    if t is None:
-                        continue #TODO: extension not supported now
+                    if not t:
+                        t = e['base'] # complexContent (extension)!
+                    if not t:
+                        t = 'anyType' # no type given!
                     t = t.split(":")
                     if len(t)>1:
                         ns, type_name = t
                     else:
-                        ns, type_name = xsd_ns, t[0]
-                    uri =  e.get_namespace_uri(ns)
+                        ns, type_name = None, t[0]
+                    uri = ns and e.get_namespace_uri(ns) or xsd_uri
                     if uri==xsd_uri:
                         # look for the type, None == any
                         fn = REVERSE_TYPE_MAP.get(unicode(type_name), None)
                     else:
                         # complex type, postprocess later
                         fn = elements.setdefault(unicode(type_name), OrderedDict())
-                    e_name = unicode(e['name'])
-                    d[e_name] = fn
+                    if e['name'] is not None:
+                        e_name = unicode(e['name'])
+                        d[e_name] = fn
+                    else:
+                        if debug: print "complexConent", element_name, "=", type_name
+                        d[None] = fn
                     if e['maxOccurs']=="unbounded":
                         # it's an array... TODO: compound arrays?
                         d.array = True
+                    if e is not None and e.get_local_name() == 'extension' and e.children():
+                        # extend base element:
+                        process_element(element_name, e.children())
                 elements.setdefault(element_name, OrderedDict()).update(d)
 
         # check axis2 namespace at schema types attributes
@@ -399,6 +409,11 @@ class SoapClient(object):
                         elements[k] = [v] # convert arrays to python lists
                     if v!=elements: #TODO: fix recursive elements
                         postprocess_element(v)
+                    if None in v: # extension base?
+                        for i, kk in enumerate(v[None]):
+                            # extend base -keep orginal order-
+                            elements[k].insert(kk, v[None][kk], i)
+                        del v[None]
                     
         # process current wsdl schema:
         for schema in wsdl.types("schema", ns=xsd_uri): 
