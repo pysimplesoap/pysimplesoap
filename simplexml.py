@@ -73,6 +73,14 @@ class OrderedDict(dict):
         if key not in self.__keys:
             self.__keys.append(key)
         dict.__setitem__(self, key, value)
+    def insert(self, key, value, index=0):
+        if key not in self.__keys:
+            self.__keys.insert(index, key)
+        dict.__setitem__(self, key, value)
+    def __delitem__(self, key):
+        if key in self.__keys:
+            self.__keys.remove(key)
+        dict.__delitem__(self, key)
     def __iter__(self):
         return iter(self.__keys)
     def keys(self):
