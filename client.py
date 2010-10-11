@@ -216,8 +216,9 @@ class SoapClient(object):
     def help(self, method):
         "Return operation documentation and invocation/returned value example"
         operation = self.get_operation(method)
-        input = operation['input'].values()[0]
-        output = operation['output'].values()[0]
+        input = operation['input'].values()
+        input = input and input[0]
+        output = operation['output'].values()[0] 
         return u"%s(%s)\n -> %s:\n\n%s" % (
             method, 
             input and ", ".join("%s=%s" % (k,repr(v)) for k,v 
@@ -290,6 +291,8 @@ class SoapClient(object):
         
         for service in wsdl.service:
             service_name=service['name']
+            if not service_name:
+                continue # empty service?
             if debug: print "Processing service", service_name
             serv = services.setdefault(service_name, {'ports': {}})
             serv['documentation']=service['documentation'] or ''
@@ -331,11 +334,18 @@ class SoapClient(object):
             "Parse and define simple element types"
             if debug: print "Processing element", element_name
             for tag in children:
-                if not tag.children():
+                if tag.get_local_name() in ("annotation", "documentation"):
+                    continue
+                if tag.children():
+                    children = tag.children()
+                elif tag.get_local_name() == 'element':
+                    print element_name,"has not children!",tag
+                    children = tag # element "alias"?
+                else:
                     print element_name,"has not children!",tag
                     continue #TODO: abstract?
                 d = OrderedDict()                    
-                for e in tag.children():
+                for e in children:
                     t = e['type']
                     if not t:
                         t = e['base'] # complexContent (extension)!
@@ -346,6 +356,8 @@ class SoapClient(object):
                         ns, type_name = t
                     else:
                         ns, type_name = None, t[0]
+                    if element_name == type_name:
+                        continue # prevent infinite recursion
                     uri = ns and e.get_namespace_uri(ns) or xsd_uri
                     if uri==xsd_uri:
                         # look for the type, None == any
@@ -398,6 +410,8 @@ class SoapClient(object):
                         children = element.children()
                         if children:
                             children = children.children()
+                        elif element.get_local_name() == 'element':
+                            children = element
                     if children:
                         process_element(element_name, children)
 
@@ -409,7 +423,7 @@ class SoapClient(object):
                         elements[k] = [v] # convert arrays to python lists
                     if v!=elements: #TODO: fix recursive elements
                         postprocess_element(v)
-                    if None in v: # extension base?
+                    if None in v and v[None]: # extension base?
                         for i, kk in enumerate(v[None]):
                             # extend base -keep orginal order-
                             elements[k].insert(kk, v[None][kk], i)
@@ -426,7 +440,10 @@ class SoapClient(object):
             part = message('part', error=False)
             element = {}
             if part:
-                element_name = get_local_name(part['element'])
+                element_name = part['element']
+                if not element_name:
+                    element_name = part['type'] # some uses type instead
+                element_name = get_local_name(element_name)
                 element = {element_name: elements.get(element_name)}
             messages[message['name']] = element
         
