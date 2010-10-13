@@ -107,6 +107,7 @@ class SoapClient(object):
         
     def call(self, method, *args, **kwargs):
         "Prepare xml request and make SOAP call, returning a SimpleXMLElement"                
+        #TODO: method != input_message
         # Basic SOAP request:
         xml = self.__xml % dict(method=method, namespace=self.namespace, ns=self.__ns,
                                 soap_ns=self.__soap_ns, soap_uri=soap_namespaces[self.__soap_ns])
@@ -196,15 +197,19 @@ class SoapClient(object):
             if isinstance(od, dict):
                 ret = OrderedDict()
                 for k in od.keys():
-                    v = d[k]
-                    if isinstance(v, dict):
-                        v = sort_dict(od[k], v)
-                    ret[str(k)] = v 
+                    v = d.get(k)
+                    if v:
+                        if isinstance(v, dict):
+                            v = sort_dict(od[k], v)
+                        ret[str(k)] = v 
                 return ret
             else:
                 return d
         if input and kwargs:
             params = sort_dict(input.values()[0], kwargs).items()
+            method = input.keys()[0]
+        #elif not input:
+            #TODO: no message! (see wsmtxca.dummy) 
         else:
             params = kwargs and kwargs.items()
         # call remote procedure
@@ -330,17 +335,20 @@ class SoapClient(object):
                 if action:
                     d["action"] = action
         
-        def process_element(element_name, children):
+        #TODO: cleanup element/schema/types parsing:
+        def process_element(element_name, node):
             "Parse and define simple element types"
             if debug: print "Processing element", element_name
-            for tag in children:
+            for tag in node:
                 if tag.get_local_name() in ("annotation", "documentation"):
                     continue
-                if tag.children():
-                    children = tag.children()
-                elif tag.get_local_name() == 'element':
+                elif tag.get_local_name() in ('element', 'restriction'):
                     print element_name,"has not children!",tag
                     children = tag # element "alias"?
+                    alias = True
+                elif tag.children():
+                    children = tag.children()
+                    alias = False
                 else:
                     print element_name,"has not children!",tag
                     continue #TODO: abstract?
@@ -365,11 +373,11 @@ class SoapClient(object):
                     else:
                         # complex type, postprocess later
                         fn = elements.setdefault(unicode(type_name), OrderedDict())
-                    if e['name'] is not None:
+                    if e['name'] is not None and not alias:
                         e_name = unicode(e['name'])
                         d[e_name] = fn
                     else:
-                        if debug: print "complexConent", element_name, "=", type_name
+                        if debug: print "complexConent/simpleType/element", element_name, "=", type_name
                         d[None] = fn
                     if e['maxOccurs']=="unbounded":
                         # it's an array... TODO: compound arrays?
@@ -401,11 +409,15 @@ class SoapClient(object):
                     imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
                     preprocess_schema(imported_schema)
 
-                if element.get_local_name() in ('element', 'complexType'):
+                if element.get_local_name() in ('element', 'complexType', "simpleType"):
                     element_name = unicode(element['name'])
                     if debug: print "Parsing Element %s: %s" % (element.get_local_name(),element_name)
                     if element.get_local_name() == 'complexType':
                         children = element.children()
+                    elif element.get_local_name() == 'simpleType':
+                        children = element("restriction", ns=xsd_uri)
+                    elif element.get_local_name() == 'element' and element['type']:
+                        children = element
                     else:
                         children = element.children()
                         if children:
@@ -424,11 +436,20 @@ class SoapClient(object):
                     if v!=elements: #TODO: fix recursive elements
                         postprocess_element(v)
                     if None in v and v[None]: # extension base?
-                        for i, kk in enumerate(v[None]):
-                            # extend base -keep orginal order-
-                            elements[k].insert(kk, v[None][kk], i)
-                        del v[None]
-                    
+                        if isinstance(v[None], dict):
+                            for i, kk in enumerate(v[None]):
+                                # extend base -keep orginal order-
+                                elements[k].insert(kk, v[None][kk], i)
+                            del v[None]
+                        else:  # "alias", just replace
+                            print "Replacing ", k , " = ", v[None]
+                            elements[k] = v[None]
+                            #break
+                if isinstance(v, list):
+                    for n in v: # recurse list
+                        postprocess_element(n)
+
+                        
         # process current wsdl schema:
         for schema in wsdl.types("schema", ns=xsd_uri): 
             preprocess_schema(schema)                
