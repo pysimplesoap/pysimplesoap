@@ -33,7 +33,7 @@ class SoapDispatcher(object):
         self.methods = {}
         self.name = name
         self.documentation = documentation
-        self.action = action # SoapAction
+        self.action = action # base SoapAction
         self.location = location
         self.namespace = namespace # targetNamespace
         self.prefix = prefix
@@ -43,7 +43,7 @@ class SoapDispatcher(object):
     def register_function(self, name, fn, returns=None, args=None, doc=None):
         self.methods[name] = fn, returns, args, doc or getattr(fn,"__doc__","")
         
-    def dispatch(self, xml):
+    def dispatch(self, xml, action=None):
         "Receive and proccess SOAP call"
         # default values:
         prefix = self.prefix
@@ -65,8 +65,15 @@ class SoapDispatcher(object):
             
             # parse request message and get local method            
             method = request('Body', ns=soap_uri).children()(0)
-            name = method.get_local_name()
-            prefix = method.get_prefix()
+            if action:
+                # method name = action 
+                name = action[len(self.action)+1:-1]
+                prefix = self.prefix
+            if not action or not name:
+                # method name = input message name
+                name = method.get_local_name()
+                prefix = method.get_prefix()
+
             if DEBUG: print "dispatch method", name
             function, returns_types, args_types, doc = self.methods[name]
         
@@ -124,7 +131,11 @@ class SoapDispatcher(object):
 
             # serialize returned values (response) if type definition available
             if returns_types:
-                res.marshall(returns_types.keys()[0], ret, )
+                if not isinstance(ret, dict):
+                    res.marshall(returns_types.keys()[0], ret, )
+                else:
+                    for k,v in ret.items():
+                        res.marshall(k, v)
             elif returns_types is None:
                 # merge xmlelement returned
                 res.import_node(ret)
@@ -271,7 +282,7 @@ class SoapDispatcher(object):
             op = binding.add_child('wsdl:operation')
             op['name'] = method
             soapop = op.add_child('soap:operation')
-            soapop['soapAction'] = self.action
+            soapop['soapAction'] = self.action + method
             soapop['style'] = 'document'
             input = op.add_child("wsdl:input")
             ##input.add_attribute('name', "%sInput" % method)
