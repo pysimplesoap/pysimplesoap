@@ -196,6 +196,14 @@ class SimpleXMLElement(object):
         elif isinstance(item, slice):
             # return a list with name:values
             return self._element.attributes.items()[item]
+        else:
+            # return element by index (position)
+            element = self.__elements[item]
+            return SimpleXMLElement(
+                    elements=[element],
+                    document=self.__document,
+                    namespace=self.__ns,
+                    prefix=self.__prefix)
             
     def add_attribute(self, name, value):
         "Set an attribute value from a string"
@@ -284,6 +292,10 @@ class SimpleXMLElement(object):
                 namespace=self.__ns,
                 prefix=self.__prefix)
 
+    def __len__(self):
+        "Return elements count"
+        return len(self.__elements)
+        
     def __contains__( self, item):
         "Search for a tag name in this element or child nodes"
         return self._element.getElementsByTagName(item)
