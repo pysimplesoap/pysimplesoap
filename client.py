@@ -398,6 +398,9 @@ class SoapClient(object):
                 if element.get_local_name() in ('import', ):
                     schema_namespace = element['namespace']
                     schema_location = element['schemaLocation']
+                    if schema_location is None:
+                        if debug: print "Schema location not provided for %s!" % (schema_namespace, )
+                        continue
                     if schema_location in imported_schemas:
                         if debug: print "Schema %s already imported!" % (schema_location, )
                         continue
