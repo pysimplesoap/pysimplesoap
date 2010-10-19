@@ -130,7 +130,7 @@ class SoapClient(object):
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace)
         if self.exceptions and response("Fault", ns=soap_namespaces.values(), error=False):
             raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
-        return response    
+        return response
     
     def send(self, method, xml):
         "Send SOAP request using HTTP"
@@ -201,6 +201,9 @@ class SoapClient(object):
                     if v:
                         if isinstance(v, dict):
                             v = sort_dict(od[k], v)
+                        elif isinstance(v, list):
+                            v = [sort_dict(od[k][0], v1) 
+                                    for v1 in v]
                         ret[str(k)] = v 
                 return ret
             else:
