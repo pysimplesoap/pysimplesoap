@@ -346,14 +346,14 @@ class SoapClient(object):
                 if tag.get_local_name() in ("annotation", "documentation"):
                     continue
                 elif tag.get_local_name() in ('element', 'restriction'):
-                    print element_name,"has not children!",tag
+                    if debug: print element_name,"has not children!",tag
                     children = tag # element "alias"?
                     alias = True
                 elif tag.children():
                     children = tag.children()
                     alias = False
                 else:
-                    print element_name,"has not children!",tag
+                    if debug: print element_name,"has not children!",tag
                     continue #TODO: abstract?
                 d = OrderedDict()                    
                 for e in children:
@@ -448,7 +448,7 @@ class SoapClient(object):
                                 elements[k].insert(kk, v[None][kk], i)
                             del v[None]
                         else:  # "alias", just replace
-                            print "Replacing ", k , " = ", v[None]
+                            if debug: print "Replacing ", k , " = ", v[None]
                             elements[k] = v[None]
                             #break
                 if isinstance(v, list):
