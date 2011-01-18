@@ -327,9 +327,10 @@ class SimpleXMLElement(object):
     
     _element = property(lambda self: self.__elements[0])
 
-    def unmarshall(self, types):
+    def unmarshall(self, types, strict=True):
         "Convert to python values the current serialized xml element"
         # types is a dict of {tag name: convertion function}
+        # strict=False to use default type conversion if not specified
         # example: types={'p': {'a': int,'b': int}, 'c': [{'d':str}]}
         #   expected xml: <p><a>1</a><b>2</b></p><c><d>hola</d><d>chau</d>
         #   returnde value: {'p': {'a':1,'b':2}, `'c':[{'d':'hola'},{'d':'chau'}]}
@@ -339,15 +340,19 @@ class SimpleXMLElement(object):
             try:
                 fn = types[name]
             except (KeyError, ), e:
-                raise TypeError("Tag: %s invalid" % (name,))
+                if strict:
+                    raise TypeError("Tag: %s invalid (type not found)" % (name,))
+                else:
+                    # if not strict, use default type conversion
+                    fn = unicode
             if isinstance(fn,list):
                 value = []
                 children = node.children()
                 for child in children and children() or []:
-                    value.append(child.unmarshall(fn[0]))
+                    value.append(child.unmarshall(fn[0], strict))
             elif isinstance(fn,dict):
                 children = node.children()
-                value = children and children.unmarshall(fn)
+                value = children and children.unmarshall(fn, strict)
             else:
                 if fn is None: # xsd:anyType not unmarshalled
                     value = node
