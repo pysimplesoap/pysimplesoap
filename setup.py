@@ -2,8 +2,8 @@
 
 from distutils.core import setup
 
-setup(name='pysimplesoap',
-      version='1.0',
+setup(name='PySimpleSOAP',
+      version='1.02c',
       description='Python Simple SOAP Library',
       author='Mariano Reingart',
       author_email='reingart@gmail.com',
