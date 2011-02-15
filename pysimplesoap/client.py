@@ -15,8 +15,11 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.02c"
+__version__ = "1.03a"
 
+import hashlib
+import os
+import cPickle as pickle
 import urllib
 try:
     import httplib2
@@ -65,7 +68,7 @@ class SoapClient(object):
             self.__soap_ns = soap_ns
         
         # parse wsdl url
-        self.services = wsdl and self.wsdl(wsdl, debug=trace, cache=cache) 
+        self.services = wsdl and self.wsdl_parse(wsdl, debug=trace, cache=cache) 
         self.service_port = None                 # service port for late binding
 
         if not proxy:
@@ -235,8 +238,34 @@ class SoapClient(object):
             operation.get("documentation",""),
             )
 
-    def wsdl(self, url, debug=False, cache=False):
+    def wsdl_parse(self, url, debug=False, cache=False):
         "Parse Web Service Description v1.1"
+
+        # Try to load a previously parsed wsdl:
+        force_download = False
+        if cache:
+            # make md5 hash of the url for caching... 
+            filename_pkl = "%s.pkl" % hashlib.md5(url).hexdigest()
+            if isinstance(cache, basestring):
+                filename_pkl = os.path.join(cache, filename_pkl) 
+            if os.path.exists(filename_pkl):
+                if debug or True: print "Unpickle file %s" % (filename_pkl, )
+                f = open(filename_pkl, "r")
+                pkl = pickle.load(f)
+                f.close()
+                # sanity check:
+                if pkl['version'] != __version__ or pkl['url'] != url:
+                    import warnings
+                    warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning) 
+                    if debug or True:
+                        print 'Version:', pkl['version'], __version__
+                        print 'URL:', pkl['url'], url
+                    force_download = True
+                else:
+                    self.namespace = pkl['namespace']
+                    self.documentation = pkl['documentation']
+                    return pkl['services']
+        
         soap_ns = {
             "http://schemas.xmlsoap.org/wsdl/soap/": 'soap11',
             "http://schemas.xmlsoap.org/wsdl/soap12/": 'soap12',
@@ -250,23 +279,22 @@ class SoapClient(object):
         REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
 
         def fetch(url):
-            "Fetch a document from a URL, save it locally if cache enabled"
-            import os, hashlib
+            "Download a document from a URL, save it locally if cache enabled"
             # make md5 hash of the url for caching... 
             filename = "%s.xml" % hashlib.md5(url).hexdigest()
             if isinstance(cache, basestring):
                 filename = os.path.join(cache, filename) 
-            if cache and os.path.exists(filename):
-                if debug: print "Reading file %s" % (filename, )
+            if cache and os.path.exists(filename) and not force_download:
+                if debug or True: print "Reading file %s" % (filename, )
                 f = open(filename, "r")
                 xml = f.read()
                 f.close()
             else:
-                if debug: print "Fetching url %s" % (url, )
+                if debug or True: print "Fetching url %s" % (url, )
                 f = urllib.urlopen(url)
                 xml = f.read()
                 if cache:
-                    if debug: print "Writing file %s" % (filename, )
+                    if debug or True: print "Writing file %s" % (filename, )
                     f = open(filename, "w")
                     f.write(xml)
                     f.close()
@@ -494,6 +522,19 @@ class SoapClient(object):
             import pprint
             pprint.pprint(services)
         
+        # Save parsed wsdl (cache)
+        if cache:
+            f = open(filename_pkl, "wb")
+            pkl = {
+                'version': __version__, 
+                'url': url, 
+                'namespace': self.namespace, 
+                'documentation': self.documentation,
+                'services': services,
+                }
+            pickle.dump(pkl, f)
+            f.close()
+        
         return services
 
 def parse_proxy(proxy_str):
@@ -618,11 +659,19 @@ if __name__=="__main__":
         client.wsdl('https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl',debug=True)
 
     if '--wsdl-client' in sys.argv:
-        client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL',trace=True)
-        results = client.FEXDummy()
-        print results['FEXDummyResult']['AppServer']
-        print results['FEXDummyResult']['DbServer']
-        print results['FEXDummyResult']['AuthServer']
+        import time
+        t0 = time.time()
+        for i in range(100):
+            print i
+            client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL',cache="cache", trace=False)
+            #results = client.FEXDummy()
+            #print results['FEXDummyResult']['AppServer']
+            #print results['FEXDummyResult']['DbServer']
+            #print results['FEXDummyResult']['AuthServer']
+        t1 = time.time()
+        print "Total time", t1-t0
+
+    if '--wsdl-client' in sys.argv:
         ta_string=open("TA.xml").read()   # read access ticket (wsaa.py)
         ta = SimpleXMLElement(ta_string)
         token = str(ta.credentials.token)
