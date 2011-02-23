@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03a"
+__version__ = "1.03b"
 
 import hashlib
 import os
@@ -74,7 +74,7 @@ class SoapClient(object):
         self.service_port = None                 # service port for late binding
 
         if not proxy:
-            self.http = Http(timeout=10)
+            self.http = Http(timeout=60)
         else:
             import socks
             ##httplib2.debuglevel=4
@@ -293,7 +293,7 @@ class SoapClient(object):
                 f.close()
             else:
                 if debug or True: print "Fetching url %s using urllib2" % (url, )
-                f = urllib2.urlopen(url, timeout=10)
+                f = urllib2.urlopen(url)
                 xml = f.read()
                 if cache:
                     if debug or True: print "Writing file %s" % (filename, )
