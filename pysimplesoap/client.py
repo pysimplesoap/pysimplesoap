@@ -20,13 +20,15 @@ __version__ = "1.03a"
 import hashlib
 import os
 import cPickle as pickle
-import urllib
+import urllib2
 try:
     import httplib2
     Http = httplib2.Http
 except ImportError:
     import urllib2
     class Http(): # wrapper to use when httplib2 not available
+        def __init__(self, timeout):
+            self.timeout = timeout # not used, py2.5 doesnt support timeout...
         def request(self, url, method, body, headers):
             f = urllib2.urlopen(urllib2.Request(url, body, headers))
             return f.info(), f.read()
@@ -72,7 +74,7 @@ class SoapClient(object):
         self.service_port = None                 # service port for late binding
 
         if not proxy:
-            self.http = Http()
+            self.http = Http(timeout=10)
         else:
             import socks
             ##httplib2.debuglevel=4
@@ -290,8 +292,8 @@ class SoapClient(object):
                 xml = f.read()
                 f.close()
             else:
-                if debug or True: print "Fetching url %s" % (url, )
-                f = urllib.urlopen(url)
+                if debug or True: print "Fetching url %s using urllib2" % (url, )
+                f = urllib2.urlopen(url, timeout=10)
                 xml = f.read()
                 if cache:
                     if debug or True: print "Writing file %s" % (filename, )
