@@ -60,7 +60,7 @@ TYPE_MAP = {str:'string',unicode:'string',
             }
 TYPE_MARSHAL_FN = {datetime.datetime:datetime_m, datetime.date:date_m,}
 TYPE_UNMARSHAL_FN = {datetime.datetime:datetime_u, datetime.date:date_u,
-                     bool:bool_u,
+                     bool:bool_u, str:unicode,
             }
 
 
@@ -246,7 +246,7 @@ class SimpleXMLElement(object):
             if not elements:
                 if DEBUG: print self._element.toxml()
                 if error:
-                    raise AttributeError("No elements found")
+                    raise AttributeError(u"No elements found")
                 else:
                     return
             return SimpleXMLElement(
@@ -255,7 +255,7 @@ class SimpleXMLElement(object):
                 namespace=self.__ns,
                 prefix=self.__prefix)
         except AttributeError, e:
-            raise AttributeError("Tag not found: %s (%s)" % (tag, str(e)))
+            raise AttributeError(u"Tag not found: %s (%s)" % (tag, unicode(e)))
 
     def __getattr__(self, tag):
         "Shortcut for __call__"
@@ -341,7 +341,7 @@ class SimpleXMLElement(object):
                 fn = types[name]
             except (KeyError, ), e:
                 if strict:
-                    raise TypeError("Tag: %s invalid (type not found)" % (name,))
+                    raise TypeError(u"Tag: %s invalid (type not found)" % (name,))
                 else:
                     # if not strict, use default type conversion
                     fn = unicode
@@ -362,7 +362,7 @@ class SimpleXMLElement(object):
                         fn = TYPE_UNMARSHAL_FN.get(fn,fn) 
                         value = fn(unicode(node))
                     except (ValueError, TypeError), e:
-                        raise ValueError("Tag: %s: %s" % (name, unicode(e)))
+                        raise ValueError(u"Tag: %s: %s" % (name, unicode(e)))
                 else:
                     value = None
             d[name] = value
