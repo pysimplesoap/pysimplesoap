@@ -15,25 +15,74 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03b"
+__version__ = "1.03c"
+
+TIMEOUT = 60
+USE_PYCURL = False   # experimental: pycurl seems faster + better proxy support (NTLM) + ssl features
 
 import hashlib
 import os
 import cPickle as pickle
 import urllib2
-try:
-    import httplib2
-    Http = httplib2.Http
-except ImportError:
-    import urllib2
-    class Http(): # wrapper to use when httplib2 not available
-        def __init__(self, timeout):
-            self.timeout = timeout # not used, py2.5 doesnt support timeout...
-        def request(self, url, method, body, headers):
-            f = urllib2.urlopen(urllib2.Request(url, body, headers))
-            return f.info(), f.read()
 
-    
+if not USE_PYCURL:
+    try:
+        import httplib2
+        Http = httplib2.Http
+        USE_HTTPLIB2_WRAPPER = False
+    except ImportError:
+        import urllib2
+        USE_HTTPLIB2_WRAPPER = True
+        class Http(): # wrapper to use when httplib2 not available
+            def __init__(self, timeout, proxy_info=None):
+                self.timeout = timeout # not used, py2.5 doesnt support timeout...
+            def request(self, url, method, body, headers):
+                f = urllib2.urlopen(urllib2.Request(url, body, headers))
+                return f.info(), f.read()
+
+else:
+    import pycurl
+    from cStringIO import StringIO
+
+    USE_HTTPLIB2_WRAPPER = True
+
+    class Http():
+        def __init__(self, timeout, proxy_info=None):
+            self.timeout = timeout # not used, py2.5 doesnt support timeout...
+            self.proxy_info = proxy_info or {}
+        
+        def request(self, url, method, body, headers):
+            c = pycurl.Curl()
+            c.setopt(pycurl.URL, str(url))
+            if 'proxy_host' in self.proxy_info:
+                c.setopt(pycurl.PROXY, self.proxy_info['proxy_host'])
+            if 'proxy_port' in self.proxy_info:
+                c.setopt(pycurl.PROXYPORT, self.proxy_info['proxy_port'])
+            if 'proxy_user' in self.proxy_info:
+                c.setopt(pycurl.PROXYUSERPWD, "%(proxy_user)s:%(proxy_pass)s" % self.proxy_info)
+            self.buf = StringIO()
+            c.setopt(pycurl.WRITEFUNCTION, self.buf.write)
+            #c.setopt(pycurl.READFUNCTION, self.read)
+            #self.body = StringIO(body)
+            #c.setopt(pycurl.HEADERFUNCTION, self.header)
+            c.setopt(pycurl.SSL_VERIFYPEER, 0)
+            c.setopt(pycurl.SSL_VERIFYHOST, 0)
+            c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6) 
+            c.setopt(pycurl.TIMEOUT, self.timeout)
+            if method=='POST':
+                c.setopt(pycurl.POST, 1)
+                c.setopt(pycurl.POSTFIELDS, body)            
+            if headers:
+                hdrs = ['%s: %s' % (str(k), str(v)) for k, v in headers.items()]
+                ##print hdrs
+                c.setopt(pycurl.HTTPHEADER, hdrs)
+            c.perform()
+            ##print "pycurl perform..."
+            c.close()
+            return {}, self.buf.getvalue()
+
+
+
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
 class SoapFault(RuntimeError):
@@ -74,14 +123,17 @@ class SoapClient(object):
         self.service_port = None                 # service port for late binding
 
         if not proxy:
-            self.http = Http(timeout=60)
+            self.http = Http(timeout=TIMEOUT)
         else:
-            import socks
-            ##httplib2.debuglevel=4
-            self.http = httplib2.Http(proxy_info = httplib2.ProxyInfo(
-                proxy_type=socks.PROXY_TYPE_HTTP, **proxy))
-        #if self.certssl: # esto funciona para validar al server?
-        #    self.http.add_certificate(self.keyssl, self.keyssl, self.certssl)
+            if not USE_HTTPLIB2_WRAPPER:
+                import socks
+                ##httplib2.debuglevel=4
+                self.http = httplib2.Http(proxy_info = httplib2.ProxyInfo(
+                    proxy_type=socks.PROXY_TYPE_HTTP, **proxy))
+                #if self.certssl: # esto funciona para validar al server?
+                #    self.http.add_certificate(self.keyssl, self.keyssl, self.certssl)
+            else:
+                self.http = Http(timeout=TIMEOUT, proxy_info=proxy)
         self.__ns = ns # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?> 
@@ -721,7 +773,14 @@ if __name__=="__main__":
 
         print response['return']['numeroCTG']
 
-    ##print parse_proxy(None)
-    ##print parse_proxy("host:1234")
-    ##print parse_proxy("user:pass@host:1234")
-    ##sys.exit(0) 
+    if '--proxy' in sys.argv:
+        proxy = parse_proxy("localhost:8000")
+        client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL',
+                            cache="cache", trace=False, proxy=proxy)
+        import time
+        t0 = time.time()
+        print "starting..."
+        for i in range(20):
+            print i, client.FEDummy()
+        t1 = time.time()
+        print "Total time", t1-t0
