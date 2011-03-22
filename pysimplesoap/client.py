@@ -303,7 +303,7 @@ class SoapClient(object):
             if isinstance(cache, basestring):
                 filename_pkl = os.path.join(cache, filename_pkl) 
             if os.path.exists(filename_pkl):
-                if debug or True: print "Unpickle file %s" % (filename_pkl, )
+                if debug: print "Unpickle file %s" % (filename_pkl, )
                 f = open(filename_pkl, "r")
                 pkl = pickle.load(f)
                 f.close()
@@ -311,7 +311,7 @@ class SoapClient(object):
                 if pkl['version'] != __version__ or pkl['url'] != url:
                     import warnings
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning) 
-                    if debug or True:
+                    if debug:
                         print 'Version:', pkl['version'], __version__
                         print 'URL:', pkl['url'], url
                     force_download = True
