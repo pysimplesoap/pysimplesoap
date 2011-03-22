@@ -25,7 +25,7 @@ import cPickle as pickle
 import urllib2
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
-def get_http_class(library='httplib2'):
+def get_http_wrapper(library='httplib2'):
     "Returns a suitable Http connection wrapper, None if not available"
     # Http class is originally based on httplib2's one, 
     # but now it was redefined to support other http libraries
@@ -109,12 +109,17 @@ def get_http_class(library='httplib2'):
             Http = None
     return Http
 
+def set_http_wrapper(library='httplib2'):
+    "Set a suitable Http connection wrapper, with safe fallback"
+    global Http
+    Http = get_http_wrapper(library)
+    if not Http:
+        # fallback to standard library wrapper
+        Http = get_http_class('urllib2')
+    return Http
 
 # define the default HTTP connection class (it can be changed at runtime!):
-Http = get_http_class('httplib2')
-if not Http:
-    # fallback to standard library wrapper
-    Http = get_http_class('urllib2')
+set_http_wrapper('httplib2')
 
 
 class SoapFault(RuntimeError):
@@ -619,6 +624,8 @@ class SoapClient(object):
 
 def parse_proxy(proxy_str):
     "Parses proxy address user:pass@host:port into a dict suitable for httplib2"
+    if isinstance(proxy_str, unicode):
+        proxy_str = proxy_str.encode("utf8")
     proxy_dict = {}
     if proxy_str is None:
         return 
@@ -804,9 +811,9 @@ if __name__=="__main__":
         results = {}
         for lib in 'httplib2', 'urllib2', 'pycurl':
             print "testing library", lib
-            Http = get_http_class(lib)
+            set_http_wrapper(lib)
             print Http._wrapper_version
-            for proxy in None, parse_proxy("localhost:8888"):
+            for proxy in None, parse_proxy("localhost:8000"):
                 print "proxy", proxy
                 try:
                     client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL',
