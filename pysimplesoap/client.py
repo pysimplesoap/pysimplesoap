@@ -18,77 +18,110 @@ __license__ = "LGPL 3.0"
 __version__ = "1.03c"
 
 TIMEOUT = 60
-USE_PYCURL = False   # experimental: pycurl seems faster + better proxy support (NTLM) + ssl features
 
 import hashlib
 import os
 import cPickle as pickle
 import urllib2
-
-if not USE_PYCURL:
-    try:
-        import httplib2
-        Http = httplib2.Http
-        USE_HTTPLIB2_WRAPPER = False
-    except ImportError:
-        import urllib2
-        USE_HTTPLIB2_WRAPPER = True
-        class Http(): # wrapper to use when httplib2 not available
-            def __init__(self, timeout, proxy_info=None):
-                self.timeout = timeout # not used, py2.5 doesnt support timeout...
-            def request(self, url, method, body, headers):
-                f = urllib2.urlopen(urllib2.Request(url, body, headers))
-                return f.info(), f.read()
-
-else:
-    import pycurl
-    from cStringIO import StringIO
-
-    USE_HTTPLIB2_WRAPPER = True
-
-    class Http():
-        def __init__(self, timeout, proxy_info=None):
-            self.timeout = timeout # not used, py2.5 doesnt support timeout...
-            self.proxy_info = proxy_info or {}
-        
-        def request(self, url, method, body, headers):
-            c = pycurl.Curl()
-            c.setopt(pycurl.URL, str(url))
-            if 'proxy_host' in self.proxy_info:
-                c.setopt(pycurl.PROXY, self.proxy_info['proxy_host'])
-            if 'proxy_port' in self.proxy_info:
-                c.setopt(pycurl.PROXYPORT, self.proxy_info['proxy_port'])
-            if 'proxy_user' in self.proxy_info:
-                c.setopt(pycurl.PROXYUSERPWD, "%(proxy_user)s:%(proxy_pass)s" % self.proxy_info)
-            self.buf = StringIO()
-            c.setopt(pycurl.WRITEFUNCTION, self.buf.write)
-            #c.setopt(pycurl.READFUNCTION, self.read)
-            #self.body = StringIO(body)
-            #c.setopt(pycurl.HEADERFUNCTION, self.header)
-            c.setopt(pycurl.SSL_VERIFYPEER, 0)
-            c.setopt(pycurl.SSL_VERIFYHOST, 0)
-            c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6) 
-            c.setopt(pycurl.TIMEOUT, self.timeout)
-            if method=='POST':
-                c.setopt(pycurl.POST, 1)
-                c.setopt(pycurl.POSTFIELDS, body)            
-            if headers:
-                hdrs = ['%s: %s' % (str(k), str(v)) for k, v in headers.items()]
-                ##print hdrs
-                c.setopt(pycurl.HTTPHEADER, hdrs)
-            c.perform()
-            ##print "pycurl perform..."
-            c.close()
-            return {}, self.buf.getvalue()
-
-
-
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
+
+def get_http_class(library='httplib2'):
+    "Returns a suitable Http connection wrapper, None if not available"
+    # Http class is originally based on httplib2's one, 
+    # but now it was redefined to support other http libraries
+    if library=='httplib2':
+        try:
+            import httplib2
+            class Http(httplib2.Http):
+                _wrapper_version = "httplib2 %s" % httplib2.__version__
+                def __init__(self, timeout, proxy=None):
+                    ##httplib2.debuglevel=4
+                    kwargs = {}
+                    if proxy:
+                        import socks
+                        kwargs['proxy_info'] = httplib2.ProxyInfo(proxy_type=socks.PROXY_TYPE_HTTP, **proxy)
+                    # timeout is supported on httplib2 >= 0.3.0
+                    kwargs['timeout'] = timeout
+                    #if self.certssl: # esto funciona para validar al server?
+                    #    self.http.add_certificate(self.keyssl, self.keyssl, self.certssl)                    
+                    httplib2.Http.__init__(self, **kwargs)
+        except ImportError, e:
+            # httplib2 is not installed at all
+            Http = None
+        except TypeError, e:
+            # httplib2 is installed but an unsupported version (has timeout?)
+            Http = False
+    elif library=='urllib2':
+        import urllib2
+        class Http: # wrapper to use when httplib2 not available
+            _wrapper_version = "urllib2 %s" % urllib2.__version__
+            def __init__(self, timeout, proxy=None):
+                self.timeout = timeout # not used, py2.5 doesnt support timeout...
+                self.proxy = proxy
+            def request(self, url, method, body, headers):
+                if not self.proxy:
+                    f = urllib2.urlopen(urllib2.Request(url, body, headers))
+                else:
+                    raise RuntimeError("Proxy not supported with urllib2!")
+                return f.info(), f.read()
+    elif library=='pycurl':
+        # experimental: pycurl seems faster + better proxy support (NTLM) + ssl features
+        try:
+            import pycurl
+            from cStringIO import StringIO
+
+            class Http:
+                _wrapper_version = pycurl.version
+                def __init__(self, timeout, proxy=None):
+                    self.timeout = timeout # not used, py2.5 doesnt support timeout...
+                    self.proxy = proxy or {}
+                
+                def request(self, url, method, body, headers):
+                    c = pycurl.Curl()
+                    c.setopt(pycurl.URL, str(url))
+                    if 'proxy_host' in self.proxy:
+                        c.setopt(pycurl.PROXY, self.proxy['proxy_host'])
+                    if 'proxy_port' in self.proxy:
+                        c.setopt(pycurl.PROXYPORT, self.proxy['proxy_port'])
+                    if 'proxy_user' in self.proxy:
+                        c.setopt(pycurl.PROXYUSERPWD, "%(proxy_user)s:%(proxy_pass)s" % self.proxy)
+                    self.buf = StringIO()
+                    c.setopt(pycurl.WRITEFUNCTION, self.buf.write)
+                    #c.setopt(pycurl.READFUNCTION, self.read)
+                    #self.body = StringIO(body)
+                    #c.setopt(pycurl.HEADERFUNCTION, self.header)
+                    c.setopt(pycurl.SSL_VERIFYPEER, 0)
+                    c.setopt(pycurl.SSL_VERIFYHOST, 0)
+                    c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6) 
+                    c.setopt(pycurl.TIMEOUT, self.timeout)
+                    if method=='POST':
+                        c.setopt(pycurl.POST, 1)
+                        c.setopt(pycurl.POSTFIELDS, body)            
+                    if headers:
+                        hdrs = ['%s: %s' % (str(k), str(v)) for k, v in headers.items()]
+                        ##print hdrs
+                        c.setopt(pycurl.HTTPHEADER, hdrs)
+                    c.perform()
+                    ##print "pycurl perform..."
+                    c.close()
+                    return {}, self.buf.getvalue()
+        except ImportError:
+            Http = None
+    return Http
+
+
+# define the default HTTP connection class (it can be changed at runtime!):
+Http = get_http_class('httplib2')
+if not Http:
+    # fallback to standard library wrapper
+    Http = get_http_class('urllib2')
+
 
 class SoapFault(RuntimeError):
     def __init__(self,faultcode,faultstring):
         self.faultcode = faultcode
         self.faultstring = faultstring
+
 
 # soap protocol specification & namespace
 soap_namespaces = dict(
@@ -98,8 +131,9 @@ soap_namespaces = dict(
     soap12="http://www.w3.org/2003/05/soap-env",
 )
 
+
 class SoapClient(object):
-    "Simple SOAP Client (símil PHP)"
+    "Simple SOAP Client (simil PHP)"
     def __init__(self, location = None, action = None, namespace = None,
                  cert = None, trace = False, exceptions = True, proxy = None, ns=False, 
                  soap_ns=None, wsdl = None, cache = False):
@@ -125,15 +159,7 @@ class SoapClient(object):
         if not proxy:
             self.http = Http(timeout=TIMEOUT)
         else:
-            if not USE_HTTPLIB2_WRAPPER:
-                import socks
-                ##httplib2.debuglevel=4
-                self.http = httplib2.Http(proxy_info = httplib2.ProxyInfo(
-                    proxy_type=socks.PROXY_TYPE_HTTP, **proxy))
-                #if self.certssl: # esto funciona para validar al server?
-                #    self.http.add_certificate(self.keyssl, self.keyssl, self.certssl)
-            else:
-                self.http = Http(timeout=TIMEOUT, proxy_info=proxy)
+            self.http = Http(timeout=TIMEOUT, proxy=proxy)
         self.__ns = ns # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?> 
@@ -773,14 +799,31 @@ if __name__=="__main__":
 
         print response['return']['numeroCTG']
 
-    if '--proxy' in sys.argv:
-        proxy = parse_proxy("localhost:8000")
-        client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL',
-                            cache="cache", trace=False, proxy=proxy)
+    if '--libtest' in sys.argv:
         import time
-        t0 = time.time()
-        print "starting..."
-        for i in range(20):
-            print i, client.FEDummy()
-        t1 = time.time()
-        print "Total time", t1-t0
+        results = {}
+        for lib in 'httplib2', 'urllib2', 'pycurl':
+            print "testing library", lib
+            Http = get_http_class(lib)
+            print Http._wrapper_version
+            for proxy in None, parse_proxy("localhost:8888"):
+                print "proxy", proxy
+                try:
+                    client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL',
+                                        cache="cache", trace=False, proxy=proxy)
+                    t0 = time.time()
+                    print "starting...",
+                    for i in range(20):
+                        print i,
+                        client.FEDummy()
+                    t1 = time.time()
+                    result = t1-t0
+                except Exception, e:
+                    result = "Failed: %s" % str(e)
+                print "Total time", result
+                results.setdefault(lib, {})[proxy and 'proxy' or 'direct'] = result
+        print "\nResults:"
+        for k, v in results.items():
+            for k2, v2 in v.items():
+                print k, k2, v2
+      
