@@ -326,6 +326,7 @@ class SoapClient(object):
     def wsdl_parse(self, url, debug=False, cache=False):
         "Parse Web Service Description v1.1"
 
+        if debug: print "wsdl url: %s" % url
         # Try to load a previously parsed wsdl:
         force_download = False
         if cache:
@@ -370,16 +371,16 @@ class SoapClient(object):
             if isinstance(cache, basestring):
                 filename = os.path.join(cache, filename) 
             if cache and os.path.exists(filename) and not force_download:
-                if debug or True: print "Reading file %s" % (filename, )
+                if debug: print "Reading file %s" % (filename, )
                 f = open(filename, "r")
                 xml = f.read()
                 f.close()
             else:
-                if debug or True: print "Fetching url %s using urllib2" % (url, )
+                if debug: print "Fetching url %s using urllib2" % (url, )
                 f = urllib2.urlopen(url)
                 xml = f.read()
                 if cache:
-                    if debug or True: print "Writing file %s" % (filename, )
+                    if debug: print "Writing file %s" % (filename, )
                     f = open(filename, "w")
                     f.write(xml)
                     f.close()

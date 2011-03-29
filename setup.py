@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='PySimpleSOAP',
-      version='1.03c',
+      version='1.03d',
       description='Python Simple SOAP Library',
       author='Mariano Reingart',
       author_email='reingart@gmail.com',
