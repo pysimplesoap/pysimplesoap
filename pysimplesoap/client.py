@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03c"
+__version__ = "1.03e"
 
 TIMEOUT = 60
 
@@ -25,6 +25,19 @@ import cPickle as pickle
 import urllib2
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
+# try to import connectors
+try:
+    import httplib2
+except:
+    httplib2 = None
+
+try:
+    from cStringIO import StringIO
+    import pycurl
+except:
+    pycurl = None
+
+    
 def get_http_wrapper(library='httplib2'):
     "Returns a suitable Http connection wrapper, None if not available"
     # Http class is originally based on httplib2's one, 
@@ -34,7 +47,7 @@ def get_http_wrapper(library='httplib2'):
             import httplib2
             class Http(httplib2.Http):
                 _wrapper_version = "httplib2 %s" % httplib2.__version__
-                def __init__(self, timeout, proxy=None):
+                def __init__(self, timeout, proxy=None, cacert=None):
                     ##httplib2.debuglevel=4
                     kwargs = {}
                     if proxy:
@@ -55,7 +68,7 @@ def get_http_wrapper(library='httplib2'):
         import urllib2
         class Http: # wrapper to use when httplib2 not available
             _wrapper_version = "urllib2 %s" % urllib2.__version__
-            def __init__(self, timeout, proxy=None):
+            def __init__(self, timeout, proxy=None, cacert=None):
                 self.timeout = timeout # not used, py2.5 doesnt support timeout...
                 self.proxy = proxy
             def request(self, url, method, body, headers):
@@ -67,15 +80,13 @@ def get_http_wrapper(library='httplib2'):
     elif library=='pycurl':
         # experimental: pycurl seems faster + better proxy support (NTLM) + ssl features
         try:
-            import pycurl
-            from cStringIO import StringIO
-
             class Http:
                 _wrapper_version = pycurl.version
-                def __init__(self, timeout, proxy=None):
-                    self.timeout = timeout # not used, py2.5 doesnt support timeout...
+                def __init__(self, timeout, proxy=None, cacert=None):
+                    self.timeout = timeout 
                     self.proxy = proxy or {}
-                
+                    self.cacert = cacert
+               
                 def request(self, url, method, body, headers):
                     c = pycurl.Curl()
                     c.setopt(pycurl.URL, str(url))
@@ -90,8 +101,10 @@ def get_http_wrapper(library='httplib2'):
                     #c.setopt(pycurl.READFUNCTION, self.read)
                     #self.body = StringIO(body)
                     #c.setopt(pycurl.HEADERFUNCTION, self.header)
-                    c.setopt(pycurl.SSL_VERIFYPEER, 0)
-                    c.setopt(pycurl.SSL_VERIFYHOST, 0)
+                    if self.cacert:
+                        c.setopt(c.CAINFO, str(self.cacert)) 
+                    c.setopt(pycurl.SSL_VERIFYPEER, self.cacert and 1 or 0)
+                    c.setopt(pycurl.SSL_VERIFYHOST, self.cacert and 2 or 0)
                     c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6) 
                     c.setopt(pycurl.TIMEOUT, self.timeout)
                     if method=='POST':
@@ -105,7 +118,7 @@ def get_http_wrapper(library='httplib2'):
                     ##print "pycurl perform..."
                     c.close()
                     return {}, self.buf.getvalue()
-        except ImportError:
+        except:
             Http = None
     return Http
 
@@ -141,7 +154,7 @@ class SoapClient(object):
     "Simple SOAP Client (simil PHP)"
     def __init__(self, location = None, action = None, namespace = None,
                  cert = None, trace = False, exceptions = True, proxy = None, ns=False, 
-                 soap_ns=None, wsdl = None, cache = False):
+                 soap_ns=None, wsdl = None, cache = False, cacert=None):
         self.certssl = cert             
         self.keyssl = None              
         self.location = location        # server location (url)
@@ -161,10 +174,8 @@ class SoapClient(object):
         self.services = wsdl and self.wsdl_parse(wsdl, debug=trace, cache=cache) 
         self.service_port = None                 # service port for late binding
 
-        if not proxy:
-            self.http = Http(timeout=TIMEOUT)
-        else:
-            self.http = Http(timeout=TIMEOUT, proxy=proxy)
+        # Create HTTP wrapper
+        self.http = Http(timeout=TIMEOUT, cacert=cacert, proxy=proxy)
         self.__ns = ns # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?> 
