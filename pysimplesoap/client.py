@@ -392,6 +392,8 @@ class SoapClient(object):
                 xml = f.read()
                 if cache:
                     if debug: print "Writing file %s" % (filename, )
+                    if not os.path.isdir(cache):
+                        os.makedirs(cache)
                     f = open(filename, "w")
                     f.write(xml)
                     f.close()
