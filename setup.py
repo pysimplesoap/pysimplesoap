@@ -6,7 +6,7 @@ try:
     from nsis import build_installer
 except:
     build_installer = None
-    
+
 import pysimplesoap.client
 
 setup(name='PySimpleSOAP',
