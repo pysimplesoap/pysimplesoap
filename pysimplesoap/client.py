@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03e"
+__version__ = "1.03f"
 
 TIMEOUT = 60
 
@@ -351,7 +351,7 @@ class SoapClient(object):
                 pkl = pickle.load(f)
                 f.close()
                 # sanity check:
-                if pkl['version'] != __version__ or pkl['url'] != url:
+                if pkl['version'][:-1] != __version__.split(" ")[0][:-1] or pkl['url'] != url:
                     import warnings
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning) 
                     if debug:
@@ -625,7 +625,7 @@ class SoapClient(object):
         if cache:
             f = open(filename_pkl, "wb")
             pkl = {
-                'version': __version__, 
+                'version': __version__.split(" ")[0], 
                 'url': url, 
                 'namespace': self.namespace, 
                 'documentation': self.documentation,
