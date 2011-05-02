@@ -360,7 +360,11 @@ class SimpleXMLElement(object):
                     try:
                         # get special desserialization function (if any)
                         fn = TYPE_UNMARSHAL_FN.get(fn,fn) 
-                        value = fn(unicode(node))
+                        if fn == str:
+                            # always return an unicode object:
+                            value = fn(node).decode("utf-8")
+                        else:
+                            value = fn(node)
                     except (ValueError, TypeError), e:
                         raise ValueError(u"Tag: %s: %s" % (name, unicode(e)))
                 else:
