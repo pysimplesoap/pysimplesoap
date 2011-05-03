@@ -128,7 +128,7 @@ def set_http_wrapper(library='httplib2'):
     Http = get_http_wrapper(library)
     if not Http:
         # fallback to standard library wrapper
-        Http = get_http_class('urllib2')
+        Http = get_http_wrapper('urllib2')
     return Http
 
 # define the default HTTP connection class (it can be changed at runtime!):
@@ -374,6 +374,8 @@ class SoapClient(object):
         get_local_name = lambda s: str((':' in s) and s.split(':')[1] or s)
         
         REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
+        # always return an unicode object:
+        REVERSE_TYPE_MAP[u'string'] = lambda s: unicode(s, "utf-8")
 
         def fetch(url):
             "Download a document from a URL, save it locally if cache enabled"
