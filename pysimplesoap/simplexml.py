@@ -362,9 +362,9 @@ class SimpleXMLElement(object):
                         fn = TYPE_UNMARSHAL_FN.get(fn,fn) 
                         if fn == str:
                             # always return an unicode object:
-                            value = fn(node).decode("utf-8")
+                            value = unicode(node)
                         else:
-                            value = fn(node)
+                            value = fn(unicode(node))
                     except (ValueError, TypeError), e:
                         raise ValueError(u"Tag: %s: %s" % (name, unicode(e)))
                 else:
