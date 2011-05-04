@@ -375,7 +375,7 @@ class SoapClient(object):
         
         REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
         # always return an unicode object:
-        REVERSE_TYPE_MAP[u'string'] = lambda s: unicode(s, "utf-8")
+        REVERSE_TYPE_MAP[u'string'] = unicode
 
         def fetch(url):
             "Download a document from a URL, save it locally if cache enabled"
