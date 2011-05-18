@@ -17,7 +17,7 @@ __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.03f"
 
-TIMEOUT = 60
+TIMEOUT = None
 
 import hashlib
 import os
@@ -47,7 +47,7 @@ else:
     class Httplib2Transport(httplib2.Http, TransportBase):
         _wrapper_version = "httplib2 %s" % httplib2.__version__
         _wrapper_name = 'httplib2'
-        def __init__(self, timeout, proxy=None, cacert=None):
+        def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
             ##httplib2.debuglevel=4
             kwargs = {}
             if proxy:
@@ -76,7 +76,7 @@ import urllib2
 class urllib2Transport(TransportBase):
     _wrapper_version = "urllib2 %s" % urllib2.__version__
     _wrapper_name = 'urllib2' 
-    def __init__(self, timeout=None, proxy=None, cacert=None):
+    def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
         if timeout is not None:
             raise RuntimeError('timeout is not supported with urllib2 transport')
         if proxy:
@@ -84,12 +84,18 @@ class urllib2Transport(TransportBase):
         if cacert:
             raise RuntimeError('cacert is not support with urllib2 transport')
 
+        self.request_opener = urllib2.urlopen
+        if sessions:
+            from cookielib import CookieJar
+            opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(CookieJar()))
+            self.request_opener = opener.open
+
     def request(self, url, method, body, headers):
-        f = urllib2.urlopen(urllib2.Request(url, body, headers))
+        f = self.request_opener(urllib2.Request(url, body, headers))
         return f.info(), f.read()
 
 _http_connectors['urllib2'] = urllib2Transport
-# urllib2 doesn't support any facilities.
+_http_facilities.setdefault('sessions', []).append('urllib2')
 
 #
 # pycurl support.
@@ -108,7 +114,7 @@ else:
     class pycurlTransport(TransportBase):
         _wrapper_version = pycurl.version
         _wrapper_name = 'pycurl'
-        def __init__(self, timeout, proxy=None, cacert=None):
+        def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
             self.timeout = timeout 
             self.proxy = proxy or {}
             self.cacert = cacert
@@ -213,7 +219,7 @@ class SoapClient(object):
     "Simple SOAP Client (simil PHP)"
     def __init__(self, location = None, action = None, namespace = None,
                  cert = None, trace = False, exceptions = True, proxy = None, ns=False, 
-                 soap_ns=None, wsdl = None, cache = False, cacert=None):
+                 soap_ns=None, wsdl = None, cache = False, cacert=None, sessions=False):
         self.certssl = cert             
         self.keyssl = None              
         self.location = location        # server location (url)
@@ -234,7 +240,7 @@ class SoapClient(object):
         self.service_port = None                 # service port for late binding
 
         # Create HTTP wrapper
-        self.http = Http(timeout=TIMEOUT, cacert=cacert, proxy=proxy)
+        self.http = Http(timeout=TIMEOUT, cacert=cacert, proxy=proxy, sessions=sessions)
         self.__ns = ns # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?> 
