@@ -91,7 +91,11 @@ class urllib2Transport(TransportBase):
             self.request_opener = opener.open
 
     def request(self, url, method, body, headers):
-        f = self.request_opener(urllib2.Request(url, body, headers))
+        try:
+            f = self.request_opener(urllib2.Request(url, body, headers))
+        except urllib2.HTTPError, f:
+            if f.code != 500:
+                raise
         return f.info(), f.read()
 
 _http_connectors['urllib2'] = urllib2Transport
