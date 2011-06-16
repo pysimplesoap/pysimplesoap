@@ -25,7 +25,12 @@ import time
 DEBUG = False
 
 # Functions to serialize/unserialize special immutable types:
-datetime_u = lambda s: datetime.datetime.strptime(s, "%Y-%m-%dT%H:%M:%S")
+def datetime_u(s):
+    fmt = "%Y-%m-%dT%H:%M:%S"
+    try:
+        return datetime.datetime.strptime(s, fmt)
+    except:
+	return datetime.datetime.strptime(s, fmt + ".%f")
 datetime_m = lambda dt: dt.isoformat('T')
 date_u = lambda s: datetime.datetime.strptime(s[0:10], "%Y-%m-%d").date()
 date_m = lambda d: d.strftime("%Y-%m-%d")
@@ -422,3 +427,8 @@ if __name__ == "__main__":
     assert 'b' in span1
     span.import_node(span1)
     print span.as_xml()
+    types = {'when':datetime.datetime}
+    when = datetime.datetime.now()
+    dt = SimpleXMLElement('<when>%s</when>' % when.isoformat())
+    assert dt.unmarshall(types)['when'] == when
+
