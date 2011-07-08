@@ -15,9 +15,9 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03f"
+__version__ = "1.04a"
 
-TIMEOUT = None
+TIMEOUT = 60
 
 import hashlib
 import os
@@ -53,6 +53,7 @@ else:
             if proxy:
                 import socks
                 kwargs['proxy_info'] = httplib2.ProxyInfo(proxy_type=socks.PROXY_TYPE_HTTP, **proxy)
+                print "using proxy", proxy
 
             # timeout is supported on httplib2 >= 0.3.0
             if timeout is not None:
@@ -239,12 +240,13 @@ class SoapClient(object):
         else:
             self.__soap_ns = soap_ns
         
+        # Create HTTP wrapper
+        self.http = Http(timeout=TIMEOUT, cacert=cacert, proxy=proxy, sessions=sessions)
+        
         # parse wsdl url
         self.services = wsdl and self.wsdl_parse(wsdl, debug=trace, cache=cache) 
         self.service_port = None                 # service port for late binding
-
-        # Create HTTP wrapper
-        self.http = Http(timeout=TIMEOUT, cacert=cacert, proxy=proxy, sessions=sessions)
+        
         self.__ns = ns # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?> 
@@ -458,9 +460,10 @@ class SoapClient(object):
                 xml = f.read()
                 f.close()
             else:
-                if debug: print "Fetching url %s using urllib2" % (url, )
-                f = urllib2.urlopen(url)
-                xml = f.read()
+                if debug: 
+                    print "-"*80
+                    print "GET %s using %s" % (url, self.http._wrapper_version)
+                response, xml = self.http.request(url, "GET")
                 if cache:
                     if debug: print "Writing file %s" % (filename, )
                     if not os.path.isdir(cache):
