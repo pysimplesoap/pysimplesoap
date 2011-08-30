@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03f"
+__version__ = "1.03g"
 
 TIMEOUT = 60
 
@@ -297,7 +297,8 @@ class SoapClient(object):
                 ret = OrderedDict()
                 for k in od.keys():
                     v = d.get(k)
-                    if v:
+                    # don't append null tags!
+                    if v is not None:
                         if isinstance(v, dict):
                             v = sort_dict(od[k], v)
                         elif isinstance(v, list):
