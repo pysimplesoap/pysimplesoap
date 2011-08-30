@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.02c"
+__version__ = "1.02d"
 
 import xml.dom.minidom
 from decimal import Decimal
@@ -129,7 +129,8 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
             else:
                 element = self.__document.createElementNS(self.__ns, name)
-        if text:
+        # don't append null tags!
+        if text is not None:
             if isinstance(text, unicode):
                 element.appendChild(self.__document.createTextNode(text))
             else:
