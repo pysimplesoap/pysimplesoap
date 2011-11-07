@@ -42,6 +42,7 @@ class TransportBase:
 try:
     import httplib2
 except ImportError:
+    TIMEOUT = None	# timeout not supported by urllib2
     pass
 else:
     class Httplib2Transport(httplib2.Http, TransportBase):
@@ -91,7 +92,7 @@ class urllib2Transport(TransportBase):
             opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(CookieJar()))
             self.request_opener = opener.open
 
-    def request(self, url, method, body, headers):
+    def request(self, url, method="GET", body=None, headers={}):
         try:
             f = self.request_opener(urllib2.Request(url, body, headers))
         except urllib2.HTTPError, f:
