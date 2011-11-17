@@ -220,10 +220,13 @@ class SoapClient(object):
             # merge xmlelement parameter ("raw" - already marshalled)
             for param in parameters[0].children():
                 getattr(request,method).import_node(param)
-        else:
+        elif parameters:
             # marshall parameters:
             for k,v in parameters: # dict: tag=valor
                 getattr(request,method).marshall(k,v)
+        else:
+            # JBossAS-6 requires no empty method parameters!
+            delattr(request("Body", ns=soap_namespaces.values(),), method)
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace)
