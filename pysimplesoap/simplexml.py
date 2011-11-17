@@ -149,6 +149,14 @@ class SimpleXMLElement(object):
             if DEBUG: print "__setattr__(%s,%s)" % (tag, text)
             self.add_child(tag,text)
 
+    def __delattr__(self, tag):
+        "Remove a child tag (non recursive!)"
+        elements=[__element for __element in self._element.childNodes
+                          if __element.nodeType == __element.ELEMENT_NODE
+                         ]
+        for element in elements:
+            self._element.removeChild(element)
+
     def add_comment(self, data):
         "Add an xml comment to this child"
         comment = self.__document.createComment(data)
