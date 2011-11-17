@@ -300,6 +300,7 @@ class SoapClient(object):
                 ret = OrderedDict()
                 for k in od.keys():
                     v = d.get(k)
+                    # don't append null tags!
                     if v is not None:
                         if isinstance(v, dict):
                             v = sort_dict(od[k], v)
