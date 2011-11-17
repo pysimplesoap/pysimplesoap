@@ -129,6 +129,7 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
             else:
                 element = self.__document.createElementNS(self.__ns, name)
+        # don't append null tags!
         if text is not None:
             if isinstance(text, unicode):
                 element.appendChild(self.__document.createTextNode(text))
