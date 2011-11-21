@@ -53,10 +53,12 @@ def get_http_wrapper(library='httplib2'):
                     if proxy:
                         import socks
                         kwargs['proxy_info'] = httplib2.ProxyInfo(proxy_type=socks.PROXY_TYPE_HTTP, **proxy)
-                    # timeout is supported on httplib2 >= 0.3.0
-                    kwargs['timeout'] = timeout
-                    #if self.certssl: # esto funciona para validar al server?
-                    #    self.http.add_certificate(self.keyssl, self.keyssl, self.certssl)                    
+                    # set optional parameters according supported httplib2 version
+                    if httplib2.__version__ >= '0.3.0':
+                        kwargs['timeout'] = timeout
+                    if httplib2.__version__ >= '0.7.0':
+                        kwargs['disable_ssl_certificate_validation'] = cacert is None
+                        kwargs['ca_certs'] = cacert    
                     httplib2.Http.__init__(self, **kwargs)
         except ImportError, e:
             # httplib2 is not installed at all
