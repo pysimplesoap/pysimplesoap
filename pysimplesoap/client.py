@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03g"
+__version__ = "1.03h"
 
 TIMEOUT = 60
 
@@ -473,10 +473,21 @@ class SoapClient(object):
                 if action:
                     d["action"] = action
         
+        def make_key(element_name, element_type):
+            "return a suitable key for elements"
+            # only distinguish 'element' vs other types
+            if element_type in ('complexType', 'simpleType'):
+                eltype = 'complexType'
+            else:
+                eltype = element_type
+            if eltype not in ('element', 'complexType', 'simpleType'):
+                raise RuntimeError("Unknown element type %s = %s" % (unicode(element_name), eltype))
+            return (unicode(element_name), eltype)
+        
         #TODO: cleanup element/schema/types parsing:
-        def process_element(element_name, node):
+        def process_element(element_name, node, element_type):
             "Parse and define simple element types"
-            if debug: print "Processing element", element_name
+            if debug: print "Processing element", element_name, element_type
             for tag in node:
                 if tag.get_local_name() in ("annotation", "documentation"):
                     continue
@@ -503,14 +514,15 @@ class SoapClient(object):
                     else:
                         ns, type_name = None, t[0]
                     if element_name == type_name:
-                        continue # prevent infinite recursion
+                        pass ## warning with infinite recursion
                     uri = ns and e.get_namespace_uri(ns) or xsd_uri
                     if uri==xsd_uri:
                         # look for the type, None == any
                         fn = REVERSE_TYPE_MAP.get(unicode(type_name), None)
                     else:
-                        # complex type, postprocess later
-                        fn = elements.setdefault(unicode(type_name), OrderedDict())
+                        # simple / complex type, postprocess later 
+                        fn = elements.setdefault(make_key(type_name, "complexType"), OrderedDict())
+                        
                     if e['name'] is not None and not alias:
                         e_name = unicode(e['name'])
                         d[e_name] = fn
@@ -522,8 +534,8 @@ class SoapClient(object):
                         d.array = True
                     if e is not None and e.get_local_name() == 'extension' and e.children():
                         # extend base element:
-                        process_element(element_name, e.children())
-                elements.setdefault(element_name, OrderedDict()).update(d)
+                        process_element(element_name, e.children(), element_type)
+                elements.setdefault(make_key(element_name, element_type), OrderedDict()).update(d)
 
         # check axis2 namespace at schema types attributes
         self.namespace = dict(wsdl.types("schema", ns=xsd_uri)[:]).get('targetNamespace', self.namespace) 
@@ -550,9 +562,10 @@ class SoapClient(object):
                     imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
                     preprocess_schema(imported_schema)
 
-                if element.get_local_name() in ('element', 'complexType', "simpleType"):
+                element_type = element.get_local_name()
+                if element_type in ('element', 'complexType', "simpleType"):
                     element_name = unicode(element['name'])
-                    if debug: print "Parsing Element %s: %s" % (element.get_local_name(),element_name)
+                    if debug: print "Parsing Element %s: %s" % (element_type, element_name)
                     if element.get_local_name() == 'complexType':
                         children = element.children()
                     elif element.get_local_name() == 'simpleType':
@@ -566,7 +579,7 @@ class SoapClient(object):
                         elif element.get_local_name() == 'element':
                             children = element
                     if children:
-                        process_element(element_name, children)
+                        process_element(element_name, children, element_type)
 
         def postprocess_element(elements):
             "Fix unresolved references (elements referenced before its definition, thanks .net)"
@@ -606,7 +619,7 @@ class SoapClient(object):
                 if not element_name:
                     element_name = part['type'] # some uses type instead
                 element_name = get_local_name(element_name)
-                element = {element_name: elements.get(element_name)}
+                element = {element_name: elements.get(make_key(element_name, 'element'))}
             messages[message['name']] = element
         
         for port_type in wsdl.portType:
@@ -756,16 +769,18 @@ if __name__=="__main__":
     if '--wsdl-parse' in sys.argv:
         client = SoapClient()
         # Test PySimpleSOAP WSDL
-        client.wsdl("file:C:/test.wsdl", debug=True)
+        ##client.wsdl("file:C:/test.wsdl", debug=True)
         # Test Java Axis WSDL:
-        client.wsdl('https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl',debug=True)
+        client.wsdl_parse('https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl',debug=True)
         # Test .NET 2.0 WSDL:
-        client.wsdl('https://wswhomo.afip.gov.ar/wsfe/service.asmx?WSDL',debug=True)
-        client.wsdl('https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL',debug=True)
-        client.wsdl('https://testdia.afip.gov.ar/Dia/Ws/wDigDepFiel/wDigDepFiel.asmx?WSDL',debug=True)
+        client.wsdl_parse('https://wswhomo.afip.gov.ar/wsfe/service.asmx?WSDL',debug=True)
+        client.wsdl_parse('https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL',debug=True)
+        client.wsdl_parse('https://testdia.afip.gov.ar/Dia/Ws/wDigDepFiel/wDigDepFiel.asmx?WSDL',debug=True)
+        client.services = client.wsdl_parse('https://wswhomo.afip.gov.ar/wsfexv1/service.asmx?WSDL',debug=True)
+        print client.help("FEXGetCMP")
         # Test JBoss WSDL:
-        client.wsdl('https://fwshomo.afip.gov.ar/wsctg/services/CTGService?wsdl',debug=True)
-        client.wsdl('https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl',debug=True)
+        client.wsdl_parse('https://fwshomo.afip.gov.ar/wsctg/services/CTGService?wsdl',debug=True)
+        client.wsdl_parse('https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl',debug=True)
 
     if '--wsdl-client' in sys.argv:
         import time
