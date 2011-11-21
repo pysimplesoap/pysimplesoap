@@ -23,6 +23,7 @@ import hashlib
 import os
 import cPickle as pickle
 import urllib2
+import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
 # try to import connectors
@@ -175,6 +176,15 @@ class SoapClient(object):
         # parse wsdl url
         self.services = wsdl and self.wsdl_parse(wsdl, debug=trace, cache=cache) 
         self.service_port = None                 # service port for late binding
+
+        # check if the Certification Authority Cert is a string and store it
+        if cacert and cacert.startswith("-----BEGIN CERTIFICATE-----"):
+            f = tempfile.NamedTemporaryFile(delete=False)
+            if self.trace: print "Saving CA certificate to ", f.name
+            f.write(cacert)
+            cacert = f.name
+            f.close()
+        self.cacert = cacert
 
         # Create HTTP wrapper
         self.http = Http(timeout=TIMEOUT, cacert=cacert, proxy=proxy)
@@ -656,6 +666,14 @@ class SoapClient(object):
             f.close()
         
         return services
+
+    def close(self):
+        "Finish the connection and remove temp files"
+        self.http.close()
+        if self.cacert.startswith(tempfile.gettempdir()):
+            if self.trace: print "removing", self.cacert
+            os.unlink(self.cacert)
+            
 
 def parse_proxy(proxy_str):
     "Parses proxy address user:pass@host:port into a dict suitable for httplib2"
