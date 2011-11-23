@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.04a"
+__version__ = "1.04b"
 
 TIMEOUT = 60
 
@@ -231,7 +231,7 @@ class SoapClient(object):
         if not self.services: # not using WSDL?
             return lambda self=self, *args, **kwargs: self.call(attr,*args,**kwargs)
         else: # using WSDL:
-            return lambda self=self, *args, **kwargs: self.wsdl_call(attr,*args,**kwargs)
+            return lambda *args, **kwargs: self.wsdl_call(attr,*args,**kwargs)
         
     def call(self, method, *args, **kwargs):
         "Prepare xml request and make SOAP call, returning a SimpleXMLElement"                
@@ -350,6 +350,10 @@ class SoapClient(object):
         # construct header and parameters
         if header:
             self.__call_headers = sort_dict(header, self.__headers)
+        if input and args:
+            # convert positional parameters to named parameters:
+            d = [(k, arg) for k, arg in zip(input.values()[0].keys(), args)]
+            kwargs.update(dict(d))
         if input and kwargs:
             params = sort_dict(input.values()[0], kwargs).items()
             method = input.keys()[0]
