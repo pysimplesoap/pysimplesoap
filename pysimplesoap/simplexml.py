@@ -188,8 +188,16 @@ class SimpleXMLElement(object):
 
     def get_namespace_uri(self, ns):
         "Return the namespace uri for a prefix"
-        v = self.__document.documentElement.attributes['xmlns:%s' % ns]
-        return v.value
+        element = self._element
+        while element is not None:
+            try:
+                return element.attributes['xmlns:%s' % ns].value
+            except KeyError:
+                element = element.parentNode
+                assert element is not None
+        assert False, "Failed to find namespace '%s'!" % ns
+
+
 
     def attributes(self):
         "Return a dict of attributes for this tag"
