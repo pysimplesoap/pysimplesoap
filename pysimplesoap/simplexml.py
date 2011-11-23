@@ -363,7 +363,8 @@ class SimpleXMLElement(object):
                     # if not strict, use default type conversion
                     fn = unicode
             if isinstance(fn,list):
-                value = []
+                # append to existing list (if any) - unnested dict arrays -
+                value = d.setdefault(name, [])
                 children = node.children()
                 for child in children and children() or []:
                     value.append(child.unmarshall(fn[0], strict))
