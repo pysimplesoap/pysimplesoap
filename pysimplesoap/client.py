@@ -142,6 +142,17 @@ class SoapFault(RuntimeError):
     def __init__(self,faultcode,faultstring):
         self.faultcode = faultcode
         self.faultstring = faultstring
+        RuntimeError.__init__(self, faultcode, faultstring)
+
+    def __str__(self):
+        return self.__unicode__().encode("ascii", "ignore")
+
+    def __unicode__(self):
+        return u'%s: %s' % (self.faultcode, self.faultstring)
+
+    def __repr__(self):
+        return u"SoapFault(%s, %s)" % (repr(self.faultcode), 
+                                       repr(self.faultstring))
 
 
 # soap protocol specification & namespace
