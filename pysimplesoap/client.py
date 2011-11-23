@@ -686,6 +686,16 @@ class SoapClient(object):
                 messages[(message['name'], part['name'])] = element
         print messages
 
+        def get_message(message_name, part_name):
+            if part_name:
+                # get the specific part of the message:
+                return messages.get((message_name, part_name))
+            else:
+                # get the first part for the specified message:
+                for (message_name_key, part_name_key), message in messages.items():
+                    if message_name_key == message_name:
+                        return message
+                
         for port_type in wsdl.portType:
             port_type_name = port_type['name']
             if debug: print "Processing port type", port_type_name
@@ -700,9 +710,9 @@ class SoapClient(object):
                     input = get_local_name(operation.input['message'])
                     output = get_local_name(operation.output['message'])
                     header = get_local_name(op['parts'].get('input_header'))
-                    op['input'] = messages.get((input, op['parts'].get('input_body') or "parameters"))
-                    op['output'] = messages.get((output, op['parts'].get('output_body') or "parameters"))
-                    op['header'] = messages.get((input, op['parts'].get('input_header')))
+                    op['input'] = get_message(input, op['parts'].get('input_body'))
+                    op['output'] = get_message(output, op['parts'].get('output_body'))
+                    op['header'] = get_message(input, op['parts'].get('input_header'))
                     print op
 
         if debug:
