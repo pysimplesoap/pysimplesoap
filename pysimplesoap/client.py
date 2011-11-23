@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03h"
+__version__ = "1.04a"
 
 TIMEOUT = 60
 
@@ -404,7 +404,7 @@ class SoapClient(object):
         xsd_uri="http://www.w3.org/2001/XMLSchema"
         xsi_uri="http://www.w3.org/2001/XMLSchema-instance"
         
-        get_local_name = lambda s: str((':' in s) and s.split(':')[1] or s)
+        get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
         
         REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
         # always return an unicode object:
@@ -496,14 +496,15 @@ class SoapClient(object):
                 d = operations.setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
                 d.update({'name': op_name})
-                try:
-                    d['parts'] = {}
-                    d['parts']['input_body'] = operation.input('body', ns=soap_uris.values())['parts']
-                    d['parts']['output_body'] = operation.output('body', ns=soap_uris.values())['parts']
-                    d['parts']['input_header'] = operation.input('header', ns=soap_uris.values())['part']
-                    d['parts']['output_header'] = operation.output('header', ns=soap_uris.values())['part']
-                except AttributeError:
-                    pass
+                d['parts'] = {}
+                body = operation.input('body', ns=soap_uris.values(), error=False)
+                d['parts']['input_body'] = body and body['parts'] or None
+                body = operation.output('body', ns=soap_uris.values(), error=False)
+                d['parts']['output_body'] = body and body['parts'] or None
+                header = operation.input('header', ns=soap_uris.values(), error=False)
+                d['parts']['input_header'] = header and header['part'] or None
+                headers = operation.output('header', ns=soap_uris.values(), error=False)
+                d['parts']['output_header'] = header and header['part'] or None
                 #if action: #TODO: separe operation_binding from operation
                 if action:
                     d["action"] = action
@@ -655,6 +656,7 @@ class SoapClient(object):
                 element_name = get_local_name(element_name)
                 element = {element_name: elements.get(make_key(element_name, 'element'))}
                 messages[(message['name'], part['name'])] = element
+        print messages
 
         for port_type in wsdl.portType:
             port_type_name = port_type['name']
@@ -670,9 +672,9 @@ class SoapClient(object):
                     input = get_local_name(operation.input['message'])
                     output = get_local_name(operation.output['message'])
                     header = get_local_name(op['parts'].get('input_header'))
-                    op['input'] = messages[(input, op['parts']['input_body'])]
-                    op['output'] = messages[(output, op['parts']['output_body'])]
-                    op['header'] = messages[(input, op['parts']['input_header'])]
+                    op['input'] = messages.get((input, op['parts'].get('input_body') or "parameters"))
+                    op['output'] = messages.get((output, op['parts'].get('output_body') or "parameters"))
+                    op['header'] = messages.get((input, op['parts'].get('input_header')))
                     print op
 
         if debug:
