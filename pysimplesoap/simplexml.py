@@ -381,18 +381,25 @@ class SimpleXMLElement(object):
             d[name] = value
         return d
 
-    def marshall(self, name, value, add_child=True, add_comments=False, ns=False):
+    def marshall(self, name, value, add_child=True, add_comments=False, 
+                 ns=False, add_children_ns=True):
         "Analize python value and add the serialized XML element using tag name"
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
             child = add_child and self.add_child(name,ns=ns) or self
             for k,v in value.items():
+                if not add_children_ns:
+                    ns = False
                 child.marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, tuple):  # serialize tuple (<key>value</key>)
             child = add_child and self.add_child(name,ns=ns) or self
+            if not add_children_ns:
+                ns = False
             for k,v in value:
                 getattr(self,name).marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, list): # serialize lists
             child=self.add_child(name,ns=ns)
+            if not add_children_ns:
+                ns = False
             if add_comments:
                 child.add_comment("Repetitive array of:")
             for t in value:
