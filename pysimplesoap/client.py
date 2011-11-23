@@ -169,7 +169,9 @@ class SoapClient(object):
     "Simple SOAP Client (simil PHP)"
     def __init__(self, location = None, action = None, namespace = None,
                  cert = None, trace = False, exceptions = True, proxy = None, ns=False, 
-                 soap_ns=None, wsdl = None, cache = False, cacert=None):
+                 soap_ns=None, wsdl = None, cache = False, cacert=None,
+                 soap_server=None,
+                 ):
         self.certssl = cert             
         self.keyssl = None              
         self.location = location        # server location (url)
@@ -184,6 +186,9 @@ class SoapClient(object):
             self.__soap_ns = 'soapenv' # 1.2
         else:
             self.__soap_ns = soap_ns
+        
+        # SOAP Server (special cases like oracle or jbossas6)
+        self.__soap_server = soap_server
         
         # SOAP Header support
         self.__headers = {}         # general headers
@@ -253,7 +258,7 @@ class SoapClient(object):
             # marshall parameters:
             for k,v in parameters: # dict: tag=valor
                 getattr(request,method).marshall(k,v)
-        else:
+        elif not self.__soap_server in ('oracle', ) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=soap_namespaces.values(),), method)
         if self.__call_headers:
