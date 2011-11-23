@@ -23,6 +23,7 @@ import hashlib
 import os
 import cPickle as pickle
 import urllib2
+from urlparse import urlparse
 import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
@@ -423,6 +424,22 @@ class SoapClient(object):
 
         def fetch(url):
             "Download a document from a URL, save it locally if cache enabled"
+            
+            # check / append a valid schema if not given:
+            o = urlparse(url)
+            if not o.scheme in ('http','https', 'file'):
+                for scheme in ('http','https', 'file'):
+                    try:
+                        if not url.startswith("/") and scheme in ('http', 'https'):
+                            tmp_url = "%s://%s" % (scheme, url)
+                        else:
+                            tmp_url = "%s:%s" % (scheme, url)
+                        if debug: print "Scheme not found, trying %s" % scheme
+                        return fetch(tmp_url)
+                    except Exception, e:
+                        if debug: print e
+                raise RuntimeError("No scheme given for url: %s" % url)
+
             # make md5 hash of the url for caching... 
             filename = "%s.xml" % hashlib.md5(url).hexdigest()
             if isinstance(cache, basestring):
@@ -444,7 +461,7 @@ class SoapClient(object):
                     f.write(xml)
                     f.close()
             return xml
-            
+        
         # Open uri and read xml:
         xml = fetch(url)
         # Parse WSDL XML:
