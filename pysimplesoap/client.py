@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.04b"
+__version__ = "1.04c"
 
 TIMEOUT = 60
 
@@ -261,11 +261,14 @@ class SoapClient(object):
         elif not self.__soap_server in ('oracle', ) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=soap_namespaces.values(),), method)
+        # construct header and parameters (if not wsdl given)
+        if self.__headers and not self.services:
+            self.__call_headers = self.__headers
         if self.__call_headers:
             header = request('Header' , ns=soap_namespaces.values(),)
             for k, v in self.__call_headers.items():
-                if not self.__ns:
-                    header['xmlns']
+                ##if not self.__ns:
+                ##    header['xmlns']
                 header.marshall(k, v, ns=self.__ns, add_children_ns=False)
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
