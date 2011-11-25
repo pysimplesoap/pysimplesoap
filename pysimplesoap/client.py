@@ -263,8 +263,8 @@ class SoapClient(object):
             delattr(request("Body", ns=soap_namespaces.values(),), method)
         # construct header and parameters (if not wsdl given) except wsse
         if self.__headers and not self.services:
-            self.__call_headers = dict([(k, v) for k, v in self.__headers
-                                        if k.startswith("wsse:")])
+            self.__call_headers = dict([(k, v) for k, v in self.__headers.items()
+                                        if not k.startswith("wsse:")])
         # always extract WS Security header and send it
         if 'wsse:Security' in self.__headers:
             #TODO: namespaces too hardwired, clean-up...
