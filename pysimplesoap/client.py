@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.04d"
+__version__ = "1.04e"
 
 TIMEOUT = 60
 
@@ -261,9 +261,19 @@ class SoapClient(object):
         elif not self.__soap_server in ('oracle', ) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=soap_namespaces.values(),), method)
-        # construct header and parameters (if not wsdl given)
+        # construct header and parameters (if not wsdl given) except wsse
         if self.__headers and not self.services:
-            self.__call_headers = self.__headers
+            self.__call_headers = dict([(k, v) for k, v in self.__headers
+                                        if k.startswith("wsse:")])
+        # always extract WS Security header and send it
+        if 'wsse:Security' in self.__headers:
+            #TODO: namespaces too hardwired, clean-up...
+            header = request('Header' , ns=soap_namespaces.values(),)
+            k = 'wsse:Security'
+            v = self.__headers[k]
+            header.marshall(k, v, ns=False, add_children_ns=False)
+            header(k)['xmlns:wsse'] = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
+            #<wsse:UsernameToken xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'> 
         if self.__call_headers:
             header = request('Header' , ns=soap_namespaces.values(),)
             for k, v in self.__call_headers.items():
