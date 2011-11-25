@@ -25,7 +25,23 @@ import time
 DEBUG = False
 
 # Functions to serialize/unserialize special immutable types:
-datetime_u = lambda s: datetime.datetime.strptime(s, "%Y-%m-%dT%H:%M:%S")
+def datetime_u(s):
+    fmt = "%Y-%m-%dT%H:%M:%S"
+    try:
+        return datetime.datetime.strptime(s, fmt)
+    except ValueError:
+        try:
+            # strip utc offset
+            if s[-3] == ":" and s[-6] in (' ', '-', '+'):
+                s = s[:-6]
+            # parse microseconds
+            return datetime.datetime.strptime(s, fmt + ".%f")
+        except ValueError:
+            # strip microseconds (not supported in this platform)
+            if s[-4] == ".":
+                s = s[:-4]
+            return datetime.datetime.strptime(s, fmt)
+                
 datetime_m = lambda dt: dt.isoformat('T')
 date_u = lambda s: datetime.datetime.strptime(s[0:10], "%Y-%m-%d").date()
 date_m = lambda d: d.strftime("%Y-%m-%d")
@@ -432,6 +448,11 @@ class SimpleXMLElement(object):
 
 
 if __name__ == "__main__":
+    # issue 32 test case
+    assert datetime_u('2011-11-24T20:08:53') == datetime.datetime(2011, 11, 24, 20, 8, 53)
+    assert datetime_u('2011-11-24T20:08:53.000-03:00') == datetime.datetime(2011, 11, 24, 20, 8, 53)
+    
+    # sample tests:
     span = SimpleXMLElement('<span><a href="python.org.ar">pyar</a><prueba><i>1</i><float>1.5</float></prueba></span>')
     assert str(span.a)==str(span('a'))==str(span.a(0))=="pyar"
     assert span.a['href']=="python.org.ar"
