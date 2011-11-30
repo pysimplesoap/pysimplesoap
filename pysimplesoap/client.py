@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.04e"
+__version__ = "1.04f"
 
 TIMEOUT = 60
 
@@ -200,10 +200,11 @@ class SoapClient(object):
 
         # check if the Certification Authority Cert is a string and store it
         if cacert and cacert.startswith("-----BEGIN CERTIFICATE-----"):
-            f = tempfile.NamedTemporaryFile(delete=False)
-            if self.trace: print "Saving CA certificate to ", f.name
+            fd, filename = tempfile.mkstemp()
+            f = os.fdopen(fd, 'w+b', -1)
+            if self.trace: print "Saving CA certificate to ", filename
             f.write(cacert)
-            cacert = f.name
+            cacert = filename
             f.close()
         self.cacert = cacert
 
@@ -706,7 +707,6 @@ class SoapClient(object):
                 element_name = get_local_name(element_name)
                 element = {element_name: elements.get(make_key(element_name, 'element'))}
                 messages[(message['name'], part['name'])] = element
-        print messages
 
         def get_message(message_name, part_name):
             if part_name:
@@ -735,7 +735,6 @@ class SoapClient(object):
                     op['input'] = get_message(input, op['parts'].get('input_body'))
                     op['output'] = get_message(output, op['parts'].get('output_body'))
                     op['header'] = get_message(input, op['parts'].get('input_header'))
-                    print op
 
         if debug:
             import pprint
