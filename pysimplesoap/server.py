@@ -17,8 +17,10 @@ __copyright__ = "Copyright (C) 2010 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.02c"
 
+import logging
 from simplexml import SimpleXMLElement, TYPE_MAP, DateTime, Date, Decimal
 
+log = logging.getLogger(__name__)
 DEBUG = False
 
 
@@ -50,6 +52,7 @@ class SoapDispatcher(object):
         ret = fault = None
         soap_ns, soap_uri = self.soap_ns, self.soap_uri
         soap_fault_code = 'VersionMismatch'
+        name = None
 
         try:
             request = SimpleXMLElement(xml, namespace=self.namespace)
@@ -74,7 +77,7 @@ class SoapDispatcher(object):
                 name = method.get_local_name()
                 prefix = method.get_prefix()
 
-            if DEBUG: print "dispatch method", name
+            log.debug('dispatch method %s', name)
             function, returns_types, args_types, doc = self.methods[name]
         
             # de-serialize parameters (if type definitions given)
@@ -88,7 +91,7 @@ class SoapDispatcher(object):
             soap_fault_code = 'Server'
             # execute function
             ret = function(**args)
-            if DEBUG: print ret
+            log.debug('%s', ret)
 
         except Exception, e:
             import sys

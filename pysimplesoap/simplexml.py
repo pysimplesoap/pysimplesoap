@@ -17,10 +17,13 @@ __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.02c"
 
+import logging
 import xml.dom.minidom
 from decimal import Decimal
 import datetime 
 import time
+
+log = logging.getLogger(__name__)
 
 DEBUG = False
 
@@ -116,7 +119,7 @@ class SimpleXMLElement(object):
             try:
                 self.__document = xml.dom.minidom.parseString(text)
             except:
-                if DEBUG: print text
+                log.error(text)
                 raise
             self.__elements = [self.__document.documentElement]
         else:
@@ -126,10 +129,10 @@ class SimpleXMLElement(object):
     def add_child(self,name,text=None,ns=True):
         "Adding a child tag to a node"
         if not ns or not self.__ns:
-            if DEBUG: print "adding %s" % (name)
+            log.debug('adding %s', name)
             element = self.__document.createElement(name)
         else:
-            if DEBUG: print "adding %s ns %s %s" % (name, self.__ns,ns)
+            log.debug('adding %s ns "%s" %s', name, self.__ns, ns)
             if self.__prefix:
                 element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
             else:
@@ -151,7 +154,7 @@ class SimpleXMLElement(object):
         if tag.startswith("_"):
             object.__setattr__(self, tag, text)
         else:
-            if DEBUG: print "__setattr__(%s,%s)" % (tag, text)
+            log.debug('__setattr__(%s, %s)', tag, text)
             self.add_child(tag,text)
 
     def add_comment(self, data):
@@ -194,7 +197,7 @@ class SimpleXMLElement(object):
 
     def __getitem__(self, item):
         "Return xml tag attribute value or a slice of attributes (iter)"
-        if DEBUG: print "__getitem__(%s)" % item 
+        log.debug('__getitem__(%s)', item)
         if isinstance(item,basestring):
             if self._element.hasAttribute(item):
                 return self._element.attributes[item].value
@@ -238,18 +241,18 @@ class SimpleXMLElement(object):
                 elements=[self.__elements[tag]]
             if ns and not elements:
                 for ns_uri in isinstance(ns, (tuple, list)) and ns or (ns, ):
-                    if DEBUG: print "searching %s by ns=%s" % (tag,ns_uri)
+                    log.debug('searching %s by ns=%s', tag, ns_uri)
                     elements = self._element.getElementsByTagNameNS(ns_uri, tag)
                     if elements: 
                         break
             if self.__ns and not elements:
-                if DEBUG: print "searching %s by ns=%s" % (tag, self.__ns)
+                log.debug('searching %s by ns=%s', tag, self.__ns)
                 elements = self._element.getElementsByTagNameNS(self.__ns, tag)
             if not elements:
-                if DEBUG: print "searching %s " % (tag)
+                log.debug('searching %s', tag)
                 elements = self._element.getElementsByTagName(tag)
             if not elements:
-                if DEBUG: print self._element.toxml()
+                log.debug(self._element.toxml())
                 if error:
                     raise AttributeError(u"No elements found")
                 else:
