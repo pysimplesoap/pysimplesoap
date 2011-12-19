@@ -476,7 +476,7 @@ class SoapClient(object):
                 if debug:
                     print "-"*80
                     print "GET %s using %s" % (url, self.http._wrapper_version)
-                response, xml = self.http.request(url, "GET")
+                response, xml = self.http.request(url, "GET", None, {})
                 if cache:
                     if debug: print "Writing file %s" % (filename, )
                     if not os.path.isdir(cache):
@@ -882,6 +882,8 @@ if __name__=="__main__":
             proxy = parse_proxy("localhost:8000")
         else:
             proxy = None
+        if '--wrapper' in sys.argv:
+            set_http_wrapper("pycurl")
         client = SoapClient(proxy=proxy)
         # Test PySimpleSOAP WSDL
         ##client.wsdl("file:C:/test.wsdl", debug=True)
