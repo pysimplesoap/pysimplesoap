@@ -880,6 +880,8 @@ if __name__=="__main__":
     if '--wsdl-parse' in sys.argv:
         if '--proxy' in sys.argv:
             proxy = parse_proxy("localhost:8000")
+        else:
+            proxy = None
         client = SoapClient(proxy=proxy)
         # Test PySimpleSOAP WSDL
         ##client.wsdl("file:C:/test.wsdl", debug=True)
