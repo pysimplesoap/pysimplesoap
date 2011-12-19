@@ -413,25 +413,3 @@ class SimpleXMLElement(object):
         x = self.__document.importNode(other._element, True)  # deep copy
         self._element.appendChild(x)
 
-
-if __name__ == "__main__":
-    span = SimpleXMLElement('<span><a href="python.org.ar">pyar</a><prueba><i>1</i><float>1.5</float></prueba></span>')
-    assert str(span.a)==str(span('a'))==str(span.a(0))=="pyar"
-    assert span.a['href']=="python.org.ar"
-    assert int(span.prueba.i)==1 and float(span.prueba.float)==1.5
-    span1 = SimpleXMLElement('<span><a href="google.com">google</a><a>yahoo</a><a>hotmail</a></span>')
-    assert [str(a) for a in span1.a()] == ['google', 'yahoo', 'hotmail']
-    span1.add_child('a','altavista')
-    span1.b = "ex msn"
-    d = {'href':'http://www.bing.com/', 'alt': 'Bing'} 
-    span1.b[:] = d
-    assert sorted([(k,v) for k,v in span1.b[:]]) == sorted(d.items())
-    print span1.as_xml()
-    assert 'b' in span1
-    span.import_node(span1)
-    print span.as_xml()
-    types = {'when':datetime.datetime}
-    when = datetime.datetime.now()
-    dt = SimpleXMLElement('<when>%s</when>' % when.isoformat())
-    assert dt.unmarshall(types)['when'] == when
-
