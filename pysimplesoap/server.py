@@ -382,48 +382,10 @@ if __name__=="__main__":
 
         wsdl=dispatcher.wsdl()
         print wsdl
-        open("C:/test.wsdl","w").write(wsdl)
-        # dummy local test (clasic soap dialect)
-        xml = """<?xml version="1.0" encoding="UTF-8"?> 
-    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-       <soap:Body>
-         <Adder xmlns="http://example.com/sample.wsdl">
-           <p><a>1</a><b>2</b></p><c><d>5000000.1</d><d>.2</d></c><dt>20100724</dt>
-        </Adder>
-       </soap:Body>
-    </soap:Envelope>"""
-
-        print dispatcher.dispatch(xml)
-
-        # dummy local test (modern soap dialect, SoapUI)
-        xml = """
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pys="http://example.com/pysimplesoapsamle/">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <pys:Adder>
-         <pys:p><pys:a>9</pys:a><pys:b>3</pys:b></pys:p>
-         <pys:dt>19690720<!--1969-07-20T21:28:00--></pys:dt>
-         <pys:c><pys:d>10.001</pys:d><pys:d>5.02</pys:d></pys:c>
-      </pys:Adder>
-   </soapenv:Body>
-</soapenv:Envelope>
-    """
-        print dispatcher.dispatch(xml)
-
-        # echo local test (generic soap service)
-        xml = """<?xml version="1.0" encoding="UTF-8"?> 
-    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-       <soap:Body>
-         <Echo xmlns="http://example.com/sample.wsdl">
-           <value xsi:type="xsd:string">Hello world</value>
-        </Echo>
-       </soap:Body>
-    </soap:Envelope>"""
-
-        print dispatcher.dispatch(xml)
-
+        
+        # Commented because path is platform dependent
+        # Looks that it doesnt matter.
+        # open("C:/test.wsdl","w").write(wsdl) 
 
         for method, doc in dispatcher.list_methods():
             request, response, doc = dispatcher.help(method)
