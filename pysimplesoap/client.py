@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.04f"
+__version__ = "1.04g"
 
 TIMEOUT = 60
 
@@ -194,10 +194,6 @@ class SoapClient(object):
         self.__headers = {}         # general headers
         self.__call_headers = None  # OrderedDict to be marshalled for RPC Call
         
-        # parse wsdl url
-        self.services = wsdl and self.wsdl_parse(wsdl, debug=trace, cache=cache) 
-        self.service_port = None                 # service port for late binding
-
         # check if the Certification Authority Cert is a string and store it
         if cacert and cacert.startswith("-----BEGIN CERTIFICATE-----"):
             fd, filename = tempfile.mkstemp()
@@ -231,6 +227,10 @@ class SoapClient(object):
     </%(ns)s:%(method)s>
 </%(soap_ns)s:Body>
 </%(soap_ns)s:Envelope>"""
+
+        # parse wsdl url
+        self.services = wsdl and self.wsdl_parse(wsdl, debug=trace, cache=cache) 
+        self.service_port = None                 # service port for late binding
 
     def __getattr__(self, attr):
         "Return a pseudo-method that can be called"
@@ -473,9 +473,10 @@ class SoapClient(object):
                 xml = f.read()
                 f.close()
             else:
-                if debug: print "Fetching url %s using urllib2" % (url, )
-                f = urllib2.urlopen(url)
-                xml = f.read()
+                if debug:
+                    print "-"*80
+                    print "GET %s using %s" % (url, self.http._wrapper_version)
+                response, xml = self.http.request(url, "GET")
                 if cache:
                     if debug: print "Writing file %s" % (filename, )
                     if not os.path.isdir(cache):
@@ -877,7 +878,9 @@ if __name__=="__main__":
         print feriadosXML
 
     if '--wsdl-parse' in sys.argv:
-        client = SoapClient()
+        if '--proxy' in sys.argv:
+            proxy = parse_proxy("localhost:8000")
+        client = SoapClient(proxy=proxy)
         # Test PySimpleSOAP WSDL
         ##client.wsdl("file:C:/test.wsdl", debug=True)
         # Test Java Axis WSDL:
