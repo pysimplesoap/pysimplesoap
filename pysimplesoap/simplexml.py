@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.02c"
+__version__ = "1.02d"
 
 import logging
 import xml.dom.minidom
@@ -32,8 +32,19 @@ def datetime_u(s):
     fmt = "%Y-%m-%dT%H:%M:%S"
     try:
         return datetime.datetime.strptime(s, fmt)
-    except:
-	return datetime.datetime.strptime(s, fmt + ".%f")
+    except ValueError:
+        try:
+            # strip utc offset
+            if s[-3] == ":" and s[-6] in (' ', '-', '+'):
+                s = s[:-6]
+            # parse microseconds
+            return datetime.datetime.strptime(s, fmt + ".%f")
+        except ValueError:
+            # strip microseconds (not supported in this platform)
+            if s[-4] == ".":
+                s = s[:-4]
+            return datetime.datetime.strptime(s, fmt)
+                
 datetime_m = lambda dt: dt.isoformat('T')
 date_u = lambda s: datetime.datetime.strptime(s[0:10], "%Y-%m-%d").date()
 date_m = lambda d: d.strftime("%Y-%m-%d")
@@ -137,7 +148,8 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
             else:
                 element = self.__document.createElementNS(self.__ns, name)
-        if text:
+        # don't append null tags!
+        if text is not None:
             if isinstance(text, unicode):
                 element.appendChild(self.__document.createTextNode(text))
             else:
@@ -156,6 +168,14 @@ class SimpleXMLElement(object):
         else:
             log.debug('__setattr__(%s, %s)', tag, text)
             self.add_child(tag,text)
+
+    def __delattr__(self, tag):
+        "Remove a child tag (non recursive!)"
+        elements=[__element for __element in self._element.childNodes
+                          if __element.nodeType == __element.ELEMENT_NODE
+                         ]
+        for element in elements:
+            self._element.removeChild(element)
 
     def add_comment(self, data):
         "Add an xml comment to this child"
@@ -187,8 +207,16 @@ class SimpleXMLElement(object):
 
     def get_namespace_uri(self, ns):
         "Return the namespace uri for a prefix"
-        v = self.__document.documentElement.attributes['xmlns:%s' % ns]
-        return v.value
+        element = self._element
+        while element is not None:
+            try:
+                return element.attributes['xmlns:%s' % ns].value
+            except KeyError:
+                element = element.parentNode
+                assert element is not None
+        assert False, "Failed to find namespace '%s'!" % ns
+
+
 
     def attributes(self):
         "Return a dict of attributes for this tag"
@@ -354,7 +382,8 @@ class SimpleXMLElement(object):
                     # if not strict, use default type conversion
                     fn = unicode
             if isinstance(fn,list):
-                value = []
+                # append to existing list (if any) - unnested dict arrays -
+                value = d.setdefault(name, [])
                 children = node.children()
                 for child in children and children() or []:
                     value.append(child.unmarshall(fn[0], strict))
@@ -380,18 +409,25 @@ class SimpleXMLElement(object):
             d[name] = value
         return d
 
-    def marshall(self, name, value, add_child=True, add_comments=False, ns=False):
+    def marshall(self, name, value, add_child=True, add_comments=False, 
+                 ns=False, add_children_ns=True):
         "Analize python value and add the serialized XML element using tag name"
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
             child = add_child and self.add_child(name,ns=ns) or self
             for k,v in value.items():
+                if not add_children_ns:
+                    ns = False
                 child.marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, tuple):  # serialize tuple (<key>value</key>)
             child = add_child and self.add_child(name,ns=ns) or self
+            if not add_children_ns:
+                ns = False
             for k,v in value:
                 getattr(self,name).marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, list): # serialize lists
             child=self.add_child(name,ns=ns)
+            if not add_children_ns:
+                ns = False
             if add_comments:
                 child.add_comment("Repetitive array of:")
             for t in value:
