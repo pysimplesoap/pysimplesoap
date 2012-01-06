@@ -26,6 +26,10 @@ import urllib2
 from urlparse import urlparse
 import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
+import logging
+
+log = logging.getLogger(__name__)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 #
 # We store metadata about what available transport mechanisms we have available.
@@ -269,7 +273,7 @@ class SoapClient(object):
         if cacert and cacert.startswith("-----BEGIN CERTIFICATE-----"):
             fd, filename = tempfile.mkstemp()
             f = os.fdopen(fd, 'w+b', -1)
-            if self.trace: print "Saving CA certificate to ", filename
+            if self.trace: log.info(u"Saving CA certificate to %s" % filename)
             f.write(cacert)
             cacert = filename
             f.close()
@@ -377,6 +381,7 @@ class SoapClient(object):
                 'Content-length': str(len(xml)),
                 "SOAPAction": "\"%s\"" % (soap_action)
                 }
+        log.info("POST %s" % location)
         if self.trace:
             print "-"*80
             print "POST %s" % location
@@ -387,7 +392,6 @@ class SoapClient(object):
         self.response = response
         self.content = content
         if self.trace: 
-            print 
             print '\n'.join(["%s: %s" % (k,v) for k,v in response.items()])
             print content#.decode("utf8","ignore")
             print "="*80
@@ -486,7 +490,7 @@ class SoapClient(object):
     def wsdl_parse(self, url, debug=False, cache=False):
         "Parse Web Service Description v1.1"
 
-        if debug: print "wsdl url: %s" % url
+        log.debug("wsdl url: %s" % url)
         # Try to load a previously parsed wsdl:
         force_download = False
         if cache:
@@ -495,7 +499,7 @@ class SoapClient(object):
             if isinstance(cache, basestring):
                 filename_pkl = os.path.join(cache, filename_pkl) 
             if os.path.exists(filename_pkl):
-                if debug: print "Unpickle file %s" % (filename_pkl, )
+                log.debug("Unpickle file %s" % (filename_pkl, ))
                 f = open(filename_pkl, "r")
                 pkl = pickle.load(f)
                 f.close()
@@ -504,8 +508,8 @@ class SoapClient(object):
                     import warnings
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning) 
                     if debug:
-                        print 'Version:', pkl['version'], __version__
-                        print 'URL:', pkl['url'], url
+                        log.debug('Version: %s %s' % (pkl['version'], __version__))
+                        log.debug('URL: %s %s' % (pkl['url'], url))
                     force_download = True
                 else:
                     self.namespace = pkl['namespace']
@@ -539,10 +543,10 @@ class SoapClient(object):
                             tmp_url = "%s://%s" % (scheme, url)
                         else:
                             tmp_url = "%s:%s" % (scheme, url)
-                        if debug: print "Scheme not found, trying %s" % scheme
+                        if debug: log.debug("Scheme not found, trying %s" % scheme)
                         return fetch(tmp_url)
                     except Exception, e:
-                        if debug: print e
+                        log.error(e)
                 raise RuntimeError("No scheme given for url: %s" % url)
 
             # make md5 hash of the url for caching... 
@@ -550,17 +554,15 @@ class SoapClient(object):
             if isinstance(cache, basestring):
                 filename = os.path.join(cache, filename) 
             if cache and os.path.exists(filename) and not force_download:
-                if debug: print "Reading file %s" % (filename, )
+                log.info("Reading file %s" % (filename, ))
                 f = open(filename, "r")
                 xml = f.read()
                 f.close()
             else:
-                if debug:
-                    print "-"*80
-                    print "GET %s using %s" % (url, self.http._wrapper_version)
+                log.info("GET %s using %s" % (url, self.http._wrapper_version))
                 response, xml = self.http.request(url, "GET", None, {})
                 if cache:
-                    if debug: print "Writing file %s" % (filename, )
+                    log.info("Writing file %s" % (filename, ))
                     if not os.path.isdir(cache):
                         os.makedirs(cache)
                     f = open(filename, "w")
@@ -597,7 +599,7 @@ class SoapClient(object):
             service_name=service['name']
             if not service_name:
                 continue # empty service?
-            if debug: print "Processing service", service_name
+            if debug: log.debug("Processing service %s" % service_name)
             serv = services.setdefault(service_name, {'ports': {}})
             serv['documentation']=service['documentation'] or ''
             for port in service.port:
@@ -614,7 +616,7 @@ class SoapClient(object):
              
         for binding in wsdl.binding:
             binding_name = binding['name']
-            if debug: print "Processing binding", service_name
+            if debug: log.debug("Processing binding %s" % service_name)
             soap_binding = binding('binding', ns=soap_uris.values(), error=False)
             transport = soap_binding and soap_binding['transport'] or None
             port_type_name = get_local_name(binding['type'])
@@ -657,19 +659,20 @@ class SoapClient(object):
         #TODO: cleanup element/schema/types parsing:
         def process_element(element_name, node, element_type):
             "Parse and define simple element types"
-            if debug: print "Processing element", element_name, element_type
+            if debug: 
+                log.debug("Processing element %s %s" % (element_name, element_type))
             for tag in node:
                 if tag.get_local_name() in ("annotation", "documentation"):
                     continue
                 elif tag.get_local_name() in ('element', 'restriction'):
-                    if debug: print element_name,"has not children!",tag
+                    if debug: log.debug("%s has not children! %s" % (element_name,tag))
                     children = tag # element "alias"?
                     alias = True
                 elif tag.children():
                     children = tag.children()
                     alias = False
                 else:
-                    if debug: print element_name,"has not children!",tag
+                    if debug: log.debug("%s has not children! %s" % (element_name,tag))
                     continue #TODO: abstract?
                 d = OrderedDict()                    
                 for e in children:
@@ -697,7 +700,7 @@ class SoapClient(object):
                         e_name = unicode(e['name'])
                         d[e_name] = fn
                     else:
-                        if debug: print "complexConent/simpleType/element", element_name, "=", type_name
+                        if debug: log.debug("complexConent/simpleType/element %s = %s" % (element_name, type_name))
                         d[None] = fn
                     if e['maxOccurs']=="unbounded":
                         # it's an array... TODO: compound arrays?
@@ -719,10 +722,10 @@ class SoapClient(object):
                     schema_namespace = element['namespace']
                     schema_location = element['schemaLocation']
                     if schema_location is None:
-                        if debug: print "Schema location not provided for %s!" % (schema_namespace, )
+                        if debug: log.debug("Schema location not provided for %s!" % (schema_namespace, ))
                         continue
                     if schema_location in imported_schemas:
-                        if debug: print "Schema %s already imported!" % (schema_location, )
+                        if debug: log.debug("Schema %s already imported!" % (schema_location, ))
                         continue
                     imported_schemas[schema_location] = schema_namespace
                     if debug: print "Importing schema %s from %s" % (schema_namespace, schema_location)
@@ -735,7 +738,7 @@ class SoapClient(object):
                 element_type = element.get_local_name()
                 if element_type in ('element', 'complexType', "simpleType"):
                     element_name = unicode(element['name'])
-                    if debug: print "Parsing Element %s: %s" % (element_type, element_name)
+                    if debug: log.debug("Parsing Element %s: %s" % (element_type, element_name))
                     if element.get_local_name() == 'complexType':
                         children = element.children()
                     elif element.get_local_name() == 'simpleType':
@@ -766,7 +769,7 @@ class SoapClient(object):
                                 elements[k].insert(kk, v[None][kk], i)
                             del v[None]
                         else:  # "alias", just replace
-                            if debug: print "Replacing ", k , " = ", v[None]
+                            if debug: log.debug("Replacing %s = %s" % (k, v[None]))
                             elements[k] = v[None]
                             #break
                 if isinstance(v, list):
@@ -781,7 +784,7 @@ class SoapClient(object):
         postprocess_element(elements)
 
         for message in wsdl.message:
-            if debug: print "Processing message", message['name']
+            if debug: log.debug("Processing message %s" % message['name'])
             for part in message('part', error=False) or []:
                 element = {}
                 element_name = part['element']
@@ -819,7 +822,7 @@ class SoapClient(object):
                 
         for port_type in wsdl.portType:
             port_type_name = port_type['name']
-            if debug: print "Processing port type", port_type_name
+            if debug: log.debug("Processing port type %s" % port_type_name)
             binding = port_type_bindings[port_type_name]
 
             for operation in port_type.operation:
@@ -837,7 +840,7 @@ class SoapClient(object):
 
         if debug:
             import pprint
-            pprint.pprint(services)
+            log.debug(pprint.pformat(services))
         
         # Save parsed wsdl (cache)
         if cache:
@@ -862,7 +865,7 @@ class SoapClient(object):
         "Finish the connection and remove temp files"
         self.http.close()
         if self.cacert.startswith(tempfile.gettempdir()):
-            if self.trace: print "removing", self.cacert
+            if self.trace: log.info("removing %s" % self.cacert)
             os.unlink(self.cacert)
             
 
