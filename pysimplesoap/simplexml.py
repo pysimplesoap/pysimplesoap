@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.02d"
+__version__ = "1.03a"
 
 import logging
 import xml.dom.minidom
@@ -254,9 +254,18 @@ class SimpleXMLElement(object):
             for k, v in value.items():
                 self.add_attribute(k, v)
 
-    def __call__(self, tag=None, ns=None, children=False, error=True):
+    def __call__(self, tag=None, ns=None, children=False, root=False,
+                 error=True, ):
         "Search (even in child nodes) and return a child tag by name"
         try:
+            if root:
+                # return entire document
+                return SimpleXMLElement(
+                    elements=[self.__document.documentElement],
+                    document=self.__document,
+                    namespace=self.__ns,
+                    prefix=self.__prefix
+                )
             if tag is None:
                 # if no name given, iterate over siblings (same level)
                 return self.__iter__()
@@ -373,10 +382,21 @@ class SimpleXMLElement(object):
         d = {}
         for node in self():
             name = str(node.get_local_name())
+            ref_name_type = None
+            # handle multirefs: href="#id0"
+            if 'href' in node.attributes().keys():
+                href = node['href'][1:]
+                for ref_node in self(root=True)("multiRef"):
+                    if ref_node['id'] == href:
+                        node = ref_node
+                        ref_name_type = ref_node['xsi:type'].split(":")[1]
+                        break
             try:
                 fn = types[name]
             except (KeyError, ), e:
-                if strict:
+                if node.get_namespace_uri("soapenc"):
+                    fn = None # ignore multirefs!
+                elif strict:
                     raise TypeError(u"Tag: %s invalid (type not found)" % (name,))
                 else:
                     # if not strict, use default type conversion
@@ -388,6 +408,8 @@ class SimpleXMLElement(object):
                 for child in children and children() or []:
                     value.append(child.unmarshall(fn[0], strict))
             elif isinstance(fn,dict):
+                if ref_name_type is not None:
+                    fn = fn[ref_name_type]
                 children = node.children()
                 value = children and children.unmarshall(fn, strict)
             else:
