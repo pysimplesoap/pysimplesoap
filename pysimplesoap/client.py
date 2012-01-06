@@ -451,7 +451,12 @@ class SoapClient(object):
             kwargs.update(dict(d))
         if input and kwargs:
             params = sort_dict(input.values()[0], kwargs).items()
-            method = input.keys()[0]
+            if self.__soap_server == "axis":
+                # use the operation name
+                method = method
+            else:
+                # use the message (element) name
+                method = input.keys()[0]
         #elif not input:
             #TODO: no message! (see wsmtxca.dummy) 
         else:
