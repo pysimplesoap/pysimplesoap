@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.04g"
+__version__ = "1.05a"
 
 TIMEOUT = 60
 
@@ -516,6 +516,7 @@ class SoapClient(object):
         xsi_uri="http://www.w3.org/2001/XMLSchema-instance"
         
         get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
+        get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
         
         REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
         # always return an unicode object:
@@ -780,10 +781,26 @@ class SoapClient(object):
                 element = {}
                 element_name = part['element']
                 if not element_name:
-                    element_name = part['type'] # some uses type instead
-                element_name = get_local_name(element_name)
-                element = {element_name: elements.get(make_key(element_name, 'element'))}
-                messages[(message['name'], part['name'])] = element
+                    # some implementations (axis) uses type instead
+                    element_name = part['type']
+                type_ns = get_namespace_prefix(element_name)
+                type_uri = wsdl.get_namespace_uri(type_ns)
+                if type_uri == xsd_uri:
+                    element_name = get_local_name(element_name)
+                    fn = REVERSE_TYPE_MAP.get(unicode(element_name), None)
+                    element = {part['name']: fn}
+                    # emulate a true Element (complexType)
+                    messages.setdefault((message['name'], None), {message['name']: OrderedDict()}).values()[0].update(element)
+                else:
+                    element_name = get_local_name(element_name)
+                    fn = elements.get(make_key(element_name, 'element'))
+                    if not fn:
+                        # some axis servers uses complexType for part messages
+                        fn = elements.get(make_key(element_name, 'complexType'))
+                        element = {message['name']: {part['name']: {element_name: fn}}}
+                    else:
+                        element = {element_name: fn}
+                    messages[(message['name'], part['name'])] = element
 
         def get_message(message_name, part_name):
             if part_name:
@@ -1063,4 +1080,4 @@ if __name__=="__main__":
         for k, v in results.items():
             for k2, v2 in v.items():
                 print k, k2, v2
-      
+
