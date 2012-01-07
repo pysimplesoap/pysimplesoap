@@ -205,6 +205,13 @@ def set_http_wrapper(library=None, features=[]):
     Http = get_http_wrapper(library, features)
     return Http
 
+
+def get_Http():
+    "Return current transport class"
+    global Http
+    return Http
+
+    
 # define the default HTTP connection class (it can be changed at runtime!):
 set_http_wrapper()
 
