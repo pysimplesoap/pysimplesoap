@@ -18,12 +18,10 @@ class TestIssues(unittest.TestCase):
         client.services['MetDataService']['ports']['MetDataServicePort']['operations']['getValidLanguages']['output'] = {'getValidLanguagesResponse': output}
 
         lang = client.getValidLanguages()
-        print lang
-        #TODO: fix Array
-        ##self.assertEqual(lang, {'return': {'item': u'no'},{'item': u'en'}, {'item': u'ny'}})
 
-    def test_issue35(self):
-        "Test positional parameters, multiRefs and axis messages"
+        self.assertEqual(lang, {'return': [{'item': u'no'},{'item': u'en'}, {'item': u'ny'}]})
+
+    def test_issue35_raw(self):    
 
         url = 'http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue'
         client = SoapClient(location=url,action="", trace=False)
@@ -37,6 +35,9 @@ class TestIssues(unittest.TestCase):
         for result in response.results:
             print str(result)
 
+    def test_issue35_wsdl(self):
+        "Test positional parameters, multiRefs and axis messages"
+    
         url = 'http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue?WSDL'
         client = SoapClient(wsdl=url,trace=False, soap_server="axis")
         response = client.doEnsembleURIQuery(queryFormat="Xpath", queryString="/markovChain", startIndex=0, maxResults=-1)
