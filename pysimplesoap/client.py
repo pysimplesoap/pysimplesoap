@@ -26,7 +26,7 @@ import urllib2
 from urlparse import urlparse
 import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
-from transport import get_http_wrapper, set_http_wrapper
+from transport import get_http_wrapper, set_http_wrapper, get_Http
 import logging
 
 log = logging.getLogger(__name__)
@@ -99,6 +99,7 @@ class SoapClient(object):
         self.cacert = cacert
 
         # Create HTTP wrapper
+        Http = get_Http()
         self.http = Http(timeout=TIMEOUT, cacert=cacert, proxy=proxy, sessions=sessions)
         
         # parse wsdl url
@@ -707,4 +708,10 @@ def parse_proxy(proxy_str):
     return proxy_dict
     
     
+if __name__ == "__main__":
+    client = SoapClient(wsdl="http://eklima.met.no/metdata/MetDataService?WSDL", soap_server="oracle", trace=True, cache="cache")
+    print client.help("getValidLanguages")
+
+    lang = client.getValidLanguages()
+    print lang
 
