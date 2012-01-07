@@ -296,12 +296,16 @@ class SoapClient(object):
         operation = self.get_operation(method)
         input = operation['input']
         input = input and input.values() and input.values()[0]
+        if isinstance(input, dict):
+            input = ", ".join("%s=%s" % (k,repr(v)) for k,v 
+                                 in input.items())
+        elif isinstance(input, list):
+            input = repr(input)
         output = operation['output'].values()[0]
         headers = operation.get('headers') or None
         return u"%s(%s)\n -> %s:\n\n%s\nHeaders: %s" % (
             method, 
-            input and ", ".join("%s=%s" % (k,repr(v)) for k,v 
-                                 in input.items()) or "",
+            input or "",
             output and output or "",
             operation.get("documentation",""),
             headers,
