@@ -633,7 +633,7 @@ class SoapClient(object):
                     if not fn:
                         # some axis servers uses complexType for part messages
                         fn = elements.get(make_key(element_name, 'complexType'))
-                        element = {message['name']: {part['name']: {element_name: fn}}}
+                        element = {message['name']: {part['name']: fn}}
                     else:
                         element = {element_name: fn}
                     messages[(message['name'], part['name'])] = element
