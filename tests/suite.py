@@ -20,7 +20,7 @@ def test():
     add(suite, simplexmlelement_test)
     add(suite, issues_tests)
     add(suite, afip_tests)
-    #add(suite, licencias_tests)
+    add(suite, licencias_tests)
     add(suite, trazamed_tests)
     
     unittest.TextTestRunner(verbosity=2).run(suite)
