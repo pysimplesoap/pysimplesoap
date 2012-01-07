@@ -717,15 +717,6 @@ def parse_proxy(proxy_str):
     
     
 if __name__ == "__main__":
-    client = SoapClient(wsdl="http://eklima.met.no/metdata/MetDataService?WSDL", soap_server="oracle", trace=True, cache=None)
-    print client.help("getStationsProperties")
-    print client.help("getValidLanguages")
-
-    # fix bad wsdl: server returns "getValidLanguagesResponse" instead of "getValidLanguages12Response"
-    output = client.services['MetDataService']['ports']['MetDataServicePort']['operations']['getValidLanguages']['output']['getValidLanguages12Response']
-    client.services['MetDataService']['ports']['MetDataServicePort']['operations']['getValidLanguages']['output'] = {'getValidLanguagesResponse': output}
-
-    lang = client.getValidLanguages()
-    print lang
+    pass
 
 

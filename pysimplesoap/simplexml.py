@@ -410,8 +410,8 @@ class SimpleXMLElement(object):
                 for child in children and children() or []:
                     value.append(child.unmarshall(fn[0], strict))
             elif isinstance(fn,dict):
-                if ref_name_type is not None:
-                    fn = fn[ref_name_type]
+                ##if ref_name_type is not None:
+                ##    fn = fn[ref_name_type]
                 children = node.children()
                 value = children and children.unmarshall(fn, strict)
             else:
