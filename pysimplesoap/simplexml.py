@@ -24,6 +24,7 @@ import datetime
 import time
 
 log = logging.getLogger(__name__)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
 
 DEBUG = False
 
