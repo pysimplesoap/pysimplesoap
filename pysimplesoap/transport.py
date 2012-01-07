@@ -167,6 +167,20 @@ else:
     _http_facilities.setdefault('cacert', []).append('pycurl')
     _http_facilities.setdefault('timeout', []).append('pycurl')
 
+
+class DummyTransport:
+    "Testing class to load a xml response"
+    
+    def __init__(self, xml_response):
+        self.xml_response = xml_response
+        
+    def request(self, location, method, body, headers):
+        print method, location
+        print headers
+        print body
+        return {}, self.xml_response
+
+
 def get_http_wrapper(library=None, features=[]):
     # If we are asked for a specific library, return it.
     if library is not None:
