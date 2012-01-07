@@ -30,7 +30,7 @@ from transport import get_http_wrapper, set_http_wrapper, get_Http
 import logging
 
 log = logging.getLogger(__name__)
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
 
 
 class SoapFault(RuntimeError):
@@ -378,8 +378,13 @@ class SoapClient(object):
                 xml = f.read()
                 f.close()
             else:
-                log.info("GET %s using %s" % (url, self.http._wrapper_version))
-                response, xml = self.http.request(url, "GET", None, {})
+                if o.scheme == 'file':
+                    log.info("Fetching url %s using urllib2" % (url, ))
+                    f = urllib2.urlopen(url)
+                    xml = f.read()
+                else:
+                    log.info("GET %s using %s" % (url, self.http._wrapper_version))
+                    response, xml = self.http.request(url, "GET", None, {})
                 if cache:
                     log.info("Writing file %s" % (filename, ))
                     if not os.path.isdir(cache):
