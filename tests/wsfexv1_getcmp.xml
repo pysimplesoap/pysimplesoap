@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <soap:Body>
+    <FEXGetCMPResponse xmlns="http://ar.gov.afip.dif.fexv1/">
+      <FEXGetCMPResult>
+        <FEXResultGet>
+          <Id>300000000022</Id>
+          <Fecha_cbte>20111122</Fecha_cbte>
+          <Cbte_tipo>19</Cbte_tipo>
+          <Punto_vta>3</Punto_vta>
+          <Cbte_nro>38</Cbte_nro>
+          <Tipo_expo>1</Tipo_expo>
+          <Permiso_existente>N</Permiso_existente>
+          <Dst_cmp>212</Dst_cmp>
+          <Cliente>EXTERIOR - EEUU</Cliente>
+          <Cuit_pais_cliente>51600002124</Cuit_pais_cliente>
+          <Domicilio_cliente>x - (0000) - a - EEUU</Domicilio_cliente>
+          <Id_impositivo/>
+          <Moneda_Id>PES</Moneda_Id>
+          <Moneda_ctz>1</Moneda_ctz>
+          <Obs_comerciales/>
+          <Imp_total>130.21</Imp_total>
+          <Obs/>
+          <Forma_pago>CONTADO C/ENTREGA MERCADERIA</Forma_pago>
+          <Incoterms>CIF</Incoterms>
+          <Incoterms_Ds>0</Incoterms_Ds>
+          <Idioma_cbte>1</Idioma_cbte>
+          <Items>
+            <Item>
+              <Pro_codigo>002</Pro_codigo>
+              <Pro_ds>PINZA AMPEROMETRICA</Pro_ds>
+              <Pro_qty>1</Pro_qty>
+              <Pro_umed>7</Pro_umed>
+              <Pro_precio_uni>130.21</Pro_precio_uni>
+              <Pro_bonificacion>0</Pro_bonificacion>
+              <Pro_total_item>130.21</Pro_total_item>
+            </Item>
+          </Items>
+          <Fch_venc_Cae>20111202</Fch_venc_Cae>
+          <Cae>61473001385110</Cae>
+          <Resultado>A</Resultado>
+          <Motivos_Obs/>
+        </FEXResultGet>
+        <FEXErr>
+          <ErrCode>0</ErrCode>
+          <ErrMsg>OK</ErrMsg>
+        </FEXErr>
+        <FEXEvents>
+          <EventCode>0</EventCode>
+        </FEXEvents>
+      </FEXGetCMPResult>
+    </FEXGetCMPResponse>
+  </soap:Body>
+</soap:Envelope>
