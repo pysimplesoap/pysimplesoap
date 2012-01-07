@@ -25,7 +25,7 @@ import cPickle as pickle
 import urllib2
 from urlparse import urlparse
 import tempfile
-from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
+from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from transport import get_http_wrapper, set_http_wrapper, get_Http
 import logging
 
@@ -347,7 +347,6 @@ class SoapClient(object):
         get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
         get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
         
-        REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
         # always return an unicode object:
         REVERSE_TYPE_MAP[u'string'] = unicode
 
@@ -522,7 +521,7 @@ class SoapClient(object):
                     else:
                         if debug: log.debug("complexConent/simpleType/element %s = %s" % (element_name, type_name))
                         d[None] = fn
-                    if e['maxOccurs']=="unbounded":
+                    if e['maxOccurs']=="unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
                         # it's an array... TODO: compound arrays?
                         d.array = True
                     if e is not None and e.get_local_name() == 'extension' and e.children():
@@ -709,10 +708,15 @@ def parse_proxy(proxy_str):
     
     
 if __name__ == "__main__":
-    client = SoapClient(wsdl="http://eklima.met.no/metdata/MetDataService?WSDL", soap_server="oracle", trace=True, cache="cache")
+    client = SoapClient(wsdl="http://eklima.met.no/metdata/MetDataService?WSDL", soap_server="oracle", trace=True, cache=None)
     print client.help("getStationsProperties")
     print client.help("getValidLanguages")
 
+    # fix bad wsdl: server returns "getValidLanguagesResponse" instead of "getValidLanguages12Response"
+    output = client.services['MetDataService']['ports']['MetDataServicePort']['operations']['getValidLanguages']['output']['getValidLanguages12Response']
+    client.services['MetDataService']['ports']['MetDataServicePort']['operations']['getValidLanguages']['output'] = {'getValidLanguagesResponse': output}
+
     lang = client.getValidLanguages()
     print lang
+
 
