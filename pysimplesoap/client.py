@@ -294,8 +294,8 @@ class SoapClient(object):
     def help(self, method):
         "Return operation documentation and invocation/returned value example"
         operation = self.get_operation(method)
-        input = operation['input'].values()
-        input = input and input[0]
+        input = operation['input']
+        input = input and input.values() and input.values()[0]
         output = operation['output'].values()[0]
         headers = operation.get('headers') or None
         return u"%s(%s)\n -> %s:\n\n%s\nHeaders: %s" % (
@@ -710,6 +710,7 @@ def parse_proxy(proxy_str):
     
 if __name__ == "__main__":
     client = SoapClient(wsdl="http://eklima.met.no/metdata/MetDataService?WSDL", soap_server="oracle", trace=True, cache="cache")
+    print client.help("getStationsProperties")
     print client.help("getValidLanguages")
 
     lang = client.getValidLanguages()
