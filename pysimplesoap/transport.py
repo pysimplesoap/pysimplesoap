@@ -27,7 +27,7 @@ from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 import logging
 
 log = logging.getLogger(__name__)
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
 
 #
 # We store metadata about what available transport mechanisms we have available.
