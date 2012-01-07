@@ -82,6 +82,7 @@ TYPE_UNMARSHAL_FN = {datetime.datetime:datetime_u, datetime.date:date_u,
                      bool:bool_u, str:unicode,
             }
 
+REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
 
 class OrderedDict(dict):
     "Minimal ordered dictionary for xsd:sequences"
@@ -210,7 +211,7 @@ class SimpleXMLElement(object):
         element = self._element
         while element is not None:
             try:
-                return element.attributes['xmlns:%s' % ns].value
+                return element.attributes and element.attributes['xmlns:%s' % ns].value
             except KeyError:
                 element = element.parentNode
                 assert element is not None
@@ -396,6 +397,9 @@ class SimpleXMLElement(object):
             except (KeyError, ), e:
                 if node.get_namespace_uri("soapenc"):
                     fn = None # ignore multirefs!
+                elif 'xsi:type' in node.attributes().keys():
+                    xsd_type = node['xsi:type'].split(":")[1]
+                    fn = REVERSE_TYPE_MAP[xsd_type]
                 elif strict:
                     raise TypeError(u"Tag: %s invalid (type not found)" % (name,))
                 else:
