@@ -84,7 +84,8 @@ class urllib2Transport(TransportBase):
     _wrapper_version = "urllib2 %s" % urllib2.__version__
     _wrapper_name = 'urllib2' 
     def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
-        if timeout is not None:
+        import sys
+        if (timeout is not None) and not self.supports_feature('timeout'):
             raise RuntimeError('timeout is not supported with urllib2 transport')
         if proxy:
             raise RuntimeError('proxy is not supported with urllib2 transport')
@@ -96,10 +97,13 @@ class urllib2Transport(TransportBase):
             from cookielib import CookieJar
             opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(CookieJar()))
             self.request_opener = opener.open
+            
+        self._timeout = timeout
 
     def request(self, url, method="GET", body=None, headers={}):
+        req = urllib2.Request(url, body, headers)
         try:
-            f = self.request_opener(urllib2.Request(url, body, headers))
+            f = self.request_opener(req, timeout=self._timeout)
         except urllib2.HTTPError, f:
             if f.code != 500:
                 raise
@@ -107,6 +111,11 @@ class urllib2Transport(TransportBase):
 
 _http_connectors['urllib2'] = urllib2Transport
 _http_facilities.setdefault('sessions', []).append('urllib2')
+
+import sys
+if sys.version_info >= (2,6):
+    _http_facilities.setdefault('timeout', []).append('urllib2')
+del sys
 
 #
 # pycurl support.
