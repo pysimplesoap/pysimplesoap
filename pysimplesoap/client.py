@@ -143,12 +143,23 @@ class SoapClient(object):
             return lambda *args, **kwargs: self.wsdl_call(attr,*args,**kwargs)
         
     def call(self, method, *args, **kwargs):
-        "Prepare xml request and make SOAP call, returning a SimpleXMLElement"                
+        """Prepare xml request and make SOAP call, returning a SimpleXMLElement.
+        
+        If a keyword argument called "headers" is passed with a value of a
+        SimpleXMLElement object, then these headers will be inserted into the
+        request.
+        """               
         #TODO: method != input_message
         # Basic SOAP request:
         xml = self.__xml % dict(method=method, namespace=self.namespace, ns=self.__ns,
                                 soap_ns=self.__soap_ns, soap_uri=soap_namespaces[self.__soap_ns])
         request = SimpleXMLElement(xml,namespace=self.__ns and self.namespace, prefix=self.__ns)
+        
+        try:
+            request_headers = kwargs.pop('headers')
+        except KeyError:
+            request_headers = None
+        
         # serialize parameters
         if kwargs:
             parameters = kwargs.items()
@@ -165,6 +176,7 @@ class SoapClient(object):
         elif not self.__soap_server in ('oracle', ) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=soap_namespaces.values(),), method)
+            
         # construct header and parameters (if not wsdl given) except wsse
         if self.__headers and not self.services:
             self.__call_headers = dict([(k, v) for k, v in self.__headers.items()
@@ -184,6 +196,12 @@ class SoapClient(object):
                 ##if not self.__ns:
                 ##    header['xmlns']
                 header.marshall(k, v, ns=self.__ns, add_children_ns=False)
+                
+        if request_headers:
+            header = request('Header' , ns=soap_namespaces.values(),)
+            for subheader in request_headers.children():
+                header.import_node(subheader)
+                
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace)
@@ -689,7 +707,7 @@ class SoapClient(object):
         return services
 
     def __setitem__(self, item, value):
-        "Set SOAP Header value"
+        "Set SOAP Header value - this header will be sent for every request."
         self.__headers[item] = value
 
     def close(self):
