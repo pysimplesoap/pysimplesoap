@@ -23,6 +23,8 @@ from decimal import Decimal
 import datetime 
 import time
 
+import warnings
+
 log = logging.getLogger(__name__)
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
 
@@ -37,13 +39,15 @@ def datetime_u(s):
         try:
             # strip utc offset
             if s[-3] == ":" and s[-6] in (' ', '-', '+'):
+                warnings.warn('removing unsupported UTC offset', RuntimeWarning) 
                 s = s[:-6]
             # parse microseconds
             return datetime.datetime.strptime(s, fmt + ".%f")
         except ValueError:
             # strip microseconds (not supported in this platform)
-            if s[-4] == ".":
-                s = s[:-4]
+            if "." in s:
+                warnings.warn('removing unsuppported microseconds', RuntimeWarning) 
+                s = s[:s.index(".")]
             return datetime.datetime.strptime(s, fmt)
                 
 datetime_m = lambda dt: dt.isoformat('T')
