@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.05a"
+__version__ = "1.05c"
 
 TIMEOUT = 60
 
@@ -233,6 +233,7 @@ class SoapClient(object):
         self.response = response
         self.content = content
         if self.trace: 
+            print 
             print '\n'.join(["%s: %s" % (k,v) for k,v in response.items()])
             print content#.decode("utf8","ignore")
             print "="*80
@@ -315,14 +316,16 @@ class SoapClient(object):
     def help(self, method):
         "Return operation documentation and invocation/returned value example"
         operation = self.get_operation(method)
-        input = operation['input']
+        input = operation.get('input')
         input = input and input.values() and input.values()[0]
         if isinstance(input, dict):
             input = ", ".join("%s=%s" % (k,repr(v)) for k,v 
                                  in input.items())
         elif isinstance(input, list):
             input = repr(input)
-        output = operation['output'].values()[0]
+        output = operation.get('output')
+        if output:
+            output = operation['output'].values()[0]
         headers = operation.get('headers') or None
         return u"%s(%s)\n -> %s:\n\n%s\nHeaders: %s" % (
             method, 
@@ -476,19 +479,23 @@ class SoapClient(object):
             port_type_bindings[port_type_name] = bindings[binding_name]
             for operation in binding.operation:
                 op_name = operation['name']
+                print "operation", op_name
                 op = operation('operation',ns=soap_uris.values(), error=False)
                 action = op and op['soapAction']
                 d = operations.setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
                 d.update({'name': op_name})
                 d['parts'] = {}
-                body = operation.input('body', ns=soap_uris.values(), error=False)
+                # input and/or ouput can be not present!
+                input = operation('input', error=False)
+                body = input and input('body', ns=soap_uris.values(), error=False)
                 d['parts']['input_body'] = body and body['parts'] or None
-                body = operation.output('body', ns=soap_uris.values(), error=False)
+                output = operation('output', error=False)
+                body = output and output('body', ns=soap_uris.values(), error=False)
                 d['parts']['output_body'] = body and body['parts'] or None
-                header = operation.input('header', ns=soap_uris.values(), error=False)
+                header = input and input('header', ns=soap_uris.values(), error=False)
                 d['parts']['input_header'] = header and header['part'] or None
-                headers = operation.output('header', ns=soap_uris.values(), error=False)
+                headers = output and output('header', ns=soap_uris.values(), error=False)
                 d['parts']['output_header'] = header and header['part'] or None
                 #if action: #TODO: separe operation_binding from operation
                 if action:
@@ -680,12 +687,19 @@ class SoapClient(object):
                 op['documentation'] = unicode(operation('documentation', error=False) or '')
                 if binding['soap_ver']: 
                     #TODO: separe operation_binding from operation (non SOAP?)
-                    input = get_local_name(operation.input['message'])
-                    output = get_local_name(operation.output['message'])
-                    header = get_local_name(op['parts'].get('input_header'))
-                    op['input'] = get_message(input, op['parts'].get('input_body'))
-                    op['output'] = get_message(output, op['parts'].get('output_body'))
-                    op['header'] = get_message(input, op['parts'].get('input_header'))
+                    if operation("input", error=False):
+                        input = get_local_name(operation.input['message'])
+                        header = get_local_name(op['parts'].get('input_header'))
+                        op['input'] = get_message(input, op['parts'].get('input_body'))
+                        op['header'] = get_message(input, op['parts'].get('input_header'))
+                    else:
+                        op['input'] = None
+                        op['header'] = None
+                    if operation("output", error=False):
+                        output = get_local_name(operation.output['message'])
+                        op['output'] = get_message(output, op['parts'].get('output_body'))
+                    else:
+                        op['output'] = None
 
         if debug:
             import pprint

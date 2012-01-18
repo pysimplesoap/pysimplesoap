@@ -75,6 +75,17 @@ class TestIssues(unittest.TestCase):
     ##    client = SoapClient(wsdl=WSDL, ns="web", trace=True)
     ##    print client.help("ProcessTrack")
 
+    def test_issue43(self):
+        from pysimplesoap.client import SoapClient
+
+        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc",trace=False)
+
+        print client.help("Login")
+        print client.help("Logout")
+        print client.help("Query")
+        print client.help("Metadata")
+        print client.help("Execute")
+
         
 if __name__ == '__main__':
     test_issue35()
