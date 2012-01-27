@@ -1,5 +1,5 @@
 import unittest
-from pysimplesoap.client import SoapClient, SoapFault
+from pysimplesoap.client import SoapClient, SoapFault, SimpleXMLElement
 
 class TestIssues(unittest.TestCase):
 
@@ -86,7 +86,29 @@ class TestIssues(unittest.TestCase):
         print client.help("Metadata")
         print client.help("Execute")
 
+    def test_issue46(self):
+        "Example for sending an arbitrary header using SimpleXMLElement"
         
+        # fake connection (just to test xml_request):
+        client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=True)
+
+        # Using WSDL, the equivalent is:
+        # client['MyTestHeader'] = {'username': 'test', 'password': 'test'}
+
+        headers = SimpleXMLElement("<Headers/>")
+        my_test_header = headers.add_child("MyTestHeader")
+        my_test_header['xmlns'] = "service"
+        my_test_header.marshall('username', 'test')
+        my_test_header.marshall('password', 'password')
+
+        try:
+            client.methodname(headers=headers)
+        except:
+            open("issue46.xml", "wb").write(client.xml_request)
+            self.assert_("""<soap:Header><MyTestHeader xmlns="service"><username>test</username><password>password</password></MyTestHeader></soap:Header>""" in client.xml_request,
+                        "header not in request!")
+
+
 if __name__ == '__main__':
     test_issue35()
     unittest.main()
