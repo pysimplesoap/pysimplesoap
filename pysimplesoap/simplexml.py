@@ -58,7 +58,7 @@ time_m = lambda d: d.strftime("%H%M%S")
 bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
 
 # aliases:
-class Alias():
+class Alias(object):
     def __init__(self, py_type, xml_type):
         self.py_type, self.xml_type = py_type, xml_type
     def __call__(self, value):
