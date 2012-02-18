@@ -23,7 +23,7 @@ import hashlib
 import os
 import cPickle as pickle
 import urllib2
-from urlparse import urlparse
+from urlparse import urlsplit
 import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from transport import get_http_wrapper, set_http_wrapper, get_Http
@@ -99,7 +99,10 @@ class SoapClient(object):
             f.close()
         self.cacert = cacert
         
-        timeout = TIMEOUT if timeout is _USE_GLOBAL_DEFAULT else timeout
+	if timeout is _USE_GLOBAL_DEFAULT:
+		timeout = TIMEOUT
+	else:
+		timeout = timeout
 
         # Create HTTP wrapper
         Http = get_Http()
@@ -382,8 +385,8 @@ class SoapClient(object):
             "Download a document from a URL, save it locally if cache enabled"
             
             # check / append a valid schema if not given:
-            o = urlparse(url)
-            if not o.scheme in ('http','https', 'file'):
+            url_scheme, netloc, path, query, fragment = urlsplit(url)
+            if not url_scheme in ('http','https', 'file'):
                 for scheme in ('http','https', 'file'):
                     try:
                         if not url.startswith("/") and scheme in ('http', 'https'):
@@ -406,7 +409,7 @@ class SoapClient(object):
                 xml = f.read()
                 f.close()
             else:
-                if o.scheme == 'file':
+                if url_scheme == 'file':
                     log.info("Fetching url %s using urllib2" % (url, ))
                     f = urllib2.urlopen(url)
                     xml = f.read()
