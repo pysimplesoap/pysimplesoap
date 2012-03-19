@@ -46,7 +46,7 @@ class TransportBase:
 try:
     import httplib2
 except ImportError:
-    TIMEOUT = None	# timeout not supported by urllib2
+    TIMEOUT = None # timeout not supported by urllib2
     pass
 else:
     class Httplib2Transport(httplib2.Http, TransportBase):

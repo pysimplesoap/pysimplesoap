@@ -34,7 +34,7 @@ DEBUG = False
 def datetime_u(s):
     fmt = "%Y-%m-%dT%H:%M:%S"
     try:
-        return datetime.datetime.strptime(s, fmt)
+        return time.strptime(s, fmt)
     except ValueError:
         try:
             # strip utc offset
@@ -42,18 +42,21 @@ def datetime_u(s):
                 warnings.warn('removing unsupported UTC offset', RuntimeWarning) 
                 s = s[:-6]
             # parse microseconds
-            return datetime.datetime.strptime(s, fmt + ".%f")
+            try:
+                return time.strptime(s, fmt + ".%f")
+            except:
+                return time.strptime(s, fmt)
         except ValueError:
             # strip microseconds (not supported in this platform)
             if "." in s:
                 warnings.warn('removing unsuppported microseconds', RuntimeWarning) 
                 s = s[:s.index(".")]
-            return datetime.datetime.strptime(s, fmt)
+            return time.strptime(s, fmt)
                 
 datetime_m = lambda dt: dt.isoformat('T')
-date_u = lambda s: datetime.datetime.strptime(s[0:10], "%Y-%m-%d").date()
+date_u = lambda s: time.strptime(s[0:10], "%Y-%m-%d").date()
 date_m = lambda d: d.strftime("%Y-%m-%d")
-time_u = lambda s: datetime.datetime.strptime(s, "%H:%M:%S").time()
+time_u = lambda s: time.strptime(s, "%H:%M:%S").time()
 time_m = lambda d: d.strftime("%H%M%S")
 bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
 
@@ -293,7 +296,7 @@ class SimpleXMLElement(object):
                 log.debug('searching %s', tag)
                 elements = self._element.getElementsByTagName(tag)
             if not elements:
-                log.debug(self._element.toxml())
+                #log.debug(self._element.toxml())
                 if error:
                     raise AttributeError(u"No elements found")
                 else:
