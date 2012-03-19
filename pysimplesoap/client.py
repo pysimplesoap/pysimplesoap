@@ -99,10 +99,10 @@ class SoapClient(object):
             f.close()
         self.cacert = cacert
         
-	if timeout is _USE_GLOBAL_DEFAULT:
-		timeout = TIMEOUT
-	else:
-		timeout = timeout
+        if timeout is _USE_GLOBAL_DEFAULT:
+            timeout = TIMEOUT
+        else:
+            timeout = timeout
 
         # Create HTTP wrapper
         Http = get_Http()
