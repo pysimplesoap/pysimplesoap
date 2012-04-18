@@ -11,7 +11,8 @@ def test():
     from tests import simplexmlelement_test
     from tests import issues_tests
     from tests import afip_tests
-    from tests import licencias_tests
+    # licencias_tests is for internal use, wsdl is not published
+    ##from tests import licencias_tests
     from tests import trazamed_tests
 
     suite = unittest.TestSuite()
@@ -20,7 +21,7 @@ def test():
     add(suite, simplexmlelement_test)
     add(suite, issues_tests)
     add(suite, afip_tests)
-    add(suite, licencias_tests)
+    ##add(suite, licencias_tests)
     add(suite, trazamed_tests)
     
     unittest.TextTestRunner(verbosity=2).run(suite)
