@@ -108,8 +108,24 @@ class TestIssues(unittest.TestCase):
             self.assert_("""<soap:Header><MyTestHeader xmlns="service"><username>test</username><password>password</password></MyTestHeader></soap:Header>""" in client.xml_request,
                         "header not in request!")
 
+    def test_issue66(self):
+        """Verify marshaled requests can be sent with no children"""
+        # fake connection (just to test xml_request):
+        client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=True)
+
+        request = SimpleXMLElement("<ChildlessRequest/>")
+        try:
+            client.call('ChildlessRequest', request)
+        except:
+            open("issue66.xml", "wb").write(client.xml_request)
+            self.assert_("""<ChildlessRequest""" in client.xml_request,
+                        "<ChildlessRequest not in request!")
+            self.assert_("""</ChildlessRequest>""" in client.xml_request,
+                        "</ChildlessRequest> not in request!")
+
 
 if __name__ == '__main__':
-    test_issue35()
-    unittest.main()
-    
+    #unittest.main()
+    suite = unittest.TestSuite()
+    suite.addTest(TestIssues('test_issue66'))
+    unittest.TextTestRunner().run(suite)
