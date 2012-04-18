@@ -107,11 +107,7 @@ class SoapClient(object):
         # Create HTTP wrapper
         Http = get_Http()
         self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
-        
-        # parse wsdl url
-        self.services = wsdl and self.wsdl_parse(wsdl, debug=trace, cache=cache) 
-        self.service_port = None                 # service port for late binding
-        
+                
         self.__ns = ns # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?> 
