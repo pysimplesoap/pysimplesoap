@@ -107,11 +107,7 @@ class SoapClient(object):
         # Create HTTP wrapper
         Http = get_Http()
         self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
-        
-        # parse wsdl url
-        self.services = wsdl and self.wsdl_parse(wsdl, debug=trace, cache=cache) 
-        self.service_port = None                 # service port for late binding
-        
+                
         self.__ns = ns # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?> 
@@ -576,7 +572,7 @@ class SoapClient(object):
 
         def preprocess_schema(schema):
             "Find schema elements and complex types"
-            for element in schema.children():
+            for element in schema.children() or []:
                 if element.get_local_name() in ('import', ):
                     schema_namespace = element['namespace']
                     schema_location = element['schemaLocation']
@@ -625,7 +621,8 @@ class SoapClient(object):
                         if isinstance(v[None], dict):
                             for i, kk in enumerate(v[None]):
                                 # extend base -keep orginal order-
-                                elements[k].insert(kk, v[None][kk], i)
+                                if v[None] is not None:
+                                    elements[k].insert(kk, v[None][kk], i)
                             del v[None]
                         else:  # "alias", just replace
                             if debug: log.debug("Replacing %s = %s" % (k, v[None]))
