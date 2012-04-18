@@ -166,8 +166,9 @@ class SoapClient(object):
             parameters = args
         if parameters and isinstance(parameters[0], SimpleXMLElement):
             # merge xmlelement parameter ("raw" - already marshalled)
-            for param in parameters[0].children():
-                getattr(request,method).import_node(param)
+            if parameters[0].children() is not None:
+                for param in parameters[0].children():
+                    getattr(request,method).import_node(param)
         elif parameters:
             # marshall parameters:
             for k,v in parameters: # dict: tag=valor
