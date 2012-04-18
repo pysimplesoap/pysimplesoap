@@ -576,7 +576,7 @@ class SoapClient(object):
 
         def preprocess_schema(schema):
             "Find schema elements and complex types"
-            for element in schema.children():
+            for element in schema.children() or []:
                 if element.get_local_name() in ('import', ):
                     schema_namespace = element['namespace']
                     schema_location = element['schemaLocation']
@@ -625,7 +625,8 @@ class SoapClient(object):
                         if isinstance(v[None], dict):
                             for i, kk in enumerate(v[None]):
                                 # extend base -keep orginal order-
-                                elements[k].insert(kk, v[None][kk], i)
+                                if v[None] is not None:
+                                    elements[k].insert(kk, v[None][kk], i)
                             del v[None]
                         else:  # "alias", just replace
                             if debug: log.debug("Replacing %s = %s" % (k, v[None]))
