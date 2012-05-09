@@ -34,7 +34,7 @@ class SoapDispatcher(object):
                  namespace=None, prefix=False, 
                  soap_uri="http://schemas.xmlsoap.org/soap/envelope/", 
                  soap_ns='soap',
-                 pretty=True,
+                 pretty=False,
                  debug=False,
                  **kwargs):
         """

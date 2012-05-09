@@ -30,11 +30,17 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
 
 DEBUG = False
 
+try:
+    _strptime = datetime.datetime.strptime
+except AttributeError:  # python2.4
+    _strptime = lambda s, fmt: datetime.datetime(*(time.strptime(s, fmt)[:6]))
+
+
 # Functions to serialize/unserialize special immutable types:
 def datetime_u(s):
     fmt = "%Y-%m-%dT%H:%M:%S"
     try:
-        return time.strptime(s, fmt)
+        return _strptime(s, fmt)
     except ValueError:
         try:
             # strip utc offset
@@ -43,20 +49,20 @@ def datetime_u(s):
                 s = s[:-6]
             # parse microseconds
             try:
-                return time.strptime(s, fmt + ".%f")
+                return _strptime(s, fmt + ".%f")
             except:
-                return time.strptime(s, fmt)
+                return _strptime(s, fmt)
         except ValueError:
             # strip microseconds (not supported in this platform)
             if "." in s:
                 warnings.warn('removing unsuppported microseconds', RuntimeWarning) 
                 s = s[:s.index(".")]
-            return time.strptime(s, fmt)
+            return _strptime(s, fmt)
                 
 datetime_m = lambda dt: dt.isoformat('T')
-date_u = lambda s: time.strptime(s[0:10], "%Y-%m-%d").date()
+date_u = lambda s: _strptime(s[0:10], "%Y-%m-%d").date()
 date_m = lambda d: d.strftime("%Y-%m-%d")
-time_u = lambda s: time.strptime(s, "%H:%M:%S").time()
+time_u = lambda s: _strptime(s, "%H:%M:%S").time()
 time_m = lambda d: d.strftime("%H%M%S")
 bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
 
