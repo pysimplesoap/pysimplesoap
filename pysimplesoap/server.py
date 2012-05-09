@@ -15,12 +15,15 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2010 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.02c"
+__version__ = "1.03c"
 
 import logging
-from simplexml import SimpleXMLElement, TYPE_MAP, DateTime, Date, Decimal
+import traceback
+from simplexml import SimpleXMLElement, TYPE_MAP, Date, Decimal
 
 log = logging.getLogger(__name__)
+
+# Deprecated
 DEBUG = False
 
 
@@ -31,7 +34,13 @@ class SoapDispatcher(object):
                  namespace=None, prefix=False, 
                  soap_uri="http://schemas.xmlsoap.org/soap/envelope/", 
                  soap_ns='soap',
+                 pretty=True,
+                 debug=False,
                  **kwargs):
+        """
+        :param pretty: Prettifies generated xmls
+        :param debug: Use to add tracebacks in generated xmls.
+        """
         self.methods = {}
         self.name = name
         self.documentation = documentation
@@ -41,9 +50,11 @@ class SoapDispatcher(object):
         self.prefix = prefix
         self.soap_ns = soap_ns
         self.soap_uri = soap_uri
+        self.pretty = pretty
+        self.debug = debug
     
     def register_function(self, name, fn, returns=None, args=None, doc=None):
-        self.methods[name] = fn, returns, args, doc or getattr(fn,"__doc__","")
+        self.methods[name] = fn, returns, args, doc or getattr(fn, "__doc__", "")
         
     def dispatch(self, xml, action=None):
         "Receive and proccess SOAP call"
@@ -53,7 +64,7 @@ class SoapDispatcher(object):
         soap_ns, soap_uri = self.soap_ns, self.soap_uri
         soap_fault_code = 'VersionMismatch'
         name = None
-
+        
         try:
             request = SimpleXMLElement(xml, namespace=self.namespace)
 
@@ -66,7 +77,7 @@ class SoapDispatcher(object):
             
             soap_fault_code = 'Client'
             
-            # parse request message and get local method            
+            # parse request message and get local method
             method = request('Body', ns=soap_uri).children()(0)
             if action:
                 # method name = action 
@@ -84,7 +95,7 @@ class SoapDispatcher(object):
             if args_types:
                 args = method.children().unmarshall(args_types)
             elif args_types is None:
-                args = {'request':method} # send raw request
+                args = {'request': method} # send raw request
             else:
                 args = {} # no parameters
  
@@ -93,11 +104,11 @@ class SoapDispatcher(object):
             ret = function(**args)
             log.debug('%s', ret)
 
-        except Exception, e:
+        except Exception:
             import sys
             etype, evalue, etb = sys.exc_info()
-            if DEBUG: 
-                import traceback
+            log.error(traceback.format_exc())
+            if self.debug:
                 detail = ''.join(traceback.format_exception(etype, evalue, etb))
                 detail += '\n\nXML REQUEST\n\n' + xml
             else:
@@ -121,8 +132,9 @@ class SoapDispatcher(object):
     
         response['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
         response['xmlns:xsd'] = "http://www.w3.org/2001/XMLSchema"
-
+        
         body = response.add_child("%s:Body" % soap_ns, ns=False)
+        
         if fault:
             # generate a Soap Fault (with the python exception)
             body.marshall("%s:Fault" % soap_ns, fault, ns=False)
@@ -143,7 +155,7 @@ class SoapDispatcher(object):
                 # merge xmlelement returned
                 res.import_node(ret)
 
-        return response.as_xml()
+        return response.as_xml(pretty=self.pretty)
 
     # Introspection functions:
 
@@ -411,5 +423,3 @@ if __name__=="__main__":
         result = response.AddResult
         print int(result.ab)
         print str(result.dd)
-
-
