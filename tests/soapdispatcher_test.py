@@ -25,7 +25,7 @@ class TestSoapDispatcher(unittest.TestCase):
             msg += ' %s' % value
             self.assertEqual(value, expectation, msg)
         else:
-            self.assertEqual(value, expectation, value)
+            self.assertEqual(value, expectation, "%s\n---\n%s" % (value, expectation))
     
     def setUp(self):
         self.dispatcher = SoapDispatcher(
