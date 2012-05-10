@@ -19,15 +19,15 @@ __version__ = "1.05c"
 
 TIMEOUT = 60
 
-import hashlib
-import os
 import cPickle as pickle
+import hashlib
+import logging
+import os
+import tempfile
 import urllib2
 from urlparse import urlsplit
-import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from transport import get_http_wrapper, set_http_wrapper, get_Http
-import logging
 
 log = logging.getLogger(__name__)
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
@@ -66,7 +66,11 @@ class SoapClient(object):
                  cert = None, trace = False, exceptions = True, proxy = None, ns=False, 
                  soap_ns=None, wsdl = None, cache = False, cacert=None,
                  sessions=False, soap_server=None, timeout=_USE_GLOBAL_DEFAULT,
+                 http_headers={}
                  ):
+        """
+        :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
+        """
         self.certssl = cert             
         self.keyssl = None              
         self.location = location        # server location (url)
@@ -75,6 +79,7 @@ class SoapClient(object):
         self.trace = trace              # show debug messages
         self.exceptions = exceptions    # lanzar execpiones? (Soap Faults)
         self.xml_request = self.xml_response = ''
+        self.http_headers = http_headers
         if not soap_ns and not ns:
             self.__soap_ns = 'soap' # 1.1
         elif not soap_ns and ns:
@@ -209,35 +214,45 @@ class SoapClient(object):
             raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
         return response
     
+    
     def send(self, method, xml):
         "Send SOAP request using HTTP"
         if self.location == 'test': return
-        location = "%s" % self.location #?op=%s" % (self.location, method)
+        # location = "%s" % self.location #?op=%s" % (self.location, method)
+        location = self.location
+        
         if self.services:
             soap_action = self.action 
         else:
-            soap_action = self.action+method
+            soap_action = self.action + method
+        
         headers={
-                'Content-type': 'text/xml; charset="UTF-8"',
-                'Content-length': str(len(xml)),
-                "SOAPAction": "\"%s\"" % (soap_action)
-                }
+            'Content-type': 'text/xml; charset="UTF-8"',
+            'Content-length': str(len(xml)),
+            "SOAPAction": "\"%s\"" % (soap_action)
+        }
+        headers.update(self.http_headers)
         log.info("POST %s" % location)
+        log.info("Headers: %s" % headers)
+        
         if self.trace:
             print "-"*80
             print "POST %s" % location
             print '\n'.join(["%s: %s" % (k,v) for k,v in headers.items()])
             print u"\n%s" % xml.decode("utf8","ignore")
+        
         response, content = self.http.request(
-            location,"POST", body=xml, headers=headers )
+            location, "POST", body=xml, headers=headers)
         self.response = response
         self.content = content
+        
         if self.trace: 
             print 
             print '\n'.join(["%s: %s" % (k,v) for k,v in response.items()])
             print content#.decode("utf8","ignore")
             print "="*80
         return content
+
 
     def get_operation(self, method):
         # try to find operation in wsdl file
