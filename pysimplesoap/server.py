@@ -88,8 +88,10 @@ class SoapDispatcher(object):
                 name = method.get_local_name()
                 prefix = method.get_prefix()
 
-            log.debug('dispatch method %s', name)
+            log.debug('dispatch method: %s', name)
             function, returns_types, args_types, doc = self.methods[name]
+            
+            log.debug('returns_types %s', returns_types)
         
             # de-serialize parameters (if type definitions given)
             if args_types:
@@ -102,7 +104,7 @@ class SoapDispatcher(object):
             soap_fault_code = 'Server'
             # execute function
             ret = function(**args)
-            log.debug('%s', ret)
+            log.debug('dispathed method returns: %s', ret)
 
         except Exception:
             import sys
@@ -154,6 +156,8 @@ class SoapDispatcher(object):
             elif returns_types is None:
                 # merge xmlelement returned
                 res.import_node(ret)
+            elif returns_types == {}:
+                log.warning('Given returns_types is an empty dict.')
 
         return response.as_xml(pretty=self.pretty)
 

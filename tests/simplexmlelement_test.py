@@ -51,6 +51,70 @@ class TestSimpleXMLElement(unittest.TestCase):
         
         e = {'activations': [{'items': {'number': '01234', 'status': 1}}, {'items': {'number': '04321', 'status': 0}}]}
         self.eq(span.unmarshall(d), e)
+
+    def test_adv_unmarshall(self):
+        xml = """
+        <activations>
+            <items>
+                <number>01234</number>
+                <status>1</status>
+                <properties>
+                    <name>foo</name>
+                    <value>3</value>
+                </properties>
+                <properties>
+                    <name>bar</name>
+                    <value>4</value>
+                </properties>
+            </items>
+            <items>
+                <number>04321</number>
+                <status>0</status>
+            </items>
+        </activations>
+        """
+        span = SimpleXMLElement(xml)
+        d = {'activations': [
+                {'items': {
+                    'number': str,
+                    'status': int,
+                    'properties': ({
+                        'name': str,
+                        'value': int
+                    }, )
+                }}
+            ]}
+
+        e = {'activations': [
+                {'items': {'number': '01234', 'status': 1, 'properties': ({'name': 'foo', 'value': 3}, {'name': 'bar', 'value': 4})}}, 
+                {'items': {'number': '04321', 'status': 0}}
+            ]}
+        self.eq(span.unmarshall(d), e)
+
+    def test_tuple_unmarshall(self):
+        xml = """
+        <foo>
+            <boo>
+                <bar>abc</bar>
+                <baz>1</baz>
+            </boo>
+            <boo>
+                <bar>qwe</bar>
+                <baz>2</baz>
+            </boo>
+        </foo>
+        """
+        span = SimpleXMLElement(xml)
+        d = {'foo': {
+                'boo': ({'bar': str, 'baz': int}, )
+        }}
+
+        e = {'foo': {
+                'boo': (
+                {'bar': 'abc', 'baz': 1},
+                {'bar': 'qwe', 'baz': 2},
+            )}}
+        self.eq(span.unmarshall(d), e)
         
         
     def test_basic(self):
