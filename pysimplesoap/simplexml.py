@@ -17,13 +17,13 @@ __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.03a"
 
+import datetime
 import logging
+import re
+import time
+import warnings
 import xml.dom.minidom
 from decimal import Decimal
-import datetime 
-import time
-
-import warnings
 
 log = logging.getLogger(__name__)
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
@@ -152,9 +152,20 @@ class OrderedDict(dict):
 class SimpleXMLElement(object):
     "Simple XML manipulation (simil PHP)"
     
-    def __init__(self, text = None, elements = None, document = None, namespace = None, prefix=None):
+    def __init__(self, text = None, elements = None, document = None, 
+                 namespace = None, prefix=None, namespaces_map={}):
+        """
+        :param namespaces_map: How to map our namespace prefix to that given by the client;
+          {prefix: received_prefix}
+        """
+        self.__namespaces_map = namespaces_map
+        _rx = "|".join(namespaces_map.keys()) # {'external': 'ext', 'model': 'mod'} -> 'external|model'
+        self.__ns_rx = re.compile(r"^(%s):.*$" % _rx) # And now we build an expression ^(external|model):.*$
+                                                      # to find prefixes in all xml nodes i.e.: <model:code>1</model:code>
+                                                      # and later change that to <mod:code>1</mod:code>
         self.__ns = namespace
         self.__prefix = prefix
+        
         if text:
             try:
                 self.__document = xml.dom.minidom.parseString(text)
@@ -166,7 +177,8 @@ class SimpleXMLElement(object):
             self.__elements = elements
             self.__document = document
     
-    def add_child(self,name,text=None,ns=True):
+    
+    def add_child(self, name, text=None, ns=True):
         "Adding a child tag to a node"
         if not ns or not self.__ns:
             log.debug('adding %s', name)
@@ -188,7 +200,8 @@ class SimpleXMLElement(object):
                     elements=[element],
                     document=self.__document,
                     namespace=self.__ns,
-                    prefix=self.__prefix)
+                    prefix=self.__prefix,
+                    namespaces_map=self.__namespaces_map)
     
     def __setattr__(self, tag, text):
         "Add text child tag node (short form)"
@@ -196,7 +209,7 @@ class SimpleXMLElement(object):
             object.__setattr__(self, tag, text)
         else:
             log.debug('__setattr__(%s, %s)', tag, text)
-            self.add_child(tag,text)
+            self.add_child(tag, text)
 
     def __delattr__(self, tag):
         "Remove a child tag (non recursive!)"
@@ -211,7 +224,7 @@ class SimpleXMLElement(object):
         comment = self.__document.createComment(data)
         self._element.appendChild(comment)
 
-    def as_xml(self,filename=None,pretty=False):
+    def as_xml(self, filename=None, pretty=False):
         "Return the XML representation of the document"
         if not pretty:
             return self.__document.toxml('UTF-8')
@@ -244,7 +257,6 @@ class SimpleXMLElement(object):
                 element = element.parentNode
 
 
-
     def attributes(self):
         "Return a dict of attributes for this tag"
         #TODO: use slice syntax [:]?
@@ -266,7 +278,8 @@ class SimpleXMLElement(object):
                     elements=[element],
                     document=self.__document,
                     namespace=self.__ns,
-                    prefix=self.__prefix)
+                    prefix=self.__prefix,
+                    namespaces_map=self.__namespaces_map)
             
     def add_attribute(self, name, value):
         "Set an attribute value from a string"
@@ -291,7 +304,8 @@ class SimpleXMLElement(object):
                     elements=[self.__document.documentElement],
                     document=self.__document,
                     namespace=self.__ns,
-                    prefix=self.__prefix
+                    prefix=self.__prefix,
+                    namespaces_map=self.__namespaces_map
                 )
             if tag is None:
                 # if no name given, iterate over siblings (same level)
@@ -325,7 +339,8 @@ class SimpleXMLElement(object):
                 elements=elements,
                 document=self.__document,
                 namespace=self.__ns,
-                prefix=self.__prefix)
+                prefix=self.__prefix,
+                namespaces_map=self.__namespaces_map)
         except AttributeError, e:
             raise AttributeError(u"Tag not found: %s (%s)" % (tag, unicode(e)))
 
@@ -341,7 +356,8 @@ class SimpleXMLElement(object):
                     elements=[__element],
                     document=self.__document,
                     namespace=self.__ns,
-                    prefix=self.__prefix)
+                    prefix=self.__prefix,
+                    namespaces_map=self.__namespaces_map)
         except:
             raise
 
@@ -362,7 +378,8 @@ class SimpleXMLElement(object):
                 elements=elements,
                 document=self.__document,
                 namespace=self.__ns,
-                prefix=self.__prefix)
+                prefix=self.__prefix,
+                namespaces_map=self.__namespaces_map)
 
     def __len__(self):
         "Return elements count"
@@ -483,10 +500,26 @@ class SimpleXMLElement(object):
                     value = None
             d[name] = value
         return d
-
+    
+    
+    def _update_ns(self, name):
+        """Replace the defined namespace alias with tohse used by the client."""
+        pref = self.__ns_rx.search(name)
+        if pref:
+            pref = pref.groups()[0]
+            try:
+                name = name.replace(pref, self.__namespaces_map[pref])
+            except KeyError:
+                log.warning('Unknown namespace alias %s' % name)
+        return name
+    
+    
     def marshall(self, name, value, add_child=True, add_comments=False, 
                  ns=False, add_children_ns=True):
         "Analize python value and add the serialized XML element using tag name"
+        # Change node name to that used by a client
+        name = self._update_ns(name)
+        
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
             for k,v in value.items():
@@ -523,4 +556,3 @@ class SimpleXMLElement(object):
     def import_node(self, other):
         x = self.__document.importNode(other._element, True)  # deep copy
         self._element.appendChild(x)
-
