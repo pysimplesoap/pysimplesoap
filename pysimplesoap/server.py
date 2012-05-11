@@ -34,12 +34,46 @@ class SoapDispatcher(object):
                  namespace=None, prefix=False, 
                  soap_uri="http://schemas.xmlsoap.org/soap/envelope/", 
                  soap_ns='soap',
+                 namespaces={},
                  pretty=False,
                  debug=False,
                  **kwargs):
         """
+        :param namespace: Target namespace; xmlns=targetNamespace
+        :param prefix: Prefix for target namespace; xmlns:prefix=targetNamespace
+        :param namespaces: Specify additional namespaces; example: {'external': 'http://external.mt.moboperator'}
         :param pretty: Prettifies generated xmls
         :param debug: Use to add tracebacks in generated xmls.
+        
+        Multiple namespaces
+        ===================
+        
+        It is possible to support multiple namespaces.
+        You need to specify additional namespaces by passing `namespace` parameter.
+        
+        >>> dispatcher = SoapDispatcher(
+        ...    name = "MTClientWS",
+        ...    location = "http://localhost:8008/ws/MTClientWS",
+        ...    action = 'http://localhost:8008/ws/MTClientWS', # SOAPAction
+        ...    namespace = "http://external.mt.moboperator", prefix="external",
+        ...    documentation = 'moboperator MTClientWS',
+        ...    namespaces = {
+        ...        'external': 'http://external.mt.moboperator', 
+        ...        'model': 'http://model.common.mt.moboperator'
+        ...    },
+        ...    ns = True)
+        
+        Now the registered method must return node names with namespaces' prefixes.
+        
+        >>> def _multi_ns_func(self, serviceMsisdn):
+        ...    ret = {
+        ...        'external:activateSubscriptionsReturn': [
+        ...            {'model:code': '0'},
+        ...            {'model:description': 'desc'},
+        ...        ]}
+        ...    return ret
+        
+        Our prefixes will be changed to those used by the client.
         """
         self.methods = {}
         self.name = name
@@ -50,12 +84,28 @@ class SoapDispatcher(object):
         self.prefix = prefix
         self.soap_ns = soap_ns
         self.soap_uri = soap_uri
+        self.namespaces = namespaces
         self.pretty = pretty
         self.debug = debug
     
+    
+    @staticmethod
+    def _extra_namespaces(xml, ns):
+        """Extends xml with extra namespaces.
+        :param ns: dict with namespaceUrl:prefix pairs
+        :param xml: XML node to modify
+        """
+        if ns:
+            _tpl = 'xmlns:%s="%s"'
+            _ns_str = " ".join([_tpl % (prefix, uri) for uri, prefix in ns.items() if uri not in xml])
+            xml = xml.replace('/>', ' '+_ns_str+'/>')
+        return xml
+    
+    
     def register_function(self, name, fn, returns=None, args=None, doc=None):
         self.methods[name] = fn, returns, args, doc or getattr(fn, "__doc__", "")
-        
+    
+    
     def dispatch(self, xml, action=None):
         "Receive and proccess SOAP call"
         # default values:
@@ -65,15 +115,27 @@ class SoapDispatcher(object):
         soap_fault_code = 'VersionMismatch'
         name = None
         
+        # namespaces = [('model', 'http://model.common.mt.moboperator'), ('external', 'http://external.mt.moboperator')]
+        _ns_reversed = dict(((v,k) for k,v in self.namespaces.iteritems())) # Switch keys-values
+        # _ns_reversed = {'http://external.mt.moboperator': 'external', 'http://model.common.mt.moboperator': 'model'}
+        
         try:
             request = SimpleXMLElement(xml, namespace=self.namespace)
-
+            
             # detect soap prefix and uri (xmlns attributes of Envelope)
             for k, v in request[:]:
                 if v in ("http://schemas.xmlsoap.org/soap/envelope/",
                                   "http://www.w3.org/2003/05/soap-env",):
                     soap_ns = request.attributes()[k].localName
                     soap_uri = request.attributes()[k].value
+                
+                # If the value from attributes on Envelope is in additional namespaces
+                elif v in self.namespaces.values():
+                    _ns = request.attributes()[k].localName
+                    _uri = request.attributes()[k].value
+                    _ns_reversed[_uri] = _ns # update with received alias
+                    # Now we change 'external' and 'model' to the received forms i.e. 'ext' and 'mod'
+                # After that we know how the client has prefixed additional namespaces
             
             soap_fault_code = 'Client'
             
@@ -90,9 +152,8 @@ class SoapDispatcher(object):
 
             log.debug('dispatch method: %s', name)
             function, returns_types, args_types, doc = self.methods[name]
-            
             log.debug('returns_types %s', returns_types)
-        
+            
             # de-serialize parameters (if type definitions given)
             if args_types:
                 args = method.children().unmarshall(args_types)
@@ -100,13 +161,13 @@ class SoapDispatcher(object):
                 args = {'request': method} # send raw request
             else:
                 args = {} # no parameters
- 
+            
             soap_fault_code = 'Server'
             # execute function
             ret = function(**args)
             log.debug('dispathed method returns: %s', ret)
 
-        except Exception:
+        except Exception: # This shouldn't be one huge try/except
             import sys
             etype, evalue, etb = sys.exc_info()
             log.error(traceback.format_exc())
@@ -126,12 +187,27 @@ class SoapDispatcher(object):
             xml = """<%(soap_ns)s:Envelope xmlns:%(soap_ns)s="%(soap_uri)s"
                        xmlns:%(prefix)s="%(namespace)s"/>"""  
             
-        xml = xml % {'namespace': self.namespace, 'prefix': prefix,
-                     'soap_ns': soap_ns, 'soap_uri': soap_uri}
-
-        response = SimpleXMLElement(xml, namespace=self.namespace,
+        xml %= {    # a %= {} is a shortcut for a = a % {}
+            'namespace': self.namespace, 
+            'prefix': prefix,
+            'soap_ns': soap_ns, 
+            'soap_uri': soap_uri
+        }
+        
+        # Now we add extra namespaces
+        xml = SoapDispatcher._extra_namespaces(xml, _ns_reversed)
+        
+        # Change our namespace alias to that given by the client.
+        # We put [('model', 'http://model.common.mt.moboperator'), ('external', 'http://external.mt.moboperator')]
+        # mix it with {'http://external.mt.moboperator': 'ext', 'http://model.common.mt.moboperator': 'mod'}
+        mapping = dict(((k, _ns_reversed[v]) for k,v in self.namespaces.iteritems())) # Switch keys-values and change value
+        # and get {'model': u'mod', 'external': u'ext'}
+        
+        response = SimpleXMLElement(xml, 
+                                    namespace=self.namespace,
+                                    namespaces_map = mapping,
                                     prefix=prefix)
-    
+        
         response['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
         response['xmlns:xsd'] = "http://www.w3.org/2001/XMLSchema"
         
@@ -328,7 +404,6 @@ class SOAPHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         "User viewable help information and wsdl"
         args = self.path[1:].split("?")
-        print "serving", args
         if self.path != "/" and args[0] not in self.server.dispatcher.methods.keys():
             self.send_error(404, "Method not found: %s" % args[0])
         else:
