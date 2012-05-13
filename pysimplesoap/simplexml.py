@@ -65,6 +65,7 @@ date_m = lambda d: d.strftime("%Y-%m-%d")
 time_u = lambda s: _strptime(s, "%H:%M:%S").time()
 time_m = lambda d: d.strftime("%H%M%S")
 bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
+bool_m = lambda s: {False: 'false', True: 'true'}[s]
 
 # aliases:
 class Alias(object):
@@ -101,7 +102,8 @@ TYPE_MAP = {
 }
 TYPE_MARSHAL_FN = {
     datetime.datetime:datetime_m, 
-    datetime.date:date_m
+    datetime.date:date_m,
+    bool:bool_m
 }
 TYPE_UNMARSHAL_FN = {
     datetime.datetime:datetime_u, 
