@@ -18,6 +18,7 @@ __license__ = "LGPL 3.0"
 __version__ = "1.03c"
 
 import logging
+import re
 import traceback
 from simplexml import SimpleXMLElement, TYPE_MAP, Date, Decimal
 
@@ -25,7 +26,7 @@ log = logging.getLogger(__name__)
 
 # Deprecated
 DEBUG = False
-
+NS_RX=re.compile(r'xmlns:(\w+)="(.+?)"')
 
 class SoapDispatcher(object):
     "Simple Dispatcher for SOAP Server"
@@ -136,6 +137,11 @@ class SoapDispatcher(object):
                     _ns_reversed[_uri] = _ns # update with received alias
                     # Now we change 'external' and 'model' to the received forms i.e. 'ext' and 'mod'
                 # After that we know how the client has prefixed additional namespaces
+            
+            ns = NS_RX.findall(xml)
+            for k, v in ns:
+                if v in self.namespaces.values():
+                    _ns_reversed[v] = k
             
             soap_fault_code = 'Client'
             
