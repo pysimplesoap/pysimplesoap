@@ -123,6 +123,13 @@ class TestIssues(unittest.TestCase):
             self.assert_("""</ChildlessRequest>""" in client.xml_request,
                         "</ChildlessRequest> not in request!")
 
+    def test_issue69(self):
+        """Boolean value not converted correctly during marshall"""
+        span = SimpleXMLElement('<span><name>foo</name></span>')
+        span.marshall('value', True)
+        d = {'span': {'name': str, 'value': bool}}
+        e = {'span': {'name': 'foo', 'value': True}}
+        self.assertEqual(span.unmarshall(d), e)
 
 if __name__ == '__main__':
     #unittest.main()
