@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.04g"
+__version__ = "1.04h"
 
 TIMEOUT = 60
 
@@ -75,7 +75,7 @@ def get_http_wrapper(library='httplib2'):
             def __init__(self, timeout, proxy=None, cacert=None):
                 self.timeout = timeout # not used, py2.5 doesnt support timeout...
                 self.proxy = proxy
-            def request(self, url, method, body, headers):
+            def request(self, url, method, body=None, headers=None):
                 if not self.proxy:
                     f = urllib2.urlopen(urllib2.Request(url, body, headers))
                 else:
@@ -241,6 +241,7 @@ class SoapClient(object):
         
     def call(self, method, *args, **kwargs):
         "Prepare xml request and make SOAP call, returning a SimpleXMLElement"                
+        self.xml_request = self.xml_response = ''
         #TODO: method != input_message
         # Basic SOAP request:
         xml = self.__xml % dict(method=method, namespace=self.namespace, ns=self.__ns,
