@@ -494,7 +494,6 @@ class SoapClient(object):
             port_type_bindings[port_type_name] = bindings[binding_name]
             for operation in binding.operation:
                 op_name = operation['name']
-                print "operation", op_name
                 op = operation('operation',ns=soap_uris.values(), error=False)
                 action = op and op['soapAction']
                 d = operations.setdefault(op_name, {})
@@ -509,9 +508,9 @@ class SoapClient(object):
                 body = output and output('body', ns=soap_uris.values(), error=False)
                 d['parts']['output_body'] = body and body['parts'] or None
                 header = input and input('header', ns=soap_uris.values(), error=False)
-                d['parts']['input_header'] = header and header['part'] or None
+                d['parts']['input_header'] = header and {'message': header['message'], 'part': header['part']} or None
                 headers = output and output('header', ns=soap_uris.values(), error=False)
-                d['parts']['output_header'] = header and header['part'] or None
+                d['parts']['output_header'] = header and {'message': header['message'], 'part': header['part']} or None
                 #if action: #TODO: separe operation_binding from operation
                 if action:
                     d["action"] = action
@@ -704,10 +703,17 @@ class SoapClient(object):
                 if binding['soap_ver']: 
                     #TODO: separe operation_binding from operation (non SOAP?)
                     if operation("input", error=False):
-                        input = get_local_name(operation.input['message'])
-                        header = get_local_name(op['parts'].get('input_header'))
+                        input_msg = get_local_name(operation.input['message'])
+                        input_header = op['parts'].get('input_header')
+                        if input_header:
+                            header_msg = get_local_name(input_header.get('message'))
+                            header_part = get_local_name(input_header.get('part'))
+                            # warning: some implementations use a separate message!
+                            header = get_message(header_msg or input_msg, header_part)
+                        else:
+                            header = None   # not enought info to search the header message:
                         op['input'] = get_message(input, op['parts'].get('input_body'))
-                        op['header'] = get_message(input, op['parts'].get('input_header'))
+                        op['header'] = header
                     else:
                         op['input'] = None
                         op['header'] = None

@@ -9,7 +9,7 @@ class TestIssues(unittest.TestCase):
 
     def test_issue34(self):
         "Test soap_server SoapClient constructor parameter"
-        client = SoapClient(wsdl="http://eklima.met.no/metdata/MetDataService?WSDL", soap_server="oracle", trace=True, cache=None)
+        client = SoapClient(wsdl="http://eklima.met.no/metdata/MetDataService?WSDL", soap_server="oracle", trace=False, cache=None)
         ##print client.help("getStationsProperties")
         ##print client.help("getValidLanguages")
 
@@ -90,7 +90,7 @@ class TestIssues(unittest.TestCase):
         "Example for sending an arbitrary header using SimpleXMLElement"
         
         # fake connection (just to test xml_request):
-        client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=True)
+        client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=False)
 
         # Using WSDL, the equivalent is:
         # client['MyTestHeader'] = {'username': 'test', 'password': 'test'}
@@ -108,10 +108,43 @@ class TestIssues(unittest.TestCase):
             self.assert_("""<soap:Header><MyTestHeader xmlns="service"><username>test</username><password>password</password></MyTestHeader></soap:Header>""" in client.xml_request,
                         "header not in request!")
 
+    def test_issue47_wsdl(self):
+        "Separate Header message WSDL (carizen)"
+        
+        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc")
+            
+
+        session = client['Session'] = { 'ID' : '1234' }
+
+        try:
+            client.Logout()
+        except:
+            open("issue47_wsdl.xml", "wb").write(client.xml_request)
+            self.assert_("""<soap:Header><Session><ID>1234</ID></Session></soap:Header>""" in client.xml_request,
+                        "Session header not in request!")
+
+    def test_issue47_raw(self):
+        "Same example (clarizen), with raw headers (no wsdl)!"
+        client = SoapClient(location="https://api.clarizen.com/v1.0/Clarizen.svc", namespace='http://clarizen.com/api', trace=False)
+            
+        headers = SimpleXMLElement("<Headers/>", namespace="http://clarizen.com/api", prefix="ns1")
+        session = headers.add_child("Session")
+        session['xmlns'] = "http://clarizen.com/api"
+        session.marshall('ID', '1234')
+
+        client.location = "https://api.clarizen.com/v1.0/Clarizen.svc"
+        client.action = "http://clarizen.com/api/IClarizen/Logout"
+        try:
+            client.call("Logout", headers=headers)
+        except:
+            open("issue47_raw.xml", "wb").write(client.xml_request)
+            self.assert_("""<soap:Header><ns1:Session xmlns="http://clarizen.com/api"><ID>1234</ID></ns1:Session></soap:Header>""" in client.xml_request,
+                        "Session header not in request!")
+
     def test_issue66(self):
         """Verify marshaled requests can be sent with no children"""
         # fake connection (just to test xml_request):
-        client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=True)
+        client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=False)
 
         request = SimpleXMLElement("<ChildlessRequest/>")
         try:
