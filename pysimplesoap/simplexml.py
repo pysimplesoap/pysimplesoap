@@ -168,7 +168,7 @@ class SimpleXMLElement(object):
         self.__ns = namespace
         self.__prefix = prefix
         
-        if text:
+        if text is not None:
             try:
                 self.__document = xml.dom.minidom.parseString(text)
             except:
@@ -178,8 +178,7 @@ class SimpleXMLElement(object):
         else:
             self.__elements = elements
             self.__document = document
-    
-    
+        
     def add_child(self, name, text=None, ns=True):
         "Adding a child tag to a node"
         if not ns or not self.__ns:
