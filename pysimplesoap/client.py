@@ -563,6 +563,8 @@ class SoapClient(object):
                         # look for the type, None == any
                         fn = REVERSE_TYPE_MAP.get(unicode(type_name), None)
                     else:
+                        fn = None
+                    if not fn:
                         # simple / complex type, postprocess later 
                         fn = elements.setdefault(make_key(type_name, "complexType"), OrderedDict())
                         
@@ -712,14 +714,14 @@ class SoapClient(object):
                             header = get_message(header_msg or input_msg, header_part)
                         else:
                             header = None   # not enought info to search the header message:
-                        op['input'] = get_message(input, op['parts'].get('input_body'))
+                        op['input'] = get_message(input_msg, op['parts'].get('input_body'))
                         op['header'] = header
                     else:
                         op['input'] = None
                         op['header'] = None
                     if operation("output", error=False):
-                        output = get_local_name(operation.output['message'])
-                        op['output'] = get_message(output, op['parts'].get('output_body'))
+                        output_msg = get_local_name(operation.output['message'])
+                        op['output'] = get_message(output_msg, op['parts'].get('output_body'))
                     else:
                         op['output'] = None
 
