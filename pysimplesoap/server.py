@@ -466,7 +466,7 @@ class WSGISOAPHandler(object):
         else:
             # return supplied method help (?request or ?response messages)
             req, res, doc = self.dispatcher.help(path)
-            if query=="response":
+            if len(query) == 0 or query=="request":
                 response = req
             else:
                 response = res                
