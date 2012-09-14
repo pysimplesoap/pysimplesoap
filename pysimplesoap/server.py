@@ -437,6 +437,34 @@ class SOAPHandler(BaseHTTPRequestHandler):
         response = self.server.dispatcher.dispatch(request)
         self.wfile.write(response)
 
+class WSGISOAPHandler(object):
+    
+    def __init__(self, dispatcher):
+        self.dispatcher = dispatcher
+
+    def __call__(self, environ, start_response):
+        return self.handler(environ, start_response)
+        
+    def handler(self, environ, start_response):
+        if environ['REQUEST_METHOD'] == 'GET':
+            return self.do_get(environ, start_response)
+        if environ['REQUEST_METHOD'] == 'POST':
+            return self.do_post(environ, start_response)
+        else:
+            start_response('405 Method not allowed', [('Content-Type', 'text/plain')])
+            return ['']
+
+    def do_get(self, environ, start_response):
+        response = self.dispatcher.wsdl()
+        start_response('200 OK', [('Content-Type', 'text/xml'), ('Content-Length', str(len(response)))])
+        return [response]
+        
+    def do_post(self, environ, start_response):
+        length = int(environ['CONTENT_LENGTH'])
+        request = environ['wsgi.input'].read(length)
+        response = self.dispatcher.dispatch(request)
+        start_response('200 OK', [('Content-Type', 'text/xml'), ('Content-Length', str(len(response)))])
+        return [response]
 
 if __name__=="__main__":
     import sys
@@ -495,6 +523,13 @@ if __name__=="__main__":
         httpd.dispatcher = dispatcher
         httpd.serve_forever()
 
+    if '--wsgi-serve' in sys.argv:
+        print "Starting wsgi server..."
+        from wsgiref.simple_server import make_server
+        application = WSGISOAPHandler(dispatcher)
+        wsgid = make_server('', 8008, application)
+        wsgid.serve_forever()
+        
     if '--consume' in sys.argv:
         from client import SoapClient
         client = SoapClient(
