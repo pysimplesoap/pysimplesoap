@@ -448,14 +448,28 @@ class WSGISOAPHandler(object):
     def handler(self, environ, start_response):
         if environ['REQUEST_METHOD'] == 'GET':
             return self.do_get(environ, start_response)
-        if environ['REQUEST_METHOD'] == 'POST':
+        elif environ['REQUEST_METHOD'] == 'POST':
             return self.do_post(environ, start_response)
         else:
             start_response('405 Method not allowed', [('Content-Type', 'text/plain')])
-            return ['']
+            return ['Method not allowed']
 
     def do_get(self, environ, start_response):
-        response = self.dispatcher.wsdl()
+        path = environ.get('PATH_INFO').lstrip('/')
+        query = environ.get('QUERY_STRING')
+        if path != "" and path not in self.dispatcher.methods.keys():
+            start_response('404 Not Found', [('Content-Type', 'text/plain')])
+            return ["Method not found: %s" % path]        
+        elif path == "":
+            # return wsdl if no method supplied
+            response = self.dispatcher.wsdl()
+        else:
+            # return supplied method help (?request or ?response messages)
+            req, res, doc = self.dispatcher.help(path)
+            if query=="response":
+                response = req
+            else:
+                response = res                
         start_response('200 OK', [('Content-Type', 'text/xml'), ('Content-Length', str(len(response)))])
         return [response]
         
