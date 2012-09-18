@@ -164,8 +164,36 @@ class TestIssues(unittest.TestCase):
         e = {'span': {'name': 'foo', 'value': True}}
         self.assertEqual(span.unmarshall(d), e)
 
+    def test_issue78(self):
+        "Example for sending an arbitrary header using SimpleXMLElement and WSDL"
+        
+        # fake connection (just to test xml_request):
+        client = SoapClient(wsdl='http://dczorgwelzijn-test.qmark.nl/qmwise4/qmwise.asmx?wsdl')
+
+        # Using WSDL, the easier form is but this doesn't allow for namespaces to be used.
+        # If the server requires these (buggy server?) the dictionary method won't work
+        # and marshall will not marshall 'ns:username' style keys
+        # client['MyTestHeader'] = {'username': 'test', 'password': 'test'}
+
+        namespace = 'http://questionmark.com/QMWISe/'
+        ns = 'qmw'
+        header = SimpleXMLElement('<Headers/>', namespace=namespace, prefix=ns)
+        security = header.add_child("Security")
+        security['xmlns:qmw']=namespace
+        security.marshall('ClientID','NAME',ns=ns)
+        security.marshall('Checksum','PASSWORD',ns=ns)
+        client['Security']=security
+
+        try:
+            client.GetParticipantList()
+        except:
+            #open("issue78.xml", "wb").write(client.xml_request)
+            print client.xml_request
+            header="""<soap:Header><qmw:Security xmlns:qmw="http://questionmark.com/QMWISe/"><qmw:ClientID>NAME</qmw:ClientID><qmw:Checksum>PASSWORD</qmw:Checksum></qmw:Security></soap:Header>"""
+            self.assert_(header in client.xml_request, "header not in request!")
+
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue66'))
+    suite.addTest(TestIssues('test_issue78'))
     unittest.TextTestRunner().run(suite)

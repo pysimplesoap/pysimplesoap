@@ -200,8 +200,13 @@ class SoapClient(object):
             for k, v in self.__call_headers.items():
                 ##if not self.__ns:
                 ##    header['xmlns']
-                header.marshall(k, v, ns=self.__ns, add_children_ns=False)
-                
+                if isinstance(v,SimpleXMLElement):
+                    # allows a SimpleXMLElement to be constructed and inserted
+                    # rather than a dictionary. marshall doesn't allow ns: prefixes
+                    # in dict key names
+                    header.import_node(v)
+                else:
+                    header.marshall(k, v, ns=self.__ns, add_children_ns=False)                
         if request_headers:
             header = request('Header' , ns=soap_namespaces.values(),)
             for subheader in request_headers.children():
