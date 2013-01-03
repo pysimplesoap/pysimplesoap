@@ -2,3 +2,5 @@
 lib/*
 bin/*
 include/*
+
+PySimpleSOAP.egg-info/
