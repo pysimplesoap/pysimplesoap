@@ -32,8 +32,9 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
 #
 # We store metadata about what available transport mechanisms we have available.
 #
-_http_connectors = {} # libname: classimpl mapping
-_http_facilities = {} # functionalitylabel: [sequence of libname] mapping
+_http_connectors = {}  # libname: classimpl mapping
+_http_facilities = {}  # functionalitylabel: [sequence of libname] mapping
+
 
 class TransportBase:
     @classmethod
@@ -46,7 +47,7 @@ class TransportBase:
 try:
     import httplib2
 except ImportError:
-    TIMEOUT = None # timeout not supported by urllib2
+    TIMEOUT = None  # timeout not supported by urllib2
     pass
 else:
     class Httplib2Transport(httplib2.Http, TransportBase):
@@ -65,7 +66,7 @@ else:
                 kwargs['timeout'] = timeout
             if httplib2.__version__ >= '0.7.0':
                 kwargs['disable_ssl_certificate_validation'] = cacert is None
-                kwargs['ca_certs'] = cacert    
+                kwargs['ca_certs'] = cacert
             httplib2.Http.__init__(self, **kwargs)
 
     _http_connectors['httplib2'] = Httplib2Transport
@@ -76,13 +77,14 @@ else:
     if 'timeout' in inspect.getargspec(httplib2.Http.__init__)[0]:
         _http_facilities.setdefault('timeout', []).append('httplib2')
 
+
 #
 # urllib2 support.
 #
 import urllib2
 class urllib2Transport(TransportBase):
     _wrapper_version = "urllib2 %s" % urllib2.__version__
-    _wrapper_name = 'urllib2' 
+    _wrapper_name = 'urllib2'
     def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
         import sys
         if (timeout is not None) and not self.supports_feature('timeout'):
@@ -97,7 +99,7 @@ class urllib2Transport(TransportBase):
             from cookielib import CookieJar
             opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(CookieJar()))
             self.request_opener = opener.open
-            
+
         self._timeout = timeout
 
     def request(self, url, method="GET", body=None, headers={}):
@@ -113,7 +115,7 @@ _http_connectors['urllib2'] = urllib2Transport
 _http_facilities.setdefault('sessions', []).append('urllib2')
 
 import sys
-if sys.version_info >= (2,6):
+if sys.version_info >= (2, 6):
     _http_facilities.setdefault('timeout', []).append('urllib2')
 del sys
 
@@ -135,10 +137,10 @@ else:
         _wrapper_version = pycurl.version
         _wrapper_name = 'pycurl'
         def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
-            self.timeout = timeout 
+            self.timeout = timeout
             self.proxy = proxy or {}
             self.cacert = cacert
-               
+
         def request(self, url, method, body, headers):
             c = pycurl.Curl()
             c.setopt(pycurl.URL, str(url))
@@ -154,14 +156,14 @@ else:
             #self.body = StringIO(body)
             #c.setopt(pycurl.HEADERFUNCTION, self.header)
             if self.cacert:
-                c.setopt(c.CAINFO, str(self.cacert)) 
+                c.setopt(c.CAINFO, str(self.cacert))
             c.setopt(pycurl.SSL_VERIFYPEER, self.cacert and 1 or 0)
             c.setopt(pycurl.SSL_VERIFYHOST, self.cacert and 2 or 0)
-            c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6) 
+            c.setopt(pycurl.CONNECTTIMEOUT, self.timeout / 6)
             c.setopt(pycurl.TIMEOUT, self.timeout)
-            if method=='POST':
+            if method == 'POST':
                 c.setopt(pycurl.POST, 1)
-                c.setopt(pycurl.POSTFIELDS, body)            
+                c.setopt(pycurl.POSTFIELDS, body)
             if headers:
                 hdrs = ['%s: %s' % (str(k), str(v)) for k, v in headers.items()]
                 ##print hdrs
@@ -179,10 +181,10 @@ else:
 
 class DummyTransport:
     "Testing class to load a xml response"
-    
+
     def __init__(self, xml_response):
         self.xml_response = xml_response
-        
+
     def request(self, location, method, body, headers):
         print method, location
         print headers
@@ -222,6 +224,7 @@ def get_http_wrapper(library=None, features=[]):
     else:
         return _http_connectors[candidate_name]
 
+
 def set_http_wrapper(library=None, features=[]):
     "Set a suitable HTTP connection wrapper."
     global Http
@@ -234,8 +237,6 @@ def get_Http():
     global Http
     return Http
 
-    
+
 # define the default HTTP connection class (it can be changed at runtime!):
 set_http_wrapper()
-
-

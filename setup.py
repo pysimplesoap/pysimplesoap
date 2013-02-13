@@ -16,8 +16,7 @@ setup(name='PySimpleSOAP',
       author='Mariano Reingart',
       author_email='reingart@gmail.com',
       url='http://code.google.com/p/pysimplesoap',
-      packages=['pysimplesoap',],
+      packages=['pysimplesoap'],
       console=['client.py'],
-      cmdclass = {"py2exe": build_installer},
-     )
-
+      cmdclass={"py2exe": build_installer},
+      )
