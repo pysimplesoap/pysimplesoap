@@ -224,12 +224,12 @@ class SoapClient(object):
         "Send SOAP request using HTTP"
         if self.location == 'test': return
         # location = "%s" % self.location #?op=%s" % (self.location, method)
-        location = self.location
+        location = str(self.location)
         
         if self.services:
-            soap_action = self.action 
+            soap_action = str(self.action)
         else:
-            soap_action = self.action + method
+            soap_action = str(self.action) + method
         
         headers={
             'Content-type': 'text/xml; charset="UTF-8"',
