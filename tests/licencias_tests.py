@@ -8,6 +8,7 @@ import os
 
 xml = open(os.path.join(TEST_DIR, "licencias.xml")).read()
 
+
 class TestIssues(unittest.TestCase):
 
     def test_buscar_personas_raw(self):
@@ -26,7 +27,7 @@ class TestIssues(unittest.TestCase):
                                                   ))
 
         # the raw response is a SimpleXmlElement object:
-        
+
         self.assertEqual(str(response.result.item[0]("xsd:string")[0]), "resultado")
         self.assertEqual(str(response.result.item[0]("xsd:string")[1]), "true")
         self.assertEqual(str(response.result.item[1]("xsd:string")[0]), "codigo")
@@ -41,7 +42,6 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(str(response.result.item[3]("xsd:anyType")[1]("ns2:Map").item[0].value), "123456")
         self.assertEqual(str(response.result.item[3]("xsd:anyType")[1]("ns2:Map").item[10].key), "fecha_nacimiento")
         self.assertEqual(str(response.result.item[3]("xsd:anyType")[1]("ns2:Map").item[10].value), "1985-10-02 00:00:00")
-    
 
     def test_buscar_personas_wsdl(self):
         WSDL = "file://" + os.path.join(TEST_DIR, "licencias.wsdl")
@@ -51,12 +51,9 @@ class TestIssues(unittest.TestCase):
         client.http = DummyHTTP(xml)
         resultado = client.PersonaSearch(numero_documento='31867063')
         print resultado
-        
-        # each resultado['result'][i]['item'] is xsd:anyType, so it is not unmarshalled 
+
+        # each resultado['result'][i]['item'] is xsd:anyType, so it is not unmarshalled
         # they are SimpleXmlElement (see test_buscar_personas_raw)
         self.assertEqual(str(resultado['result'][0]['item']('xsd:string')[0]), "resultado")
         self.assertEqual(str(resultado['result'][1]['item']('xsd:string')[1]), "WS01-01")
         self.assertEqual(str(resultado['result'][3]['item']('xsd:anyType')[1]("ns2:Map").item[10].value), "1985-10-02 00:00:00")
-
-    
-

@@ -19,9 +19,9 @@ import sys
 from pysimplesoap.client import SimpleXMLElement, SoapClient, SoapFault, parse_proxy, set_http_wrapper
 from dummy_utils import DummyHTTP, TEST_DIR
 
-TRACE= False
+TRACE = False
 
-WSDLs=[
+WSDLs = [
     "https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl",
     "https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl",
     "https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL",
@@ -30,15 +30,16 @@ WSDLs=[
     "https://serviciosjava.afip.gob.ar/wsmtxca/services/MTXCAService?wsdl",
     "https://wswhomo.afip.gov.ar/wsfexv1/service.asmx?WSDL",
     "https://servicios1.afip.gov.ar/wsfexv1/service.asmx?WSDL",
-    ]
+]
 
 wrapper = None
 cache = "./cache"
 proxy_dict = None
 cacert = None
 
+
 class TestIssues(unittest.TestCase):
-   
+
     def atest_wsaa_exception(self):
         "Test WSAA for SoapFault"
         WSDL = "https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl"
@@ -108,7 +109,6 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['dbserver'], "OK")
         self.assertEqual(result['authserver'], "OK")
 
-
     def test_wsfexv1_getcmp(self):
         "Test Argentina AFIP Electronic Invoice WSFEXv1 GetCMP method"
         # create the proxy and parse the WSDL
@@ -141,4 +141,3 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(resultget['Resultado'], "A")
         self.assertEqual(resultget['Cbte_nro'], 38)
         self.assertEqual(resultget['Imp_total'], Decimal('130.21'))
-

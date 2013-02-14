@@ -2,8 +2,10 @@
 
 import unittest
 
+
 def add(suite, module):
     suite.addTest(unittest.TestLoader().loadTestsFromModule(module))
+
 
 def test():
     # TODO: automagicaly import modules test/*_test.py
@@ -17,7 +19,7 @@ def test():
     from tests import trazamed_tests
 
     suite = unittest.TestSuite()
-    
+
     add(suite, soapdispatcher_test)
     add(suite, simplexmlelement_test)
     add(suite, issues_tests)
@@ -25,7 +27,7 @@ def test():
     add(suite, server_multins_test)
     ##add(suite, licencias_tests)
     ##add(suite, trazamed_tests)
-    
+
     unittest.TextTestRunner(verbosity=2).run(suite)
 
 if __name__ == '__main__':

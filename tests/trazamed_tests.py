@@ -29,21 +29,22 @@ WSDL = "https://186.153.145.2:9050/trazamed.WebService?wsdl"
 LOCATION = "https://186.153.145.2:9050/trazamed.WebService"
 #WSDL = "https://trazabilidad.pami.org.ar:9050/trazamed.WebService?wsdl"
 
+
 class TestTrazamed(unittest.TestCase):
 
     def setUp(self):
 
         self.client = SoapClient(
-            wsdl = WSDL,        
-            cache = None,
+            wsdl=WSDL,
+            cache=None,
             ns="tzmed",
             soap_ns="soapenv",
             #soap_server="jbossas6",
-            trace = "--trace" in sys.argv)
-            
+            trace="--trace" in sys.argv)
+
         # fix location (localhost:9050 is erroneous in the WSDL)
         self.client.services['IWebServiceService']['ports']['IWebServicePort']['location'] = LOCATION
-            
+
         # Set WSSE security credentials
         self.client['wsse:Security'] = {
             'wsse:UsernameToken': {
@@ -55,89 +56,86 @@ class TestTrazamed(unittest.TestCase):
     def test_send_medicamentos(self):
         self.client.help("sendMedicamentos")
         res = self.client.sendMedicamentos(
-            arg0={  'f_evento': "25/11/2011", 
-                    'h_evento': "04:24", 
-                    'gln_origen': "glnws" , 
-                    'gln_destino': "glnws", 
-                    'n_remito': "1234", 
-                    'n_factura': "1234", 
-                    'vencimiento': "30/11/2011", 
-                    'gtin': "GTIN1", 
-                    'lote': "1111", 
-                    'numero_serial': "12345", 
-                    'id_obra_social': 1, 
-                    'id_evento': 133, 
-                    'cuit_origen': "20267565393", 
-                    'cuit_destino': "20267565393", 
-                    'apellido': "Reingart", 
-                    'nombres': "Mariano", 
-                    'tipo_docmento': "96", 
-                    'n_documento': "26756539", 
-                    'sexo': "M", 
-                    'direccion': "Saraza", 
-                    'numero': "1234", 
-                    'piso': "", 
-                    'depto': "", 
-                    'localidad': "Hurlingham", 
-                    'provincia': "Buenos Aires", 
-                    'n_postal': "B1688FDD",
-                    'fecha_nacimiento': "01/01/2000", 
-                    'telefono': "5555-5555",
-                    }, 
-            arg1='pruebasws', 
+            arg0={'f_evento': "25/11/2011",
+                  'h_evento': "04:24",
+                  'gln_origen': "glnws",
+                  'gln_destino': "glnws",
+                  'n_remito': "1234",
+                  'n_factura': "1234",
+                  'vencimiento': "30/11/2011",
+                  'gtin': "GTIN1",
+                  'lote': "1111",
+                  'numero_serial': "12345",
+                  'id_obra_social': 1,
+                  'id_evento': 133,
+                  'cuit_origen': "20267565393",
+                  'cuit_destino': "20267565393",
+                  'apellido': "Reingart",
+                  'nombres': "Mariano",
+                  'tipo_docmento': "96",
+                  'n_documento': "26756539",
+                  'sexo': "M",
+                  'direccion': "Saraza",
+                  'numero': "1234",
+                  'piso': "",
+                  'depto': "",
+                  'localidad': "Hurlingham",
+                  'provincia': "Buenos Aires",
+                  'n_postal': "B1688FDD",
+                  'fecha_nacimiento': "01/01/2000",
+                  'telefono': "5555-5555",
+            },
+            arg1='pruebasws',
             arg2='pruebasws',
         )
 
         ret = res['return']
-        
+
         self.assertEqual(ret[0]['codigoTransaccion'], None)
         self.assertEqual(ret[1]['errores']['_c_error'], '3019')
         self.assertEqual(ret[1]['errores']['_d_error'], "No ha informado la recepcion del medicamento que desea enviar.")
         self.assertEqual(ret[-1]['resultado'], False)
 
-
     def test_send_medicamentos_dh_serie(self):
         self.client.help("sendMedicamentosDHSerie")
         res = self.client.sendMedicamentosDHSerie(
-            arg0={  'f_evento': "25/11/2011", 
-                    'h_evento': "04:24", 
-                    'gln_origen': "glnws" , 
-                    'gln_destino': "glnws", 
-                    'n_remito': "1234", 
-                    'n_factura': "1234", 
-                    'vencimiento': "30/11/2011", 
-                    'gtin': "GTIN1", 
-                    'lote': "1111", 
-                    'desde_numero_serial': 2, 
-                    'hasta_numero_serial': 1, 
-                    'id_obra_social': 1, 
-                    'id_evento': 133, 
-                    'cuit_origen': "20267565393", 
-                    'cuit_destino': "20267565393", 
-                    'apellido': "Reingart", 
-                    'nombres': "Mariano", 
-                    'tipo_docmento': "96", 
-                    'n_documento': "26756539", 
-                    'sexo': "M", 
-                    'direccion': "Saraza", 
-                    'numero': "1234", 
-                    'piso': "", 
-                    'depto': "", 
-                    'localidad': "Hurlingham", 
-                    'provincia': "Buenos Aires", 
-                    'n_postal': "B1688FDD",
-                    'fecha_nacimiento': "01/01/2000", 
-                    'telefono': "5555-5555",
-                    }, 
-            arg1='pruebasws', 
+            arg0={'f_evento': "25/11/2011",
+                  'h_evento': "04:24",
+                  'gln_origen': "glnws",
+                  'gln_destino': "glnws",
+                  'n_remito': "1234",
+                  'n_factura': "1234",
+                  'vencimiento': "30/11/2011",
+                  'gtin': "GTIN1",
+                  'lote': "1111",
+                  'desde_numero_serial': 2,
+                  'hasta_numero_serial': 1,
+                  'id_obra_social': 1,
+                  'id_evento': 133,
+                  'cuit_origen': "20267565393",
+                  'cuit_destino': "20267565393",
+                  'apellido': "Reingart",
+                  'nombres': "Mariano",
+                  'tipo_docmento': "96",
+                  'n_documento': "26756539",
+                  'sexo': "M",
+                  'direccion': "Saraza",
+                  'numero': "1234",
+                  'piso': "",
+                  'depto': "",
+                  'localidad': "Hurlingham",
+                  'provincia': "Buenos Aires",
+                  'n_postal': "B1688FDD",
+                  'fecha_nacimiento': "01/01/2000",
+                  'telefono': "5555-5555",
+            },
+            arg1='pruebasws',
             arg2='pruebasws',
         )
 
         ret = res['return']
-        
+
         self.assertEqual(ret[0]['codigoTransaccion'], None)
         self.assertEqual(ret[1]['errores']['_c_error'], '3004')
         self.assertEqual(ret[1]['errores']['_d_error'], "El campo Hasta Nro Serial debe ser mayor o igual al campo Desde Nro Serial.")
         self.assertEqual(ret[-1]['resultado'], False)
-
-

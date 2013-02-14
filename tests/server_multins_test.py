@@ -39,6 +39,7 @@ SINGLE_NS_RESP = """<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmln
 MULTI_NS_RESP = """<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:ext="http://external.mt.moboperator" xmlns:mod="http://model.common.mt.moboperator" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><ext:activateSubscriptionsResponse><ext:activateSubscriptionsReturn><mod:code>0</mod:code><mod:description>desc</mod:description><mod:items><mod:msisdn>791000000</mod:msisdn><mod:properties><mod:name>x</mod:name><mod:value>2</mod:value></mod:properties><mod:status>0</mod:status></mod:items></ext:activateSubscriptionsReturn></ext:activateSubscriptionsResponse></soapenv:Body></soapenv:Envelope>"""
 MULTI_NS_RESP1 = """<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:p727="http://external.mt.moboperator" xmlns:p924="http://model.common.mt.moboperator" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><p727:updateDeliveryStatusResponse><p727:updateDeliveryStatusReturn><p924:code>0</p924:code><p924:description>desc</p924:description></p727:updateDeliveryStatusReturn></p727:updateDeliveryStatusResponse></soapenv:Body></soapenv:Envelope>"""
 
+
 class TestServerMultiNS(unittest.TestCase):
 
     def _single_ns_func(self, serviceMsisdn, serviceName, activations=[]):
@@ -59,7 +60,7 @@ class TestServerMultiNS(unittest.TestCase):
             ]}
         ret['activateSubscriptionsReturn'].extend(results)
         return ret
-    
+
     _single_ns_func.returns = {'non-empty-dict': 1}
     _single_ns_func.args = {
         'serviceMsisdn': str,
@@ -106,7 +107,7 @@ class TestServerMultiNS(unittest.TestCase):
             }
         ]
     }
-        
+
     def _multi_ns_func(self, serviceMsisdn, serviceName, activations=[]):
         code = 0
         desc = 'desc'
@@ -125,7 +126,7 @@ class TestServerMultiNS(unittest.TestCase):
             ]}
         ret['external:activateSubscriptionsReturn'].extend(results)
         return ret
-    
+
     _multi_ns_func.returns = {'non-empty-dict': 1}
     _multi_ns_func.args = {
         'serviceMsisdn': str,
@@ -144,44 +145,44 @@ class TestServerMultiNS(unittest.TestCase):
             }
         ]
     }
-    
+
     def test_single_ns(self):
         dispatcher = SoapDispatcher(
-            name = "MTClientWS",
-            location = "http://localhost:8008/ws/MTClientWS",
-            action = 'http://localhost:8008/ws/MTClientWS', # SOAPAction
-            namespace = "http://external.mt.moboperator", prefix="external",
-            documentation = 'moboperator MTClientWS',
-            ns = True,
+            name="MTClientWS",
+            location="http://localhost:8008/ws/MTClientWS",
+            action='http://localhost:8008/ws/MTClientWS',  # SOAPAction
+            namespace="http://external.mt.moboperator", prefix="external",
+            documentation='moboperator MTClientWS',
+            ns=True,
             pretty=False,
             debug=True)
-        
-        dispatcher.register_function('activateSubscriptions', 
+
+        dispatcher.register_function('activateSubscriptions',
             self._single_ns_func,
             returns=self._single_ns_func.returns,
             args=self._single_ns_func.args)
-        
+
         # I don't fully know if that is a valid response for a given request,
         # but I tested it, to be sure that a multi namespace function
         # doesn't brake anything.
         self.assertEqual(dispatcher.dispatch(REQ), SINGLE_NS_RESP)
-        
+
     def test_multi_ns(self):
         dispatcher = SoapDispatcher(
-            name = "MTClientWS",
-            location = "http://localhost:8008/ws/MTClientWS",
-            action = 'http://localhost:8008/ws/MTClientWS', # SOAPAction
-            namespace = "http://external.mt.moboperator", prefix="external",
-            documentation = 'moboperator MTClientWS',
-            namespaces = {
-                'external': 'http://external.mt.moboperator', 
+            name="MTClientWS",
+            location="http://localhost:8008/ws/MTClientWS",
+            action='http://localhost:8008/ws/MTClientWS',  # SOAPAction
+            namespace="http://external.mt.moboperator", prefix="external",
+            documentation='moboperator MTClientWS',
+            namespaces={
+                'external': 'http://external.mt.moboperator',
                 'model': 'http://model.common.mt.moboperator'
             },
-            ns = True,
+            ns=True,
             pretty=False,
             debug=True)
-        
-        dispatcher.register_function('activateSubscriptions', 
+
+        dispatcher.register_function('activateSubscriptions',
             self._multi_ns_func,
             returns=self._multi_ns_func.returns,
             args=self._multi_ns_func.args)
@@ -189,9 +190,9 @@ class TestServerMultiNS(unittest.TestCase):
             self._updateDeliveryStatus,
             returns=self._updateDeliveryStatus.returns,
             args=self._updateDeliveryStatus.args)
-        
+
         self.assertEqual(dispatcher.dispatch(REQ), MULTI_NS_RESP)
         self.assertEqual(dispatcher.dispatch(REQ1), MULTI_NS_RESP1)
-    
+
 if __name__ == '__main__':
     unittest.main()

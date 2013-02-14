@@ -1,6 +1,7 @@
 import unittest
 from pysimplesoap.client import SoapClient, SoapFault, SimpleXMLElement
 
+
 class TestIssues(unittest.TestCase):
 
     def test_issue19(self):
@@ -19,12 +20,12 @@ class TestIssues(unittest.TestCase):
 
         lang = client.getValidLanguages()
 
-        self.assertEqual(lang, {'return': [{'item': u'no'},{'item': u'en'}, {'item': u'ny'}]})
+        self.assertEqual(lang, {'return': [{'item': u'no'}, {'item': u'en'}, {'item': u'ny'}]})
 
-    def test_issue35_raw(self):    
+    def test_issue35_raw(self):
 
         url = 'http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue'
-        client = SoapClient(location=url,action="", trace=False)
+        client = SoapClient(location=url, action="", trace=False)
         response = client.call("doEnsembleURIQuery", ("queryFormat", "Xpath"), ("queryString", "/markovChain"), ("startIndex", 0), ("maxResults", -1))
         self.assertEqual(str(response.statusCode), "MDC_INVALID_REQUEST")
         #print str(response.queryTime)
@@ -37,9 +38,9 @@ class TestIssues(unittest.TestCase):
 
     def test_issue35_wsdl(self):
         "Test positional parameters, multiRefs and axis messages"
-    
+
         url = 'http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue?WSDL'
-        client = SoapClient(wsdl=url,trace=False, soap_server="axis")
+        client = SoapClient(wsdl=url, trace=False, soap_server="axis")
         response = client.doEnsembleURIQuery(queryFormat="Xpath", queryString="/markovChain", startIndex=0, maxResults=-1)
 
         ret = response['doEnsembleURIQueryReturn']
@@ -47,7 +48,6 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(ret['totalResults'], 0)
         self.assertEqual(ret['startIndex'], 0)
         self.assertEqual(ret['numberOfResults'], 0)
-
 
     ##def test_issue8(self):
     ##    "Test europa.eu tax service (WSDL namespace)"
@@ -78,7 +78,7 @@ class TestIssues(unittest.TestCase):
     def test_issue43(self):
         from pysimplesoap.client import SoapClient
 
-        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc",trace=False)
+        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc", trace=False)
 
         print client.help("Login")
         print client.help("Logout")
@@ -88,9 +88,9 @@ class TestIssues(unittest.TestCase):
 
     def test_issue46(self):
         "Example for sending an arbitrary header using SimpleXMLElement"
-        
+
         # fake connection (just to test xml_request):
-        client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=False)
+        client = SoapClient(location="https://localhost:666/", namespace='http://localhost/api', trace=False)
 
         # Using WSDL, the equivalent is:
         # client['MyTestHeader'] = {'username': 'test', 'password': 'test'}
@@ -110,11 +110,11 @@ class TestIssues(unittest.TestCase):
 
     def test_issue47_wsdl(self):
         "Separate Header message WSDL (carizen)"
-        
-        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc")
-            
 
-        session = client['Session'] = { 'ID' : '1234' }
+        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc")
+
+
+        session = client['Session'] = {'ID': '1234'}
 
         try:
             client.Logout()
@@ -126,7 +126,7 @@ class TestIssues(unittest.TestCase):
     def test_issue47_raw(self):
         "Same example (clarizen), with raw headers (no wsdl)!"
         client = SoapClient(location="https://api.clarizen.com/v1.0/Clarizen.svc", namespace='http://clarizen.com/api', trace=False)
-            
+
         headers = SimpleXMLElement("<Headers/>", namespace="http://clarizen.com/api", prefix="ns1")
         session = headers.add_child("Session")
         session['xmlns'] = "http://clarizen.com/api"
@@ -144,7 +144,7 @@ class TestIssues(unittest.TestCase):
     def test_issue66(self):
         """Verify marshaled requests can be sent with no children"""
         # fake connection (just to test xml_request):
-        client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=False)
+        client = SoapClient(location="https://localhost:666/", namespace='http://localhost/api', trace=False)
 
         request = SimpleXMLElement("<ChildlessRequest/>")
         try:
@@ -166,7 +166,7 @@ class TestIssues(unittest.TestCase):
 
     def test_issue78(self):
         "Example for sending an arbitrary header using SimpleXMLElement and WSDL"
-        
+
         # fake connection (just to test xml_request):
         client = SoapClient(wsdl='http://dczorgwelzijn-test.qmark.nl/qmwise4/qmwise.asmx?wsdl')
 
@@ -179,17 +179,17 @@ class TestIssues(unittest.TestCase):
         ns = 'qmw'
         header = SimpleXMLElement('<Headers/>', namespace=namespace, prefix=ns)
         security = header.add_child("Security")
-        security['xmlns:qmw']=namespace
-        security.marshall('ClientID','NAME',ns=ns)
-        security.marshall('Checksum','PASSWORD',ns=ns)
-        client['Security']=security
+        security['xmlns:qmw'] = namespace
+        security.marshall('ClientID', 'NAME', ns=ns)
+        security.marshall('Checksum', 'PASSWORD', ns=ns)
+        client['Security'] = security
 
         try:
             client.GetParticipantList()
         except:
             #open("issue78.xml", "wb").write(client.xml_request)
             print client.xml_request
-            header="""<soap:Header><qmw:Security xmlns:qmw="http://questionmark.com/QMWISe/"><qmw:ClientID>NAME</qmw:ClientID><qmw:Checksum>PASSWORD</qmw:Checksum></qmw:Security></soap:Header>"""
+            header = """<soap:Header><qmw:Security xmlns:qmw="http://questionmark.com/QMWISe/"><qmw:ClientID>NAME</qmw:ClientID><qmw:Checksum>PASSWORD</qmw:Checksum></qmw:Security></soap:Header>"""
             self.assert_(header in client.xml_request, "header not in request!")
 
 if __name__ == '__main__':
