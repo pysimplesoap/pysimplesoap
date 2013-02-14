@@ -16,7 +16,7 @@ def test():
     from tests import server_multins_test
     # licencias_tests is for internal use, wsdl is not published
     ##from tests import licencias_tests
-    from tests import trazamed_tests
+    ##from tests import trazamed_tests
 
     suite = unittest.TestSuite()
 
