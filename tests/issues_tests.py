@@ -49,31 +49,31 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(ret['startIndex'], 0)
         self.assertEqual(ret['numberOfResults'], 0)
 
-    ##def test_issue8(self):
-    ##    "Test europa.eu tax service (WSDL namespace)"
+    def test_issue8(self):
+        "Test europa.eu tax service (WSDL namespace)"
 
-    ##    VIES_URL='http://ec.europa.eu/taxation_customs/vies/services/checkVatService.wsdl'
+        VIES_URL = 'http://ec.europa.eu/taxation_customs/vies/services/checkVatService.wsdl'
 
-    ##    client = SoapClient(
-    ##                location = "http://ec.europa.eu/taxation_customs/vies/services/checkVatService",
-    ##                action = '', # SOAPAction
-    ##                namespace = "urn:ec.europa.eu:taxud:vies:services:checkVat:types",
-    ##                trace = False
-    ##                )
-    ##    vat = 'BE0897290877'
-    ##    code = vat[:2]
-    ##    number = vat[2:]
-    ##    res = client.checkVat(countryCode=code, vatNumber=number)
-    ##    self.assertEqual(str(res('countryCode')), "BE")
-    ##    self.assertEqual(str(res('vatNumber')), "0897290877")
-    ##    self.assertEqual(str(res('name')), "SPRL B2CK")
-    ##    self.assertEqual(str(res('address')), "RUE DE ROTTERDAM 4 B21\n4000  LIEGE")
+        client = SoapClient(
+                    location="http://ec.europa.eu/taxation_customs/vies/services/checkVatService",
+                    action='',  # SOAPAction
+                    namespace="urn:ec.europa.eu:taxud:vies:services:checkVat:types",
+                    trace=False
+                    )
+        vat = 'IE6388047V'
+        code = vat[:2]
+        number = vat[2:]
+        res = client.checkVat(countryCode=code, vatNumber=number)
+        self.assertEqual(str(res('countryCode')), "IE")
+        self.assertEqual(str(res('vatNumber')), "6388047V")
+        self.assertEqual(str(res('name')), "GOOGLE IRELAND LIMITED")
+        self.assertEqual(str(res('address')), "1ST & 2ND FLOOR ,GORDON HOUSE ,BARROW STREET ,DUBLIN 4")
 
-    ##def test_ups(self):
-    ##    "Test UPS tracking service"
-    ##    WSDL = "file:ups.wsdl"
-    ##    client = SoapClient(wsdl=WSDL, ns="web", trace=True)
-    ##    print client.help("ProcessTrack")
+    def test_ups(self):
+        "Test UPS tracking service"
+        WSDL = "file:ups.wsdl"
+        client = SoapClient(wsdl=WSDL, ns="web", trace=True)
+        print client.help("ProcessTrack")
 
     def test_issue43(self):
         from pysimplesoap.client import SoapClient
@@ -112,7 +112,6 @@ class TestIssues(unittest.TestCase):
         "Separate Header message WSDL (carizen)"
 
         client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc")
-
 
         session = client['Session'] = {'ID': '1234'}
 
