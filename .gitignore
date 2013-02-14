@@ -1,8 +1,8 @@
 *.pyc
+issue*.xml
 
 /.idea
 /PySimpleSOAP.egg-info
-/issue*.xml
 /.coverage
 
 lib/*
