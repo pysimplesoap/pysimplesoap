@@ -49,25 +49,25 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(ret['numberOfResults'], 0)
 
 
-    def test_issue8(self):
-        "Test europa.eu tax service (WSDL namespace)"
+    ##def test_issue8(self):
+    ##    "Test europa.eu tax service (WSDL namespace)"
 
-        VIES_URL='http://ec.europa.eu/taxation_customs/vies/services/checkVatService.wsdl'
+    ##    VIES_URL='http://ec.europa.eu/taxation_customs/vies/services/checkVatService.wsdl'
 
-        client = SoapClient(
-                    location = "http://ec.europa.eu/taxation_customs/vies/services/checkVatService",
-                    action = '', # SOAPAction
-                    namespace = "urn:ec.europa.eu:taxud:vies:services:checkVat:types",
-                    trace = False
-                    )
-        vat = 'BE0897290877'
-        code = vat[:2]
-        number = vat[2:]
-        res = client.checkVat(countryCode=code, vatNumber=number)
-        self.assertEqual(str(res('countryCode')), "BE")
-        self.assertEqual(str(res('vatNumber')), "0897290877")
-        self.assertEqual(str(res('name')), "SPRL B2CK")
-        self.assertEqual(str(res('address')), "RUE DE ROTTERDAM 4 B21\n4000  LIEGE")
+    ##    client = SoapClient(
+    ##                location = "http://ec.europa.eu/taxation_customs/vies/services/checkVatService",
+    ##                action = '', # SOAPAction
+    ##                namespace = "urn:ec.europa.eu:taxud:vies:services:checkVat:types",
+    ##                trace = False
+    ##                )
+    ##    vat = 'BE0897290877'
+    ##    code = vat[:2]
+    ##    number = vat[2:]
+    ##    res = client.checkVat(countryCode=code, vatNumber=number)
+    ##    self.assertEqual(str(res('countryCode')), "BE")
+    ##    self.assertEqual(str(res('vatNumber')), "0897290877")
+    ##    self.assertEqual(str(res('name')), "SPRL B2CK")
+    ##    self.assertEqual(str(res('address')), "RUE DE ROTTERDAM 4 B21\n4000  LIEGE")
 
     ##def test_ups(self):
     ##    "Test UPS tracking service"

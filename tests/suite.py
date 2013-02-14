@@ -24,7 +24,7 @@ def test():
     add(suite, afip_tests)
     add(suite, server_multins_test)
     ##add(suite, licencias_tests)
-    add(suite, trazamed_tests)
+    ##add(suite, trazamed_tests)
     
     unittest.TextTestRunner(verbosity=2).run(suite)
 
