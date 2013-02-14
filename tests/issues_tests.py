@@ -69,11 +69,12 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(str(res('name')), "GOOGLE IRELAND LIMITED")
         self.assertEqual(str(res('address')), "1ST & 2ND FLOOR ,GORDON HOUSE ,BARROW STREET ,DUBLIN 4")
 
-    def test_ups(self):
-        "Test UPS tracking service"
-        WSDL = "file:ups.wsdl"
-        client = SoapClient(wsdl=WSDL, ns="web", trace=True)
-        print client.help("ProcessTrack")
+    ## NOTE: Missing file "ups.wsdl"
+    ##def test_ups(self):
+    ##    "Test UPS tracking service"
+    ##    WSDL = "file:ups.wsdl"
+    ##    client = SoapClient(wsdl=WSDL, ns="web", trace=True)
+    ##    print client.help("ProcessTrack")
 
     def test_issue43(self):
         from pysimplesoap.client import SoapClient
