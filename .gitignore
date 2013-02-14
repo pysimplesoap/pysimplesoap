@@ -1,6 +1,10 @@
 *.pyc
+
+/.idea
+/PySimpleSOAP.egg-info
+/issue*.xml
+/.coverage
+
 lib/*
 bin/*
 include/*
-
-PySimpleSOAP.egg-info/
