@@ -8,3 +8,6 @@ issue*.xml
 lib/*
 bin/*
 include/*
+
+build/
+dist/
