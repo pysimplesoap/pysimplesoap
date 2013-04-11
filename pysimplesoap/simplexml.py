@@ -140,7 +140,8 @@ class OrderedDict(dict):
     def update(self, other):
         for k,v in other.items():
             self[k] = v
-        if isinstance(other, OrderedDict):
+        # do not change if we are an array but the other is not:
+        if isinstance(other, OrderedDict) and not self.array:
             self.array = other.array
     def __str__(self):
         return "*%s*" % dict.__str__(self)
