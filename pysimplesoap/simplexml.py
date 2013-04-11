@@ -460,8 +460,19 @@ class SimpleXMLElement(object):
                 # append to existing list (if any) - unnested dict arrays -
                 value = d.setdefault(name, [])
                 children = node.children()
-                for child in (children and children() or []): # Readability counts
-                    value.append(child.unmarshall(fn[0], strict))
+                # TODO: check if this was really needed (get first child only)
+                ##if len(fn[0]) == 1 and children:
+                ##    children = children()
+                if len(fn[0]) > 1: 
+                    # Jetty array style support [{k, v}]
+                    for parent in node:
+                        tmp_dict = {}    # unmarshall each value & mix
+                        for child in (node.children() or []):
+                            tmp_dict.update(child.unmarshall(fn[0], strict))
+                        value.append(tmp_dict)  
+                else:  # .Net / Java                   
+                    for child in (children or []):
+                        value.append(child.unmarshall(fn[0], strict))
             
             elif isinstance(fn, tuple):
                 value = []
