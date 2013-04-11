@@ -143,6 +143,11 @@ class OrderedDict(dict):
         # do not change if we are an array but the other is not:
         if isinstance(other, OrderedDict) and not self.array:
             self.array = other.array
+    def copy(self):
+        "Make a duplicate"
+        new = OrderedDict()
+        new.update(self)
+        return new
     def __str__(self):
         return "*%s*" % dict.__str__(self)
     def __repr__(self):
