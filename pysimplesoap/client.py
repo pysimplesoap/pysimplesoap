@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.07a"
+__version__ = "1.08a"
 
 TIMEOUT = 60
 
@@ -572,6 +572,23 @@ class SoapClient(object):
                     if not fn:
                         # simple / complex type, postprocess later 
                         fn = elements.setdefault(make_key(type_name, "complexType"), OrderedDict())
+
+                    if e['maxOccurs']=="unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
+                        # it's an array... TODO: compound arrays?
+                        if isinstance(fn, OrderedDict):
+                            if len(children) > 1:
+                                # Jetty style support 
+                                # {'ClassName': [{'attr1': val1, 'attr2': val2}]  
+                                fn.array = True
+                            else:
+                                # .NET style support (backward compatibility)
+                                # [{'ClassName': {'attr1': val1, 'attr2': val2}]  
+                                # TODO: fix
+                                d.array = True
+                        else:
+                            # scalar support [{'attr1': [val1]}]  
+                            # TODO: fix
+                            fn = [fn]
                         
                     if e['name'] is not None and not alias:
                         e_name = unicode(e['name'])
@@ -579,9 +596,6 @@ class SoapClient(object):
                     else:
                         if debug: log.debug("complexConent/simpleType/element %s = %s" % (element_name, type_name))
                         d[None] = fn
-                    if e['maxOccurs']=="unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
-                        # it's an array... TODO: compound arrays?
-                        d.array = True
                     if e is not None and e.get_local_name() == 'extension' and e.children():
                         # extend base element:
                         process_element(element_name, e.children(), element_type)
@@ -635,8 +649,6 @@ class SoapClient(object):
             "Fix unresolved references (elements referenced before its definition, thanks .net)"
             for k,v in elements.items():
                 if isinstance(v, OrderedDict):
-                    if v.array:
-                        elements[k] = [v] # convert arrays to python lists
                     if v!=elements: #TODO: fix recursive elements
                         postprocess_element(v)
                     if None in v and v[None]: # extension base?
@@ -650,9 +662,12 @@ class SoapClient(object):
                             if debug: log.debug("Replacing %s = %s" % (k, v[None]))
                             elements[k] = v[None]
                             #break
+                    if v.array:
+                        elements[k] = [v] # convert arrays to python lists
                 if isinstance(v, list):
                     for n in v: # recurse list
-                        postprocess_element(n)
+                        if isinstance(n, (OrderedDict, list)):
+                            postprocess_element(n)
 
                         
         # process current wsdl schema:
