@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.08a"
+__version__ = "1.08b"
 
 TIMEOUT = 60
 
@@ -87,7 +87,7 @@ class SoapClient(object):
         else:
             self.__soap_ns = soap_ns
         
-        # SOAP Server (special cases like oracle or jbossas6)
+        # SOAP Server (special cases like oracle, jbossas6 or jetty)
         self.__soap_server = soap_server
         
         # SOAP Header support
@@ -214,7 +214,8 @@ class SoapClient(object):
                 
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
-        response = SimpleXMLElement(self.xml_response, namespace=self.namespace)
+        response = SimpleXMLElement(self.xml_response, namespace=self.namespace, 
+                                    jetty=self.__soap_server in ('jetty', ))
         if self.exceptions and response("Fault", ns=soap_namespaces.values(), error=False):
             raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
         return response
@@ -576,19 +577,20 @@ class SoapClient(object):
                     if e['maxOccurs']=="unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
                         # it's an array... TODO: compound arrays?
                         if isinstance(fn, OrderedDict):
-                            if len(children) > 1:
+                            if len(children) > 1 and self.__soap_server in ('jetty', ):
                                 # Jetty style support 
                                 # {'ClassName': [{'attr1': val1, 'attr2': val2}]  
                                 fn.array = True
                             else:
                                 # .NET style support (backward compatibility)
                                 # [{'ClassName': {'attr1': val1, 'attr2': val2}]  
-                                # TODO: fix
                                 d.array = True
                         else:
-                            # scalar support [{'attr1': [val1]}]  
-                            # TODO: fix
-                            fn = [fn]
+                            if self.__soap_server in ('jetty', ):
+                                # scalar support [{'attr1': [val1]}]  
+                                fn = [fn]
+                            else:
+                                d.array = True
                         
                     if e['name'] is not None and not alias:
                         e_name = unicode(e['name'])
