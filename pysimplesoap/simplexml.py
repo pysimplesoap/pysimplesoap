@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03a"
+__version__ = "1.03b"
 
 import datetime
 import logging
@@ -161,7 +161,7 @@ class SimpleXMLElement(object):
     "Simple XML manipulation (simil PHP)"
     
     def __init__(self, text = None, elements = None, document = None, 
-                 namespace = None, prefix=None, namespaces_map={}):
+                 namespace = None, prefix=None, namespaces_map={}, jetty=False):
         """
         :param namespaces_map: How to map our namespace prefix to that given by the client;
           {prefix: received_prefix}
@@ -173,6 +173,7 @@ class SimpleXMLElement(object):
                                                       # and later change that to <mod:code>1</mod:code>
         self.__ns = namespace
         self.__prefix = prefix
+        self.__jetty = jetty                          # special list support
         
         if text is not None:
             try:
@@ -208,6 +209,7 @@ class SimpleXMLElement(object):
                     document=self.__document,
                     namespace=self.__ns,
                     prefix=self.__prefix,
+                    jetty=self.__jetty,
                     namespaces_map=self.__namespaces_map)
     
     def __setattr__(self, tag, text):
@@ -286,6 +288,7 @@ class SimpleXMLElement(object):
                     document=self.__document,
                     namespace=self.__ns,
                     prefix=self.__prefix,
+                    jetty=self.__jetty,
                     namespaces_map=self.__namespaces_map)
             
     def add_attribute(self, name, value):
@@ -312,6 +315,7 @@ class SimpleXMLElement(object):
                     document=self.__document,
                     namespace=self.__ns,
                     prefix=self.__prefix,
+                    jetty=self.__jetty,
                     namespaces_map=self.__namespaces_map
                 )
             if tag is None:
@@ -347,6 +351,7 @@ class SimpleXMLElement(object):
                 document=self.__document,
                 namespace=self.__ns,
                 prefix=self.__prefix,
+                jetty=self.__jetty,
                 namespaces_map=self.__namespaces_map)
         except AttributeError, e:
             raise AttributeError(u"Tag not found: %s (%s)" % (tag, unicode(e)))
@@ -364,6 +369,7 @@ class SimpleXMLElement(object):
                     document=self.__document,
                     namespace=self.__ns,
                     prefix=self.__prefix,
+                    jetty=self.__jetty,
                     namespaces_map=self.__namespaces_map)
         except:
             raise
@@ -386,6 +392,7 @@ class SimpleXMLElement(object):
                 document=self.__document,
                 namespace=self.__ns,
                 prefix=self.__prefix,
+                jetty=self.__jetty,
                 namespaces_map=self.__namespaces_map)
 
     def __len__(self):
@@ -463,7 +470,7 @@ class SimpleXMLElement(object):
                 # TODO: check if this was really needed (get first child only)
                 ##if len(fn[0]) == 1 and children:
                 ##    children = children()
-                if len(fn[0]) > 1: 
+                if self.__jetty and len(fn[0]) > 1: 
                     # Jetty array style support [{k, v}]
                     for parent in node:
                         tmp_dict = {}    # unmarshall each value & mix
