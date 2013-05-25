@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.07b"
+__version__ = "1.07b-rcarmo"
 
 TIMEOUT = 60
 
@@ -30,8 +30,6 @@ from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from transport import get_http_wrapper, set_http_wrapper, get_Http
 
 log = logging.getLogger(__name__)
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
-
 
 class SoapFault(RuntimeError):
     def __init__(self, faultcode, faultstring):
