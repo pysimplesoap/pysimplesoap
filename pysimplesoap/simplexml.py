@@ -240,7 +240,7 @@ class SimpleXMLElement(object):
 
     def __repr__(self):
         "Return the XML representation of this tag"
-        return self._element.toxml('UTF-8')
+        return self.as_xml('UTF-8')
 
     def get_name(self):
         "Return the tag name of this node"
