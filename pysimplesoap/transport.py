@@ -27,7 +27,6 @@ from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 import logging
 
 log = logging.getLogger(__name__)
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
 
 #
 # We store metadata about what available transport mechanisms we have available.
@@ -59,7 +58,7 @@ else:
             if proxy:
                 import socks
                 kwargs['proxy_info'] = httplib2.ProxyInfo(proxy_type=socks.PROXY_TYPE_HTTP, **proxy)
-                print "using proxy", proxy
+                log.debug("using proxy %s" % proxy)
 
             # set optional parameters according supported httplib2 version
             if httplib2.__version__ >= '0.3.0':
@@ -166,10 +165,9 @@ else:
                 c.setopt(pycurl.POSTFIELDS, body)
             if headers:
                 hdrs = ['%s: %s' % (str(k), str(v)) for k, v in headers.items()]
-                ##print hdrs
+                log.debug(hdrs)
                 c.setopt(pycurl.HTTPHEADER, hdrs)
             c.perform()
-            ##print "pycurl perform..."
             c.close()
             return {}, self.buf.getvalue()
 
@@ -186,9 +184,9 @@ class DummyTransport:
         self.xml_response = xml_response
 
     def request(self, location, method, body, headers):
-        print method, location
-        print headers
-        print body
+        log.debug("%s %s" % method, location)
+        log.debug(headers)
+        log.debug(body)
         return {}, self.xml_response
 
 
