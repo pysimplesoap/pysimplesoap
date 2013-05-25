@@ -1,7 +1,27 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by the
+# Free Software Foundation; either version 3, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTIBILITY
+# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+# for more details.
+
+"""Pythonic simple SOAP Client helpers"""
+
+__author__ = "Rui Carmo <https://github.com/rcarmo>"
+__copyright__ = "Copyright (C) 2008 Mariano Reingart"
+__maintainer__ = "Rui Carmo <https://github.com/rcarmo>"
+__credits__ = ["Mariano Reingart (reingart@gmail.com)","Dean Gardiner <https://github.com/fuzeman>","Piotr Staroszczyk <https://github.com/oczkers>","Rui Carmo <https://github.com/rcarmo>"]
+__license__ = "LGPL 3.0"
+__version__ = "1.1"
+
 import os, sys, logging, hashlib, urllib2
 from urlparse import urlsplit
 from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
-
 
 log = logging.getLogger(__name__)
 

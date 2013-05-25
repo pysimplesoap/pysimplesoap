@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by the
 # Free Software Foundation; either version 3, or (at your option) any later
@@ -10,21 +10,21 @@
 # or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 
-"Pythonic simple SOAP Client implementation"
+"""Pythonic simple SOAP Client transport"""
 
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
+__maintainer__ = "Rui Carmo <https://github.com/rcarmo>"
+__credits__ = ["Mariano Reingart (reingart@gmail.com)","Dean Gardiner <https://github.com/fuzeman>","Piotr Staroszczyk <https://github.com/oczkers>","Rui Carmo <https://github.com/rcarmo>"]
 __license__ = "LGPL 3.0"
+__version__ = "1.0"
 
 TIMEOUT = 60
 
-import os
+import os, sys, logging, urllib2, tempfile
 import cPickle as pickle
-import urllib2
 from urlparse import urlparse
-import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -178,7 +178,7 @@ else:
 
 
 class DummyTransport:
-    "Testing class to load a xml response"
+    """Testing class to load a xml response"""
 
     def __init__(self, xml_response):
         self.xml_response = xml_response
@@ -224,14 +224,14 @@ def get_http_wrapper(library=None, features=[]):
 
 
 def set_http_wrapper(library=None, features=[]):
-    "Set a suitable HTTP connection wrapper."
+    """Set a suitable HTTP connection wrapper."""
     global Http
     Http = get_http_wrapper(library, features)
     return Http
 
 
 def get_Http():
-    "Return current transport class"
+    """Return current transport class"""
     global Http
     return Http
 

@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by the
 # Free Software Foundation; either version 3, or (at your option) any later
@@ -10,12 +10,14 @@
 # or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 
-"Pythonic simple SOAP Client implementation"
+"""Pythonic simple SOAP Client implementation"""
 
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
+__maintainer__ = "Rui Carmo <https://github.com/rcarmo>"
+__credits__ = ["Mariano Reingart (reingart@gmail.com)","Dean Gardiner <https://github.com/fuzeman>","Piotr Staroszczyk <https://github.com/oczkers>","Rui Carmo <https://github.com/rcarmo>"]
 __license__ = "LGPL 3.0"
-__version__ = "1.07b-rcarmo"
+__version__ = "1.1"
 
 TIMEOUT = 60
 
@@ -25,7 +27,7 @@ import logging
 import os
 import tempfile
 import urllib2
-import pprint, difflib
+import pprint
 from urlparse import urlsplit
 from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from transport import get_http_wrapper, set_http_wrapper, get_Http
@@ -526,7 +528,7 @@ class SoapClient(object):
                         op['output'] = None
 
         # dump the full service/port/operation map
-        log.debug(pprint.pformat(services))
+        #log.debug(pprint.pformat(services))
 
         # Save parsed wsdl (cache)
         if cache:
