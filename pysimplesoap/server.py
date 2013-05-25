@@ -24,8 +24,7 @@ from simplexml import SimpleXMLElement, TYPE_MAP, Date, Decimal
 
 log = logging.getLogger(__name__)
 
-# Deprecated
-DEBUG = False
+# Deprecated?
 NS_RX=re.compile(r'xmlns:(\w+)="(.+?)"')
 
 
@@ -492,7 +491,6 @@ if __name__ == "__main__":
     
     def adder(p,c, dt=None):
         "Add several values"
-        print c[0]['d'], c[1]['d'],
         import datetime
         dt = dt + datetime.timedelta(365)
         return {'ab': p['a'] + p['b'], 'dd': c[0]['d'] + c[1]['d'], 'dt': dt}
@@ -522,25 +520,18 @@ if __name__ == "__main__":
     if '--local' in sys.argv:
 
         wsdl = dispatcher.wsdl()
-        print wsdl
-
-        # Commented because path is platform dependent
-        # Looks that it doesnt matter.
-        # open("C:/test.wsdl","w").write(wsdl)
 
         for method, doc in dispatcher.list_methods():
             request, response, doc = dispatcher.help(method)
-            ##print request
-            ##print response
 
     if '--serve' in sys.argv:
-        print "Starting server..."
+        log.info("Starting server...")
         httpd = HTTPServer(("", 8008), SOAPHandler)
         httpd.dispatcher = dispatcher
         httpd.serve_forever()
 
     if '--wsgi-serve' in sys.argv:
-        print "Starting wsgi server..."
+        log.info("Starting wsgi server...")
         from wsgiref.simple_server import make_server
         application = WSGISOAPHandler(dispatcher)
         wsgid = make_server('', 8008, application)
@@ -560,5 +551,5 @@ if __name__ == "__main__":
         c = [{'d': '1.20'}, {'d': '2.01'}]
         response = client.Adder(p=p, dt='20100724', c=c)
         result = response.AddResult
-        print int(result.ab)
-        print str(result.dd)
+        log.info(int(result.ab))
+        log.info(str(result.dd))
