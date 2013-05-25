@@ -25,7 +25,7 @@ import logging
 import os
 import tempfile
 import urllib2
-import pprint
+import pprint, difflib
 from urlparse import urlsplit
 from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from transport import get_http_wrapper, set_http_wrapper, get_Http
@@ -411,6 +411,7 @@ class SoapClient(object):
             serv['documentation'] = service['documentation'] or ''
             for port in service.port:
                 binding_name = get_local_name(port['binding'])
+                operations[binding_name] = {}
                 address = port('address', ns=soap_uris.values(), error=False)
                 location = address and address['location'] or None
                 soap_uri = address and soap_uris.get(address.get_prefix())
@@ -423,7 +424,6 @@ class SoapClient(object):
 
         for binding in wsdl.binding:
             binding_name = binding['name']
-            log.debug("Processing binding %s" % service_name)
             soap_binding = binding('binding', ns=soap_uris.values(), error=False)
             transport = soap_binding and soap_binding['transport'] or None
             port_type_name = get_local_name(binding['type'])
@@ -436,7 +436,7 @@ class SoapClient(object):
                 op_name = operation['name']
                 op = operation('operation', ns=soap_uris.values(), error=False)
                 action = op and op['soapAction']
-                d = operations.setdefault(op_name, {})
+                d = operations[binding_name].setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
                 d.update({'name': op_name})
                 d['parts'] = {}
@@ -451,11 +451,8 @@ class SoapClient(object):
                 d['parts']['input_header'] = header and {'message': header['message'], 'part': header['part']} or None
                 header = output and output('header', ns=soap_uris.values(), error=False)
                 d['parts']['output_header'] = header and {'message': header['message'], 'part': header['part']} or None
-                log.debug("%s '%s' %s" % (binding_name, op_name, pprint.pformat(d)))
-                #if action: #TODO: separe operation_binding from operation
                 if action:
                     d["action"] = action
-
 
         # check axis2 namespace at schema types attributes
         self.namespace = dict(wsdl.types("schema", ns=xsd_uri)[:]).get('targetNamespace', self.namespace)
@@ -503,8 +500,7 @@ class SoapClient(object):
 
             for operation in port_type.operation:
                 op_name = operation['name']
-                log.debug("Operation %s" % op_name)
-                op = operations[op_name]
+                op = operations[str(binding['port_type_name'])][op_name]
                 op['documentation'] = unicode(operation('documentation', error=False) or '')
                 if binding['soap_ver']:
                     #TODO: separe operation_binding from operation (non SOAP?)
