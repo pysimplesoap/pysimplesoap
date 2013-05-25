@@ -5,8 +5,8 @@ from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 
 log = logging.getLogger(__name__)
 
-def fetch(url, http, cache = None, force_download = False, wsdl_basedir = ''):
-    "Download a document from a URL, save it locally if cache enabled"
+def fetch(url, http, cache = False, force_download = False, wsdl_basedir = ''):
+    """Download a document from a URL, save it locally if cache enabled"""
 
     # check / append a valid schema if not given:
     url_scheme, netloc, path, query, fragment = urlsplit(url)
@@ -18,7 +18,7 @@ def fetch(url, http, cache = None, force_download = False, wsdl_basedir = ''):
                 else:
                     tmp_url = "%s:%s" % (scheme, os.path.join(wsdl_basedir,url))
                 log.debug("Scheme not found, trying %s" % scheme)
-                return fetch(tmp_url, http, wsdl_basedir)
+                return fetch(tmp_url, http, cache, force_download, wsdl_basedir)
             except Exception, e:
                 log.error(e)
         raise RuntimeError("No scheme given for url: %s" % url)
