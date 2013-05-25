@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 
 # Deprecated
 DEBUG = False
-NS_RX = re.compile(r'xmlns:(\w+)="(.+?)"')
+NS_RX=re.compile(r'xmlns:(\w+)="(.+?)"')
 
 
 class SoapDispatcher(object):
@@ -80,9 +80,9 @@ class SoapDispatcher(object):
         self.methods = {}
         self.name = name
         self.documentation = documentation
-        self.action = action  # base SoapAction
+        self.action = action # base SoapAction
         self.location = location
-        self.namespace = namespace  # targetNamespace
+        self.namespace = namespace # targetNamespace
         self.prefix = prefix
         self.soap_ns = soap_ns
         self.soap_uri = soap_uri
@@ -157,7 +157,7 @@ class SoapDispatcher(object):
             log.debug('dispatch method: %s', name)
             function, returns_types, args_types, doc = self.methods[name]
             log.debug('returns_types %s', returns_types)
-
+            
             # de-serialize parameters (if type definitions given)
             if args_types:
                 args = method.children().unmarshall(args_types)
@@ -192,9 +192,9 @@ class SoapDispatcher(object):
                        xmlns:%(prefix)s="%(namespace)s"/>"""
 
         xml %= {    # a %= {} is a shortcut for a = a % {}
-            'namespace': self.namespace,
+            'namespace': self.namespace, 
             'prefix': prefix,
-            'soap_ns': soap_ns,
+            'soap_ns': soap_ns, 
             'soap_uri': soap_uri
         }
 
@@ -209,7 +209,7 @@ class SoapDispatcher(object):
 
         response = SimpleXMLElement(xml,
                                     namespace=self.namespace,
-                                    namespaces_map=mapping,
+                                    namespaces_map = mapping,
                                     prefix=prefix)
 
         response['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
@@ -482,16 +482,15 @@ if __name__ == "__main__":
     import sys
 
     dispatcher = SoapDispatcher(
-        name="PySimpleSoapSample",
-        location="http://localhost:8008/",
-        action='http://localhost:8008/',  # SOAPAction
-        namespace="http://example.com/pysimplesoapsamle/", prefix="ns0",
-        documentation='Example soap service using PySimpleSoap',
-        trace=True,
-        ns=True
-    )
-
-    def adder(p, c, dt=None):
+        name = "PySimpleSoapSample",
+        location = "http://localhost:8008/",
+        action = 'http://localhost:8008/', # SOAPAction
+        namespace = "http://example.com/pysimplesoapsamle/", prefix="ns0",
+        documentation = 'Example soap service using PySimpleSoap',
+        trace = True,
+        ns = True)
+    
+    def adder(p,c, dt=None):
         "Add several values"
         print c[0]['d'], c[1]['d'],
         import datetime

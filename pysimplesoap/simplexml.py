@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03a"
+__version__ = "1.03b"
 
 import datetime
 import logging
@@ -45,7 +45,7 @@ def datetime_u(s):
         try:
             # strip utc offset
             if s[-3] == ":" and s[-6] in (' ', '-', '+'):
-                warnings.warn('removing unsupported UTC offset', RuntimeWarning)
+                warnings.warn('removing unsupported UTC offset', RuntimeWarning) 
                 s = s[:-6]
             # parse microseconds
             try:
@@ -55,7 +55,7 @@ def datetime_u(s):
         except ValueError:
             # strip microseconds (not supported in this platform)
             if "." in s:
-                warnings.warn('removing unsuppported microseconds', RuntimeWarning)
+                warnings.warn('removing unsuppported microseconds', RuntimeWarning) 
                 s = s[:s.index(".")]
             return _strptime(s, fmt)
 
@@ -64,7 +64,7 @@ date_u = lambda s: _strptime(s[0:10], "%Y-%m-%d").date()
 date_m = lambda d: d.strftime("%Y-%m-%d")
 time_u = lambda s: _strptime(s, "%H:%M:%S").time()
 time_m = lambda d: d.strftime("%H%M%S")
-bool_u = lambda s: {'0': False, 'false': False, '1': True, 'true': True}[s]
+bool_u = lambda s: {'0':False, 'false': False, '1': True, 'true': True}[s]
 bool_m = lambda s: {False: 'false', True: 'true'}[s]
 
 
@@ -142,12 +142,18 @@ class OrderedDict(dict):
     def update(self, other):
         for k, v in other.items():
             self[k] = v
-        if isinstance(other, OrderedDict):
+        # do not change if we are an array but the other is not:
+        if isinstance(other, OrderedDict) and not self.array:
             self.array = other.array
+    def copy(self):
+        "Make a duplicate"
+        new = OrderedDict()
+        new.update(self)
+        return new
     def __str__(self):
         return "*%s*" % dict.__str__(self)
     def __repr__(self):
-        s = "*{%s}*" % ", ".join(['%s: %s' % (repr(k), repr(v)) for k, v in self.items()])
+        s= "*{%s}*" % ", ".join(['%s: %s' % (repr(k),repr(v)) for k,v in self.items()])
         if self.array and False:
             s = "[%s]" % s
         return s
@@ -155,21 +161,22 @@ class OrderedDict(dict):
 
 class SimpleXMLElement(object):
     "Simple XML manipulation (simil PHP)"
-
-    def __init__(self, text=None, elements=None, document=None,
-                 namespace=None, prefix=None, namespaces_map={}):
+    
+    def __init__(self, text = None, elements = None, document = None, 
+                 namespace = None, prefix=None, namespaces_map={}, jetty=False):
         """
         :param namespaces_map: How to map our namespace prefix to that given by the client;
           {prefix: received_prefix}
         """
         self.__namespaces_map = namespaces_map
-        _rx = "|".join(namespaces_map.keys())  # {'external': 'ext', 'model': 'mod'} -> 'external|model'
-        self.__ns_rx = re.compile(r"^(%s):.*$" % _rx)  # And now we build an expression ^(external|model):.*$
-                                                       # to find prefixes in all xml nodes i.e.: <model:code>1</model:code>
-                                                       # and later change that to <mod:code>1</mod:code>
+        _rx = "|".join(namespaces_map.keys()) # {'external': 'ext', 'model': 'mod'} -> 'external|model'
+        self.__ns_rx = re.compile(r"^(%s):.*$" % _rx) # And now we build an expression ^(external|model):.*$
+                                                      # to find prefixes in all xml nodes i.e.: <model:code>1</model:code>
+                                                      # and later change that to <mod:code>1</mod:code>
         self.__ns = namespace
         self.__prefix = prefix
-
+        self.__jetty = jetty                          # special list support
+        
         if text is not None:
             try:
                 self.__document = xml.dom.minidom.parseString(text)
@@ -199,12 +206,14 @@ class SimpleXMLElement(object):
             else:
                 element.appendChild(self.__document.createTextNode(str(text)))
         self._element.appendChild(element)
-        return SimpleXMLElement(elements=[element],
-                                document=self.__document,
-                                namespace=self.__ns,
-                                prefix=self.__prefix,
-                                namespaces_map=self.__namespaces_map)
-
+        return SimpleXMLElement(
+                    elements=[element],
+                    document=self.__document,
+                    namespace=self.__ns,
+                    prefix=self.__prefix,
+                    jetty=self.__jetty,
+                    namespaces_map=self.__namespaces_map)
+    
     def __setattr__(self, tag, text):
         "Add text child tag node (short form)"
         if tag.startswith("_"):
@@ -274,12 +283,14 @@ class SimpleXMLElement(object):
         else:
             # return element by index (position)
             element = self.__elements[item]
-            return SimpleXMLElement(elements=[element],
-                                    document=self.__document,
-                                    namespace=self.__ns,
-                                    prefix=self.__prefix,
-                                    namespaces_map=self.__namespaces_map)
-
+            return SimpleXMLElement(
+                    elements=[element],
+                    document=self.__document,
+                    namespace=self.__ns,
+                    prefix=self.__prefix,
+                    jetty=self.__jetty,
+                    namespaces_map=self.__namespaces_map)
+            
     def add_attribute(self, name, value):
         "Set an attribute value from a string"
         self._element.setAttribute(name, value)
@@ -304,6 +315,7 @@ class SimpleXMLElement(object):
                     document=self.__document,
                     namespace=self.__ns,
                     prefix=self.__prefix,
+                    jetty=self.__jetty,
                     namespaces_map=self.__namespaces_map
                 )
             if tag is None:
@@ -339,6 +351,7 @@ class SimpleXMLElement(object):
                 document=self.__document,
                 namespace=self.__ns,
                 prefix=self.__prefix,
+                jetty=self.__jetty,
                 namespaces_map=self.__namespaces_map)
         except AttributeError, e:
             raise AttributeError(u"Tag not found: %s (%s)" % (tag, unicode(e)))
@@ -356,6 +369,7 @@ class SimpleXMLElement(object):
                     document=self.__document,
                     namespace=self.__ns,
                     prefix=self.__prefix,
+                    jetty=self.__jetty,
                     namespaces_map=self.__namespaces_map)
         except:
             raise
@@ -373,11 +387,13 @@ class SimpleXMLElement(object):
         if not elements:
             return None
             #raise IndexError("Tag %s has no children" % self._element.tagName)
-        return SimpleXMLElement(elements=elements,
-                                document=self.__document,
-                                namespace=self.__ns,
-                                prefix=self.__prefix,
-                                namespaces_map=self.__namespaces_map)
+        return SimpleXMLElement(
+                elements=elements,
+                document=self.__document,
+                namespace=self.__ns,
+                prefix=self.__prefix,
+                jetty=self.__jetty,
+                namespaces_map=self.__namespaces_map)
 
     def __len__(self):
         "Return elements count"
@@ -451,16 +467,27 @@ class SimpleXMLElement(object):
                 # append to existing list (if any) - unnested dict arrays -
                 value = d.setdefault(name, [])
                 children = node.children()
-                for child in (children and children() or []):  # Readability counts
-                    value.append(child.unmarshall(fn[0], strict))
-
+                # TODO: check if this was really needed (get first child only)
+                ##if len(fn[0]) == 1 and children:
+                ##    children = children()
+                if self.__jetty and len(fn[0]) > 1: 
+                    # Jetty array style support [{k, v}]
+                    for parent in node:
+                        tmp_dict = {}    # unmarshall each value & mix
+                        for child in (node.children() or []):
+                            tmp_dict.update(child.unmarshall(fn[0], strict))
+                        value.append(tmp_dict)  
+                else:  # .Net / Java                   
+                    for child in (children or []):
+                        value.append(child.unmarshall(fn[0], strict))
+            
             elif isinstance(fn, tuple):
                 value = []
                 _d = {}
                 children = node.children()
                 as_dict = len(fn) == 1 and isinstance(fn[0], dict)
 
-                for child in (children and children() or []):  # Readability counts
+                for child in (children and children() or []): # Readability counts
                     if as_dict:
                         _d.update(child.unmarshall(fn[0], strict))  # Merging pairs
                     else:

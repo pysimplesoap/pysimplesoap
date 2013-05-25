@@ -63,9 +63,9 @@ _USE_GLOBAL_DEFAULT = object()
 
 class SoapClient(object):
     "Simple SOAP Client (simil PHP)"
-    def __init__(self, location=None, action=None, namespace=None,
-                 cert=None, trace=False, exceptions=True, proxy=None, ns=False,
-                 soap_ns=None, wsdl=None, cache=False, cacert=None,
+    def __init__(self, location = None, action = None, namespace = None,
+                 cert = None, trace = False, exceptions = True, proxy = None, ns=False,
+                 soap_ns=None, wsdl = None, wsdl_basedir = '', cache = False, cacert=None,
                  sessions=False, soap_server=None, timeout=_USE_GLOBAL_DEFAULT,
                  http_headers={}
                  ):
@@ -81,14 +81,15 @@ class SoapClient(object):
         self.exceptions = exceptions    # lanzar execpiones? (Soap Faults)
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers
+        self.wsdl_basedir = wsdl_basedir
         if not soap_ns and not ns:
-            self.__soap_ns = 'soap'  # 1.1
+            self.__soap_ns = 'soap' # 1.1
         elif not soap_ns and ns:
-            self.__soap_ns = 'soapenv'  # 1.2
+            self.__soap_ns = 'soapenv' # 1.2
         else:
             self.__soap_ns = soap_ns
 
-        # SOAP Server (special cases like oracle or jbossas6)
+        # SOAP Server (special cases like oracle, jbossas6 or jetty)
         self.__soap_server = soap_server
 
         # SOAP Header support
@@ -114,7 +115,7 @@ class SoapClient(object):
         Http = get_Http()
         self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
 
-        self.__ns = ns  # namespace prefix or False to not use it
+        self.__ns = ns # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?>
 <%(soap_ns)s:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -142,10 +143,10 @@ class SoapClient(object):
 
     def __getattr__(self, attr):
         "Return a pseudo-method that can be called"
-        if not self.services:  # not using WSDL?
-            return lambda self=self, *args, **kwargs: self.call(attr, *args, **kwargs)
-        else:  # using WSDL:
-            return lambda *args, **kwargs: self.wsdl_call(attr, *args, **kwargs)
+        if not self.services: # not using WSDL?
+            return lambda self=self, *args, **kwargs: self.call(attr,*args,**kwargs)
+        else: # using WSDL:
+            return lambda *args, **kwargs: self.wsdl_call(attr,*args,**kwargs)
 
     def call(self, method, *args, **kwargs):
         """Prepare xml request and make SOAP call, returning a SimpleXMLElement.
@@ -215,10 +216,12 @@ class SoapClient(object):
 
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
-        response = SimpleXMLElement(self.xml_response, namespace=self.namespace)
+        response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
+                                    jetty=self.__soap_server in ('jetty', ))
         if self.exceptions and response("Fault", ns=soap_namespaces.values(), error=False):
             raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
         return response
+
 
     def send(self, method, xml):
         "Send SOAP request using HTTP"
@@ -239,12 +242,13 @@ class SoapClient(object):
         headers.update(self.http_headers)
         log.info("POST %s" % location)
         log.info("Headers: %s" % headers)
+        log.debug(xml)
 
         if self.trace:
             print "-" * 80
             print "POST %s" % location
-            print '\n'.join(["%s: %s" % (k, v) for k, v in headers.items()])
-            print u"\n%s" % xml.decode("utf8", "ignore")
+            print '\n'.join(["%s: %s" % (k,v) for k,v in headers.items()])
+            print u"\n%s" % xml.decode("utf8","ignore")
 
         response, content = self.http.request(
             location, "POST", body=xml, headers=headers)
@@ -253,10 +257,11 @@ class SoapClient(object):
 
         if self.trace:
             print
-            print '\n'.join(["%s: %s" % (k, v) for k, v in response.items()])
+            print '\n'.join(["%s: %s" % (k,v) for k,v in response.items()])
             print content#.decode("utf8","ignore")
             print "=" * 80
         return content
+
 
     def get_operation(self, method):
         # try to find operation in wsdl file
@@ -329,8 +334,8 @@ class SoapClient(object):
         # call remote procedure
         response = self.call(method, *params)
         # parse results:
-        resp = response('Body', ns=soap_uri).children().unmarshall(output)
-        return resp and resp.values()[0]  # pass Response tag children
+        resp = response('Body',ns=soap_uri).children().unmarshall(output)
+        return resp and resp.values()[0] # pass Response tag children
 
     def help(self, method):
         "Return operation documentation and invocation/returned value example"
@@ -401,13 +406,13 @@ class SoapClient(object):
 
             # check / append a valid schema if not given:
             url_scheme, netloc, path, query, fragment = urlsplit(url)
-            if not url_scheme in ('http', 'https', 'file'):
-                for scheme in ('http', 'https', 'file'):
+            if not url_scheme in ('http','https', 'file'):
+                for scheme in ('http','https', 'file'):
                     try:
                         if not url.startswith("/") and scheme in ('http', 'https'):
-                            tmp_url = "%s://%s" % (scheme, url)
+                            tmp_url = "%s://%s" % (scheme, os.path.join(self.wsdl_basedir,url))
                         else:
-                            tmp_url = "%s:%s" % (scheme, url)
+                            tmp_url = "%s:%s" % (scheme, os.path.join(self.wsdl_basedir,url))
                         if debug: log.debug("Scheme not found, trying %s" % scheme)
                         return fetch(tmp_url)
                     except Exception, e:
@@ -468,7 +473,7 @@ class SoapClient(object):
         for service in wsdl.service:
             service_name = service['name']
             if not service_name:
-                continue  # empty service?
+                continue # empty service?
             if debug: log.debug("Processing service %s" % service_name)
             serv = services.setdefault(service_name, {'ports': {}})
             serv['documentation'] = service['documentation'] or ''
@@ -538,8 +543,8 @@ class SoapClient(object):
                 if tag.get_local_name() in ("annotation", "documentation"):
                     continue
                 elif tag.get_local_name() in ('element', 'restriction'):
-                    if debug: log.debug("%s has not children! %s" % (element_name, tag))
-                    children = tag  # element "alias"?
+                    if debug: log.debug("%s has not children! %s" % (element_name,tag))
+                    children = tag # element "alias"?
                     alias = True
                 elif tag.children():
                     children = tag.children()
@@ -551,16 +556,16 @@ class SoapClient(object):
                 for e in children:
                     t = e['type']
                     if not t:
-                        t = e['base']  # complexContent (extension)!
+                        t = e['base'] # complexContent (extension)!
                     if not t:
-                        t = 'anyType'  # no type given!
+                        t = 'anyType' # no type given!
                     t = t.split(":")
                     if len(t) > 1:
                         ns, type_name = t
                     else:
                         ns, type_name = None, t[0]
                     if element_name == type_name:
-                        pass  ## warning with infinite recursion
+                        pass ## warning with infinite recursion
                     uri = ns and e.get_namespace_uri(ns) or xsd_uri
                     if uri == xsd_uri:
                         # look for the type, None == any
@@ -571,15 +576,30 @@ class SoapClient(object):
                         # simple / complex type, postprocess later
                         fn = elements.setdefault(make_key(type_name, "complexType"), OrderedDict())
 
+                    if e['maxOccurs']=="unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
+                        # it's an array... TODO: compound arrays?
+                        if isinstance(fn, OrderedDict):
+                            if len(children) > 1 and self.__soap_server in ('jetty', ):
+                                # Jetty style support
+                                # {'ClassName': [{'attr1': val1, 'attr2': val2}]
+                                fn.array = True
+                            else:
+                                # .NET style support (backward compatibility)
+                                # [{'ClassName': {'attr1': val1, 'attr2': val2}]
+                                d.array = True
+                        else:
+                            if self.__soap_server in ('jetty', ):
+                                # scalar support [{'attr1': [val1]}]
+                                fn = [fn]
+                            else:
+                                d.array = True
+
                     if e['name'] is not None and not alias:
                         e_name = unicode(e['name'])
                         d[e_name] = fn
                     else:
                         if debug: log.debug("complexConent/simpleType/element %s = %s" % (element_name, type_name))
                         d[None] = fn
-                    if e['maxOccurs'] == "unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
-                        # it's an array... TODO: compound arrays?
-                        d.array = True
                     if e is not None and e.get_local_name() == 'extension' and e.children():
                         # extend base element:
                         process_element(element_name, e.children(), element_type)
@@ -593,7 +613,7 @@ class SoapClient(object):
         def preprocess_schema(schema):
             "Find schema elements and complex types"
             for element in schema.children() or []:
-                if element.get_local_name() in ('import', ):
+                if element.get_local_name() in ('import', 'include', ):
                     schema_namespace = element['namespace']
                     schema_location = element['schemaLocation']
                     if schema_location is None:
@@ -633,11 +653,9 @@ class SoapClient(object):
             "Fix unresolved references (elements referenced before its definition, thanks .net)"
             for k, v in elements.items():
                 if isinstance(v, OrderedDict):
-                    if v.array:
-                        elements[k] = [v]  # convert arrays to python lists
-                    if v != elements:  # TODO: fix recursive elements
+                    if v!=elements: #TODO: fix recursive elements
                         postprocess_element(v)
-                    if None in v and v[None]:  # extension base?
+                    if None in v and v[None]: # extension base?
                         if isinstance(v[None], dict):
                             for i, kk in enumerate(v[None]):
                                 # extend base -keep orginal order-
@@ -648,9 +666,13 @@ class SoapClient(object):
                             if debug: log.debug("Replacing %s = %s" % (k, v[None]))
                             elements[k] = v[None]
                             #break
+                    if v.array:
+                        elements[k] = [v] # convert arrays to python lists
                 if isinstance(v, list):
-                    for n in v:  # recurse list
-                        postprocess_element(n)
+                    for n in v: # recurse list
+                        if isinstance(n, (OrderedDict, list)):
+                            postprocess_element(n)
+
 
         # process current wsdl schema:
         for schema in wsdl.types("schema", ns=xsd_uri):
