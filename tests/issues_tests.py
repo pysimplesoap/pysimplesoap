@@ -10,6 +10,8 @@ class TestIssues(unittest.TestCase):
             wsdl='http://www.destin8.co.uk/ISLInterface/ISLInterface?WSDL'
         )
 
+    test_issue19.disabled = 1
+
     def test_issue34(self):
         """Test soap_server SoapClient constructor parameter"""
         client = SoapClient(
