@@ -6,10 +6,12 @@ from pysimplesoap.client import SoapClient, SoapFault
 from dummy_utils import DummyHTTP, TEST_DIR
 import os
 
-xml = open(os.path.join(TEST_DIR, "licencias.xml")).read()
-
 
 class TestIssues(unittest.TestCase):
+    internal = 1
+
+    def setUp(self):
+        self.xml = open(os.path.join(TEST_DIR, "licencias.xml")).read()
 
     def test_buscar_personas_raw(self):
 
@@ -18,7 +20,7 @@ class TestIssues(unittest.TestCase):
                             namespace="http://wwwdesagobi.dpi.sfnet:8080/licencias/web/",
                             action=url)
         # load dummy response (for testing)
-        client.http = DummyHTTP(xml)
+        client.http = DummyHTTP(self.xml)
         client['AuthHeaderElement'] = {'username': 'mariano', 'password': 'clave'}
         response = client.PersonaSearch(persona=(('numero_documento', '99999999'),
                                                   ('apellido_paterno', ''),
@@ -48,7 +50,7 @@ class TestIssues(unittest.TestCase):
         client = SoapClient(wsdl=WSDL, ns="web", trace=True)
         print client.help("PersonaSearch")
         client['AuthHeaderElement'] = {'username': 'mariano', 'password': 'clave'}
-        client.http = DummyHTTP(xml)
+        client.http = DummyHTTP(self.xml)
         resultado = client.PersonaSearch(numero_documento='31867063')
         print resultado
 

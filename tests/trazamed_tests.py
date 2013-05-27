@@ -31,6 +31,7 @@ LOCATION = "https://186.153.145.2:9050/trazamed.WebService"
 
 
 class TestTrazamed(unittest.TestCase):
+    internal = 1
 
     def setUp(self):
 
