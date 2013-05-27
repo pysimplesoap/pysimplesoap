@@ -16,7 +16,7 @@ class TestIssues(unittest.TestCase):
         """Test soap_server SoapClient constructor parameter"""
         client = SoapClient(
             wsdl="http://eklima.met.no/metdata/MetDataService?WSDL",
-            soap_server="oracle", trace=False, cache=None
+            soap_server="oracle", cache=None
         )
         ##print client.help("getStationsProperties")
         ##print client.help("getValidLanguages")
@@ -39,7 +39,7 @@ class TestIssues(unittest.TestCase):
         client = SoapClient(
             location="http://wennekers.epcc.ed.ac.uk:8080"
                      "/axis/services/MetadataCatalogue",
-            action="", trace=False
+            action=""
         )
         response = client.call(
             "doEnsembleURIQuery",
@@ -63,7 +63,7 @@ class TestIssues(unittest.TestCase):
         client = SoapClient(
             wsdl="http://wennekers.epcc.ed.ac.uk:8080"
                  "/axis/services/MetadataCatalogue?WSDL",
-            trace=False, soap_server="axis"
+            soap_server="axis"
         )
         response = client.doEnsembleURIQuery(
             queryFormat="Xpath", queryString="/markovChain",
@@ -82,8 +82,7 @@ class TestIssues(unittest.TestCase):
         client = SoapClient(
             location="http://ec.europa.eu/taxation_customs/vies/services/checkVatService",
             action='',  # SOAPAction
-            namespace="urn:ec.europa.eu:taxud:vies:services:checkVat:types",
-            trace=False
+            namespace="urn:ec.europa.eu:taxud:vies:services:checkVat:types"
         )
         vat = 'IE6388047V'
         code = vat[:2]
@@ -106,8 +105,7 @@ class TestIssues(unittest.TestCase):
         from pysimplesoap.client import SoapClient
 
         client = SoapClient(
-            wsdl="https://api.clarizen.com/v1.0/Clarizen.svc",
-            trace=False
+            wsdl="https://api.clarizen.com/v1.0/Clarizen.svc"
         )
 
         print client.help("Login")
@@ -122,7 +120,7 @@ class TestIssues(unittest.TestCase):
         # fake connection (just to test xml_request):
         client = SoapClient(
             location="https://localhost:666/",
-            namespace='http://localhost/api', trace=False
+            namespace='http://localhost/api'
         )
 
         # Using WSDL, the equivalent is:
@@ -164,7 +162,7 @@ class TestIssues(unittest.TestCase):
         """Same example (clarizen), with raw headers (no wsdl)!"""
         client = SoapClient(
             location="https://api.clarizen.com/v1.0/Clarizen.svc",
-            namespace='http://clarizen.com/api', trace=False
+            namespace='http://clarizen.com/api'
         )
 
         headers = SimpleXMLElement("<Headers/>", namespace="http://clarizen.com/api",
@@ -189,7 +187,7 @@ class TestIssues(unittest.TestCase):
         # fake connection (just to test xml_request):
         client = SoapClient(
             location="https://localhost:666/",
-            namespace='http://localhost/api', trace=False
+            namespace='http://localhost/api'
         )
 
         request = SimpleXMLElement("<ChildlessRequest/>")
