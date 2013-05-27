@@ -418,7 +418,8 @@ class SoapClient(object):
                 location = address and address['location'] or None
                 soap_uri = address and soap_uris.get(address.get_prefix())
                 soap_ver = soap_uri and soap_ns.get(soap_uri)
-                bindings[binding_name] = {'service_name': service_name,
+                bindings[binding_name] = {'name': binding_name,
+                                          'service_name': service_name,
                                           'location': location,
                                           'soap_uri': soap_uri,
                                           'soap_ver': soap_ver, }
@@ -433,7 +434,9 @@ class SoapClient(object):
                 'port_type_name': port_type_name,
                 'transport': transport, 'operations': {},
             })
-            port_type_bindings[port_type_name] = bindings[binding_name]
+            if port_type_name not in port_type_bindings:
+                port_type_bindings[port_type_name] = []
+            port_type_bindings[port_type_name].append(bindings[binding_name])
             for operation in binding.operation:
                 op_name = operation['name']
                 op = operation('operation', ns=soap_uris.values(), error=False)
@@ -494,38 +497,37 @@ class SoapClient(object):
                         element = {element_name: fn}
                     messages[(message['name'], part['name'])] = element
 
-
         for port_type in wsdl.portType:
             port_type_name = port_type['name']
             log.debug("Processing port type %s" % port_type_name)
-            binding = port_type_bindings[port_type_name]
 
-            for operation in port_type.operation:
-                op_name = operation['name']
-                op = operations[str(binding['port_type_name'])][op_name]
-                op['documentation'] = unicode(operation('documentation', error=False) or '')
-                if binding['soap_ver']:
-                    #TODO: separe operation_binding from operation (non SOAP?)
-                    if operation("input", error=False):
-                        input_msg = get_local_name(operation.input['message'])
-                        input_header = op['parts'].get('input_header')
-                        if input_header:
-                            header_msg = get_local_name(input_header.get('message'))
-                            header_part = get_local_name(input_header.get('part'))
-                            # warning: some implementations use a separate message!
-                            header = get_message(messages, header_msg or input_msg, header_part)
+            for binding in port_type_bindings[port_type_name]:
+                for operation in port_type.operation:
+                    op_name = operation['name']
+                    op = operations[str(binding['name'])][op_name]
+                    op['documentation'] = unicode(operation('documentation', error=False) or '')
+                    if binding['soap_ver']:
+                        #TODO: separe operation_binding from operation (non SOAP?)
+                        if operation("input", error=False):
+                            input_msg = get_local_name(operation.input['message'])
+                            input_header = op['parts'].get('input_header')
+                            if input_header:
+                                header_msg = get_local_name(input_header.get('message'))
+                                header_part = get_local_name(input_header.get('part'))
+                                # warning: some implementations use a separate message!
+                                header = get_message(messages, header_msg or input_msg, header_part)
+                            else:
+                                header = None   # not enought info to search the header message:
+                            op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'))
+                            op['header'] = header
                         else:
-                            header = None   # not enought info to search the header message:
-                        op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'))
-                        op['header'] = header
-                    else:
-                        op['input'] = None
-                        op['header'] = None
-                    if operation("output", error=False):
-                        output_msg = get_local_name(operation.output['message'])
-                        op['output'] = get_message(messages, output_msg, op['parts'].get('output_body'))
-                    else:
-                        op['output'] = None
+                            op['input'] = None
+                            op['header'] = None
+                        if operation("output", error=False):
+                            output_msg = get_local_name(operation.output['message'])
+                            op['output'] = get_message(messages, output_msg, op['parts'].get('output_body'))
+                        else:
+                            op['output'] = None
 
         # dump the full service/port/operation map
         #log.debug(pprint.pformat(services))
