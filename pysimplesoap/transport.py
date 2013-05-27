@@ -184,7 +184,7 @@ class DummyTransport:
         self.xml_response = xml_response
 
     def request(self, location, method, body, headers):
-        log.debug("%s %s" % method, location)
+        log.debug("%s %s", method, location)
         log.debug(headers)
         log.debug(body)
         return {}, self.xml_response
