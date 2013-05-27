@@ -167,7 +167,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 d[None] = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
                 # extend base element:
-                process_element(element_name, e.children(), element_type, xsd_uri, dialect)
+                process_element(element_name, e.children(), node, element_type, xsd_uri, dialect)
         elements.setdefault(make_key(element_name, element_type), OrderedDict()).update(d)
 
 
