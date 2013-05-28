@@ -94,6 +94,8 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(str(res('address')), "1ST & 2ND FLOOR ,GORDON HOUSE ,"
                                               "BARROW STREET ,DUBLIN 4")
 
+    test_issue8.disabled = 1
+
     ## NOTE: Missing file "ups.wsdl"
     ##def test_ups(self):
     ##    "Test UPS tracking service"
