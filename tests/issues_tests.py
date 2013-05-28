@@ -7,10 +7,10 @@ class TestIssues(unittest.TestCase):
     def test_issue19(self):
         """Test xsd namespace found under schema elementes"""
         client = SoapClient(
-            wsdl='http://www.destin8.co.uk/ISLInterface/ISLInterface?WSDL'
+            wsdl='http://uat.destin8.co.uk:80/ChiefEDI/ChiefEDI?wsdl'
         )
 
-    test_issue19.disabled = 1
+    test_issue19.disabled = 0
 
     def test_issue34(self):
         """Test soap_server SoapClient constructor parameter"""
