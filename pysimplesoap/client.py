@@ -15,7 +15,6 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __maintainer__ = "Rui Carmo <https://github.com/rcarmo>"
-__credits__ = ["Mariano Reingart (reingart@gmail.com)","Dean Gardiner <https://github.com/fuzeman>","Piotr Staroszczyk <https://github.com/oczkers>","Rui Carmo <https://github.com/rcarmo>"]
 __license__ = "LGPL 3.0"
 __version__ = "1.1"
 
