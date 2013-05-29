@@ -23,7 +23,7 @@ import hashlib
 import urllib2
 from urlparse import urlsplit
 
-from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
+from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 
 log = logging.getLogger(__name__)
 

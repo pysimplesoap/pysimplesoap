@@ -21,7 +21,7 @@ TIMEOUT = 60
 
 import logging
 
-from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
+from .simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
 log = logging.getLogger(__name__)
 

@@ -23,7 +23,7 @@ import re
 import traceback
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
-from simplexml import SimpleXMLElement, TYPE_MAP, Date, Decimal
+from .simplexml import SimpleXMLElement, TYPE_MAP, Date, Decimal
 
 log = logging.getLogger(__name__)
 

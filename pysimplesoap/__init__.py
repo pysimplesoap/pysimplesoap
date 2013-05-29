@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"PySimpleSOAP"
-import client
-import server
-import simplexml
-import transport
+"""PySimpleSOAP"""
+
+from . import client, server, simplexml, transport

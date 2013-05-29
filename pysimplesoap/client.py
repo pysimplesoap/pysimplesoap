@@ -25,10 +25,10 @@ import logging
 import os
 import tempfile
 
-from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
-from transport import get_http_wrapper, set_http_wrapper, get_Http
+from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
+from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
-from helpers import fetch, sort_dict, make_key, process_element, postprocess_element, get_message, preprocess_schema
+from .helpers import fetch, sort_dict, make_key, process_element, postprocess_element, get_message, preprocess_schema
 
 log = logging.getLogger(__name__)
 
