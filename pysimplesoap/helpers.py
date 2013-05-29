@@ -12,31 +12,34 @@
 
 """Pythonic simple SOAP Client helpers"""
 
-__author__ = "Rui Carmo <https://github.com/rcarmo>"
-__copyright__ = "Copyright (C) 2008 Mariano Reingart"
-__maintainer__ = "Rui Carmo <https://github.com/rcarmo>"
-__credits__ = ["Mariano Reingart (reingart@gmail.com)","Dean Gardiner <https://github.com/fuzeman>","Piotr Staroszczyk <https://github.com/oczkers>","Rui Carmo <https://github.com/rcarmo>"]
+__author__ = "Mariano Reingart (reingart@gmail.com)"
+__copyright__ = "Copyright (C) 2013 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.1"
 
-import os, sys, logging, hashlib, urllib2
+import os
+import logging
+import hashlib
+import urllib2
 from urlparse import urlsplit
+
 from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 
 log = logging.getLogger(__name__)
 
-def fetch(url, http, cache = False, force_download = False, wsdl_basedir = ''):
+
+def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
     """Download a document from a URL, save it locally if cache enabled"""
 
     # check / append a valid schema if not given:
     url_scheme, netloc, path, query, fragment = urlsplit(url)
-    if not url_scheme in ('http','https', 'file'):
-        for scheme in ('http','https', 'file'):
+    if not url_scheme in ('http', 'https', 'file'):
+        for scheme in ('http', 'https', 'file'):
             try:
                 if not url.startswith("/") and scheme in ('http', 'https'):
-                    tmp_url = "%s://%s" % (scheme, os.path.join(wsdl_basedir,url))
+                    tmp_url = "%s://%s" % (scheme, os.path.join(wsdl_basedir, url))
                 else:
-                    tmp_url = "%s:%s" % (scheme, os.path.join(wsdl_basedir,url))
+                    tmp_url = "%s:%s" % (scheme, os.path.join(wsdl_basedir, url))
                 log.debug("Scheme not found, trying %s" % scheme)
                 return fetch(tmp_url, http, cache, force_download, wsdl_basedir)
             except Exception, e:
@@ -71,7 +74,7 @@ def fetch(url, http, cache = False, force_download = False, wsdl_basedir = ''):
 
 
 def sort_dict(od, d):
-    """sort parameters (same order as xsd:sequence)"""
+    """Sort parameters (same order as xsd:sequence)"""
     if isinstance(od, dict):
         ret = OrderedDict()
         for k in od.keys():
@@ -89,7 +92,7 @@ def sort_dict(od, d):
 
 
 def make_key(element_name, element_type):
-    """return a suitable key for elements"""
+    """Return a suitable key for elements"""
     # only distinguish 'element' vs other types
     if element_type in ('complexType', 'simpleType'):
         eltype = 'complexType'
@@ -108,8 +111,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
         if tag.get_local_name() in ("annotation", "documentation"):
             continue
         elif tag.get_local_name() in ('element', 'restriction'):
-            log.debug("%s has no children! %s" % (element_name,tag))
-            children = tag # element "alias"?
+            log.debug("%s has no children! %s" % (element_name, tag))
+            children = tag  # element "alias"?
             alias = True
         elif tag.children():
             children = tag.children()
@@ -121,16 +124,16 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
         for e in children:
             t = e['type']
             if not t:
-                t = e['base'] # complexContent (extension)!
+                t = e['base']  # complexContent (extension)!
             if not t:
-                t = 'anyType' # no type given!
+                t = 'anyType'  # no type given!
             t = t.split(":")
             if len(t) > 1:
                 ns, type_name = t
             else:
                 ns, type_name = None, t[0]
             if element_name == type_name:
-                pass ## warning with infinite recursion
+                pass  # warning with infinite recursion
             uri = ns and e.get_namespace_uri(ns) or xsd_uri
             if uri == xsd_uri:
                 # look for the type, None == any
@@ -141,7 +144,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 # simple / complex type, postprocess later
                 fn = elements.setdefault(make_key(type_name, "complexType"), OrderedDict())
 
-            if e['maxOccurs']=="unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
+            if e['maxOccurs'] == "unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
                 # it's an array... TODO: compound arrays?
                 if isinstance(fn, OrderedDict):
                     if len(children) > 1 and dialect in ('jetty', ):
@@ -175,9 +178,9 @@ def postprocess_element(elements):
     """Fix unresolved references (elements referenced before its definition, thanks .net)"""
     for k, v in elements.items():
         if isinstance(v, OrderedDict):
-            if v!=elements: #TODO: fix recursive elements
+            if v != elements:  # TODO: fix recursive elements
                 postprocess_element(v)
-            if None in v and v[None]: # extension base?
+            if None in v and v[None]:  # extension base?
                 if isinstance(v[None], dict):
                     for i, kk in enumerate(v[None]):
                         # extend base -keep orginal order-
@@ -189,9 +192,9 @@ def postprocess_element(elements):
                     elements[k] = v[None]
                     #break
             if v.array:
-                elements[k] = [v] # convert arrays to python lists
+                elements[k] = [v]  # convert arrays to python lists
         if isinstance(v, list):
-            for n in v: # recurse list
+            for n in v:  # recurse list
                 if isinstance(n, (OrderedDict, list)):
                     postprocess_element(n)
 

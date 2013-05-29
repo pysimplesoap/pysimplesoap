@@ -13,8 +13,7 @@
 """Pythonic simple SOAP Client implementation"""
 
 __author__ = "Mariano Reingart (reingart@gmail.com)"
-__copyright__ = "Copyright (C) 2008 Mariano Reingart"
-__maintainer__ = "Rui Carmo <https://github.com/rcarmo>"
+__copyright__ = "Copyright (C) 2013 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.1"
 
@@ -25,16 +24,14 @@ import hashlib
 import logging
 import os
 import tempfile
-import urllib2
-import pprint
-from urlparse import urlsplit
+
 from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from transport import get_http_wrapper, set_http_wrapper, get_Http
-
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from helpers import fetch, sort_dict, make_key, process_element, postprocess_element, get_message, preprocess_schema
 
 log = logging.getLogger(__name__)
+
 
 class SoapFault(RuntimeError):
     def __init__(self, faultcode, faultstring):
@@ -65,10 +62,10 @@ _USE_GLOBAL_DEFAULT = object()
 
 
 class SoapClient(object):
-    "Simple SOAP Client (simil PHP)"
-    def __init__(self, location = None, action = None, namespace = None,
-                 cert = None, exceptions = True, proxy = None, ns=False,
-                 soap_ns=None, wsdl = None, wsdl_basedir = '', cache = False, cacert=None,
+    """Simple SOAP Client (simil PHP)"""
+    def __init__(self, location=None, action=None, namespace=None,
+                 cert=None, exceptions=True, proxy=None, ns=False,
+                 soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
                  sessions=False, soap_server=None, timeout=_USE_GLOBAL_DEFAULT,
                  http_headers={}
                  ):
@@ -85,9 +82,9 @@ class SoapClient(object):
         self.http_headers = http_headers
         self.wsdl_basedir = wsdl_basedir
         if not soap_ns and not ns:
-            self.__soap_ns = 'soap' # 1.1
+            self.__soap_ns = 'soap'  # 1.1
         elif not soap_ns and ns:
-            self.__soap_ns = 'soapenv' # 1.2
+            self.__soap_ns = 'soapenv'  # 1.2
         else:
             self.__soap_ns = soap_ns
 
@@ -117,7 +114,7 @@ class SoapClient(object):
         Http = get_Http()
         self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
 
-        self.__ns = ns # namespace prefix or False to not use it
+        self.__ns = ns  # namespace prefix or False to not use it
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?>
 <%(soap_ns)s:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -144,11 +141,11 @@ class SoapClient(object):
         self.service_port = None                 # service port for late binding
 
     def __getattr__(self, attr):
-        "Return a pseudo-method that can be called"
-        if not self.services: # not using WSDL?
-            return lambda self=self, *args, **kwargs: self.call(attr,*args,**kwargs)
-        else: # using WSDL:
-            return lambda *args, **kwargs: self.wsdl_call(attr,*args,**kwargs)
+        """Return a pseudo-method that can be called"""
+        if not self.services:  # not using WSDL?
+            return lambda self=self, *args, **kwargs: self.call(attr, *args, **kwargs)
+        else:  # using WSDL:
+            return lambda *args, **kwargs: self.wsdl_call(attr, *args, **kwargs)
 
     def call(self, method, *args, **kwargs):
         """Prepare xml request and make SOAP call, returning a SimpleXMLElement.
@@ -224,9 +221,8 @@ class SoapClient(object):
             raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
         return response
 
-
     def send(self, method, xml):
-        "Send SOAP request using HTTP"
+        """Send SOAP request using HTTP"""
         if self.location == 'test': return
         # location = "%s" % self.location #?op=%s" % (self.location, method)
         location = str(self.location)
@@ -243,7 +239,7 @@ class SoapClient(object):
         }
         headers.update(self.http_headers)
         log.info("POST %s" % location)
-        log.debug('\n'.join(["%s: %s" % (k,v) for k,v in headers.items()]))
+        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
         log.debug(xml.decode("utf8", "ignore"))
 
         response, content = self.http.request(
@@ -251,10 +247,9 @@ class SoapClient(object):
         self.response = response
         self.content = content
 
-        log.debug('\n'.join(["%s: %s" % (k,v) for k,v in response.items()]))
-        log.debug(content.decode("utf8","ignore"))
+        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in response.items()]))
+        log.debug(content.decode("utf8", "ignore"))
         return content
-
 
     def get_operation(self, method):
         # try to find operation in wsdl file
@@ -312,11 +307,11 @@ class SoapClient(object):
         # call remote procedure
         response = self.call(method, *params)
         # parse results:
-        resp = response('Body',ns=soap_uri).children().unmarshall(output)
-        return resp and resp.values()[0] # pass Response tag children
+        resp = response('Body', ns=soap_uri).children().unmarshall(output)
+        return resp and resp.values()[0]  # pass Response tag children
 
     def help(self, method):
-        "Return operation documentation and invocation/returned value example"
+        """Return operation documentation and invocation/returned value example"""
         operation = self.get_operation(method)
         input = operation.get('input')
         input = input and input.values() and input.values()[0]
@@ -337,7 +332,7 @@ class SoapClient(object):
         )
 
     def wsdl_parse(self, url, cache=False):
-        "Parse Web Service Description v1.1"
+        """Parse Web Service Description v1.1"""
 
         log.debug("wsdl url: %s" % url)
         # Try to load a previously parsed wsdl:
@@ -406,7 +401,7 @@ class SoapClient(object):
         for service in wsdl.service:
             service_name = service['name']
             if not service_name:
-                continue # empty service?
+                continue  # empty service?
             log.debug("Processing service %s" % service_name)
             serv = services.setdefault(service_name, {'ports': {}})
             serv['documentation'] = service['documentation'] or ''
@@ -547,11 +542,11 @@ class SoapClient(object):
         return services
 
     def __setitem__(self, item, value):
-        "Set SOAP Header value - this header will be sent for every request."
+        """Set SOAP Header value - this header will be sent for every request."""
         self.__headers[item] = value
 
     def close(self):
-        "Finish the connection and remove temp files"
+        """Finish the connection and remove temp files"""
         self.http.close()
         if self.cacert.startswith(tempfile.gettempdir()):
             log.debug("removing %s" % self.cacert)
@@ -559,7 +554,7 @@ class SoapClient(object):
 
 
 def parse_proxy(proxy_str):
-    "Parses proxy address user:pass@host:port into a dict suitable for httplib2"
+    """Parses proxy address user:pass@host:port into a dict suitable for httplib2"""
     if isinstance(proxy_str, unicode):
         proxy_str = proxy_str.encode("utf8")
     proxy_dict = {}

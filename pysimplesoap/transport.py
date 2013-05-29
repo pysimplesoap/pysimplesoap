@@ -13,17 +13,14 @@
 """Pythonic simple SOAP Client transport"""
 
 __author__ = "Mariano Reingart (reingart@gmail.com)"
-__copyright__ = "Copyright (C) 2008 Mariano Reingart"
-__maintainer__ = "Rui Carmo <https://github.com/rcarmo>"
-__credits__ = ["Mariano Reingart (reingart@gmail.com)","Dean Gardiner <https://github.com/fuzeman>","Piotr Staroszczyk <https://github.com/oczkers>","Rui Carmo <https://github.com/rcarmo>"]
+__copyright__ = "Copyright (C) 2013 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.0"
 
 TIMEOUT = 60
 
-import os, sys, logging, urllib2, tempfile
-import cPickle as pickle
-from urlparse import urlparse
+import logging
+
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
 log = logging.getLogger(__name__)
@@ -52,6 +49,7 @@ else:
     class Httplib2Transport(httplib2.Http, TransportBase):
         _wrapper_version = "httplib2 %s" % httplib2.__version__
         _wrapper_name = 'httplib2'
+
         def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
             ##httplib2.debuglevel=4
             kwargs = {}
@@ -84,8 +82,8 @@ import urllib2
 class urllib2Transport(TransportBase):
     _wrapper_version = "urllib2 %s" % urllib2.__version__
     _wrapper_name = 'urllib2'
+
     def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
-        import sys
         if (timeout is not None) and not self.supports_feature('timeout'):
             raise RuntimeError('timeout is not supported with urllib2 transport')
         if proxy:
@@ -135,6 +133,7 @@ else:
     class pycurlTransport(TransportBase):
         _wrapper_version = pycurl.version
         _wrapper_name = 'pycurl'
+
         def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
             self.timeout = timeout
             self.proxy = proxy or {}
