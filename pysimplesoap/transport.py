@@ -12,15 +12,10 @@
 
 """Pythonic simple SOAP Client transport"""
 
-__author__ = "Mariano Reingart (reingart@gmail.com)"
-__copyright__ = "Copyright (C) 2013 Mariano Reingart"
-__license__ = "LGPL 3.0"
-__version__ = "1.0"
-
-TIMEOUT = 60
 
 import logging
 
+from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 
 log = logging.getLogger(__name__)

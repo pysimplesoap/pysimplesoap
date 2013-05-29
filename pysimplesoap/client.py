@@ -12,12 +12,6 @@
 
 """Pythonic simple SOAP Client implementation"""
 
-__author__ = "Mariano Reingart (reingart@gmail.com)"
-__copyright__ = "Copyright (C) 2013 Mariano Reingart"
-__license__ = "LGPL 3.0"
-__version__ = "1.1"
-
-TIMEOUT = 60
 
 import cPickle as pickle
 import hashlib
@@ -25,6 +19,7 @@ import logging
 import os
 import tempfile
 
+from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability

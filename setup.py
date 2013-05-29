@@ -8,15 +8,17 @@ try:
 except:
     build_installer = None
 
-import pysimplesoap.client
+from pysimplesoap import __version__, __author__, __author_email__, __license__
 
-setup(name='PySimpleSOAP',
-      version=pysimplesoap.client.__version__,
-      description='Python Simple SOAP Library',
-      author='Mariano Reingart',
-      author_email='reingart@gmail.com',
-      url='http://code.google.com/p/pysimplesoap',
-      packages=['pysimplesoap'],
-      console=['client.py'],
-      cmdclass={"py2exe": build_installer},
-      )
+setup(
+    name='PySimpleSOAP',
+    version=__version__,
+    description='Python Simple SOAP Library',
+    author=__author__,
+    author_email=__author_email__,
+    url='http://code.google.com/p/pysimplesoap',
+    packages=['pysimplesoap'],
+    license=__license__,
+    console=['client.py'],
+    cmdclass={"py2exe": build_installer},
+)

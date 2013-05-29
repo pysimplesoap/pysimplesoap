@@ -12,11 +12,6 @@
 
 """Simple XML manipulation"""
 
-__author__ = "Mariano Reingart (reingart@gmail.com)"
-__copyright__ = "Copyright (C) 2013 Mariano Reingart"
-__license__ = "LGPL 3.0"
-__version__ = "1.04"
-
 import logging
 import re
 import time
@@ -24,6 +19,8 @@ import datetime
 import warnings
 import xml.dom.minidom
 from decimal import Decimal
+
+from . import __author__, __copyright__, __license__, __version__
 
 log = logging.getLogger(__name__)
 
