@@ -174,7 +174,7 @@ class OrderedDict(dict):
 
 
 class SimpleXMLElement(object):
-    "Simple XML manipulation (simil PHP)"
+    """Simple XML manipulation (simil PHP)"""
 
     def __init__(self, text=None, elements=None, document=None,
                  namespace=None, prefix=None, namespaces_map={}, jetty=False):

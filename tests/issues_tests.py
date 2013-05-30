@@ -143,7 +143,7 @@ class TestIssues(unittest.TestCase):
             self.assert_('<soap:Header><MyTestHeader xmlns="service">'
                             '<username>test</username>'
                             '<password>password</password>'
-                         '</MyTestHeader></soap:Header>' in client.xml_request,
+                         '</MyTestHeader></soap:Header>' in client.xml_request.decode(),
                          "header not in request!")
 
     def test_issue47_wsdl(self):
@@ -159,7 +159,7 @@ class TestIssues(unittest.TestCase):
             open("issue47_wsdl.xml", "wb").write(client.xml_request)
             self.assert_('<soap:Header><Session>'
                             '<ID>1234</ID>'
-                         '</Session></soap:Header>' in client.xml_request,
+                         '</Session></soap:Header>' in client.xml_request.decode(),
                          "Session header not in request!")
 
     def test_issue47_raw(self):
@@ -183,7 +183,7 @@ class TestIssues(unittest.TestCase):
             open("issue47_raw.xml", "wb").write(client.xml_request)
             self.assert_('<soap:Header><ns1:Session xmlns="http://clarizen.com/api">'
                             '<ID>1234</ID>'
-                         '</ns1:Session></soap:Header>' in client.xml_request,
+                         '</ns1:Session></soap:Header>' in client.xml_request.decode(),
                          "Session header not in request!")
 
     def test_issue66(self):
@@ -199,9 +199,9 @@ class TestIssues(unittest.TestCase):
             client.call('ChildlessRequest', request)
         except:
             open("issue66.xml", "wb").write(client.xml_request)
-            self.assert_('<ChildlessRequest' in client.xml_request,
+            self.assert_('<ChildlessRequest' in client.xml_request.decode(),
                          "<ChildlessRequest not in request!")
-            self.assert_('</ChildlessRequest>' in client.xml_request,
+            self.assert_('</ChildlessRequest>' in client.xml_request.decode(),
                          "</ChildlessRequest> not in request!")
 
     def test_issue69(self):
@@ -245,7 +245,7 @@ class TestIssues(unittest.TestCase):
                              '<qmw:Checksum>PASSWORD</qmw:Checksum>' \
                          '</qmw:Security>' \
                      '</soap:Header>'
-            self.assert_(header in client.xml_request, "header not in request!")
+            self.assert_(header in client.xml_request.decode(), "header not in request!")
 
 if __name__ == '__main__':
     #unittest.main()

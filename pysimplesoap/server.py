@@ -119,7 +119,7 @@ class SoapDispatcher(object):
         name = None
 
         # namespaces = [('model', 'http://model.common.mt.moboperator'), ('external', 'http://external.mt.moboperator')]
-        _ns_reversed = dict(((v, k) for k, v in self.namespaces.iteritems()))  # Switch keys-values
+        _ns_reversed = dict(((v, k) for k, v in self.namespaces.items()))  # Switch keys-values
         # _ns_reversed = {'http://external.mt.moboperator': 'external', 'http://model.common.mt.moboperator': 'model'}
 
         try:
@@ -208,7 +208,7 @@ class SoapDispatcher(object):
         # Change our namespace alias to that given by the client.
         # We put [('model', 'http://model.common.mt.moboperator'), ('external', 'http://external.mt.moboperator')]
         # mix it with {'http://external.mt.moboperator': 'ext', 'http://model.common.mt.moboperator': 'mod'}
-        mapping = dict(((k, _ns_reversed[v]) for k, v in self.namespaces.iteritems()))  # Switch keys-values and change value
+        mapping = dict(((k, _ns_reversed[v]) for k, v in self.namespaces.items()))  # Switch keys-values and change value
         # and get {'model': u'mod', 'external': u'ext'}
 
         response = SimpleXMLElement(xml,

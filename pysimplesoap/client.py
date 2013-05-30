@@ -169,7 +169,7 @@ class SoapClient(object):
 
         # serialize parameters
         if kwargs:
-            parameters = kwargs.items()
+            parameters = list(kwargs.items())
         else:
             parameters = args
         if parameters and isinstance(parameters[0], SimpleXMLElement):
@@ -183,7 +183,7 @@ class SoapClient(object):
                 getattr(request, method).marshall(k, v)
         elif not self.__soap_server in ('oracle', ) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
-            delattr(request("Body", ns=soap_namespaces.values(),), method)
+            delattr(request("Body", ns=list(soap_namespaces.values()),), method)
 
         # construct header and parameters (if not wsdl given) except wsse
         if self.__headers and not self.services:
@@ -192,14 +192,14 @@ class SoapClient(object):
         # always extract WS Security header and send it
         if 'wsse:Security' in self.__headers:
             #TODO: namespaces too hardwired, clean-up...
-            header = request('Header', ns=soap_namespaces.values(),)
+            header = request('Header', ns=list(soap_namespaces.values()),)
             k = 'wsse:Security'
             v = self.__headers[k]
             header.marshall(k, v, ns=False, add_children_ns=False)
             header(k)['xmlns:wsse'] = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
             #<wsse:UsernameToken xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'>
         if self.__call_headers:
-            header = request('Header', ns=soap_namespaces.values(),)
+            header = request('Header', ns=list(soap_namespaces.values()),)
             for k, v in self.__call_headers.items():
                 ##if not self.__ns:
                 ##    header['xmlns']
@@ -211,7 +211,7 @@ class SoapClient(object):
                 else:
                     header.marshall(k, v, ns=self.__ns, add_children_ns=False)
         if request_headers:
-            header = request('Header', ns=soap_namespaces.values(),)
+            header = request('Header', ns=list(soap_namespaces.values()),)
             for subheader in request_headers.children():
                 header.import_node(subheader)
 
@@ -219,7 +219,7 @@ class SoapClient(object):
         self.xml_response = self.send(method, self.xml_request)
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty', ))
-        if self.exceptions and response("Fault", ns=soap_namespaces.values(), error=False):
+        if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
             raise SoapFault(response.faultcode, response.faultstring)
         return response
 
@@ -227,12 +227,12 @@ class SoapClient(object):
         """Send SOAP request using HTTP"""
         if self.location == 'test': return
         # location = "%s" % self.location #?op=%s" % (self.location, method)
-        location = self.location
+        location = str(self.location)
 
         if self.services:
-            soap_action = self.action
+            soap_action = str(self.action)
         else:
-            soap_action = self.action + method
+            soap_action = str(self.action) + method
 
         headers = {
             'Content-type': 'text/xml; charset="UTF-8"',
@@ -276,7 +276,7 @@ class SoapClient(object):
         return operation
 
     def wsdl_call(self, method, *args, **kwargs):
-        "Pre and post process SOAP call, input and output parameters using WSDL"
+        """Pre and post process SOAP call, input and output parameters using WSDL"""
         soap_uri = soap_namespaces[self.__soap_ns]
         operation = self.get_operation(method)
 
@@ -292,10 +292,10 @@ class SoapClient(object):
             self.__call_headers = sort_dict(header, self.__headers)
         if input and args:
             # convert positional parameters to named parameters:
-            d = [(k, arg) for k, arg in zip(input.values()[0].keys(), args)]
+            d = [(k, arg) for k, arg in zip(list(input.values())[0].keys(), args)]
             kwargs.update(dict(d))
         if input and kwargs:
-            params = sort_dict(input.values()[0], kwargs).items()
+            params = sort_dict(list(input.values())[0], kwargs).items()
             if self.__soap_server == "axis":
                 # use the operation name
                 method = method
@@ -310,20 +310,20 @@ class SoapClient(object):
         response = self.call(method, *params)
         # parse results:
         resp = response('Body', ns=soap_uri).children().unmarshall(output)
-        return resp and resp.values()[0]  # pass Response tag children
+        return resp and list(resp.values())[0]  # pass Response tag children
 
     def help(self, method):
         """Return operation documentation and invocation/returned value example"""
         operation = self.get_operation(method)
         input = operation.get('input')
-        input = input and input.values() and input.values()[0]
+        input = input and input.values() and list(input.values())[0]
         if isinstance(input, dict):
             input = ", ".join("%s=%s" % (k, repr(v)) for k, v in input.items())
         elif isinstance(input, list):
             input = repr(input)
         output = operation.get('output')
         if output:
-            output = operation['output'].values()[0]
+            output = list(operation['output'].values())[0]
         headers = operation.get('headers') or None
         return "%s(%s)\n -> %s:\n\n%s\nHeaders: %s" % (
             method,
@@ -410,7 +410,7 @@ class SoapClient(object):
             for port in service.port:
                 binding_name = get_local_name(port['binding'])
                 operations[binding_name] = {}
-                address = port('address', ns=soap_uris.values(), error=False)
+                address = port('address', ns=list(soap_uris.values()), error=False)
                 location = address and address['location'] or None
                 soap_uri = address and soap_uris.get(address.get_prefix())
                 soap_ver = soap_uri and soap_ns.get(soap_uri)
@@ -423,7 +423,7 @@ class SoapClient(object):
 
         for binding in wsdl.binding:
             binding_name = binding['name']
-            soap_binding = binding('binding', ns=soap_uris.values(), error=False)
+            soap_binding = binding('binding', ns=list(soap_uris.values()), error=False)
             transport = soap_binding and soap_binding['transport'] or None
             port_type_name = get_local_name(binding['type'])
             bindings[binding_name].update({
@@ -435,7 +435,7 @@ class SoapClient(object):
             port_type_bindings[port_type_name].append(bindings[binding_name])
             for operation in binding.operation:
                 op_name = operation['name']
-                op = operation('operation', ns=soap_uris.values(), error=False)
+                op = operation('operation', ns=list(soap_uris.values()), error=False)
                 action = op and op['soapAction']
                 d = operations[binding_name].setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
@@ -443,14 +443,14 @@ class SoapClient(object):
                 d['parts'] = {}
                 # input and/or ouput can be not present!
                 input = operation('input', error=False)
-                body = input and input('body', ns=soap_uris.values(), error=False)
+                body = input and input('body', ns=list(soap_uris.values()), error=False)
                 d['parts']['input_body'] = body and body['parts'] or None
                 output = operation('output', error=False)
-                body = output and output('body', ns=soap_uris.values(), error=False)
+                body = output and output('body', ns=list(soap_uris.values()), error=False)
                 d['parts']['output_body'] = body and body['parts'] or None
-                header = input and input('header', ns=soap_uris.values(), error=False)
+                header = input and input('header', ns=list(soap_uris.values()), error=False)
                 d['parts']['input_header'] = header and {'message': header['message'], 'part': header['part']} or None
-                header = output and output('header', ns=soap_uris.values(), error=False)
+                header = output and output('header', ns=list(soap_uris.values()), error=False)
                 d['parts']['output_header'] = header and {'message': header['message'], 'part': header['part']} or None
                 if action:
                     d["action"] = action
@@ -481,7 +481,7 @@ class SoapClient(object):
                     fn = REVERSE_TYPE_MAP.get(element_name, None)
                     element = {part['name']: fn}
                     # emulate a true Element (complexType)
-                    messages.setdefault((message['name'], None), {message['name']: OrderedDict()}).values()[0].update(element)
+                    list(messages.setdefault((message['name'], None), {message['name']: OrderedDict()}).values())[0].update(element)
                 else:
                     element_name = get_local_name(element_name)
                     fn = elements.get(make_key(element_name, 'element'))
