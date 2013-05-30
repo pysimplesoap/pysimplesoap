@@ -17,6 +17,8 @@ from __future__ import unicode_literals
 import sys
 if sys.version > '3':
     long = int
+    unicode = str
+    basestring = str
 
 import logging
 import re
@@ -213,10 +215,7 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, name)
         # don't append null tags!
         if text is not None:
-            if isinstance(text, unicode):
-                element.appendChild(self.__document.createTextNode(text))
-            else:
-                element.appendChild(self.__document.createTextNode(str(text)))
+            element.appendChild(self.__document.createTextNode(text))
         self._element.appendChild(element)
         return SimpleXMLElement(
             elements=[element],
@@ -368,7 +367,7 @@ class SimpleXMLElement(object):
                 jetty=self.__jetty,
                 namespaces_map=self.__namespaces_map)
         except AttributeError as e:
-            raise AttributeError("Tag not found: %s (%s)" % (tag, unicode(e)))
+            raise AttributeError("Tag not found: %s (%s)" % (tag, e))
 
     def __getattr__(self, tag):
         """Shortcut for __call__"""
@@ -430,7 +429,7 @@ class SimpleXMLElement(object):
 
     def __str__(self):
         """Returns the str text nodes of the current element"""
-        return unicode(self).encode("utf8", "ignore")
+        return self.__unicode__()
 
     def __int__(self):
         """Returns the integer value of the current element"""
@@ -535,7 +534,7 @@ class SimpleXMLElement(object):
                         else:
                             value = fn(unicode(node))
                     except (ValueError, TypeError) as e:
-                        raise ValueError("Tag: %s: %s" % (name, unicode(e)))
+                        raise ValueError("Tag: %s: %s" % (name, e))
                 else:
                     value = None
             d[name] = value

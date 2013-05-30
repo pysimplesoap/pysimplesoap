@@ -143,7 +143,7 @@ else:
 
         def request(self, url, method, body, headers):
             c = pycurl.Curl()
-            c.setopt(pycurl.URL, str(url))
+            c.setopt(pycurl.URL, url)
             if 'proxy_host' in self.proxy:
                 c.setopt(pycurl.PROXY, self.proxy['proxy_host'])
             if 'proxy_port' in self.proxy:
@@ -156,7 +156,7 @@ else:
             #self.body = StringIO(body)
             #c.setopt(pycurl.HEADERFUNCTION, self.header)
             if self.cacert:
-                c.setopt(c.CAINFO, str(self.cacert))
+                c.setopt(c.CAINFO, self.cacert)
             c.setopt(pycurl.SSL_VERIFYPEER, self.cacert and 1 or 0)
             c.setopt(pycurl.SSL_VERIFYHOST, self.cacert and 2 or 0)
             c.setopt(pycurl.CONNECTTIMEOUT, self.timeout / 6)
@@ -165,7 +165,7 @@ else:
                 c.setopt(pycurl.POST, 1)
                 c.setopt(pycurl.POSTFIELDS, body)
             if headers:
-                hdrs = ['%s: %s' % (str(k), str(v)) for k, v in headers.items()]
+                hdrs = ['%s: %s' % (k, v) for k, v in headers.items()]
                 log.debug(hdrs)
                 c.setopt(pycurl.HTTPHEADER, hdrs)
             c.perform()

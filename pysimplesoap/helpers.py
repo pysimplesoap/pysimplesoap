@@ -13,6 +13,11 @@
 """Pythonic simple SOAP Client helpers"""
 
 
+from __future__ import unicode_literals
+import sys
+if sys.version > '3':
+    basestring = str
+
 import os
 import logging
 import hashlib
@@ -48,7 +53,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
         raise RuntimeError("No scheme given for url: %s" % url)
 
     # make md5 hash of the url for caching...
-    filename = "%s.xml" % hashlib.md5(url).hexdigest()
+    filename = "%s.xml" % hashlib.md5(url.encode('utf8')).hexdigest()
     if isinstance(cache, basestring):
         filename = os.path.join(cache, filename)
     if cache and os.path.exists(filename) and not force_download:
@@ -86,7 +91,7 @@ def sort_dict(od, d):
                     v = sort_dict(od[k], v)
                 elif isinstance(v, list):
                     v = [sort_dict(od[k][0], v1) for v1 in v]
-                ret[str(k)] = v
+                ret[k] = v
         return ret
     else:
         return d
@@ -100,8 +105,8 @@ def make_key(element_name, element_type):
     else:
         eltype = element_type
     if eltype not in ('element', 'complexType', 'simpleType'):
-        raise RuntimeError("Unknown element type %s = %s" % (unicode(element_name), eltype))
-    return (unicode(element_name), eltype)
+        raise RuntimeError("Unknown element type %s = %s" % (element_name, eltype))
+    return (element_name, eltype)
 
 
 def process_element(elements, element_name, node, element_type, xsd_uri, dialect):
@@ -138,7 +143,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             uri = ns and e.get_namespace_uri(ns) or xsd_uri
             if uri == xsd_uri:
                 # look for the type, None == any
-                fn = REVERSE_TYPE_MAP.get(unicode(type_name), None)
+                fn = REVERSE_TYPE_MAP.get(type_name, None)
             else:
                 fn = None
             if not fn:
@@ -164,7 +169,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                         d.array = True
 
             if e['name'] is not None and not alias:
-                e_name = unicode(e['name'])
+                e_name = e['name']
                 d[e_name] = fn
             else:
                 log.debug("complexContent/simpleType/element %s = %s" % (element_name, type_name))
@@ -234,7 +239,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
 
         element_type = element.get_local_name()
         if element_type in ('element', 'complexType', "simpleType"):
-            element_name = unicode(element['name'])
+            element_name = element['name']
             log.debug("Parsing Element %s: %s" % (element_type, element_name))
             if element.get_local_name() == 'complexType':
                 children = element.children()

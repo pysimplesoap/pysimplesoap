@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
 import os
 import unittest
 from pysimplesoap.client import SoapClient, SoapFault

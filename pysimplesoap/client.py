@@ -13,6 +13,10 @@
 """Pythonic simple SOAP Client implementation"""
 
 from __future__ import unicode_literals
+import sys
+if sys.version > '3':
+    unicode = str
+
 try:
     import cPickle as pickle
 except ImportError:
@@ -216,19 +220,19 @@ class SoapClient(object):
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty', ))
         if self.exceptions and response("Fault", ns=soap_namespaces.values(), error=False):
-            raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
+            raise SoapFault(response.faultcode, response.faultstring)
         return response
 
     def send(self, method, xml):
         """Send SOAP request using HTTP"""
         if self.location == 'test': return
         # location = "%s" % self.location #?op=%s" % (self.location, method)
-        location = str(self.location)
+        location = self.location
 
         if self.services:
-            soap_action = str(self.action)
+            soap_action = self.action
         else:
-            soap_action = str(self.action) + method
+            soap_action = self.action + method
 
         headers = {
             'Content-type': 'text/xml; charset="UTF-8"',
@@ -264,7 +268,7 @@ class SoapClient(object):
         else:
             port = self.services[self.service_port[0]]['ports'][self.service_port[1]]
         self.location = port['location']
-        operation = port['operations'].get(unicode(method))
+        operation = port['operations'].get(method)
         if not operation:
             raise RuntimeError("Operation %s not found in WSDL: "
                                "Service/Port Type: %s" %
@@ -387,7 +391,7 @@ class SoapClient(object):
 
         # Extract useful data:
         self.namespace = wsdl['targetNamespace']
-        self.documentation = unicode(wsdl('documentation', error=False) or '')
+        self.documentation = wsdl('documentation', error=False) or ''
 
         services = {}
         bindings = {}            # binding_name: binding
@@ -474,7 +478,7 @@ class SoapClient(object):
                 type_uri = wsdl.get_namespace_uri(type_ns)
                 if type_uri == xsd_uri:
                     element_name = get_local_name(element_name)
-                    fn = REVERSE_TYPE_MAP.get(unicode(element_name), None)
+                    fn = REVERSE_TYPE_MAP.get(element_name, None)
                     element = {part['name']: fn}
                     # emulate a true Element (complexType)
                     messages.setdefault((message['name'], None), {message['name']: OrderedDict()}).values()[0].update(element)
@@ -496,8 +500,8 @@ class SoapClient(object):
             for binding in port_type_bindings[port_type_name]:
                 for operation in port_type.operation:
                     op_name = operation['name']
-                    op = operations[str(binding['name'])][op_name]
-                    op['documentation'] = unicode(operation('documentation', error=False) or '')
+                    op = operations[binding['name']][op_name]
+                    op['documentation'] = operation('documentation', error=False) or ''
                     if binding['soap_ver']:
                         #TODO: separe operation_binding from operation (non SOAP?)
                         if operation("input", error=False):

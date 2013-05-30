@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import sys
 if sys.version > '3':
     long = int
@@ -198,7 +199,7 @@ if __name__ == "__main__":
                     t1 = time.time()
                     result = t1 - t0
                 except Exception as e:
-                    result = "Failed: %s" % str(e)
+                    result = "Failed: %s" % e
                 print("Total time", result)
                 results.setdefault(lib, {})[proxy and 'proxy' or 'direct'] = result
         print("\nResults:")

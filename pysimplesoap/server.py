@@ -13,6 +13,8 @@
 """Pythonic simple SOAP Server implementation"""
 
 
+from __future__ import unicode_literals
+
 import sys
 import logging
 import re
@@ -183,7 +185,7 @@ class SoapDispatcher(object):
             else:
                 detail = None
             fault = {'faultcode': "%s.%s" % (soap_fault_code, etype.__name__),
-                     'faultstring': unicode(evalue),
+                     'faultstring': evalue,
                      'detail': detail}
 
         # build response message
