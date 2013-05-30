@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 
 if __name__ == "__main__":
     import sys
@@ -135,7 +135,7 @@ if __name__ == "__main__":
             Auth={"Token": token, "Sign": sign, "Cuit": 20267565393},
             Cmp={"Tipo_cbte": 19, "Punto_vta": 1, "Cbte_nro": 1})
         result = response['FEXGetCMPResult']
-        if False: print result  # ?
+        #if False: print result  # ?
         if 'FEXErr' in result:
             print "FEXError:", result['FEXErr']['ErrCode'], result['FEXErr']['ErrCode']
         cbt = result['FEXResultGet']
@@ -151,7 +151,7 @@ if __name__ == "__main__":
         print results['DummyResponse']['appserver']
         print results['DummyResponse']['dbserver']
         print results['DummyResponse']['authserver']
-        ta_string = open("TA.xml").read()   # read access ticket (wsaa.py)
+        ta_string = open("TA.xml").read()  # read access ticket (wsaa.py)
         ta = SimpleXMLElement(ta_string)
         token = str(ta.credentials.token)
         sign = str(ta.credentials.sign)
@@ -160,13 +160,14 @@ if __name__ == "__main__":
         print "response=", response
         for ret in response:
             print ret['return']['codigoProvincia'], ret['return']['descripcionProvincia'].encode("latin1")
-        prueba = dict(numeroCartaDePorte=512345678, codigoEspecie=23,
-                cuitRemitenteComercial=20267565393, cuitDestino=20267565393, cuitDestinatario=20267565393,
-                codigoLocalidadOrigen=3058, codigoLocalidadDestino=3059,
-                codigoCosecha='0910', pesoNetoCarga=1000, cantHoras=1,
-                patenteVehiculo='CZO985', cuitTransportista=20267565393,
-                numeroCTG="43816783", transaccion='10000001681', observaciones='',
-            )
+        prueba = dict(
+            numeroCartaDePorte=512345678, codigoEspecie=23,
+            cuitRemitenteComercial=20267565393, cuitDestino=20267565393, cuitDestinatario=20267565393,
+            codigoLocalidadOrigen=3058, codigoLocalidadDestino=3059,
+            codigoCosecha='0910', pesoNetoCarga=1000, cantHoras=1,
+            patenteVehiculo='CZO985', cuitTransportista=20267565393,
+            numeroCTG="43816783", transaccion='10000001681', observaciones='',
+        )
 
         response = client.solicitarCTG(
             auth={"token": token, "sign": sign, "cuitRepresentado": 20267565393},

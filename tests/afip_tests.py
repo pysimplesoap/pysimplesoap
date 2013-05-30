@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by the
 # Free Software Foundation; either version 3, or (at your option) any later
@@ -10,7 +10,7 @@
 # or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 
-"Argentina AFIP (IRS) Electronic Invoice & Currency Exchange Control"
+"""Argentina AFIP (IRS) Electronic Invoice & Currency Exchange Control"""
 
 from decimal import Decimal
 import os
@@ -41,7 +41,7 @@ cacert = None
 class TestIssues(unittest.TestCase):
 
     def atest_wsaa_exception(self):
-        "Test WSAA for SoapFault"
+        """Test WSAA for SoapFault"""
         WSDL = "https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl"
         client = SoapClient(wsdl=WSDL, ns="web")
         try:
@@ -55,7 +55,7 @@ class TestIssues(unittest.TestCase):
             self.assertEqual(e.faultcode, 'ns1:cms.bad')
 
     def test_wsfev1_dummy(self):
-        "Test Argentina AFIP Electronic Invoice WSFEv1 dummy method"
+        """Test Argentina AFIP Electronic Invoice WSFEv1 dummy method"""
         client = SoapClient(
             wsdl="https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL",
             cache=None
@@ -66,7 +66,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['AuthServer'], "OK")
 
     def test_wsfexv1_dummy(self):
-        "Test Argentina AFIP Electronic Invoice WSFEXv1 dummy method"
+        """Test Argentina AFIP Electronic Invoice WSFEXv1 dummy method"""
         client = SoapClient(
             wsdl="https://wswhomo.afip.gov.ar/wsfexv1/service.asmx?WSDL",
             cache=None
@@ -77,7 +77,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['AuthServer'], "OK")
 
     def test_wsbfe_dummy(self):
-        "Test Argentina AFIP Electronic Invoice WSBFE dummy method"
+        """Test Argentina AFIP Electronic Invoice WSBFE dummy method"""
         client = SoapClient(
             wsdl="https://wswhomo.afip.gov.ar/wsbfe/service.asmx?WSDL",
             cache=None
@@ -88,7 +88,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['AuthServer'], "OK")
 
     def test_wsmtxca_dummy(self):
-        "Test Argentina AFIP Electronic Invoice WSMTXCA dummy method"
+        """Test Argentina AFIP Electronic Invoice WSMTXCA dummy method"""
         client = SoapClient(
             wsdl="https://fwshomo.afip.gov.ar/wsmtxca/services/MTXCAService?wsdl",
             cache=None, ns='ser'
@@ -99,7 +99,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['authserver'], "OK")
 
     def test_wscoc_dummy(self):
-        "Test Argentina AFIP Foreign Exchange Control WSCOC dummy method"
+        """Test Argentina AFIP Foreign Exchange Control WSCOC dummy method"""
         client = SoapClient(
             wsdl="https://fwshomo.afip.gov.ar/wscoc/COCService?wsdl",
             cache=None, ns='ser'
@@ -110,7 +110,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['authserver'], "OK")
 
     def test_wsfexv1_getcmp(self):
-        "Test Argentina AFIP Electronic Invoice WSFEXv1 GetCMP method"
+        """Test Argentina AFIP Electronic Invoice WSFEXv1 GetCMP method"""
         # create the proxy and parse the WSDL
         client = SoapClient(
             wsdl="https://wswhomo.afip.gov.ar/wsfexv1/service.asmx?WSDL",

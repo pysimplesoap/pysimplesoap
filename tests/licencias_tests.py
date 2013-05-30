@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: latin1 -*-
+# -*- coding: utf-8 -*-
 
 import unittest
 from pysimplesoap.client import SoapClient, SoapFault
@@ -23,10 +23,10 @@ class TestIssues(unittest.TestCase):
         client.http = DummyHTTP(self.xml)
         client['AuthHeaderElement'] = {'username': 'mariano', 'password': 'clave'}
         response = client.PersonaSearch(persona=(('numero_documento', '99999999'),
-                                                  ('apellido_paterno', ''),
-                                                  ('apellido_materno', ''),
-                                                  ('nombres', ''),
-                                                  ))
+                                                 ('apellido_paterno', ''),
+                                                 ('apellido_materno', ''),
+                                                 ('nombres', ''),
+                                                 ))
 
         # the raw response is a SimpleXmlElement object:
 
