@@ -301,7 +301,7 @@ class SoapClient(object):
                 method = method
             else:
                 # use the message (element) name
-                method = input.keys()[0]
+                method = list(input.keys())[0]
         #elif not input:
             #TODO: no message! (see wsmtxca.dummy)
         else:
