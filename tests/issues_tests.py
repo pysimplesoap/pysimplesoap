@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import unittest
 from pysimplesoap.client import SoapClient, SimpleXMLElement
 
@@ -18,8 +20,8 @@ class TestIssues(unittest.TestCase):
             wsdl="http://eklima.met.no/metdata/MetDataService?WSDL",
             soap_server="oracle", cache=None
         )
-        ##print client.help("getStationsProperties")
-        ##print client.help("getValidLanguages")
+        ##print(client.help("getStationsProperties"))
+        ##print(client.help("getValidLanguages"))
 
         # fix bad wsdl: server returns "getValidLanguagesResponse"
         # instead of "getValidLanguages12Response"
@@ -31,7 +33,7 @@ class TestIssues(unittest.TestCase):
         lang = client.getValidLanguages()
 
         self.assertEqual(lang, {'return': [
-            {'item': u'no'}, {'item': u'en'}, {'item': u'ny'}
+            {'item': 'no'}, {'item': 'en'}, {'item': 'ny'}
         ]})
 
     def test_issue35_raw(self):
@@ -49,13 +51,13 @@ class TestIssues(unittest.TestCase):
             ("maxResults", -1)
         )
         self.assertEqual(str(response.statusCode), "MDC_INVALID_REQUEST")
-        #print str(response.queryTime)
+        #print(str(response.queryTime))
         self.assertEqual(int(response.totalResults), 0)
         self.assertEqual(int(response.startIndex), 0)
         self.assertEqual(int(response.numberOfResults), 0)
 
         for result in response.results:
-            print str(result)
+            print(str(result))
 
     def test_issue35_wsdl(self):
         """Test positional parameters, multiRefs and axis messages"""
@@ -101,7 +103,7 @@ class TestIssues(unittest.TestCase):
     ##    "Test UPS tracking service"
     ##    WSDL = "file:ups.wsdl"
     ##    client = SoapClient(wsdl=WSDL, ns="web", trace=True)
-    ##    print client.help("ProcessTrack")
+    ##    print(client.help("ProcessTrack"))
 
     def test_issue43(self):
         from pysimplesoap.client import SoapClient
@@ -110,11 +112,11 @@ class TestIssues(unittest.TestCase):
             wsdl="https://api.clarizen.com/v1.0/Clarizen.svc"
         )
 
-        print client.help("Login")
-        print client.help("Logout")
-        print client.help("Query")
-        print client.help("Metadata")
-        print client.help("Execute")
+        print(client.help("Login"))
+        print(client.help("Logout"))
+        print(client.help("Query"))
+        print(client.help("Metadata"))
+        print(client.help("Execute"))
 
     def test_issue46(self):
         """Example for sending an arbitrary header using SimpleXMLElement"""
@@ -236,7 +238,7 @@ class TestIssues(unittest.TestCase):
             client.GetParticipantList()
         except:
             #open("issue78.xml", "wb").write(client.xml_request)
-            print client.xml_request
+            print(client.xml_request)
             header = '<soap:Header>' \
                          '<qmw:Security xmlns:qmw="http://questionmark.com/QMWISe/">' \
                              '<qmw:ClientID>NAME</qmw:ClientID>' \

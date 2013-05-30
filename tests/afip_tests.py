@@ -17,7 +17,8 @@ import os
 import unittest
 import sys
 from pysimplesoap.client import SimpleXMLElement, SoapClient, SoapFault, parse_proxy, set_http_wrapper
-from dummy_utils import DummyHTTP, TEST_DIR
+
+from .dummy_utils import DummyHTTP, TEST_DIR
 
 TRACE = False
 
@@ -46,12 +47,12 @@ class TestIssues(unittest.TestCase):
         client = SoapClient(wsdl=WSDL, ns="web")
         try:
             resultado = client.loginCms('31867063')
-        except SoapFault, e:
+        except SoapFault as e:
             self.assertEqual(e.faultcode, 'ns1:cms.bad')
 
         try:
             resultado = client.loginCms(in0='31867063')
-        except SoapFault, e:
+        except SoapFault as e:
             self.assertEqual(e.faultcode, 'ns1:cms.bad')
 
     def test_wsfev1_dummy(self):

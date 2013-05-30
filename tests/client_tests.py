@@ -1,5 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
+if sys.version > '3':
+    long = int
 
 if __name__ == "__main__":
     import sys
@@ -16,16 +19,16 @@ if __name__ == "__main__":
         else:
             client = SoapClient(wsdl="http://127.0.0.1:8000/webservices/sample/call/soap?WSDL", trace=True)
         response = client.Dummy()
-        print 'dummy', response
+        print('dummy', response)
         response = client.Echo(value='hola')
-        print 'echo', repr(response)
+        print('echo', repr(response))
         response = client.AddIntegers(a=1, b=2)
         if not '--wsdl' in sys.argv:
             result = response.AddResult  # manully convert returned type
-            print int(result)
+            print(int(result))
         else:
             result = response['AddResult']
-            print result, type(result), "auto-unmarshalled"
+            print(result, type(result), "auto-unmarshalled")
 
     if '--raw' in sys.argv:
         # raw (unmarshalled parameter) local sample webservice exposed by web2py
@@ -38,7 +41,7 @@ if __name__ == "__main__":
         params = SimpleXMLElement("""<?xml version="1.0" encoding="UTF-8"?><AddIntegers><a>3</a><b>2</b></AddIntegers>""")  # manully convert returned type
         response = client.call('AddIntegers', params)
         result = response.AddResult
-        print int(result)  # manully convert returned type
+        print(int(result))  # manully convert returned type
 
     if '--ctg' in sys.argv:
         # test AFIP Agriculture webservice
@@ -50,9 +53,9 @@ if __name__ == "__main__":
             ns=True)
         response = client.dummy()
         result = response.dummyResponse
-        print str(result.appserver)
-        print str(result.dbserver)
-        print str(result.authserver)
+        print(str(result.appserver))
+        print(str(result.dbserver))
+        print(str(result.authserver))
 
     if '--wsfe' in sys.argv:
         # Demo & Test (AFIP Electronic Invoice):
@@ -72,10 +75,10 @@ if __name__ == "__main__":
             argAuth={"Token": token, "Sign": sign, "cuit": long(cuit)}
         )
         if int(results.FERecuperaQTYRequestResult.RError.percode) != 0:
-            print "Percode: %s" % results.FERecuperaQTYRequestResult.RError.percode
-            print "MSGerror: %s" % results.FERecuperaQTYRequestResult.RError.perrmsg
+            print("Percode: %s" % results.FERecuperaQTYRequestResult.RError.percode)
+            print("MSGerror: %s" % results.FERecuperaQTYRequestResult.RError.perrmsg)
         else:
-            print int(results.FERecuperaQTYRequestResult.qty.value)
+            print(int(results.FERecuperaQTYRequestResult.qty.value))
 
     if '--feriados' in sys.argv:
         # Demo & Test: Argentina Holidays (Ministerio del Interior):
@@ -89,7 +92,7 @@ if __name__ == "__main__":
         dt1 = datetime.today() - timedelta(days=60)
         dt2 = datetime.today() + timedelta(days=60)
         feriadosXML = client.FeriadosEntreFechasas_xml(dt1=dt1.isoformat(), dt2=dt2.isoformat())
-        print feriadosXML
+        print(feriadosXML)
 
     if '--wsdl-parse' in sys.argv:
         if '--proxy' in sys.argv:
@@ -108,7 +111,7 @@ if __name__ == "__main__":
         client.wsdl_parse('https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL', debug=True)
         client.wsdl_parse('https://testdia.afip.gov.ar/Dia/Ws/wDigDepFiel/wDigDepFiel.asmx?WSDL', debug=True)
         client.services = client.wsdl_parse('https://wswhomo.afip.gov.ar/wsfexv1/service.asmx?WSDL', debug=True)
-        print client.help("FEXGetCMP")
+        print(client.help("FEXGetCMP"))
         # Test JBoss WSDL:
         client.wsdl_parse('https://fwshomo.afip.gov.ar/wsctg/services/CTGService?wsdl', debug=True)
         client.wsdl_parse('https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl', debug=True)
@@ -117,14 +120,14 @@ if __name__ == "__main__":
         import time
         t0 = time.time()
         for i in range(100):
-            print i
+            print(i)
             client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL', cache="cache", trace=False)
             #results = client.FEXDummy()
-            #print results['FEXDummyResult']['AppServer']
-            #print results['FEXDummyResult']['DbServer']
-            #print results['FEXDummyResult']['AuthServer']
+            #print(results['FEXDummyResult']['AppServer'])
+            #print(results['FEXDummyResult']['DbServer'])
+            #print(results['FEXDummyResult']['AuthServer'])
         t1 = time.time()
-        print "Total time", t1 - t0
+        print("Total time", t1 - t0)
 
     if '--wsdl-client' in sys.argv:
         ta_string = open("TA.xml").read()   # read access ticket (wsaa.py)
@@ -135,31 +138,31 @@ if __name__ == "__main__":
             Auth={"Token": token, "Sign": sign, "Cuit": 20267565393},
             Cmp={"Tipo_cbte": 19, "Punto_vta": 1, "Cbte_nro": 1})
         result = response['FEXGetCMPResult']
-        #if False: print result  # ?
+        #if False: print(result)  # ?
         if 'FEXErr' in result:
-            print "FEXError:", result['FEXErr']['ErrCode'], result['FEXErr']['ErrCode']
+            print("FEXError:", result['FEXErr']['ErrCode'], result['FEXErr']['ErrCode'])
         cbt = result['FEXResultGet']
-        print cbt['Cae']
+        print(cbt['Cae'])
         FEX_event = result['FEXEvents']
-        print FEX_event['EventCode'], FEX_event['EventMsg']
+        print(FEX_event['EventCode'], FEX_event['EventMsg'])
 
     if '--wsdl-ctg' in sys.argv:
         client = SoapClient(wsdl='https://fwshomo.afip.gov.ar/wsctg/services/CTGService?wsdl',
                             trace=True, ns="ctg")
         results = client.dummy()
-        print results
-        print results['DummyResponse']['appserver']
-        print results['DummyResponse']['dbserver']
-        print results['DummyResponse']['authserver']
+        print(results)
+        print(results['DummyResponse']['appserver'])
+        print(results['DummyResponse']['dbserver'])
+        print(results['DummyResponse']['authserver'])
         ta_string = open("TA.xml").read()  # read access ticket (wsaa.py)
         ta = SimpleXMLElement(ta_string)
         token = str(ta.credentials.token)
         sign = str(ta.credentials.sign)
-        print client.help("obtenerProvincias")
+        print(client.help("obtenerProvincias"))
         response = client.obtenerProvincias(auth={"token": token, "sign": sign, "cuitRepresentado": 20267565393})
-        print "response=", response
+        print("response=", response)
         for ret in response:
-            print ret['return']['codigoProvincia'], ret['return']['descripcionProvincia'].encode("latin1")
+            print(ret['return']['codigoProvincia'], ret['return']['descripcionProvincia'].encode("latin1"))
         prueba = dict(
             numeroCartaDePorte=512345678, codigoEspecie=23,
             cuitRemitenteComercial=20267565393, cuitDestino=20267565393, cuitDestinatario=20267565393,
@@ -173,32 +176,32 @@ if __name__ == "__main__":
             auth={"token": token, "sign": sign, "cuitRepresentado": 20267565393},
             solicitarCTGRequest=prueba)
 
-        print response['return']['numeroCTG']
+        print(response['return']['numeroCTG'])
 
     if '--libtest' in sys.argv:
         import time
         results = {}
         for lib in 'httplib2', 'urllib2', 'pycurl':
-            print "testing library", lib
+            print("testing library", lib)
             set_http_wrapper(lib)
-            print Http._wrapper_version
+            print(Http._wrapper_version)
             for proxy in None, parse_proxy("localhost:8000"):
-                print "proxy", proxy
+                print("proxy", proxy)
                 try:
                     client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL',
                                         cache="cache", trace=False, proxy=proxy)
                     t0 = time.time()
-                    print "starting...",
+                    print("starting...",)
                     for i in range(20):
-                        print i,
+                        print(i,)
                         client.FEDummy()
                     t1 = time.time()
                     result = t1 - t0
-                except Exception, e:
+                except Exception as e:
                     result = "Failed: %s" % str(e)
-                print "Total time", result
+                print("Total time", result)
                 results.setdefault(lib, {})[proxy and 'proxy' or 'direct'] = result
-        print "\nResults:"
-        for k, v in results.items():
-            for k2, v2 in v.items():
-                print k, k2, v2
+        print("\nResults:")
+        for k, v in list(results.items()):
+            for k2, v2 in list(v.items()):
+                print(k, k2, v2)

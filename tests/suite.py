@@ -9,14 +9,14 @@ def add(suite, module):
 
 def test():
     # TODO: automagicaly import modules test/*_test.py
-    import soapdispatcher_test
-    import simplexmlelement_test
-    import issues_tests
-    import afip_tests
-    import server_multins_test
+    from . import soapdispatcher_test
+    from . import simplexmlelement_test
+    from . import issues_tests
+    from . import afip_tests
+    from . import server_multins_test
     # licencias_tests is for internal use, wsdl is not published
-    ##import licencias_tests
-    ##import trazamed_tests
+    # from . import licencias_tests
+    # from . import trazamed_tests
 
     suite = unittest.TestSuite()
 
