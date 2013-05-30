@@ -16,8 +16,12 @@
 import os
 import logging
 import hashlib
-import urllib2
-from urlparse import urlsplit
+try:
+    import urllib2
+    from urlparse import urlsplit
+except ImportError:
+    from urllib import request as urllib2
+    from urllib.parse import urlsplit
 
 from . import __author__, __copyright__, __license__, __version__
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
@@ -39,7 +43,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
                     tmp_url = "%s:%s" % (scheme, os.path.join(wsdl_basedir, url))
                 log.debug("Scheme not found, trying %s" % scheme)
                 return fetch(tmp_url, http, cache, force_download, wsdl_basedir)
-            except Exception, e:
+            except Exception as e:
                 log.error(e)
         raise RuntimeError("No scheme given for url: %s" % url)
 

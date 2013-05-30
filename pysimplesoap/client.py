@@ -12,8 +12,11 @@
 
 """Pythonic simple SOAP Client implementation"""
 
-
-import cPickle as pickle
+from __future__ import unicode_literals
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 import hashlib
 import logging
 import os
@@ -38,11 +41,11 @@ class SoapFault(RuntimeError):
         return self.__unicode__().encode("ascii", "ignore")
 
     def __unicode__(self):
-        return u'%s: %s' % (self.faultcode, self.faultstring)
+        return '%s: %s' % (self.faultcode, self.faultstring)
 
     def __repr__(self):
-        return u"SoapFault(%s, %s)" % (repr(self.faultcode),
-                                       repr(self.faultstring))
+        return "SoapFault(%s, %s)" % (repr(self.faultcode),
+                                      repr(self.faultstring))
 
 
 # soap protocol specification & namespace
@@ -94,7 +97,7 @@ class SoapClient(object):
         if cacert and cacert.startswith("-----BEGIN CERTIFICATE-----"):
             fd, filename = tempfile.mkstemp()
             f = os.fdopen(fd, 'w+b', -1)
-            log.debug(u"Saving CA certificate to %s" % filename)
+            log.debug("Saving CA certificate to %s" % filename)
             f.write(cacert)
             cacert = filename
             f.close()
@@ -318,7 +321,7 @@ class SoapClient(object):
         if output:
             output = operation['output'].values()[0]
         headers = operation.get('headers') or None
-        return u"%s(%s)\n -> %s:\n\n%s\nHeaders: %s" % (
+        return "%s(%s)\n -> %s:\n\n%s\nHeaders: %s" % (
             method,
             input or "",
             output and output or "",
@@ -366,7 +369,7 @@ class SoapClient(object):
         get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
 
         # always return an unicode object:
-        REVERSE_TYPE_MAP[u'string'] = unicode
+        REVERSE_TYPE_MAP['string'] = unicode
 
         # Open uri and read xml:
         xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir)

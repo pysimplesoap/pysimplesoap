@@ -12,6 +12,12 @@
 
 """Simple XML manipulation"""
 
+
+from __future__ import unicode_literals
+import sys
+if sys.version > '3':
+    long = int
+
 import logging
 import re
 import time
@@ -351,7 +357,7 @@ class SimpleXMLElement(object):
             if not elements:
                 #log.debug(self._element.toxml())
                 if error:
-                    raise AttributeError(u"No elements found")
+                    raise AttributeError("No elements found")
                 else:
                     return
             return SimpleXMLElement(
@@ -361,8 +367,8 @@ class SimpleXMLElement(object):
                 prefix=self.__prefix,
                 jetty=self.__jetty,
                 namespaces_map=self.__namespaces_map)
-        except AttributeError, e:
-            raise AttributeError(u"Tag not found: %s (%s)" % (tag, unicode(e)))
+        except AttributeError as e:
+            raise AttributeError("Tag not found: %s (%s)" % (tag, unicode(e)))
 
     def __getattr__(self, tag):
         """Shortcut for __call__"""
@@ -415,7 +421,7 @@ class SimpleXMLElement(object):
     def __unicode__(self):
         """Returns the unicode text nodes of the current element"""
         if self._element.childNodes:
-            rc = u""
+            rc = ""
             for node in self._element.childNodes:
                 if node.nodeType == node.TEXT_NODE:
                     rc = rc + node.data
@@ -460,14 +466,14 @@ class SimpleXMLElement(object):
                         break
             try:
                 fn = types[name]
-            except (KeyError, ), e:
+            except (KeyError, ) as e:
                 if node.get_namespace_uri("soapenc"):
                     fn = None  # ignore multirefs!
                 elif 'xsi:type' in node.attributes().keys():
                     xsd_type = node['xsi:type'].split(":")[1]
                     fn = REVERSE_TYPE_MAP[xsd_type]
                 elif strict:
-                    raise TypeError(u"Tag: %s invalid (type not found)" % (name,))
+                    raise TypeError("Tag: %s invalid (type not found)" % (name,))
                 else:
                     # if not strict, use default type conversion
                     fn = unicode
@@ -528,8 +534,8 @@ class SimpleXMLElement(object):
                             value = unicode(node)
                         else:
                             value = fn(unicode(node))
-                    except (ValueError, TypeError), e:
-                        raise ValueError(u"Tag: %s: %s" % (name, unicode(e)))
+                    except (ValueError, TypeError) as e:
+                        raise ValueError("Tag: %s: %s" % (name, unicode(e)))
                 else:
                     value = None
             d[name] = value

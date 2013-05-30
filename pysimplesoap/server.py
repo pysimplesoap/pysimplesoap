@@ -17,7 +17,10 @@ import sys
 import logging
 import re
 import traceback
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+try:
+    from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+except ImportError:
+    from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from . import __author__, __copyright__, __license__, __version__
 from .simplexml import SimpleXMLElement, TYPE_MAP, Date, Decimal
@@ -538,7 +541,7 @@ if __name__ == "__main__":
         wsgid.serve_forever()
 
     if '--consume' in sys.argv:
-        from client import SoapClient
+        from .client import SoapClient
         client = SoapClient(
             location="http://localhost:8008/",
             action='http://localhost:8008/',  # SOAPAction
