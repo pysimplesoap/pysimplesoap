@@ -242,7 +242,7 @@ class SoapClient(object):
         headers.update(self.http_headers)
         log.info("POST %s" % location)
         log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
-        log.debug(xml.decode("utf8", "ignore"))
+        log.debug(xml)
 
         response, content = self.http.request(
             location, "POST", body=xml, headers=headers)
@@ -250,7 +250,7 @@ class SoapClient(object):
         self.content = content
 
         log.debug('\n'.join(["%s: %s" % (k, v) for k, v in response.items()]))
-        log.debug(content.decode("utf8", "ignore"))
+        log.debug(content)
         return content
 
     def get_operation(self, method):
