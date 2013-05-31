@@ -16,7 +16,6 @@
 from __future__ import unicode_literals
 import sys
 if sys.version > '3':
-    unicode = str
     basestring = str
 
 import logging
@@ -93,7 +92,7 @@ Time = datetime.time
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {
     str: 'string',
-    unicode: 'string',
+    #unicode: 'string',
     bool: 'boolean',
     short: 'short',
     byte: 'byte',
@@ -115,7 +114,7 @@ TYPE_UNMARSHAL_FN = {
     datetime.datetime: datetime_u,
     datetime.date: date_u,
     bool: bool_u,
-    str: unicode,
+    #str: unicode,
 }
 
 REVERSE_TYPE_MAP = dict([(v, k) for k, v in TYPE_MAP.items()])
@@ -476,7 +475,7 @@ class SimpleXMLElement(object):
                     raise TypeError("Tag: %s invalid (type not found)" % (name,))
                 else:
                     # if not strict, use default type conversion
-                    fn = unicode
+                    fn = str
 
             if isinstance(fn, list):
                 # append to existing list (if any) - unnested dict arrays -
@@ -525,15 +524,11 @@ class SimpleXMLElement(object):
             else:
                 if fn is None:  # xsd:anyType not unmarshalled
                     value = node
-                elif str(node) or fn == str:
+                elif str(node) or (fn == str and str(node) != ''):
                     try:
                         # get special deserialization function (if any)
                         fn = TYPE_UNMARSHAL_FN.get(fn, fn)
-                        if fn == str:
-                            # always return an unicode object:
-                            value = unicode(node)
-                        else:
-                            value = fn(unicode(node))
+                        value = fn(str(node))
                     except (ValueError, TypeError) as e:
                         raise ValueError("Tag: %s: %s" % (name, e))
                 else:

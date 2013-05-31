@@ -14,8 +14,6 @@
 
 from __future__ import unicode_literals
 import sys
-if sys.version > '3':
-    unicode = str
 
 try:
     import cPickle as pickle
@@ -373,7 +371,7 @@ class SoapClient(object):
         get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
 
         # always return an unicode object:
-        REVERSE_TYPE_MAP['string'] = unicode
+        REVERSE_TYPE_MAP['string'] = str
 
         # Open uri and read xml:
         xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir)
@@ -557,8 +555,6 @@ class SoapClient(object):
 
 def parse_proxy(proxy_str):
     """Parses proxy address user:pass@host:port into a dict suitable for httplib2"""
-    if isinstance(proxy_str, unicode):
-        proxy_str = proxy_str.encode("utf8")
     proxy_dict = {}
     if proxy_str is None:
         return
