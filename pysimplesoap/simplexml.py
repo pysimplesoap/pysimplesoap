@@ -16,7 +16,6 @@
 from __future__ import unicode_literals
 import sys
 if sys.version > '3':
-    long = int
     unicode = str
     basestring = str
 
@@ -81,6 +80,8 @@ class Alias(object):
     def __repr__(self):
         return "<alias '%s' for '%s'>" % (self.xml_type, self.py_type)
 
+if sys.version > '3':
+    long = Alias(int, 'long')
 byte = Alias(str, 'byte')
 short = Alias(int, 'short')
 double = Alias(float, 'double')
@@ -291,7 +292,7 @@ class SimpleXMLElement(object):
                 return self._element.attributes[item].value
         elif isinstance(item, slice):
             # return a list with name:values
-            return self._element.attributes.items()[item]
+            return list(self._element.attributes.items())[item]
         else:
             # return element by index (position)
             element = self.__elements[item]
