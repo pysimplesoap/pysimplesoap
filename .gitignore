@@ -1,0 +1,13 @@
+*.pyc
+issue*.xml
+
+/.idea
+/PySimpleSOAP.egg-info
+/.coverage
+
+lib/*
+bin/*
+include/*
+
+build/
+dist/
