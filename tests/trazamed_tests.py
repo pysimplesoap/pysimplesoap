@@ -34,17 +34,18 @@ LOCATION = "https://186.153.145.2:9050/trazamed.WebService"
 
 
 class TestTrazamed(unittest.TestCase):
+    internal = 1
 
     def setUp(self):
 
         self.client = SoapClient(
-            wsdl = WSDL,        
-            cache = None,
+            wsdl=WSDL,
+            cache=None,
             ns="tzmed",
             soap_ns="soapenv",
             soap_server="jetty",                # needed to handle list
-            trace = "--trace" in sys.argv)
-            
+            trace="--trace" in sys.argv)
+
         # fix location (localhost:9050 is erroneous in the WSDL)
         self.client.services['IWebServiceService']['ports']['IWebServicePort']['location'] = LOCATION
             
@@ -58,7 +59,7 @@ class TestTrazamed(unittest.TestCase):
 
     def test_send_medicamentos(self):
         #self.client.help("sendMedicamentos")
-        
+
         # Create the complex type (medicament data transfer object):
         medicamentosDTO = dict(
             f_evento=datetime.datetime.now().strftime("%d/%m/%Y"),
@@ -88,6 +89,7 @@ class TestTrazamed(unittest.TestCase):
 
         # Analyze the response:
         ret = res['return']        
+        
         self.assertIsInstance(ret['codigoTransaccion'], unicode)
         self.assertEqual(ret['resultado'], True)
 
