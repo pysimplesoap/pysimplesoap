@@ -274,7 +274,8 @@ class SoapClient(object):
                                        "SOAP version: %s" % soap_ver)
         else:
             port = self.services[self.service_port[0]]['ports'][self.service_port[1]]
-        self.location = port['location']
+        if not self.location:
+            self.location = port['location']
         operation = port['operations'].get(unicode(method))
         if not operation:
             raise RuntimeError("Operation %s not found in WSDL: "
@@ -292,32 +293,39 @@ class SoapClient(object):
         header = operation.get('header')
         if 'action' in operation:
             self.action = operation['action']
-        # sort parameters (same order as xsd:sequence)
-        def sort_dict(od, d):
-            if isinstance(od, dict):
-                ret = OrderedDict()
-                for k in od.keys():
-                    v = d.get(k)
-                    # don't append null tags!
-                    if v is not None:
-                        if isinstance(v, dict):
-                            v = sort_dict(od[k], v)
-                        elif isinstance(v, list):
-                            v = [sort_dict(od[k][0], v1) 
-                                    for v1 in v]
-                        ret[str(k)] = v 
-                return ret
-            else:
-                return d
+        
         # construct header and parameters
         if header:
-            self.__call_headers = sort_dict(header, self.__headers)
+            self.__call_headers = self.wsdl_sort_dict(header, self.__headers)
+        method, params = self.wsdl_call_get_params(method, input, *args, **kwargs)
+        
+        # call remote procedure
+        response = self.call(method, *params)
+        # parse results:
+        resp = response('Body',ns=soap_uri).children().unmarshall(output)
+        return resp and resp.values()[0] # pass Response tag children
+    
+    def wsdl_call_get_params(self, method, input, *args, **kwargs):
+        "Build params from input and args/kwargs"
+        params = None
         if input and args:
             # convert positional parameters to named parameters:
-            d = [(k, arg) for k, arg in zip(input.values()[0].keys(), args)]
-            kwargs.update(dict(d))
+            d = {}
+            idx = 0
+            for arg in args:
+                key = input.keys()[idx]
+                if isinstance(arg, dict):
+                    if key in arg:
+                        d[key] = arg[key]
+                    else:
+                        raise KeyError, "Unhandled key %s. use client.help(method)"
+                else:
+                    d[key] = arg
+                idx += 1
+            kwargs.update(d)
+        
         if input and kwargs:
-            params = sort_dict(input.values()[0], kwargs).items()
+            params = self.wsdl_sort_dict(input, kwargs).values()[0].items()
             if self.__soap_server == "axis":
                 # use the operation name
                 method = method
@@ -328,12 +336,27 @@ class SoapClient(object):
             #TODO: no message! (see wsmtxca.dummy) 
         else:
             params = kwargs and kwargs.items()
-        # call remote procedure
-        response = self.call(method, *params)
-        # parse results:
-        resp = response('Body',ns=soap_uri).children().unmarshall(output)
-        return resp and resp.values()[0] # pass Response tag children
-
+        
+        return (method, params)
+    
+    def wsdl_sort_dict(self, od, d):
+        "Sort parameters (same order as xsd:sequence)"
+        if isinstance(od, dict):
+            ret = OrderedDict()
+            for k in od.keys():
+                v = d.get(k)
+                # don't append null tags!
+                if v is not None:
+                    if isinstance(v, dict):
+                        v = self.wsdl_sort_dict(od[k], v)
+                    elif isinstance(v, list):
+                        v = [self.wsdl_sort_dict(od[k][0], v1) 
+                             for v1 in v]
+                    ret[str(k)] = v 
+            return ret
+        else:
+            return d
+    
     def help(self, method):
         "Return operation documentation and invocation/returned value example"
         operation = self.get_operation(method)
