@@ -21,7 +21,7 @@ class TestIssues(unittest.TestCase):
 
         self.assertEqual(lang, {'return': [{'item': u'no'},{'item': u'en'}, {'item': u'ny'}]})
 
-    def test_issue35_raw(self):    
+    def test_issue35_raw(self):
 
         url = 'http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue'
         client = SoapClient(location=url,action="", trace=False)
@@ -37,7 +37,7 @@ class TestIssues(unittest.TestCase):
 
     def test_issue35_wsdl(self):
         "Test positional parameters, multiRefs and axis messages"
-    
+
         url = 'http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue?WSDL'
         client = SoapClient(wsdl=url,trace=False, soap_server="axis")
         response = client.doEnsembleURIQuery(queryFormat="Xpath", queryString="/markovChain", startIndex=0, maxResults=-1)
@@ -88,7 +88,7 @@ class TestIssues(unittest.TestCase):
 
     def test_issue46(self):
         "Example for sending an arbitrary header using SimpleXMLElement"
-        
+
         # fake connection (just to test xml_request):
         client = SoapClient(location="https://localhost:666/",namespace='http://localhost/api',trace=False)
 
@@ -110,9 +110,9 @@ class TestIssues(unittest.TestCase):
 
     def test_issue47_wsdl(self):
         "Separate Header message WSDL (carizen)"
-        
+
         client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc")
-            
+
 
         session = client['Session'] = { 'ID' : '1234' }
 
@@ -126,7 +126,7 @@ class TestIssues(unittest.TestCase):
     def test_issue47_raw(self):
         "Same example (clarizen), with raw headers (no wsdl)!"
         client = SoapClient(location="https://api.clarizen.com/v1.0/Clarizen.svc", namespace='http://clarizen.com/api', trace=False)
-            
+
         headers = SimpleXMLElement("<Headers/>", namespace="http://clarizen.com/api", prefix="ns1")
         session = headers.add_child("Session")
         session['xmlns'] = "http://clarizen.com/api"
@@ -166,7 +166,7 @@ class TestIssues(unittest.TestCase):
 
     def test_issue78(self):
         "Example for sending an arbitrary header using SimpleXMLElement and WSDL"
-        
+
         # fake connection (just to test xml_request):
         client = SoapClient(wsdl='http://dczorgwelzijn-test.qmark.nl/qmwise4/qmwise.asmx?wsdl')
 
@@ -191,6 +191,20 @@ class TestIssues(unittest.TestCase):
             print client.xml_request
             header="""<soap:Header><qmw:Security xmlns:qmw="http://questionmark.com/QMWISe/"><qmw:ClientID>NAME</qmw:ClientID><qmw:Checksum>PASSWORD</qmw:Checksum></qmw:Security></soap:Header>"""
             self.assert_(header in client.xml_request, "header not in request!")
+
+    def test_issue104(self):
+        """SoapClient did not build all arguments for Marketo."""
+        method = 'getLead'
+        args = {'paramsGetLead': {'leadKey': {'keyType': 'IDNUM', 'keyValue': '1'}}}
+
+        # fake connection (just to test xml_request):
+        client = SoapClient(wsdl='http://app.marketo.com/soap/mktows/2_1?WSDL')
+        input = client.get_operation(method)['input']
+
+        params = ('paramsGetLead', [('leadKey', {'keyType': 'IDNUM', 'keyValue': '1'})])
+
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, args))
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, paramsGetLead=args['paramsGetLead']))
 
 if __name__ == '__main__':
     #unittest.main()
