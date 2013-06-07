@@ -121,7 +121,7 @@ class TestIssues(unittest.TestCase):
         client.http = DummyHTTP(xml)
         # call RPC
         ret = client.FEXGetCMP(
-            Auth={'Token': "", 'Sign': "", 'Cuit': ""},
+            Auth={'Token': "", 'Sign': "", 'Cuit': "0"},
             Cmp={
                 'Cbte_tipo': "19",
                 'Punto_vta': "3",
