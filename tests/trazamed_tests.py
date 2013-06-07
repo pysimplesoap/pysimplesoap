@@ -72,7 +72,7 @@ class TestTrazamed(unittest.TestCase):
             id_obra_social=None, id_evento=134,
             cuit_origen="20267565393", cuit_destino="20267565393", 
             apellido="Reingart", nombres="Mariano",
-            tipo_docmento="96", n_documento="26756539", sexo="M",
+            tipo_documento="96", n_documento="26756539", sexo="M",
             direccion="Saraza", numero="1234", piso="", depto="", 
             localidad="Hurlingham", provincia="Buenos Aires",
             n_postal="1688", fecha_nacimiento="01/01/2000", 

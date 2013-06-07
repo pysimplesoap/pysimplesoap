@@ -195,7 +195,7 @@ class TestIssues(unittest.TestCase):
     def test_issue104(self):
         """SoapClient did not build all arguments for Marketo."""
         method = 'getLead'
-        args = {'paramsGetLead': {'leadKey': {'keyType': 'IDNUM', 'keyValue': '1'}}}
+        args = {'leadKey': {'keyType': 'IDNUM', 'keyValue': '1'}}
 
         # fake connection (just to test xml_request):
         client = SoapClient(wsdl='http://app.marketo.com/soap/mktows/2_1?WSDL')
@@ -204,7 +204,7 @@ class TestIssues(unittest.TestCase):
         params = ('paramsGetLead', [('leadKey', {'keyType': 'IDNUM', 'keyValue': '1'})])
 
         self.assertEqual(params, client.wsdl_call_get_params(method, input, args))
-        self.assertEqual(params, client.wsdl_call_get_params(method, input, paramsGetLead=args['paramsGetLead']))
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, leadKey=args['leadKey']))
 
 if __name__ == '__main__':
     #unittest.main()
