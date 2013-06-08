@@ -38,7 +38,7 @@ proxy_dict = None
 cacert = None
 
 class TestIssues(unittest.TestCase):
-   
+
     def atest_wsaa_exception(self):
         "Test WSAA for SoapFault"
         WSDL = "https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl"
@@ -141,4 +141,5 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(resultget['Resultado'], "A")
         self.assertEqual(resultget['Cbte_nro'], 38)
         self.assertEqual(resultget['Imp_total'], Decimal('130.21'))
+        self.assertEqual(resultget['Cbte_tipo'], 19)
 
