@@ -61,8 +61,7 @@ class TestIssues(unittest.TestCase):
         """Test positional parameters, multiRefs and axis messages"""
 
         client = SoapClient(
-            wsdl="http://wennekers.epcc.ed.ac.uk:8080"
-                 "/axis/services/MetadataCatalogue?WSDL",
+            wsdl="http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue?WSDL",
             soap_server="axis"
         )
         response = client.doEnsembleURIQuery(
@@ -244,6 +243,20 @@ class TestIssues(unittest.TestCase):
                          '</qmw:Security>' \
                      '</soap:Header>'
             self.assert_(header in client.xml_request, "header not in request!")
+
+    def test_issue104(self):
+        """SoapClient did not build all arguments for Marketo."""
+        method = 'getLead'
+        args = {'leadKey': {'keyType': 'IDNUM', 'keyValue': '1'}}
+
+        # fake connection (just to test xml_request):
+        client = SoapClient(wsdl='http://app.marketo.com/soap/mktows/2_1?WSDL')
+        input = client.get_operation(method)['input']
+
+        params = ('paramsGetLead', [('leadKey', {'keyType': 'IDNUM', 'keyValue': '1'})])
+
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, args))
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, leadKey=args['leadKey']))
 
 if __name__ == '__main__':
     #unittest.main()

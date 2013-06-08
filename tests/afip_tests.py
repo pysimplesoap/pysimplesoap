@@ -121,7 +121,7 @@ class TestIssues(unittest.TestCase):
         client.http = DummyHTTP(xml)
         # call RPC
         ret = client.FEXGetCMP(
-            Auth={'Token': "", 'Sign': "", 'Cuit': ""},
+            Auth={'Token': "", 'Sign': "", 'Cuit': "0"},
             Cmp={
                 'Cbte_tipo': "19",
                 'Punto_vta': "3",
@@ -141,3 +141,4 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(resultget['Resultado'], "A")
         self.assertEqual(resultget['Cbte_nro'], 38)
         self.assertEqual(resultget['Imp_total'], Decimal('130.21'))
+        self.assertEqual(resultget['Cbte_tipo'], 19)

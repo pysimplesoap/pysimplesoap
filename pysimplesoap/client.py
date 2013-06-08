@@ -260,7 +260,8 @@ class SoapClient(object):
                                        "SOAP version: %s" % soap_ver)
         else:
             port = self.services[self.service_port[0]]['ports'][self.service_port[1]]
-        self.location = port['location']
+        if not self.location:
+            self.location = port['location']
         operation = port['operations'].get(unicode(method))
         if not operation:
             raise RuntimeError("Operation %s not found in WSDL: "
@@ -282,28 +283,154 @@ class SoapClient(object):
 
         # construct header and parameters
         if header:
-            self.__call_headers = sort_dict(header, self.__headers)
+            self.__call_headers = self.wsdl_sort_dict(header, self.__headers)
+        method, params = self.wsdl_call_get_params(method, input, *args, **kwargs)
+
+        # call remote procedure
+        response = self.call(method, *params)
+        # parse results:
+        resp = response('Body',ns=soap_uri).children().unmarshall(output)
+        return resp and resp.values()[0] # pass Response tag children
+
+    def wsdl_call_get_params(self, method, input, *args, **kwargs):
+        "Build params from input and args/kwargs"
+        params = inputname = inputargs = None
+        all_args = {}
+        if input:
+            inputname = input.keys()[0]
+            inputargs = input[inputname]
+
         if input and args:
             # convert positional parameters to named parameters:
-            d = [(k, arg) for k, arg in zip(input.values()[0].keys(), args)]
-            kwargs.update(dict(d))
-        if input and kwargs:
-            params = sort_dict(input.values()[0], kwargs).items()
+            d = {}
+            idx = 0
+            for arg in args:
+                key = inputargs.keys()[idx]
+                if isinstance(arg, dict):
+                    if key in arg:
+                        d[key] = arg[key]
+                    else:
+                        raise KeyError, "Unhandled key %s. use client.help(method)"
+                else:
+                    d[key] = arg
+                idx += 1
+            all_args.update({inputname:d})
+
+        if input and (kwargs or all_args):
+            if kwargs:
+                all_args.update({inputname:kwargs})
+            valid, errors, warnings = self.wsdl_validate_args_structure(input, all_args)
+            if not valid:
+                raise ValueError, "Invalid Args Structure. Errors: %s"%errors
+            params = self.wsdl_sort_dict(input, all_args).values()[0].items()
             if self.__soap_server == "axis":
                 # use the operation name
                 method = method
             else:
                 # use the message (element) name
-                method = input.keys()[0]
+                method = inputname
         #elif not input:
             #TODO: no message! (see wsmtxca.dummy)
         else:
             params = kwargs and kwargs.items()
-        # call remote procedure
-        response = self.call(method, *params)
-        # parse results:
-        resp = response('Body', ns=soap_uri).children().unmarshall(output)
-        return resp and resp.values()[0]  # pass Response tag children
+
+        return (method, params)
+
+    def wsdl_sort_dict(self, od, d):
+        "Sort parameters (same order as xsd:sequence)"
+        if isinstance(od, dict):
+            ret = OrderedDict()
+            for k in od.keys():
+                v = d.get(k)
+                # don't append null tags!
+                if v is not None:
+                    if isinstance(v, dict):
+                        v = self.wsdl_sort_dict(od[k], v)
+                    elif isinstance(v, list):
+                        v = [self.wsdl_sort_dict(od[k][0], v1)
+                             for v1 in v]
+                    ret[str(k)] = v
+            return ret
+        else:
+            return d
+
+    def wsdl_validate_args_structure(self, master, test):
+        "Validate the structure and types in the arguments. Fail for any invalid arguments or type mismatches."
+        errors = []
+        warnings = []
+        valid = True
+
+        mastertype = type(master)
+        testtype = type(test)
+
+        # Determine master type
+        masterisclass = False
+        typematch = mastertype==testtype
+        if isinstance(master, OrderedDict) and isinstance(test, dict):
+            typematch = True
+        else:
+            # Is master a class? cannot use isinstance or issubclass to determine effectively
+            try:
+                masterisclass = ("%s"%mastertype)[:7] == "<class "
+            except:
+                pass
+
+        if isinstance(master, type) or masterisclass:
+            # attempt to cast input to master type
+            try:
+                test = master(test)
+            except:
+                valid = False
+                errors.append("type mismatch for value. master(%s): %s, test(%s): %s"%(mastertype, master, testtype, test))
+
+        elif isinstance(master, list) and len(master)==1 and not isinstance(test, list):
+            # master can have a dict in a list: [{}] indicating a list is allowed, but not needed if only one argument.
+            next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master[0], test)
+            if not next_valid:
+                valid = False
+            errors.extend(next_errors)
+            warnings.extend(next_warnings)
+
+        elif not typematch:
+            valid = False
+            errors.append("type mismatch. master(%s): %s, test(%s): %s"%(mastertype, master, testtype, test))
+
+        else:
+            # traverse tree
+            if isinstance(master, dict) or isinstance(master, OrderedDict):
+                masterkeys = master.keys()
+                testkeys = test.keys()
+                if masterkeys and testkeys:
+                    for key in testkeys:
+                        if key not in masterkeys:
+                            valid = False
+                            errors.append("Test key %s not in master. master: %s, test: %s"%(key, master, test))
+                        else:
+                            next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master[key], test[key])
+                            if not next_valid:
+                                valid = False
+                            errors.extend(next_errors)
+                            warnings.extend(next_warnings)
+                    for key in masterkeys:
+                        if key not in testkeys:
+                            warnings.append("Master key %s not in test. master: %s, test: %s"%(key, master, test))
+                elif masterkeys and not testkeys:
+                    warnings.append("Master keys not in test. master: %s, test: %s"%(master, test))
+                elif not masterkeys and testkeys:
+                    valid = False
+                    errors.append("Test keys not in master. master: %s, test: %s"%(master, test))
+                else:
+                    pass
+            elif isinstance(master, list):
+                master_list_value = master[0]
+                for item in test:
+                    next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master_list_value, item)
+                    if not next_valid:
+                        valid = False
+                    errors.extend(next_errors)
+                    warnings.extend(next_warnings)
+
+        return (valid, errors, warnings)
 
     def help(self, method):
         """Return operation documentation and invocation/returned value example"""
