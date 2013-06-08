@@ -270,7 +270,7 @@ class SoapClient(object):
         return operation
 
     def wsdl_call(self, method, *args, **kwargs):
-        "Pre and post process SOAP call, input and output parameters using WSDL"
+        """Pre and post process SOAP call, input and output parameters using WSDL"""
         soap_uri = soap_namespaces[self.__soap_ns]
         operation = self.get_operation(method)
 
@@ -293,7 +293,7 @@ class SoapClient(object):
         return resp and resp.values()[0]  # pass Response tag children
 
     def wsdl_call_get_params(self, method, input, *args, **kwargs):
-        "Build params from input and args/kwargs"
+        """Build params from input and args/kwargs"""
         params = inputname = inputargs = None
         all_args = {}
         if input:
@@ -337,7 +337,7 @@ class SoapClient(object):
         return (method, params)
 
     def wsdl_sort_dict(self, od, d):
-        "Sort parameters (same order as xsd:sequence)"
+        """Sort parameters (same order as xsd:sequence)"""
         if isinstance(od, dict):
             ret = OrderedDict()
             for k in od.keys():
@@ -355,7 +355,7 @@ class SoapClient(object):
             return d
 
     def wsdl_validate_args_structure(self, master, test):
-        "Validate the structure and types in the arguments. Fail for any invalid arguments or type mismatches."
+        """Validate the structure and types in the arguments. Fail for any invalid arguments or type mismatches."""
         errors = []
         warnings = []
         valid = True
