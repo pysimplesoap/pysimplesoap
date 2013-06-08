@@ -99,7 +99,7 @@ class TestIssues(unittest.TestCase):
     ##def test_ups(self):
     ##    "Test UPS tracking service"
     ##    WSDL = "file:ups.wsdl"
-    ##    client = SoapClient(wsdl=WSDL, ns="web", trace=True)
+    ##    client = SoapClient(wsdl=WSDL, ns="web")
     ##    print client.help("ProcessTrack")
 
     def test_issue43(self):

@@ -37,7 +37,7 @@ class TestSoapDispatcher(unittest.TestCase):
             action='http://localhost:8008/',  # SOAPAction
             namespace="http://example.com/pysimplesoapsamle/", prefix="ns0",
             documentation='Example soap service using PySimpleSoap',
-            trace=True,
+            debug=True,
             ns=True)
 
         self.dispatcher.register_function('Adder', adder,

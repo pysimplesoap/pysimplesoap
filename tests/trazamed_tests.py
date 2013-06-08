@@ -43,12 +43,11 @@ class TestTrazamed(unittest.TestCase):
             cache=None,
             ns="tzmed",
             soap_ns="soapenv",
-            soap_server="jetty",                # needed to handle list
-            trace="--trace" in sys.argv)
+            soap_server="jetty")                # needed to handle list
 
         # fix location (localhost:9050 is erroneous in the WSDL)
         self.client.services['IWebServiceService']['ports']['IWebServicePort']['location'] = LOCATION
-            
+
         # Set WSSE security credentials
         self.client['wsse:Security'] = {
             'wsse:UsernameToken': {
@@ -63,63 +62,63 @@ class TestTrazamed(unittest.TestCase):
         # Create the complex type (medicament data transfer object):
         medicamentosDTO = dict(
             f_evento=datetime.datetime.now().strftime("%d/%m/%Y"),
-            h_evento=datetime.datetime.now().strftime("%H:%M"), 
-            gln_origen="9999999999918", gln_destino="glnws", 
-            n_remito="1234", n_factura="1234", 
-            vencimiento=(datetime.datetime.now() + 
-                         datetime.timedelta(30)).strftime("%d/%m/%Y"), 
+            h_evento=datetime.datetime.now().strftime("%H:%M"),
+            gln_origen="9999999999918", gln_destino="glnws",
+            n_remito="1234", n_factura="1234",
+            vencimiento=(datetime.datetime.now() +
+                         datetime.timedelta(30)).strftime("%d/%m/%Y"),
             gtin="GTIN1", lote=datetime.datetime.now().strftime("%Y"),
-            numero_serial=int(time.time()), 
+            numero_serial=int(time.time()),
             id_obra_social=None, id_evento=134,
-            cuit_origen="20267565393", cuit_destino="20267565393", 
+            cuit_origen="20267565393", cuit_destino="20267565393",
             apellido="Reingart", nombres="Mariano",
             tipo_documento="96", n_documento="26756539", sexo="M",
-            direccion="Saraza", numero="1234", piso="", depto="", 
+            direccion="Saraza", numero="1234", piso="", depto="",
             localidad="Hurlingham", provincia="Buenos Aires",
-            n_postal="1688", fecha_nacimiento="01/01/2000", 
+            n_postal="1688", fecha_nacimiento="01/01/2000",
             telefono="5555-5555",
             )
-        
+
         # Call the webservice to inform a medicament:
         res = self.client.sendMedicamentos(
             arg0=medicamentosDTO,
-            arg1='pruebasws', 
-            arg2='pruebasws',
-        )
-
-        # Analyze the response:
-        ret = res['return']        
-        
-        self.assertIsInstance(ret['codigoTransaccion'], unicode)
-        self.assertEqual(ret['resultado'], True)
-
-    def test_send_medicamentos_dh_serie(self):
-        self.client.help("sendMedicamentosDHSerie")
-        
-        # Create the complex type (medicament data transfer object):
-        medicamentosDTODHSerie = dict(
-            f_evento=datetime.datetime.now().strftime("%d/%m/%Y"),
-            h_evento=datetime.datetime.now().strftime("%H:%M"), 
-            gln_origen="9999999999918", gln_destino="glnws", 
-            n_remito="1234", n_factura="1234", 
-            vencimiento=(datetime.datetime.now() + 
-                         datetime.timedelta(30)).strftime("%d/%m/%Y"), 
-            gtin="GTIN1", lote=datetime.datetime.now().strftime("%Y"),
-            desde_numero_serial=10,
-            hasta_numero_serial=0, 
-            id_obra_social=None, id_evento=134,
-            )
-        
-        # Call the webservice to inform a medicament:
-        res = self.client.sendMedicamentosDHSerie(
-            arg0=medicamentosDTODHSerie, 
-            arg1='pruebasws', 
+            arg1='pruebasws',
             arg2='pruebasws',
         )
 
         # Analyze the response:
         ret = res['return']
-        
+
+        self.assertIsInstance(ret['codigoTransaccion'], unicode)
+        self.assertEqual(ret['resultado'], True)
+
+    def test_send_medicamentos_dh_serie(self):
+        self.client.help("sendMedicamentosDHSerie")
+
+        # Create the complex type (medicament data transfer object):
+        medicamentosDTODHSerie = dict(
+            f_evento=datetime.datetime.now().strftime("%d/%m/%Y"),
+            h_evento=datetime.datetime.now().strftime("%H:%M"),
+            gln_origen="9999999999918", gln_destino="glnws",
+            n_remito="1234", n_factura="1234",
+            vencimiento=(datetime.datetime.now() +
+                         datetime.timedelta(30)).strftime("%d/%m/%Y"),
+            gtin="GTIN1", lote=datetime.datetime.now().strftime("%Y"),
+            desde_numero_serial=10,
+            hasta_numero_serial=0,
+            id_obra_social=None, id_evento=134,
+            )
+
+        # Call the webservice to inform a medicament:
+        res = self.client.sendMedicamentosDHSerie(
+            arg0=medicamentosDTODHSerie,
+            arg1='pruebasws',
+            arg2='pruebasws',
+        )
+
+        # Analyze the response:
+        ret = res['return']
+
         # Check the results:
         self.assertIsInstance(ret['codigoTransaccion'], unicode)
         self.assertEqual(ret['errores'][0]['_c_error'], '3004')
@@ -130,29 +129,29 @@ class TestTrazamed(unittest.TestCase):
 
         # Call the webservice to query all the un-confirmed transactions:
         res = self.client.getTransaccionesNoConfirmadas(
-                arg0='pruebasws', 
+                arg0='pruebasws',
                 arg1='pruebasws',
             )
-        
+
         # Analyze the response:
         ret = res['return']
 
         # Check the results (a list should be returned):
         self.assertIsInstance(ret['list'], list)
-        
+
         for transaccion_plain_ws in ret['list']:
             # each item of the list is a dict (transaccionPlainWS complex type):
             # {'_f_evento': u'20/06/2012', '_numero_serial': u'04', ...}
             # check the keys returned in the complex type:
-            for key in ['_f_evento', '_f_transaccion', '_lote', '_id_estado', 
-                        '_numero_serial', '_razon_social_destino', 
-                        '_gln_destino', '_n_remito', '_vencimiento', 
-                        '_d_evento', '_id_transaccion_global', 
-                        '_razon_social_origen', '_n_factura', '_gln_origen', 
+            for key in ['_f_evento', '_f_transaccion', '_lote', '_id_estado',
+                        '_numero_serial', '_razon_social_destino',
+                        '_gln_destino', '_n_remito', '_vencimiento',
+                        '_d_evento', '_id_transaccion_global',
+                        '_razon_social_origen', '_n_factura', '_gln_origen',
                         '_id_transaccion', '_gtin', '_nombre']:
                 self.assertIn(key, transaccion_plain_ws)
 
 
 if __name__ == '__main__':
     unittest.main()
-        
+
