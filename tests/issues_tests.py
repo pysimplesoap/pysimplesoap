@@ -10,8 +10,6 @@ class TestIssues(unittest.TestCase):
             wsdl='http://uat.destin8.co.uk:80/ChiefEDI/ChiefEDI?wsdl'
         )
 
-    test_issue19.disabled = 0
-
     def test_issue34(self):
         """Test soap_server SoapClient constructor parameter"""
         client = SoapClient(
@@ -103,7 +101,6 @@ class TestIssues(unittest.TestCase):
     ##    print client.help("ProcessTrack")
 
     def test_issue43(self):
-        from pysimplesoap.client import SoapClient
 
         client = SoapClient(
             wsdl="https://api.clarizen.com/v1.0/Clarizen.svc"

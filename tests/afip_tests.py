@@ -15,11 +15,9 @@
 from decimal import Decimal
 import os
 import unittest
-import sys
 from pysimplesoap.client import SimpleXMLElement, SoapClient, SoapFault, parse_proxy, set_http_wrapper
 from dummy_utils import DummyHTTP, TEST_DIR
 
-TRACE = False
 
 WSDLs = [
     "https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl",
