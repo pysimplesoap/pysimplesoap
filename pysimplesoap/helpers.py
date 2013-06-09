@@ -37,34 +37,34 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
                     tmp_url = "%s://%s" % (scheme, os.path.join(wsdl_basedir, url))
                 else:
                     tmp_url = "%s:%s" % (scheme, os.path.join(wsdl_basedir, url))
-                log.debug("Scheme not found, trying %s" % scheme)
+                log.debug('Scheme not found, trying %s' % scheme)
                 return fetch(tmp_url, http, cache, force_download, wsdl_basedir)
             except Exception, e:
                 log.error(e)
-        raise RuntimeError("No scheme given for url: %s" % url)
+        raise RuntimeError('No scheme given for url: %s' % url)
 
     # make md5 hash of the url for caching...
-    filename = "%s.xml" % hashlib.md5(url).hexdigest()
+    filename = '%s.xml' % hashlib.md5(url).hexdigest()
     if isinstance(cache, basestring):
         filename = os.path.join(cache, filename)
     if cache and os.path.exists(filename) and not force_download:
-        log.info("Reading file %s" % (filename, ))
-        f = open(filename, "r")
+        log.info('Reading file %s' % filename)
+        f = open(filename, 'r')
         xml = f.read()
         f.close()
     else:
         if url_scheme == 'file':
-            log.info("Fetching url %s using urllib2" % (url, ))
+            log.info('Fetching url %s using urllib2' % url)
             f = urllib2.urlopen(url)
             xml = f.read()
         else:
-            log.info("GET %s using %s" % (url, http._wrapper_version))
-            response, xml = http.request(url, "GET", None, {})
+            log.info('GET %s using %s' % (url, http._wrapper_version))
+            response, xml = http.request(url, 'GET', None, {})
         if cache:
-            log.info("Writing file %s" % (filename, ))
+            log.info('Writing file %s' % filename)
             if not os.path.isdir(cache):
                 os.makedirs(cache)
-            f = open(filename, "w")
+            f = open(filename, 'w')
             f.write(xml)
             f.close()
     return xml
@@ -96,26 +96,26 @@ def make_key(element_name, element_type):
     else:
         eltype = element_type
     if eltype not in ('element', 'complexType', 'simpleType'):
-        raise RuntimeError("Unknown element type %s = %s" % (unicode(element_name), eltype))
+        raise RuntimeError('Unknown element type %s = %s' % (unicode(element_name), eltype))
     return (unicode(element_name), eltype)
 
 
 def process_element(elements, element_name, node, element_type, xsd_uri, dialect):
     """Parse and define simple element types"""
 
-    log.debug("Processing element %s %s" % (element_name, element_type))
+    log.debug('Processing element %s %s' % (element_name, element_type))
     for tag in node:
-        if tag.get_local_name() in ("annotation", "documentation"):
+        if tag.get_local_name() in ('annotation', 'documentation'):
             continue
         elif tag.get_local_name() in ('element', 'restriction'):
-            log.debug("%s has no children! %s" % (element_name, tag))
+            log.debug('%s has no children! %s' % (element_name, tag))
             children = tag  # element "alias"?
             alias = True
         elif tag.children():
             children = tag.children()
             alias = False
         else:
-            log.debug("%s has no children! %s" % (element_name, tag))
+            log.debug('%s has no children! %s' % (element_name, tag))
             continue  # TODO: abstract?
         d = OrderedDict()
         for e in children:
@@ -139,12 +139,12 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 fn = None
             if not fn:
                 # simple / complex type, postprocess later
-                fn = elements.setdefault(make_key(type_name, "complexType"), OrderedDict())
+                fn = elements.setdefault(make_key(type_name, 'complexType'), OrderedDict())
 
-            if e['maxOccurs'] == "unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
+            if e['maxOccurs'] == 'unbounded' or (ns == 'SOAP-ENC' and type_name == 'Array'):
                 # it's an array... TODO: compound arrays?
                 if isinstance(fn, OrderedDict):
-                    if len(children) > 1 and dialect in ('jetty', ):
+                    if len(children) > 1 and dialect in ('jetty',):
                         # Jetty style support
                         # {'ClassName': [{'attr1': val1, 'attr2': val2}]
                         fn.array = True
@@ -153,7 +153,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                         # [{'ClassName': {'attr1': val1, 'attr2': val2}]
                         d.array = True
                 else:
-                    if dialect in ('jetty', ):
+                    if dialect in ('jetty',):
                         # scalar support [{'attr1': [val1]}]
                         fn = [fn]
                     else:
@@ -163,7 +163,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 e_name = unicode(e['name'])
                 d[e_name] = fn
             else:
-                log.debug("complexContent/simpleType/element %s = %s" % (element_name, type_name))
+                log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
                 d[None] = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
                 # extend base element:
@@ -185,7 +185,7 @@ def postprocess_element(elements):
                             elements[k].insert(kk, v[None][kk], i)
                     del v[None]
                 else:  # "alias", just replace
-                    log.debug("Replacing %s = %s" % (k, v[None]))
+                    log.debug('Replacing %s = %s' % (k, v[None]))
                     elements[k] = v[None]
                     #break
             if v.array:
@@ -210,17 +210,17 @@ def get_message(messages, message_name, part_name):
 def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir):
     """Find schema elements and complex types"""
     for element in schema.children() or []:
-        if element.get_local_name() in ('import', 'include', ):
+        if element.get_local_name() in ('import', 'include',):
             schema_namespace = element['namespace']
             schema_location = element['schemaLocation']
             if schema_location is None:
-                log.debug("Schema location not provided for %s!" % (schema_namespace, ))
+                log.debug('Schema location not provided for %s!' % schema_namespace)
                 continue
             if schema_location in imported_schemas:
-                log.debug("Schema %s already imported!" % (schema_location, ))
+                log.debug('Schema %s already imported!' % schema_location)
                 continue
             imported_schemas[schema_location] = schema_namespace
-            log.debug("Importing schema %s from %s" % (schema_namespace, schema_location))
+            log.debug('Importing schema %s from %s' % (schema_namespace, schema_location))
             # Open uri and read xml:
             xml = fetch(schema_location, http, cache, force_download, wsdl_basedir)
 
@@ -231,11 +231,11 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
         element_type = element.get_local_name()
         if element_type in ('element', 'complexType', "simpleType"):
             element_name = unicode(element['name'])
-            log.debug("Parsing Element %s: %s" % (element_type, element_name))
+            log.debug('Parsing Element %s: %s' % (element_type, element_name))
             if element.get_local_name() == 'complexType':
                 children = element.children()
             elif element.get_local_name() == 'simpleType':
-                children = element("restriction", ns=xsd_uri)
+                children = element('restriction', ns=xsd_uri)
             elif element.get_local_name() == 'element' and element['type']:
                 children = element
             else:
