@@ -53,15 +53,13 @@ soap_namespaces = dict(
     soap12='http://www.w3.org/2003/05/soap-env',
 )
 
-_USE_GLOBAL_DEFAULT = object()
-
 
 class SoapClient(object):
     """Simple SOAP Client (simil PHP)"""
     def __init__(self, location=None, action=None, namespace=None,
                  cert=None, exceptions=True, proxy=None, ns=False,
                  soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
-                 sessions=False, soap_server=None, timeout=_USE_GLOBAL_DEFAULT,
+                 sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers={}
                  ):
         """
@@ -99,11 +97,6 @@ class SoapClient(object):
             cacert = filename
             f.close()
         self.cacert = cacert
-
-        if timeout is _USE_GLOBAL_DEFAULT:
-            timeout = TIMEOUT
-        else:
-            timeout = timeout
 
         # Create HTTP wrapper
         Http = get_Http()
