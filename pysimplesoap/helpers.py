@@ -53,7 +53,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
         raise RuntimeError('No scheme given for url: %s' % url)
 
     # make md5 hash of the url for caching...
-    filename = '%s.xml' % hashlib.md5(url).hexdigest()
+    filename = '%s.xml' % hashlib.md5(url.encode('utf8')).hexdigest()
     if isinstance(cache, basestring):
         filename = os.path.join(cache, filename)
     if cache and os.path.exists(filename) and not force_download:
