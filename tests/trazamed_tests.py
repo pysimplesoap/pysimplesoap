@@ -9,6 +9,7 @@
 # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTIBILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
+from __future__ import unicode_literals
 
 """Argentina National Medical Drug Traceability Program (ANMAT - PAMI - INSSJP)"""
 
@@ -21,11 +22,12 @@ import os
 import unittest
 import sys
 import time
+if sys.version < '3':
+    str = unicode
 
 from pysimplesoap.client import SoapClient, SoapFault, parse_proxy, \
                                 set_http_wrapper
 
-HOMO = False
 
 WSDL = "https://186.153.145.2:9050/trazamed.WebService?wsdl"
         #https://186.153.145.2:9050/trazamed.WebService?wsdl
@@ -89,7 +91,7 @@ class TestTrazamed(unittest.TestCase):
         # Analyze the response:
         ret = res['return']
 
-        self.assertIsInstance(ret['codigoTransaccion'], unicode)
+        self.assertIsInstance(ret['codigoTransaccion'], str)
         self.assertEqual(ret['resultado'], True)
 
     def test_send_medicamentos_dh_serie(self):
@@ -120,7 +122,7 @@ class TestTrazamed(unittest.TestCase):
         ret = res['return']
 
         # Check the results:
-        self.assertIsInstance(ret['codigoTransaccion'], unicode)
+        self.assertIsInstance(ret['codigoTransaccion'], str)
         self.assertEqual(ret['errores'][0]['_c_error'], '3004')
         self.assertEqual(ret['errores'][0]['_d_error'], "El campo Hasta Nro Serial debe ser mayor o igual al campo Desde Nro Serial.")
         self.assertEqual(ret['resultado'], False)
