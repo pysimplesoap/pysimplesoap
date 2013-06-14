@@ -285,21 +285,21 @@ class SoapClient(object):
         response = self.call(method, *params)
         # parse results:
         resp = response('Body', ns=soap_uri).children().unmarshall(output)
-        return resp and resp.values()[0]  # pass Response tag children
+        return resp and list(resp.values())[0]  # pass Response tag children
 
     def wsdl_call_get_params(self, method, input, *args, **kwargs):
         """Build params from input and args/kwargs"""
         params = inputname = inputargs = None
         all_args = {}
         if input:
-            inputname = input.keys()[0]
+            inputname = list(input.keys())[0]
             inputargs = input[inputname]
 
         if input and args:
             # convert positional parameters to named parameters:
             d = {}
             for idx, arg in enumerate(args):
-                key = inputargs.keys()[idx]
+                key = list(inputargs.keys())[idx]
                 if isinstance(arg, dict):
                     if key in arg:
                         d[key] = arg[key]
@@ -315,7 +315,7 @@ class SoapClient(object):
             valid, errors, warnings = self.wsdl_validate_args_structure(input, all_args)
             if not valid:
                 raise ValueError('Invalid Args Structure. Errors: %s' % errors)
-            params = sort_dict(input, all_args).values()[0].items()
+            params = list(sort_dict(input, all_args).values())[0].items()
             if self.__soap_server == 'axis':
                 # use the operation name
                 method = method
