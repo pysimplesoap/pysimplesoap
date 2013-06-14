@@ -39,3 +39,4 @@ Patches and Suggestions
 - Pedro Hdez
 - jpc <jpc@alumni.rice.edu>
 - Luka Birsa
+- Bill Bennert @billwebreply

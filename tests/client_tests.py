@@ -16,9 +16,9 @@ if __name__ == "__main__":
                 location="http://127.0.0.1:8000/webservices/sample/call/soap",
                 action='http://127.0.0.1:8000/webservices/sample/call/soap',  # SOAPAction
                 namespace="http://127.0.0.1:8000/webservices/sample/call/soap",
-                soap_ns='soap', trace=True, ns=False, exceptions=True)
+                soap_ns='soap', ns=False, exceptions=True)
         else:
-            client = SoapClient(wsdl="http://127.0.0.1:8000/webservices/sample/call/soap?WSDL", trace=True)
+            client = SoapClient(wsdl="http://127.0.0.1:8000/webservices/sample/call/soap?WSDL")
         response = client.Dummy()
         print('dummy', response)
         response = client.Echo(value='hola')
@@ -38,7 +38,7 @@ if __name__ == "__main__":
             location="http://127.0.0.1:8000/webservices/sample/call/soap",
             action='http://127.0.0.1:8000/webservices/sample/call/soap',  # SOAPAction
             namespace="http://127.0.0.1:8000/webservices/sample/call/soap",
-            soap_ns='soap', trace=True, ns=False)
+            soap_ns='soap', ns=False)
         params = SimpleXMLElement("""<?xml version="1.0" encoding="UTF-8"?><AddIntegers><a>3</a><b>2</b></AddIntegers>""")  # manully convert returned type
         response = client.call('AddIntegers', params)
         result = response.AddResult
@@ -50,7 +50,6 @@ if __name__ == "__main__":
             location="https://fwshomo.afip.gov.ar/wsctg/services/CTGService",
             action='http://impl.service.wsctg.afip.gov.ar/CTGService/',  # SOAPAction
             namespace="http://impl.service.wsctg.afip.gov.ar/CTGService/",
-            trace=True,
             ns=True)
         response = client.dummy()
         result = response.dummyResponse
@@ -70,8 +69,7 @@ if __name__ == "__main__":
         client = SoapClient(
             location="https://wswhomo.afip.gov.ar/wsfe/service.asmx",
             action='http://ar.gov.afip.dif.facturaelectronica/',  # SOAPAction
-            namespace="http://ar.gov.afip.dif.facturaelectronica/",
-            trace=True)
+            namespace="http://ar.gov.afip.dif.facturaelectronica/")
         results = client.FERecuperaQTYRequest(
             argAuth={"Token": token, "Sign": sign, "cuit": long(cuit)}
         )
@@ -88,8 +86,7 @@ if __name__ == "__main__":
         client = SoapClient(
             location="http://webservices.mininterior.gov.ar/Feriados/Service.svc",
             action='http://tempuri.org/IMyService/',  # SOAPAction
-            namespace="http://tempuri.org/FeriadoDS.xsd",
-            trace=True)
+            namespace="http://tempuri.org/FeriadoDS.xsd")
         dt1 = datetime.today() - timedelta(days=60)
         dt2 = datetime.today() + timedelta(days=60)
         feriadosXML = client.FeriadosEntreFechasas_xml(dt1=dt1.isoformat(), dt2=dt2.isoformat())
@@ -122,7 +119,7 @@ if __name__ == "__main__":
         t0 = time.time()
         for i in range(100):
             print(i)
-            client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL', cache="cache", trace=False)
+            client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfex/service.asmx?WSDL', cache="cache")
             #results = client.FEXDummy()
             #print(results['FEXDummyResult']['AppServer'])
             #print(results['FEXDummyResult']['DbServer'])
@@ -149,7 +146,7 @@ if __name__ == "__main__":
 
     if '--wsdl-ctg' in sys.argv:
         client = SoapClient(wsdl='https://fwshomo.afip.gov.ar/wsctg/services/CTGService?wsdl',
-                            trace=True, ns="ctg")
+                            ns="ctg")
         results = client.dummy()
         print(results)
         print(results['DummyResponse']['appserver'])
@@ -190,7 +187,7 @@ if __name__ == "__main__":
                 print("proxy", proxy)
                 try:
                     client = SoapClient(wsdl='https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL',
-                                        cache="cache", trace=False, proxy=proxy)
+                                        cache="cache", proxy=proxy)
                     t0 = time.time()
                     print("starting...",)
                     for i in range(20):

@@ -15,12 +15,10 @@
 from decimal import Decimal
 import os
 import unittest
-import sys
 from pysimplesoap.client import SimpleXMLElement, SoapClient, SoapFault, parse_proxy, set_http_wrapper
 
 from .dummy_utils import DummyHTTP, TEST_DIR
 
-TRACE = False
 
 WSDLs = [
     "https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl",
@@ -122,7 +120,7 @@ class TestIssues(unittest.TestCase):
         client.http = DummyHTTP(xml)
         # call RPC
         ret = client.FEXGetCMP(
-            Auth={'Token': "", 'Sign': "", 'Cuit': ""},
+            Auth={'Token': "", 'Sign': "", 'Cuit': "0"},
             Cmp={
                 'Cbte_tipo': "19",
                 'Punto_vta': "3",
@@ -142,3 +140,4 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(resultget['Resultado'], "A")
         self.assertEqual(resultget['Cbte_nro'], 38)
         self.assertEqual(resultget['Imp_total'], Decimal('130.21'))
+        self.assertEqual(resultget['Cbte_tipo'], 19)

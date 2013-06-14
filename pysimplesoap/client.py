@@ -40,7 +40,7 @@ class SoapFault(RuntimeError):
         RuntimeError.__init__(self, faultcode, faultstring)
 
     def __str__(self):
-        return self.__unicode__().encode("ascii", "ignore")
+        return self.__unicode__().encode('ascii', 'ignore')
 
     def __unicode__(self):
         return '%s: %s' % (self.faultcode, self.faultstring)
@@ -52,13 +52,11 @@ class SoapFault(RuntimeError):
 
 # soap protocol specification & namespace
 soap_namespaces = dict(
-    soap11="http://schemas.xmlsoap.org/soap/envelope/",
-    soap="http://schemas.xmlsoap.org/soap/envelope/",
-    soapenv="http://schemas.xmlsoap.org/soap/envelope/",
-    soap12="http://www.w3.org/2003/05/soap-env",
+    soap11='http://schemas.xmlsoap.org/soap/envelope/',
+    soap='http://schemas.xmlsoap.org/soap/envelope/',
+    soapenv='http://schemas.xmlsoap.org/soap/envelope/',
+    soap12='http://www.w3.org/2003/05/soap-env',
 )
-
-_USE_GLOBAL_DEFAULT = object()
 
 
 class SoapClient(object):
@@ -66,7 +64,7 @@ class SoapClient(object):
     def __init__(self, location=None, action=None, namespace=None,
                  cert=None, exceptions=True, proxy=None, ns=False,
                  soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
-                 sessions=False, soap_server=None, timeout=_USE_GLOBAL_DEFAULT,
+                 sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers={}
                  ):
         """
@@ -96,7 +94,7 @@ class SoapClient(object):
         self.__call_headers = None  # OrderedDict to be marshalled for RPC Call
 
         # check if the Certification Authority Cert is a string and store it
-        if cacert and cacert.startswith("-----BEGIN CERTIFICATE-----"):
+        if cacert and cacert.startswith('-----BEGIN CERTIFICATE-----'):
             fd, filename = tempfile.mkstemp()
             f = os.fdopen(fd, 'w+b', -1)
             log.debug("Saving CA certificate to %s" % filename)
@@ -104,11 +102,6 @@ class SoapClient(object):
             cacert = filename
             f.close()
         self.cacert = cacert
-
-        if timeout is _USE_GLOBAL_DEFAULT:
-            timeout = TIMEOUT
-        else:
-            timeout = timeout
 
         # Create HTTP wrapper
         Http = get_Http()
@@ -160,10 +153,7 @@ class SoapClient(object):
                                 soap_ns=self.__soap_ns, soap_uri=soap_namespaces[self.__soap_ns])
         request = SimpleXMLElement(xml, namespace=self.__ns and self.namespace, prefix=self.__ns)
 
-        try:
-            request_headers = kwargs.pop('headers')
-        except KeyError:
-            request_headers = None
+        request_headers = kwargs.pop('headers', None)
 
         # serialize parameters
         if kwargs:
@@ -179,14 +169,14 @@ class SoapClient(object):
             # marshall parameters:
             for k, v in parameters:  # dict: tag=valor
                 getattr(request, method).marshall(k, v)
-        elif not self.__soap_server in ('oracle', ) or self.__soap_server in ('jbossas6',):
+        elif not self.__soap_server in ('oracle',) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=list(soap_namespaces.values()),), method)
 
         # construct header and parameters (if not wsdl given) except wsse
         if self.__headers and not self.services:
             self.__call_headers = dict([(k, v) for k, v in self.__headers.items()
-                                        if not k.startswith("wsse:")])
+                                        if not k.startswith('wsse:')])
         # always extract WS Security header and send it
         if 'wsse:Security' in self.__headers:
             #TODO: namespaces too hardwired, clean-up...
@@ -216,7 +206,7 @@ class SoapClient(object):
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
-                                    jetty=self.__soap_server in ('jetty', ))
+                                    jetty=self.__soap_server in ('jetty',))
         if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
             raise SoapFault(response.faultcode, response.faultstring)
         return response
@@ -224,7 +214,7 @@ class SoapClient(object):
     def send(self, method, xml):
         """Send SOAP request using HTTP"""
         if self.location == 'test': return
-        # location = "%s" % self.location #?op=%s" % (self.location, method)
+        # location = '%s' % self.location #?op=%s" % (self.location, method)
         location = str(self.location)
 
         if self.services:
@@ -235,7 +225,7 @@ class SoapClient(object):
         headers = {
             'Content-type': 'text/xml; charset="UTF-8"',
             'Content-length': str(len(xml)),
-            "SOAPAction": "\"%s\"" % (soap_action)
+            'SOAPAction': '"%s"' % soap_action
         }
         headers.update(self.http_headers)
         log.info("POST %s" % location)
@@ -243,7 +233,7 @@ class SoapClient(object):
         log.debug(xml)
 
         response, content = self.http.request(
-            location, "POST", body=xml, headers=headers)
+            location, 'POST', body=xml, headers=headers)
         self.response = response
         self.content = content
 
@@ -261,15 +251,16 @@ class SoapClient(object):
                         self.service_port = service_name, port_name
                         break
                 else:
-                    raise RuntimeError("Cannot determine service in WSDL: "
-                                       "SOAP version: %s" % soap_ver)
+                    raise RuntimeError('Cannot determine service in WSDL: '
+                                       'SOAP version: %s' % soap_ver)
         else:
             port = self.services[self.service_port[0]]['ports'][self.service_port[1]]
-        self.location = port['location']
+        if not self.location:
+            self.location = port['location']
         operation = port['operations'].get(method)
         if not operation:
-            raise RuntimeError("Operation %s not found in WSDL: "
-                               "Service/Port Type: %s" %
+            raise RuntimeError('Operation %s not found in WSDL: '
+                               'Service/Port Type: %s' %
                                (method, self.service_port))
         return operation
 
@@ -288,27 +279,128 @@ class SoapClient(object):
         # construct header and parameters
         if header:
             self.__call_headers = sort_dict(header, self.__headers)
-        if input and args:
-            # convert positional parameters to named parameters:
-            d = [(k, arg) for k, arg in zip(list(input.values())[0].keys(), args)]
-            kwargs.update(dict(d))
-        if input and kwargs:
-            params = sort_dict(list(input.values())[0], kwargs).items()
-            if self.__soap_server == "axis":
-                # use the operation name
-                method = method
-            else:
-                # use the message (element) name
-                method = list(input.keys())[0]
-        #elif not input:
-            #TODO: no message! (see wsmtxca.dummy)
-        else:
-            params = kwargs and kwargs.items()
+        method, params = self.wsdl_call_get_params(method, input, *args, **kwargs)
+
         # call remote procedure
         response = self.call(method, *params)
         # parse results:
         resp = response('Body', ns=soap_uri).children().unmarshall(output)
-        return resp and list(resp.values())[0]  # pass Response tag children
+        return resp and resp.values()[0]  # pass Response tag children
+
+    def wsdl_call_get_params(self, method, input, *args, **kwargs):
+        """Build params from input and args/kwargs"""
+        params = inputname = inputargs = None
+        all_args = {}
+        if input:
+            inputname = input.keys()[0]
+            inputargs = input[inputname]
+
+        if input and args:
+            # convert positional parameters to named parameters:
+            d = {}
+            for idx, arg in enumerate(args):
+                key = inputargs.keys()[idx]
+                if isinstance(arg, dict):
+                    if key in arg:
+                        d[key] = arg[key]
+                    else:
+                        raise KeyError('Unhandled key %s. use client.help(method)')
+                else:
+                    d[key] = arg
+            all_args.update({inputname: d})
+
+        if input and (kwargs or all_args):
+            if kwargs:
+                all_args.update({inputname: kwargs})
+            valid, errors, warnings = self.wsdl_validate_args_structure(input, all_args)
+            if not valid:
+                raise ValueError('Invalid Args Structure. Errors: %s' % errors)
+            params = sort_dict(input, all_args).values()[0].items()
+            if self.__soap_server == 'axis':
+                # use the operation name
+                method = method
+            else:
+                # use the message (element) name
+                method = inputname
+        #elif not input:
+            #TODO: no message! (see wsmtxca.dummy)
+        else:
+            params = kwargs and kwargs.items()
+
+        return (method, params)
+
+    def wsdl_validate_args_structure(self, master, test):
+        """Validate the structure and types in the arguments. Fail for any invalid arguments or type mismatches."""
+        errors = []
+        warnings = []
+        valid = True
+
+        # Determine master type
+        masterisclass = False
+        typematch = type(master) == type(test)
+        if isinstance(master, OrderedDict) and isinstance(test, dict):
+            typematch = True
+        else:
+            # Is master a class? cannot use isinstance or issubclass to determine effectively
+            try:
+                masterisclass = str(type(master))[:7] == '<class '
+            except:
+                pass
+
+        if isinstance(master, type) or masterisclass:
+            # attempt to cast input to master type
+            try:
+                test = master(test)
+            except:
+                valid = False
+                errors.append('type mismatch for value. master(%s): %s, test(%s): %s' % (type(master), master, type(test), test))
+
+        elif isinstance(master, list) and len(master) == 1 and not isinstance(test, list):
+            # master can have a dict in a list: [{}] indicating a list is allowed, but not needed if only one argument.
+            next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master[0], test)
+            if not next_valid:
+                valid = False
+            errors.extend(next_errors)
+            warnings.extend(next_warnings)
+
+        elif not typematch:
+            valid = False
+            errors.append('type mismatch. master(%s): %s, test(%s): %s' % (type(master), master, type(test), test))
+
+        else:
+            # traverse tree
+            if isinstance(master, dict) or isinstance(master, OrderedDict):
+                if master and test:
+                    for key in test:
+                        if key not in master:
+                            valid = False
+                            errors.append('Test key %s not in master. master: %s, test: %s' % (key, master, test))
+                        else:
+                            next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master[key], test[key])
+                            if not next_valid:
+                                valid = False
+                            errors.extend(next_errors)
+                            warnings.extend(next_warnings)
+                    for key in master:
+                        if key not in test:
+                            warnings.append('Master key %s not in test. master: %s, test: %s' % (key, master, test))
+                elif master and not test:
+                    warnings.append('Master keys not in test. master: %s, test: %s' % (master, test))
+                elif not master and test:
+                    valid = False
+                    errors.append('Test keys not in master. master: %s, test: %s' % (master, test))
+                else:
+                    pass
+            elif isinstance(master, list):
+                master_list_value = master[0]
+                for item in test:
+                    next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master_list_value, item)
+                    if not next_valid:
+                        valid = False
+                    errors.extend(next_errors)
+                    warnings.extend(next_warnings)
+
+        return (valid, errors, warnings)
 
     def help(self, method):
         """Return operation documentation and invocation/returned value example"""
@@ -325,30 +417,30 @@ class SoapClient(object):
         headers = operation.get('headers') or None
         return "%s(%s)\n -> %s:\n\n%s\nHeaders: %s" % (
             method,
-            input or "",
-            output and output or "",
-            operation.get("documentation", ""),
+            input or '',
+            output and output or '',
+            operation.get('documentation', ''),
             headers,
         )
 
     def wsdl_parse(self, url, cache=False):
         """Parse Web Service Description v1.1"""
 
-        log.debug("wsdl url: %s" % url)
+        log.debug('wsdl url: %s' % url)
         # Try to load a previously parsed wsdl:
         force_download = False
         if cache:
             # make md5 hash of the url for caching...
-            filename_pkl = "%s.pkl" % hashlib.md5(url).hexdigest()
+            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
             if isinstance(cache, basestring):
                 filename_pkl = os.path.join(cache, filename_pkl)
             if os.path.exists(filename_pkl):
-                log.debug("Unpickle file %s" % (filename_pkl, ))
-                f = open(filename_pkl, "r")
+                log.debug('Unpickle file %s' % (filename_pkl, ))
+                f = open(filename_pkl, 'r')
                 pkl = pickle.load(f)
                 f.close()
                 # sanity check:
-                if pkl['version'][:-1] != __version__.split(" ")[0][:-1] or pkl['url'] != url:
+                if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
                     import warnings
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
                     log.debug('Version: %s %s' % (pkl['version'], __version__))
@@ -360,12 +452,12 @@ class SoapClient(object):
                     return pkl['services']
 
         soap_ns = {
-            "http://schemas.xmlsoap.org/wsdl/soap/": 'soap11',
-            "http://schemas.xmlsoap.org/wsdl/soap12/": 'soap12',
+            'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
+            'http://schemas.xmlsoap.org/wsdl/soap12/': 'soap12',
         }
-        wsdl_uri = "http://schemas.xmlsoap.org/wsdl/"
-        xsd_uri = "http://www.w3.org/2001/XMLSchema"
-        xsi_uri = "http://www.w3.org/2001/XMLSchema-instance"
+        wsdl_uri = 'http://schemas.xmlsoap.org/wsdl/'
+        xsd_uri = 'http://www.w3.org/2001/XMLSchema'
+        xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
 
         get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
         get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
@@ -382,9 +474,9 @@ class SoapClient(object):
         xsd_ns = None
         soap_uris = {}
         for k, v in wsdl[:]:
-            if v in soap_ns and k.startswith("xmlns:"):
+            if v in soap_ns and k.startswith('xmlns:'):
                 soap_uris[get_local_name(k)] = v
-            if v == xsd_uri and k.startswith("xmlns:"):
+            if v == xsd_uri and k.startswith('xmlns:'):
                 xsd_ns = get_local_name(k)
 
         # Extract useful data:
@@ -451,21 +543,21 @@ class SoapClient(object):
                 header = output and output('header', ns=list(soap_uris.values()), error=False)
                 d['parts']['output_header'] = header and {'message': header['message'], 'part': header['part']} or None
                 if action:
-                    d["action"] = action
+                    d['action'] = action
 
         # check axis2 namespace at schema types attributes
-        self.namespace = dict(wsdl.types("schema", ns=xsd_uri)[:]).get('targetNamespace', self.namespace)
+        self.namespace = dict(wsdl.types('schema', ns=xsd_uri)[:]).get('targetNamespace', self.namespace)
 
         imported_schemas = {}
 
         # process current wsdl schema:
-        for schema in wsdl.types("schema", ns=xsd_uri):
+        for schema in wsdl.types('schema', ns=xsd_uri):
             preprocess_schema(schema, imported_schemas, elements, xsd_uri, self.__soap_server, self.http, cache, force_download, self.wsdl_basedir)
 
         postprocess_element(elements)
 
         for message in wsdl.message:
-            log.debug("Processing message %s" % message['name'])
+            log.debug('Processing message %s' % message['name'])
             for part in message('part', error=False) or []:
                 element = {}
                 element_name = part['element']
@@ -493,7 +585,7 @@ class SoapClient(object):
 
         for port_type in wsdl.portType:
             port_type_name = port_type['name']
-            log.debug("Processing port type %s" % port_type_name)
+            log.debug('Processing port type %s' % port_type_name)
 
             for binding in port_type_bindings[port_type_name]:
                 for operation in port_type.operation:
@@ -502,7 +594,7 @@ class SoapClient(object):
                     op['documentation'] = operation('documentation', error=False) or ''
                     if binding['soap_ver']:
                         #TODO: separe operation_binding from operation (non SOAP?)
-                        if operation("input", error=False):
+                        if operation('input', error=False):
                             input_msg = get_local_name(operation.input['message'])
                             input_header = op['parts'].get('input_header')
                             if input_header:
@@ -517,7 +609,7 @@ class SoapClient(object):
                         else:
                             op['input'] = None
                             op['header'] = None
-                        if operation("output", error=False):
+                        if operation('output', error=False):
                             output_msg = get_local_name(operation.output['message'])
                             op['output'] = get_message(messages, output_msg, op['parts'].get('output_body'))
                         else:
@@ -530,7 +622,7 @@ class SoapClient(object):
         if cache:
             f = open(filename_pkl, "wb")
             pkl = {
-                'version': __version__.split(" ")[0],
+                'version': __version__.split(' ')[0],
                 'url': url,
                 'namespace': self.namespace,
                 'documentation': self.documentation,
@@ -549,7 +641,7 @@ class SoapClient(object):
         """Finish the connection and remove temp files"""
         self.http.close()
         if self.cacert.startswith(tempfile.gettempdir()):
-            log.debug("removing %s" % self.cacert)
+            log.debug('removing %s' % self.cacert)
             os.unlink(self.cacert)
 
 
@@ -558,17 +650,17 @@ def parse_proxy(proxy_str):
     proxy_dict = {}
     if proxy_str is None:
         return
-    if "@" in proxy_str:
-        user_pass, host_port = proxy_str.split("@")
+    if '@' in proxy_str:
+        user_pass, host_port = proxy_str.split('@')
     else:
-        user_pass, host_port = "", proxy_str
-    if ":" in host_port:
-        host, port = host_port.split(":")
+        user_pass, host_port = '', proxy_str
+    if ':' in host_port:
+        host, port = host_port.split(':')
         proxy_dict['proxy_host'], proxy_dict['proxy_port'] = host, int(port)
-    if ":" in user_pass:
-        proxy_dict['proxy_user'], proxy_dict['proxy_pass'] = user_pass.split(":")
+    if ':' in user_pass:
+        proxy_dict['proxy_user'], proxy_dict['proxy_pass'] = user_pass.split(':')
     return proxy_dict
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass

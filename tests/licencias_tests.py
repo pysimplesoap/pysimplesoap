@@ -19,7 +19,7 @@ class TestIssues(unittest.TestCase):
     def test_buscar_personas_raw(self):
 
         url = "http://www.testgobi.dpi.sfnet/licencias/web/soap.php"
-        client = SoapClient(location=url, ns="web", trace=True,
+        client = SoapClient(location=url, ns="web",
                             namespace="http://wwwdesagobi.dpi.sfnet:8080/licencias/web/",
                             action=url)
         # load dummy response (for testing)
@@ -50,7 +50,7 @@ class TestIssues(unittest.TestCase):
 
     def test_buscar_personas_wsdl(self):
         WSDL = "file://" + os.path.join(TEST_DIR, "licencias.wsdl")
-        client = SoapClient(wsdl=WSDL, ns="web", trace=True)
+        client = SoapClient(wsdl=WSDL, ns="web")
         print(client.help("PersonaSearch"))
         client['AuthHeaderElement'] = {'username': 'mariano', 'password': 'clave'}
         client.http = DummyHTTP(self.xml)

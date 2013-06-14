@@ -12,8 +12,6 @@ class TestIssues(unittest.TestCase):
             wsdl='http://uat.destin8.co.uk:80/ChiefEDI/ChiefEDI?wsdl'
         )
 
-    test_issue19.disabled = 0
-
     def test_issue34(self):
         """Test soap_server SoapClient constructor parameter"""
         client = SoapClient(
@@ -63,8 +61,7 @@ class TestIssues(unittest.TestCase):
         """Test positional parameters, multiRefs and axis messages"""
 
         client = SoapClient(
-            wsdl="http://wennekers.epcc.ed.ac.uk:8080"
-                 "/axis/services/MetadataCatalogue?WSDL",
+            wsdl="http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue?WSDL",
             soap_server="axis"
         )
         response = client.doEnsembleURIQuery(
@@ -96,17 +93,14 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(str(res('address')), "1ST & 2ND FLOOR ,GORDON HOUSE ,"
                                               "BARROW STREET ,DUBLIN 4")
 
-    test_issue8.disabled = 1
-
     ## NOTE: Missing file "ups.wsdl"
     ##def test_ups(self):
     ##    "Test UPS tracking service"
     ##    WSDL = "file:ups.wsdl"
-    ##    client = SoapClient(wsdl=WSDL, ns="web", trace=True)
+    ##    client = SoapClient(wsdl=WSDL, ns="web")
     ##    print(client.help("ProcessTrack"))
 
     def test_issue43(self):
-        from pysimplesoap.client import SoapClient
 
         client = SoapClient(
             wsdl="https://api.clarizen.com/v1.0/Clarizen.svc"
@@ -246,6 +240,20 @@ class TestIssues(unittest.TestCase):
                          '</qmw:Security>' \
                      '</soap:Header>'
             self.assert_(header in client.xml_request.decode(), "header not in request!")
+
+    def test_issue104(self):
+        """SoapClient did not build all arguments for Marketo."""
+        method = 'getLead'
+        args = {'leadKey': {'keyType': 'IDNUM', 'keyValue': '1'}}
+
+        # fake connection (just to test xml_request):
+        client = SoapClient(wsdl='http://app.marketo.com/soap/mktows/2_1?WSDL')
+        input = client.get_operation(method)['input']
+
+        params = ('paramsGetLead', [('leadKey', {'keyType': 'IDNUM', 'keyValue': '1'})])
+
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, args))
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, leadKey=args['leadKey']))
 
 if __name__ == '__main__':
     #unittest.main()
