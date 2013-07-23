@@ -28,7 +28,10 @@ from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
-from .helpers import fetch, sort_dict, make_key, process_element, postprocess_element, get_message, preprocess_schema
+from .helpers import fetch, sort_dict, make_key, process_element, \
+                     postprocess_element, get_message, preprocess_schema, \
+                     get_local_name, get_namespace_prefix
+
 
 log = logging.getLogger(__name__)
 
@@ -168,7 +171,7 @@ class SoapClient(object):
         elif parameters:
             # marshall parameters:
             for k, v in parameters:  # dict: tag=valor
-                getattr(request, method).marshall(k, v)
+                getattr(request, method).marshall(k, v, ns=True)
         elif not self.__soap_server in ('oracle',) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=list(soap_namespaces.values()),), method)
@@ -459,9 +462,6 @@ class SoapClient(object):
         xsd_uri = 'http://www.w3.org/2001/XMLSchema'
         xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
 
-        get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
-        get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
-
         # always return an unicode object:
         REVERSE_TYPE_MAP['string'] = str
 
@@ -549,10 +549,11 @@ class SoapClient(object):
         self.namespace = dict(wsdl.types('schema', ns=xsd_uri)[:]).get('targetNamespace', self.namespace)
 
         imported_schemas = {}
+        global_namespaces = {}
 
         # process current wsdl schema:
         for schema in wsdl.types('schema', ns=xsd_uri):
-            preprocess_schema(schema, imported_schemas, elements, xsd_uri, self.__soap_server, self.http, cache, force_download, self.wsdl_basedir)
+            preprocess_schema(schema, imported_schemas, elements, xsd_uri, self.__soap_server, self.http, cache, force_download, self.wsdl_basedir, global_namespaces=global_namespaces)
 
         postprocess_element(elements)
 
@@ -574,10 +575,10 @@ class SoapClient(object):
                     list(messages.setdefault((message['name'], None), {message['name']: OrderedDict()}).values())[0].update(element)
                 else:
                     element_name = get_local_name(element_name)
-                    fn = elements.get(make_key(element_name, 'element'))
+                    fn = elements.get(make_key(element_name, 'element', type_uri))
                     if not fn:
                         # some axis servers uses complexType for part messages
-                        fn = elements.get(make_key(element_name, 'complexType'))
+                        fn = elements.get(make_key(element_name, 'complexType', type_uri))
                         element = {message['name']: {part['name']: fn}}
                     else:
                         element = {element_name: fn}

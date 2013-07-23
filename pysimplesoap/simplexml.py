@@ -125,6 +125,7 @@ class OrderedDict(dict):
     def __init__(self):
         self.__keys = []
         self.array = False
+        self.namespace = None
 
     def __setitem__(self, key, value):
         if key not in self.__keys:
@@ -156,6 +157,8 @@ class OrderedDict(dict):
         # do not change if we are an array but the other is not:
         if isinstance(other, OrderedDict) and not self.array:
             self.array = other.array
+        if isinstance(other, OrderedDict) and not self.namespace:
+            self.namespace = other.namespace
 
     def copy(self):
         "Make a duplicate"
@@ -209,7 +212,10 @@ class SimpleXMLElement(object):
             element = self.__document.createElement(name)
         else:
             log.debug('adding %s ns "%s" %s', name, self.__ns, ns)
-            if self.__prefix:
+            if isinstance(ns, basestring):
+                element = self.__document.createElement(name)
+                element.setAttribute("xmlns", ns)
+            elif self.__prefix:
                 element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
             else:
                 element = self.__document.createElementNS(self.__ns, name)
@@ -554,11 +560,12 @@ class SimpleXMLElement(object):
         name = self._update_ns(name)
 
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
-            child = add_child and self.add_child(name, ns=ns) or self
+            namespace = ns and getattr(value, 'namespace')
+            child = add_child and self.add_child(name, ns=namespace) or self
             for k, v in value.items():
                 if not add_children_ns:
                     ns = False
-                child.marshall(k, v, add_comments=add_comments, ns=ns)
+                child.marshall(k, v, add_comments=add_comments, ns=namespace)
         elif isinstance(value, tuple):  # serialize tuple (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
             if not add_children_ns:

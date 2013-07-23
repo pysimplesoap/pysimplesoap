@@ -92,12 +92,14 @@ def sort_dict(od, d):
                 elif isinstance(v, list):
                     v = [sort_dict(od[k][0], v1) for v1 in v]
                 ret[k] = v
+        if hasattr(od, 'namespace'):
+            ret.namespace = od.namespace
         return ret
     else:
         return d
 
 
-def make_key(element_name, element_type):
+def make_key(element_name, element_type, namespace):
     """Return a suitable key for elements"""
     # only distinguish 'element' vs other types
     if element_type in ('complexType', 'simpleType'):
@@ -106,10 +108,10 @@ def make_key(element_name, element_type):
         eltype = element_type
     if eltype not in ('element', 'complexType', 'simpleType'):
         raise RuntimeError("Unknown element type %s = %s" % (element_name, eltype))
-    return (element_name, eltype)
+    return (element_name, eltype, namespace)
 
 
-def process_element(elements, element_name, node, element_type, xsd_uri, dialect):
+def process_element(elements, element_name, node, element_type, xsd_uri, dialect, namespace):
     """Parse and define simple element types"""
 
     log.debug('Processing element %s %s' % (element_name, element_type))
@@ -127,6 +129,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             log.debug('%s has no children! %s' % (element_name, tag))
             continue  # TODO: abstract?
         d = OrderedDict()
+        d.namespace = namespace
         for e in children:
             t = e['type']
             if not t:
@@ -148,7 +151,12 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 fn = None
             if not fn:
                 # simple / complex type, postprocess later
-                fn = elements.setdefault(make_key(type_name, 'complexType'), OrderedDict())
+                fn_namespace = namespace # use parent namespace (default)
+                for k, v in e[:]:
+                    if k.startswith("xmlns:"):
+                        # get the namespace uri from the element
+                        fn_namespace = v        
+                fn = elements.setdefault(make_key(type_name, 'complexType', fn_namespace), OrderedDict())
 
             if e['maxOccurs'] == 'unbounded' or (ns == 'SOAP-ENC' and type_name == 'Array'):
                 # it's an array... TODO: compound arrays?
@@ -176,8 +184,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 d[None] = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
                 # extend base element:
-                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect)
-        elements.setdefault(make_key(element_name, element_type), OrderedDict()).update(d)
+                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace)
+        elements.setdefault(make_key(element_name, element_type, namespace), OrderedDict()).update(d)
 
 
 def postprocess_element(elements):
@@ -216,8 +224,28 @@ def get_message(messages, message_name, part_name):
                 return message
 
 
-def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir):
+get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
+get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
+
+
+def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir, global_namespaces=None, qualified=False):
     """Find schema elements and complex types"""
+
+    # analyze the namespaces used in this schema
+    local_namespaces = {}
+    for k, v in schema[:]:
+        if k.startswith("xmlns"):
+            local_namespaces[get_local_name(k)] = v
+        if k == 'targetNamespace':
+            # URI namespace reference for this schema
+            local_namespaces[None] = v
+        if k == 'elementFormDefault' and v == "qualified" and qualified is None:
+            qualified = True
+    # add schema namespaces to the global namespace dict = {URI: ns prefix}
+    for ns in local_namespaces.values():
+        if ns not in global_namespaces:
+            global_namespaces[ns] = 'ns%s' % len(global_namespaces)
+            
     for element in schema.children() or []:
         if element.get_local_name() in ('import', 'include',):
             schema_namespace = element['namespace']
@@ -235,10 +263,12 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
 
             # Parse imported XML schema (recursively):
             imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
-            preprocess_schema(imported_schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir)
+            preprocess_schema(imported_schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir, global_namespaces)
 
         element_type = element.get_local_name()
         if element_type in ('element', 'complexType', "simpleType"):
+            namespace = local_namespaces[None]          # get targetNamespace
+            element_ns = global_namespaces[ns]          # get the prefix
             element_name = element['name']
             log.debug("Parsing Element %s: %s" % (element_type, element_name))
             if element.get_local_name() == 'complexType':
@@ -254,4 +284,5 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
                 elif element.get_local_name() == 'element':
                     children = element
             if children:
-                process_element(elements, element_name, children, element_type, xsd_uri, dialect)
+                process_element(elements, element_name, children, element_type, xsd_uri, dialect, namespace)
+
