@@ -537,6 +537,8 @@ class SoapClient(object):
             "Parse and define simple element types"
             if debug: 
                 log.debug("Processing element %s %s" % (element_name, element_type))
+            if element_name in ("ajusteBase", "LpgAjusteUnifBaseType"):
+                pass ##import pdb;pdb.set_trace()
             for tag in node:
                 if tag.get_local_name() in ("annotation", "documentation"):
                     continue
@@ -577,7 +579,7 @@ class SoapClient(object):
                     if e['maxOccurs']=="unbounded" or (ns == 'SOAP-ENC' and type_name == 'Array'):
                         # it's an array... TODO: compound arrays?
                         if isinstance(fn, OrderedDict):
-                            if len(children) > 1 and self.__soap_server in ('jetty', ):
+                            if len(children) > 1 or self.__soap_server in ('jetty', ):
                                 # Jetty style support 
                                 # {'ClassName': [{'attr1': val1, 'attr2': val2}]  
                                 fn.array = True
@@ -668,7 +670,7 @@ class SoapClient(object):
                         elements[k] = [v] # convert arrays to python lists
                 if isinstance(v, list):
                     for n in v: # recurse list
-                        if isinstance(n, (OrderedDict, list)):
+                        if isinstance(n, (dict, list)):
                             postprocess_element(n)
 
                         

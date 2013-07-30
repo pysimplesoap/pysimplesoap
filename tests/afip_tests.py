@@ -142,3 +142,124 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(resultget['Cbte_nro'], 38)
         self.assertEqual(resultget['Imp_total'], Decimal('130.21'))
 
+
+    def test_wslpg_ajustar(self):
+        "Test Argentina AFIP Grains Invoice WSLPG adjust method"
+        client = SoapClient(
+            wsdl="https://fwshomo.afip.gov.ar/wslpg/LpgService?wsdl",
+            trace=TRACE, cache=None,
+            )
+        ajuste = {
+            'ajusteBase': {
+                'actividad': None,
+                'certificados': [      # this one caused problems (unbounded!)
+                    {'certificado': {
+                        'campania': 1213,
+                        'codLocalidadProcedencia': 1,
+                        'codProvProcedencia': 1,
+                        'fechaCierre': '2013-04-15',
+                        'nroCertificadoDeposito': 100000009,
+                        'pesoNeto': 10000,
+                        'tipoCertificadoDeposito': 1}}],
+                'codGradoEnt': None,    # the Nones should not be in the request
+                'codGrano': None,
+                'codLocalidad': None,
+                'codProvincia': None,
+                'codPuerto': None,
+                'codTipoOperacion': None,
+                'coeAjustado': 330100006706,    # this should be reordered
+                'comisionCorredor': None,
+                'cuitComprador': None,
+                'cuitCorredor': None,
+                'cuitVendedor': None,
+                'desPuertoLocalidad': None,
+                'nroContrato': None,
+                'nroFormulario': None,
+                'nroIngBrutoComprador': None,
+                'nroIngBrutoCorredor': None,
+                'nroIngBrutoVendedor': None,
+                'nroOrden': 1,
+                'precioFleteTn': None,
+                'precioRefTn': None,
+                'ptoEmision': 55,
+                'tipoFormulario': None,
+                'valGradoEnt': None},
+            'ajusteCredito': {
+                'codGrado': 'G2',
+                'conceptoImporteIva0': 'Alicuota Cero',
+                'conceptoImporteIva105': 'Alicuota Diez',
+                'conceptoImporteIva21': 'Alicuota Veintiuno',
+                'datosAdicionales': 'AJUSTE CRED UNIF',
+                'deducciones': [{
+                    'deduccion': {
+                        'alicuotaIva': 10.5,
+                        'baseCalculo': None,
+                        'codigoConcepto': 'AL',
+                        'comisionGastosAdm': 1.0,
+                        'detalleAclaratorio': 'Deduc Alm',
+                        'diasAlmacenaje': '1',
+                        'precioPKGdiario': 0.01}}],
+                'diferenciaPesoNeto': 1000,
+                'diferenciaPrecioFleteTn': 10,
+                'diferenciaPrecioOperacion': 100,
+                'factor': 100,
+                'importeAjustarIva0': None,
+                'importeAjustarIva105': None,
+                'opcionales': None,
+                    'retenciones': [{
+                        'retencion': {
+                            'alicuota': 8,
+                            'baseCalculo': 1000,
+                            'codigoConcepto': 'RI',
+                            'detalleAclaratorio': 'Ret IVA',
+                            'fechaCertificadoRetencion': None,
+                            'importeCertificadoRetencion': None,
+                            'nroCertificadoRetencion': None}}],
+                'valGrado': 1.0},
+            'ajusteDebito': {
+                'codGrado': 'G2',
+                'conceptoImporteIva0': 'Alic 0',
+                'conceptoImporteIva105': 'Alic 10.5',
+                'conceptoImporteIva21': 'Alicuota 21',
+                'datosAdicionales': 'AJUSTE DEB UNIF',
+                'deducciones': [{
+                    'deduccion': {
+                        'alicuotaIva': 10.5,
+                        'baseCalculo': None,
+                        'codigoConcepto': 'AL',
+                        'comisionGastosAdm': 1.0,
+                        'detalleAclaratorio': 'Deduc Alm',
+                        'diasAlmacenaje': '1',
+                        'precioPKGdiario': 0.01}}],
+                'diferenciaPesoNeto': 500,
+                'diferenciaPrecioFleteTn': 0.01,
+                'diferenciaPrecioOperacion': 100,
+                'factor': 100,
+                'importeAjustarIva0': None,
+                'importeAjustarIva105': None,
+                'opcionales': None,
+                'retenciones': [{
+                    'retencion': {
+                        'alicuota': 8,
+                        'baseCalculo': 100,
+                        'codigoConcepto': 'RI',
+                        'detalleAclaratorio': 'Ret IVA',
+                        'fechaCertificadoRetencion': None,
+                        'importeCertificadoRetencion': None,
+                        'nroCertificadoRetencion': None}}],
+                'valGrado': 1.0}}
+        try:
+            ret = client.liquidacionAjustarUnificado(
+                        auth={
+                            'token': "AAAA", 'sign': "BBBB",
+                            'cuit': "20267565393", },
+                        **ajuste
+                        )
+        except SoapFault, e:
+            self.assertEqual(e.faultcode, 'ns3: Receiver')
+            # the following tags should had been removed (if wsdl worked ok):
+            self.assertNotIn("tipoFormulario", client.xml_request)
+            self.assertNotIn("actividad", client.xml_request)
+
+        #ret = ret['ajusteUnifReturn']
+        #...
