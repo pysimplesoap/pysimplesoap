@@ -142,7 +142,7 @@ class TestTrazamed(unittest.TestCase):
             # each item of the list is a dict (transaccionPlainWS complex type):
             # {'_f_evento': u'20/06/2012', '_numero_serial': u'04', ...}
             # check the keys returned in the complex type:
-            for key in ['_f_evento', '_f_transaccion', '_lote', '_id_estado', 
+            for key in ['_f_evento', '_f_transaccion', '_lote', 
                         '_numero_serial', '_razon_social_destino', 
                         '_gln_destino', '_n_remito', '_vencimiento', 
                         '_d_evento', '_id_transaccion_global', 
