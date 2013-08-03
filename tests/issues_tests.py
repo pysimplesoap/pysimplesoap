@@ -255,6 +255,21 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(params, client.wsdl_call_get_params(method, input, args))
         self.assertEqual(params, client.wsdl_call_get_params(method, input, leadKey=args['leadKey']))
 
+    def test_issue109(self):
+        """Test multirefs and string arrays"""
+        
+        WSDL = 'http://globe-meta.ifh.de:8080/axis/services/ILDG_MDC?wsdl'
+        WSDL = 'http://usqcd.jlab.org/mdc-service/services/ILDGMDCService?wsdl'
+
+        client = SoapClient(wsdl=WSDL,soap_server='axis')
+        response = client.doEnsembleURIQuery("Xpath", "/markovChain", 0, -1)
+
+        ret = response['doEnsembleURIQueryReturn']
+        self.assertIsInstance(ret['numberOfResults'], int)
+        # TODO: results should be a list...
+        self.assertIsInstance(ret['results']['results'], str)
+
+
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()

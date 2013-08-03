@@ -330,11 +330,12 @@ class SimpleXMLElement(object):
             try:
                 fn = types[name]
             except (KeyError, ) as e:
-                if node.get_namespace_uri("soapenc"):
-                    fn = None  # ignore multirefs!
-                elif 'xsi:type' in node.attributes().keys():
+                if 'xsi:type' in node.attributes().keys():
                     xsd_type = node['xsi:type'].split(":")[1]
-                    fn = REVERSE_TYPE_MAP[xsd_type]
+                    try:
+                        fn = REVERSE_TYPE_MAP[xsd_type]
+                    except:
+                        fn = None  # ignore multirefs!
                 elif strict:
                     raise TypeError("Tag: %s invalid (type not found)" % (name,))
                 else:
