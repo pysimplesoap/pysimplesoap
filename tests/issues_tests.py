@@ -266,8 +266,8 @@ class TestIssues(unittest.TestCase):
 
         ret = response['doEnsembleURIQueryReturn']
         self.assertIsInstance(ret['numberOfResults'], int)
-        # TODO: results should be a list...
-        self.assertIsInstance(ret['results']['results'], str)
+        self.assertIsInstance(ret['results'], list)
+        self.assertIsInstance(ret['results'][0]['results'], str)
 
 
 if __name__ == '__main__':

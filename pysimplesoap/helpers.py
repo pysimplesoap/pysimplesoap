@@ -160,8 +160,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                         fn_namespace = v        
                 fn = elements.setdefault(make_key(type_name, 'complexType', fn_namespace), OrderedDict())
 
-            if e['maxOccurs'] == 'unbounded' or (ns == 'SOAP-ENC' and type_name == 'Array'):
-                # it's an array... TODO: compound arrays?
+            if e['maxOccurs'] == 'unbounded' or (ns in ('soapenc', 'SOAP-ENC') and type_name == 'Array'):
+                # it's an array... TODO: compound arrays? and check ns uri!
                 if isinstance(fn, OrderedDict):
                     if len(children) > 1 and dialect in ('jetty',):
                         # Jetty style support
