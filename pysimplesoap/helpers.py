@@ -430,10 +430,10 @@ class OrderedDict(dict):
         return new
 
     def __str__(self):
-        return "*%s*" % dict.__str__(self)
+        return "%s" % dict.__str__(self)
 
     def __repr__(self):
-        s = "*{%s}*" % ", ".join(['%s: %s' % (repr(k), repr(v)) for k, v in self.items()])
+        s = "{%s}" % ", ".join(['%s: %s' % (repr(k), repr(v)) for k, v in self.items()])
         if self.array and False:
             s = "[%s]" % s
         return s
