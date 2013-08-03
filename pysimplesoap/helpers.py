@@ -18,6 +18,8 @@ import sys
 if sys.version > '3':
     basestring = str
 
+import datetime
+from decimal import Decimal
 import os
 import logging
 import hashlib
@@ -29,7 +31,7 @@ except ImportError:
     from urllib.parse import urlsplit
 
 from . import __author__, __copyright__, __license__, __version__
-from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
+
 
 log = logging.getLogger(__name__)
 
@@ -231,6 +233,8 @@ get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or Non
 def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir, global_namespaces=None, qualified=False):
     """Find schema elements and complex types"""
 
+    from .simplexml import SimpleXMLElement    # here to avoid recursive imports
+
     # analyze the namespaces used in this schema
     local_namespaces = {}
     for k, v in schema[:]:
@@ -285,4 +289,152 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
                     children = element
             if children:
                 process_element(elements, element_name, children, element_type, xsd_uri, dialect, namespace)
+
+
+# simplexml utilities:
+
+try:
+    _strptime = datetime.datetime.strptime
+except AttributeError:  # python2.4
+    _strptime = lambda s, fmt: datetime.datetime(*(time.strptime(s, fmt)[:6]))
+
+
+# Functions to serialize/deserialize special immutable types:
+def datetime_u(s):
+    fmt = "%Y-%m-%dT%H:%M:%S"
+    try:
+        return _strptime(s, fmt)
+    except ValueError:
+        try:
+            # strip utc offset
+            if s[-3] == ":" and s[-6] in (' ', '-', '+'):
+                warnings.warn('removing unsupported UTC offset', RuntimeWarning)
+                s = s[:-6]
+            # parse microseconds
+            try:
+                return _strptime(s, fmt + ".%f")
+            except:
+                return _strptime(s, fmt)
+        except ValueError:
+            # strip microseconds (not supported in this platform)
+            if "." in s:
+                warnings.warn('removing unsuppported microseconds', RuntimeWarning)
+                s = s[:s.index(".")]
+            return _strptime(s, fmt)
+
+datetime_m = lambda dt: dt.isoformat('T')
+date_u = lambda s: _strptime(s[0:10], "%Y-%m-%d").date()
+date_m = lambda d: d.strftime("%Y-%m-%d")
+time_u = lambda s: _strptime(s, "%H:%M:%S").time()
+time_m = lambda d: d.strftime("%H%M%S")
+bool_u = lambda s: {'0': False, 'false': False, '1': True, 'true': True}[s]
+bool_m = lambda s: {False: 'false', True: 'true'}[s]
+
+
+# aliases:
+class Alias(object):
+    def __init__(self, py_type, xml_type):
+        self.py_type, self.xml_type = py_type, xml_type
+
+    def __call__(self, value):
+        return self.py_type(value)
+
+    def __repr__(self):
+        return "<alias '%s' for '%s'>" % (self.xml_type, self.py_type)
+
+if sys.version > '3':
+    long = Alias(int, 'long')
+byte = Alias(str, 'byte')
+short = Alias(int, 'short')
+double = Alias(float, 'double')
+integer = Alias(long, 'integer')
+DateTime = datetime.datetime
+Date = datetime.date
+Time = datetime.time
+
+# Define convertion function (python type): xml schema type
+TYPE_MAP = {
+    str: 'string',
+    #unicode: 'string',
+    bool: 'boolean',
+    short: 'short',
+    byte: 'byte',
+    int: 'int',
+    long: 'long',
+    integer: 'integer',
+    float: 'float',
+    double: 'double',
+    Decimal: 'decimal',
+    datetime.datetime: 'dateTime',
+    datetime.date: 'date',
+}
+TYPE_MARSHAL_FN = {
+    datetime.datetime: datetime_m,
+    datetime.date: date_m,
+    bool: bool_m
+}
+TYPE_UNMARSHAL_FN = {
+    datetime.datetime: datetime_u,
+    datetime.date: date_u,
+    bool: bool_u,
+    #str: unicode,
+}
+
+REVERSE_TYPE_MAP = dict([(v, k) for k, v in TYPE_MAP.items()])
+
+
+class OrderedDict(dict):
+    """Minimal ordered dictionary for xsd:sequences"""
+    def __init__(self):
+        self.__keys = []
+        self.array = False
+        self.namespace = None
+
+    def __setitem__(self, key, value):
+        if key not in self.__keys:
+            self.__keys.append(key)
+        dict.__setitem__(self, key, value)
+
+    def insert(self, key, value, index=0):
+        if key not in self.__keys:
+            self.__keys.insert(index, key)
+        dict.__setitem__(self, key, value)
+
+    def __delitem__(self, key):
+        if key in self.__keys:
+            self.__keys.remove(key)
+        dict.__delitem__(self, key)
+
+    def __iter__(self):
+        return iter(self.__keys)
+
+    def keys(self):
+        return self.__keys
+
+    def items(self):
+        return [(key, self[key]) for key in self.__keys]
+
+    def update(self, other):
+        for k, v in other.items():
+            self[k] = v
+        # do not change if we are an array but the other is not:
+        if isinstance(other, OrderedDict) and not self.array:
+            self.array = other.array
+        if isinstance(other, OrderedDict) and not self.namespace:
+            self.namespace = other.namespace
+
+    def copy(self):
+        "Make a duplicate"
+        new = OrderedDict()
+        new.update(self)
+        return new
+
+    def __str__(self):
+        return "*%s*" % dict.__str__(self)
+
+    def __repr__(self):
+        s = "*{%s}*" % ", ".join(['%s: %s' % (repr(k), repr(v)) for k, v in self.items()])
+        if self.array and False:
+            s = "[%s]" % s
+        return s
 
