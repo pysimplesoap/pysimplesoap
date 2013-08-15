@@ -418,12 +418,16 @@ class SimpleXMLElement(object):
         name = self._update_ns(name)
 
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
-            namespace = ns and getattr(value, 'namespace')
-            child = add_child and self.add_child(name, ns=namespace) or self
+            # for the first parent node, use the document target namespace
+            # (ns==True) or use the namespace string uri if passed (elements)
+            child = add_child and self.add_child(name, ns=ns) or self
             for k, v in value.items():
                 if not add_children_ns:
                     ns = False
-                child.marshall(k, v, add_comments=add_comments, ns=namespace)
+                else:
+                    # for children, use the wsdl element target namespace:
+                    ns = getattr(value, 'namespace')
+                child.marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, tuple):  # serialize tuple (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
             if not add_children_ns:
