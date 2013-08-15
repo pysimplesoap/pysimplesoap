@@ -152,9 +152,13 @@ class SoapClient(object):
         """
         #TODO: method != input_message
         # Basic SOAP request:
-        xml = self.__xml % dict(method=method, namespace=self.namespace, ns=self.__ns,
-                                soap_ns=self.__soap_ns, soap_uri=soap_namespaces[self.__soap_ns])
-        request = SimpleXMLElement(xml, namespace=self.__ns and self.namespace, prefix=self.__ns)
+        xml = self.__xml % dict(method=method,              # method tag name
+                                namespace=self.namespace,   # method ns uri
+                                ns=self.__ns,               # method ns prefix
+                                soap_ns=self.__soap_ns,     # soap prefix & uri
+                                soap_uri=soap_namespaces[self.__soap_ns])
+        request = SimpleXMLElement(xml, namespace=self.__ns and self.namespace, 
+                                        prefix=self.__ns)
 
         request_headers = kwargs.pop('headers', None)
 
