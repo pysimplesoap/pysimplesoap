@@ -23,6 +23,8 @@ from decimal import Decimal
 import os
 import logging
 import hashlib
+import warnings
+
 try:
     import urllib2
     from urlparse import urlsplit

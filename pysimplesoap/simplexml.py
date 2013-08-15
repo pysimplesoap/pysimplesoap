@@ -21,7 +21,6 @@ if sys.version > '3':
 import logging
 import re
 import time
-import warnings
 import xml.dom.minidom
 
 from . import __author__, __copyright__, __license__, __version__
