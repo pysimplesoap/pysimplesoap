@@ -63,8 +63,8 @@ class SimpleXMLElement(object):
 
     def add_child(self, name, text=None, ns=True):
         """Adding a child tag to a node"""
-        if not ns or not self.__ns:
-            log.debug('adding %s', name)
+        if not ns or self.__ns is False:
+            log.debug('adding %s without namespace', name)
             element = self.__document.createElement(name)
         else:
             log.debug('adding %s ns "%s" %s', name, self.__ns, ns)

@@ -65,7 +65,7 @@ soap_namespaces = dict(
 class SoapClient(object):
     """Simple SOAP Client (simil PHP)"""
     def __init__(self, location=None, action=None, namespace=None,
-                 cert=None, exceptions=True, proxy=None, ns=False,
+                 cert=None, exceptions=True, proxy=None, ns=None,
                  soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers={}
@@ -82,6 +82,7 @@ class SoapClient(object):
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers
         self.wsdl_basedir = wsdl_basedir
+        
         if not soap_ns and not ns:
             self.__soap_ns = 'soap'  # 1.1
         elif not soap_ns and ns:
@@ -110,7 +111,8 @@ class SoapClient(object):
         Http = get_Http()
         self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
 
-        self.__ns = ns  # namespace prefix or False to not use it
+        # namespace prefix, None to use xmlns attribute or False to not use it:
+        self.__ns = ns
         if not ns:
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?>
 <%(soap_ns)s:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
