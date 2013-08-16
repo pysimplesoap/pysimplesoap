@@ -549,8 +549,12 @@ class SoapClient(object):
                 if action:
                     d['action'] = action
 
-        # check axis2 namespace at schema types attributes
-        self.namespace = dict(wsdl.types('schema', ns=xsd_uri)[:]).get('targetNamespace', self.namespace)
+        # check axis2 namespace at schema types attributes (europa.eu checkVat)
+        if "http://xml.apache.org/xml-soap" in dict(wsdl[:]).values(): 
+            # get the sub-namespace in the first schema element (see issue 8)
+            schema = wsdl.types('schema', ns=xsd_uri)
+            attrs = dict(schema[:])
+            self.namespace = attrs.get('targetNamespace', self.namespace)
 
         imported_schemas = {}
         global_namespaces = {}
