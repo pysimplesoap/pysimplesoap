@@ -357,6 +357,7 @@ Time = datetime.time
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {
     str: 'string',
+    str: 'base64Binary',
     #unicode: 'string',
     bool: 'boolean',
     short: 'short',
