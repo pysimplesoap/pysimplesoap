@@ -282,6 +282,8 @@ class TestIssues(unittest.TestCase):
         self.assertIsInstance(ret['numberOfResults'], int)
         self.assertIsInstance(ret['results'], list)
         self.assertIsInstance(ret['results'][0], basestring)
+        self.assertIsInstance(ret['queryTime'], basestring)
+        self.assertEqual(ret['statusCode'], "MDC_SUCCESS")
 
     def test_issue109bis(self):
         """Test string arrays not defined in the wsdl (but sent in the response)"""

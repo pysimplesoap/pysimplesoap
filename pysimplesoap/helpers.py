@@ -115,8 +115,11 @@ def make_key(element_name, element_type, namespace):
     return (element_name, eltype, namespace)
 
 
-def process_element(elements, element_name, node, element_type, xsd_uri, dialect, namespace):
+def process_element(elements, element_name, node, element_type, xsd_uri, dialect, namespace,
+                    soapenc_uri = 'http://schemas.xmlsoap.org/soap/encoding/'):
     """Parse and define simple element types"""
+
+    
 
     log.debug('Processing element %s %s' % (element_name, element_type))
     for tag in node:
@@ -148,10 +151,10 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if element_name == type_name:
                 pass  # warning with infinite recursion
             uri = ns and e.get_namespace_uri(ns) or xsd_uri
-            if uri == xsd_uri:
+            if uri in (xsd_uri, soapenc_uri) and type_name != 'Array':
                 # look for the type, None == any
                 fn = REVERSE_TYPE_MAP.get(type_name, None)
-            elif ns in ('soapenc', 'SOAP-ENC') and type_name == 'Array':
+            elif uri == soapenc_uri and type_name == 'Array':
                 # arrays of simple types (look at the attribute tags):
                 fn = []
                 for a in e.children():
@@ -177,7 +180,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                         fn_namespace = v        
                 fn = elements.setdefault(make_key(type_name, 'complexType', fn_namespace), OrderedDict())
 
-            if e['maxOccurs'] == 'unbounded' or (ns in ('soapenc', 'SOAP-ENC') and type_name == 'Array'):
+            if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
                 # it's an array... TODO: compound arrays? and check ns uri!
                 if isinstance(fn, OrderedDict):
                     if len(children) > 1 and dialect in ('jetty',):
