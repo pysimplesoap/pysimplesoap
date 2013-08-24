@@ -426,7 +426,7 @@ class SimpleXMLElement(object):
                     ns = False
                 else:
                     # for children, use the wsdl element target namespace:
-                    ns = getattr(value, 'namespace')
+                    ns = getattr(value, 'namespace', None)
                 child.marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, tuple):  # serialize tuple (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
