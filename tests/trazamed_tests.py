@@ -22,8 +22,8 @@ import os
 import unittest
 import sys
 import time
-if sys.version < '3':
-    str = unicode
+if sys.version > '3':
+    basestring = unicode = str
 
 from pysimplesoap.client import SoapClient, SoapFault, parse_proxy, \
                                 set_http_wrapper
@@ -90,7 +90,6 @@ class TestTrazamed(unittest.TestCase):
 
         # Analyze the response:
         ret = res['return']
-
         self.assertIsInstance(ret['codigoTransaccion'], str)
         self.assertEqual(ret['resultado'], True)
 
@@ -106,8 +105,8 @@ class TestTrazamed(unittest.TestCase):
             vencimiento=(datetime.datetime.now() +
                          datetime.timedelta(30)).strftime("%d/%m/%Y"),
             gtin="GTIN1", lote=datetime.datetime.now().strftime("%Y"),
-            desde_numero_serial=10,
-            hasta_numero_serial=0,
+            desde_numero_serial=int(time.time()) + 1,
+            hasta_numero_serial=int(time.time()) - 1,
             id_obra_social=None, id_evento=134,
             )
 
@@ -120,9 +119,9 @@ class TestTrazamed(unittest.TestCase):
 
         # Analyze the response:
         ret = res['return']
-
+        
         # Check the results:
-        self.assertIsInstance(ret['codigoTransaccion'], str)
+        self.assertIsInstance(ret['codigoTransaccion'], basestring)
         self.assertEqual(ret['errores'][0]['_c_error'], '3004')
         self.assertEqual(ret['errores'][0]['_d_error'], "El campo Hasta Nro Serial debe ser mayor o igual al campo Desde Nro Serial.")
         self.assertEqual(ret['resultado'], False)
@@ -133,6 +132,8 @@ class TestTrazamed(unittest.TestCase):
         res = self.client.getTransaccionesNoConfirmadas(
                 arg0='pruebasws',
                 arg1='pruebasws',
+                arg10='01/01/2013',
+                arg11='31/12/2013',
             )
 
         # Analyze the response:
@@ -145,7 +146,7 @@ class TestTrazamed(unittest.TestCase):
             # each item of the list is a dict (transaccionPlainWS complex type):
             # {'_f_evento': u'20/06/2012', '_numero_serial': u'04', ...}
             # check the keys returned in the complex type:
-            for key in ['_f_evento', '_f_transaccion', '_lote', '_id_estado',
+            for key in ['_f_evento', '_f_transaccion', '_lote', 
                         '_numero_serial', '_razon_social_destino',
                         '_gln_destino', '_n_remito', '_vencimiento',
                         '_d_evento', '_id_transaccion_global',
