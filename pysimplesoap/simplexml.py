@@ -309,6 +309,8 @@ class SimpleXMLElement(object):
     _element = property(lambda self: self.__elements[0])
 
     def unmarshall(self, types, strict=True):
+        #import pdb; pdb.set_trace()
+
         """Convert to python values the current serialized xml element"""
         # types is a dict of {tag name: convertion function}
         # strict=False to use default type conversion if not specified
@@ -328,7 +330,10 @@ class SimpleXMLElement(object):
                         ref_name_type = ref_node['xsi:type'].split(":")[1]
                         break
             try:
-                fn = types[name]
+                if isinstance(types, dict):
+                    fn = types[name]
+                else:
+                    fn = types
             except (KeyError, ) as e:
                 if 'xsi:type' in node.attributes().keys():
                     xsd_type = node['xsi:type'].split(":")[1]
@@ -349,7 +354,12 @@ class SimpleXMLElement(object):
                 # TODO: check if this was really needed (get first child only)
                 ##if len(fn[0]) == 1 and children:
                 ##    children = children()
-                if self.__jetty and len(fn[0]) > 1:
+                if fn and not isinstance(fn[0], dict):
+                    # simple arrays []
+                    for child in (children or []):
+                        tmp_dict = child.unmarshall(fn[0], strict)
+                        value.extend(tmp_dict.values())
+                elif (self.__jetty and len(fn[0]) > 1):
                     # Jetty array style support [{k, v}]
                     for parent in node:
                         tmp_dict = {}    # unmarshall each value & mix

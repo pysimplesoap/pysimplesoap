@@ -151,6 +151,18 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if uri == xsd_uri:
                 # look for the type, None == any
                 fn = REVERSE_TYPE_MAP.get(type_name, None)
+            elif ns in ('soapenc', 'SOAP-ENC') and type_name == 'Array':
+                # arrays of simple types (look at the attribute tags):
+                fn = []
+                for a in e.children():
+                    for k, v in a[:]:
+                        if k.endswith(":arrayType"):
+                            type_name = v
+                            if ":" in type_name:
+                                type_name = type_name[type_name.index(":")+1:]
+                            if "[]" in type_name:
+                                type_name = type_name[:type_name.index("[]")]                                
+                            fn.append(REVERSE_TYPE_MAP.get(type_name, None))
             else:
                 fn = None
             if not fn:

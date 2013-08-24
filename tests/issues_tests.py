@@ -30,9 +30,7 @@ class TestIssues(unittest.TestCase):
 
         lang = client.getValidLanguages()
 
-        self.assertEqual(lang, {'return': [
-            {'item': 'no'}, {'item': 'en'}, {'item': 'ny'}
-        ]})
+        self.assertEqual(lang, {'return': ['no', 'en', 'ny']})
 
     def test_issue35_raw(self):
 
@@ -284,7 +282,7 @@ class TestIssues(unittest.TestCase):
         ret = response['doEnsembleURIQueryReturn']
         self.assertIsInstance(ret['numberOfResults'], int)
         self.assertIsInstance(ret['results'], list)
-        self.assertIsInstance(ret['results'][0]['results'], str)
+        self.assertIsInstance(ret['results'][0], basestring)
 
 
 if __name__ == '__main__':
