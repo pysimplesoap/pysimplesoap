@@ -14,6 +14,8 @@
 
 from __future__ import unicode_literals
 import sys
+if sys.version > '3':
+    unicode = str
 
 try:
     import cPickle as pickle
@@ -218,7 +220,7 @@ class SoapClient(object):
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty',))
         if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
-            raise SoapFault(response.faultcode, response.faultstring)
+            raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
         return response
 
     def send(self, method, xml):
@@ -488,7 +490,7 @@ class SoapClient(object):
 
         # Extract useful data:
         self.namespace = wsdl['targetNamespace']
-        self.documentation = wsdl('documentation', error=False) or ''
+        self.documentation = unicode(wsdl('documentation', error=False)) or ''
 
         services = {}
         bindings = {}            # binding_name: binding
@@ -603,7 +605,7 @@ class SoapClient(object):
                 for operation in port_type.operation:
                     op_name = operation['name']
                     op = operations[binding['name']][op_name]
-                    op['documentation'] = operation('documentation', error=False) or ''
+                    op['documentation'] = unicode(operation('documentation', error=False)) or ''
                     if binding['soap_ver']:
                         #TODO: separe operation_binding from operation (non SOAP?)
                         if operation('input', error=False):
