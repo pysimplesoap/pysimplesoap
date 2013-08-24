@@ -90,7 +90,7 @@ class TestTrazamed(unittest.TestCase):
 
         # Analyze the response:
         ret = res['return']
-        self.assertIsInstance(ret['codigoTransaccion'], str)
+        self.assertIsInstance(ret['codigoTransaccion'], basestring)
         self.assertEqual(ret['resultado'], True)
 
     def test_send_medicamentos_dh_serie(self):
