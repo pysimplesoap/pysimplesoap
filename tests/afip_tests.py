@@ -39,7 +39,7 @@ cacert = None
 
 class TestIssues(unittest.TestCase):
 
-    def atest_wsaa_exception(self):
+    def test_wsaa_exception(self):
         """Test WSAA for SoapFault"""
         WSDL = "https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl"
         client = SoapClient(wsdl=WSDL, ns="web")
