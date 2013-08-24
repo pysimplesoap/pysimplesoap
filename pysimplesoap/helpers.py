@@ -155,7 +155,10 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 fn = None
             if not fn:
                 # simple / complex type, postprocess later
-                fn_namespace = namespace # use parent namespace (default)
+                if ns:
+                    fn_namespace = uri       # use the specified namespace
+                else:
+                    fn_namespace = namespace # use parent namespace (default)
                 for k, v in e[:]:
                     if k.startswith("xmlns:"):
                         # get the namespace uri from the element
