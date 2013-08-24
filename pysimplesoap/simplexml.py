@@ -17,160 +17,20 @@ from __future__ import unicode_literals
 import sys
 if sys.version > '3':
     basestring = str
+    unicode = str
 
 import logging
 import re
 import time
-import datetime
-import warnings
 import xml.dom.minidom
-from decimal import Decimal
 
 from . import __author__, __copyright__, __license__, __version__
 
+# Utility functions used for marshalling, moved aside for readability
+from .helpers import TYPE_MAP, TYPE_MARSHAL_FN, TYPE_UNMARSHAL_FN, \
+                     REVERSE_TYPE_MAP, OrderedDict, Date, Decimal
+
 log = logging.getLogger(__name__)
-
-try:
-    _strptime = datetime.datetime.strptime
-except AttributeError:  # python2.4
-    _strptime = lambda s, fmt: datetime.datetime(*(time.strptime(s, fmt)[:6]))
-
-
-# Functions to serialize/deserialize special immutable types:
-def datetime_u(s):
-    fmt = "%Y-%m-%dT%H:%M:%S"
-    try:
-        return _strptime(s, fmt)
-    except ValueError:
-        try:
-            # strip utc offset
-            if s[-3] == ":" and s[-6] in (' ', '-', '+'):
-                warnings.warn('removing unsupported UTC offset', RuntimeWarning)
-                s = s[:-6]
-            # parse microseconds
-            try:
-                return _strptime(s, fmt + ".%f")
-            except:
-                return _strptime(s, fmt)
-        except ValueError:
-            # strip microseconds (not supported in this platform)
-            if "." in s:
-                warnings.warn('removing unsuppported microseconds', RuntimeWarning)
-                s = s[:s.index(".")]
-            return _strptime(s, fmt)
-
-datetime_m = lambda dt: dt.isoformat('T')
-date_u = lambda s: _strptime(s[0:10], "%Y-%m-%d").date()
-date_m = lambda d: d.strftime("%Y-%m-%d")
-time_u = lambda s: _strptime(s, "%H:%M:%S").time()
-time_m = lambda d: d.strftime("%H%M%S")
-bool_u = lambda s: {'0': False, 'false': False, '1': True, 'true': True}[s]
-bool_m = lambda s: {False: 'false', True: 'true'}[s]
-
-
-# aliases:
-class Alias(object):
-    def __init__(self, py_type, xml_type):
-        self.py_type, self.xml_type = py_type, xml_type
-
-    def __call__(self, value):
-        return self.py_type(value)
-
-    def __repr__(self):
-        return "<alias '%s' for '%s'>" % (self.xml_type, self.py_type)
-
-if sys.version > '3':
-    long = Alias(int, 'long')
-byte = Alias(str, 'byte')
-short = Alias(int, 'short')
-double = Alias(float, 'double')
-integer = Alias(long, 'integer')
-DateTime = datetime.datetime
-Date = datetime.date
-Time = datetime.time
-
-# Define convertion function (python type): xml schema type
-TYPE_MAP = {
-    str: 'string',
-    #unicode: 'string',
-    bool: 'boolean',
-    short: 'short',
-    byte: 'byte',
-    int: 'int',
-    long: 'long',
-    integer: 'integer',
-    float: 'float',
-    double: 'double',
-    Decimal: 'decimal',
-    datetime.datetime: 'dateTime',
-    datetime.date: 'date',
-}
-TYPE_MARSHAL_FN = {
-    datetime.datetime: datetime_m,
-    datetime.date: date_m,
-    bool: bool_m
-}
-TYPE_UNMARSHAL_FN = {
-    datetime.datetime: datetime_u,
-    datetime.date: date_u,
-    bool: bool_u,
-    #str: unicode,
-}
-
-REVERSE_TYPE_MAP = dict([(v, k) for k, v in TYPE_MAP.items()])
-
-
-class OrderedDict(dict):
-    """Minimal ordered dictionary for xsd:sequences"""
-    def __init__(self):
-        self.__keys = []
-        self.array = False
-
-    def __setitem__(self, key, value):
-        if key not in self.__keys:
-            self.__keys.append(key)
-        dict.__setitem__(self, key, value)
-
-    def insert(self, key, value, index=0):
-        if key not in self.__keys:
-            self.__keys.insert(index, key)
-        dict.__setitem__(self, key, value)
-
-    def __delitem__(self, key):
-        if key in self.__keys:
-            self.__keys.remove(key)
-        dict.__delitem__(self, key)
-
-    def __iter__(self):
-        return iter(self.__keys)
-
-    def keys(self):
-        return self.__keys
-
-    def items(self):
-        return [(key, self[key]) for key in self.__keys]
-
-    def update(self, other):
-        for k, v in other.items():
-            self[k] = v
-        # do not change if we are an array but the other is not:
-        if isinstance(other, OrderedDict) and not self.array:
-            self.array = other.array
-
-    def copy(self):
-        "Make a duplicate"
-        new = OrderedDict()
-        new.update(self)
-        return new
-
-    def __str__(self):
-        return "*%s*" % dict.__str__(self)
-
-    def __repr__(self):
-        s = "*{%s}*" % ", ".join(['%s: %s' % (repr(k), repr(v)) for k, v in self.items()])
-        if self.array and False:
-            s = "[%s]" % s
-        return s
 
 
 class SimpleXMLElement(object):
@@ -204,12 +64,15 @@ class SimpleXMLElement(object):
 
     def add_child(self, name, text=None, ns=True):
         """Adding a child tag to a node"""
-        if not ns or not self.__ns:
-            log.debug('adding %s', name)
+        if not ns or self.__ns is False:
+            log.debug('adding %s without namespace', name)
             element = self.__document.createElement(name)
         else:
             log.debug('adding %s ns "%s" %s', name, self.__ns, ns)
-            if self.__prefix:
+            if isinstance(ns, basestring):
+                element = self.__document.createElement(name)
+                element.setAttribute("xmlns", ns)
+            elif self.__prefix:
                 element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
             else:
                 element = self.__document.createElementNS(self.__ns, name)
@@ -255,7 +118,8 @@ class SimpleXMLElement(object):
 
     def __repr__(self):
         """Return the XML representation of this tag"""
-        return self.as_xml('UTF-8')
+        # NOTE: do not use self.as_xml('UTF-8') as it returns the whole xml doc
+        return self._element.toxml('UTF-8')
 
     def get_name(self):
         """Return the tag name of this node"""
@@ -445,6 +309,8 @@ class SimpleXMLElement(object):
     _element = property(lambda self: self.__elements[0])
 
     def unmarshall(self, types, strict=True):
+        #import pdb; pdb.set_trace()
+
         """Convert to python values the current serialized xml element"""
         # types is a dict of {tag name: convertion function}
         # strict=False to use default type conversion if not specified
@@ -462,15 +328,24 @@ class SimpleXMLElement(object):
                     if ref_node['id'] == href:
                         node = ref_node
                         ref_name_type = ref_node['xsi:type'].split(":")[1]
-                        break
+                        break             
+
             try:
-                fn = types[name]
+                if isinstance(types, dict):
+                    fn = types[name]
+                    # custom array only in the response (not defined in the WSDL):
+                    # <results soapenc:arrayType="xsd:string[199]>
+                    if any([k for k,v in node[:] if 'arrayType' in k]) and not isinstance(fn, list):
+                        fn = [fn]
+                else:
+                    fn = types
             except (KeyError, ) as e:
-                if node.get_namespace_uri("soapenc"):
-                    fn = None  # ignore multirefs!
-                elif 'xsi:type' in node.attributes().keys():
+                if 'xsi:type' in node.attributes().keys():
                     xsd_type = node['xsi:type'].split(":")[1]
-                    fn = REVERSE_TYPE_MAP[xsd_type]
+                    try:
+                        fn = REVERSE_TYPE_MAP[xsd_type]
+                    except:
+                        fn = None  # ignore multirefs!
                 elif strict:
                     raise TypeError("Tag: %s invalid (type not found)" % (name,))
                 else:
@@ -484,7 +359,12 @@ class SimpleXMLElement(object):
                 # TODO: check if this was really needed (get first child only)
                 ##if len(fn[0]) == 1 and children:
                 ##    children = children()
-                if self.__jetty and len(fn[0]) > 1:
+                if fn and not isinstance(fn[0], dict):
+                    # simple arrays []
+                    for child in (children or []):
+                        tmp_dict = child.unmarshall(fn[0], strict)
+                        value.extend(tmp_dict.values())
+                elif (self.__jetty and len(fn[0]) > 1):
                     # Jetty array style support [{k, v}]
                     for parent in node:
                         tmp_dict = {}    # unmarshall each value & mix
@@ -524,11 +404,16 @@ class SimpleXMLElement(object):
             else:
                 if fn is None:  # xsd:anyType not unmarshalled
                     value = node
-                elif str(node) or (fn == str and str(node) != ''):
+                elif unicode(node) or (fn == str and unicode(node) != ''):
                     try:
                         # get special deserialization function (if any)
                         fn = TYPE_UNMARSHAL_FN.get(fn, fn)
-                        value = fn(str(node))
+                        if fn == str:
+                            # always return an unicode object:
+                            # (avoid encoding errors in py<3!)
+                            value = unicode(node)
+                        else:
+                            value = fn(unicode(node))
                     except (ValueError, TypeError) as e:
                         raise ValueError("Tag: %s: %s" % (name, e))
                 else:
@@ -554,10 +439,15 @@ class SimpleXMLElement(object):
         name = self._update_ns(name)
 
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
+            # for the first parent node, use the document target namespace
+            # (ns==True) or use the namespace string uri if passed (elements)
             child = add_child and self.add_child(name, ns=ns) or self
             for k, v in value.items():
                 if not add_children_ns:
                     ns = False
+                else:
+                    # for children, use the wsdl element target namespace:
+                    ns = getattr(value, 'namespace', None)
                 child.marshall(k, v, add_comments=add_comments, ns=ns)
         elif isinstance(value, tuple):  # serialize tuple (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self

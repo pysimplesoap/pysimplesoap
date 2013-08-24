@@ -30,9 +30,7 @@ class TestIssues(unittest.TestCase):
 
         lang = client.getValidLanguages()
 
-        self.assertEqual(lang, {'return': [
-            {'item': 'no'}, {'item': 'en'}, {'item': 'ny'}
-        ]})
+        self.assertEqual(lang, {'return': ['no', 'en', 'ny']})
 
     def test_issue35_raw(self):
 
@@ -75,8 +73,8 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(ret['startIndex'], 0)
         self.assertEqual(ret['numberOfResults'], 0)
 
-    def test_issue8(self):
-        """Test europa.eu tax service (WSDL namespace)"""
+    def test_issue8_raw(self):
+        """Test europa.eu tax service (namespace - raw call)"""
 
         client = SoapClient(
             location="http://ec.europa.eu/taxation_customs/vies/services/checkVatService",
@@ -92,6 +90,23 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(str(res('name')), "GOOGLE IRELAND LIMITED")
         self.assertEqual(str(res('address')), "1ST & 2ND FLOOR ,GORDON HOUSE ,"
                                               "BARROW STREET ,DUBLIN 4")
+
+    def test_issue8_wsdl(self):
+        """Test europa.eu tax service (namespace - wsdl call)"""
+        URL='http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl'
+        client = SoapClient(wsdl=URL)
+        # check the correct target namespace:
+        self.assertEqual(client.namespace, 
+                         "urn:ec.europa.eu:taxud:vies:services:checkVat:types")
+        # call the webservice to check everything else:
+        vat = 'BE0897290877'
+        code = vat[:2]
+        number = vat[2:]
+        res = client.checkVat(countryCode=code, vatNumber=number)
+        # check returned values:
+        self.assertEqual(res['name'], "SPRL B2CK")
+        self.assertEqual(res['address'], "RUE DE ROTTERDAM 4 B21\n"
+                                         "4000  LIEGE")
 
     ## NOTE: Missing file "ups.wsdl"
     ##def test_ups(self):
@@ -255,8 +270,37 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(params, client.wsdl_call_get_params(method, input, args))
         self.assertEqual(params, client.wsdl_call_get_params(method, input, leadKey=args['leadKey']))
 
+    def test_issue109(self):
+        """Test multirefs and string arrays"""
+        
+        WSDL = 'http://usqcd.jlab.org/mdc-service/services/ILDGMDCService?wsdl'
+
+        client = SoapClient(wsdl=WSDL,soap_server='axis')
+        response = client.doEnsembleURIQuery("Xpath", "/markovChain", 0, -1)
+
+        ret = response['doEnsembleURIQueryReturn']
+        self.assertIsInstance(ret['numberOfResults'], int)
+        self.assertIsInstance(ret['results'], list)
+        self.assertIsInstance(ret['results'][0], basestring)
+        self.assertIsInstance(ret['queryTime'], basestring)
+        self.assertEqual(ret['statusCode'], "MDC_SUCCESS")
+
+    def test_issue109bis(self):
+        """Test string arrays not defined in the wsdl (but sent in the response)"""
+        
+        WSDL = 'http://globe-meta.ifh.de:8080/axis/services/ILDG_MDC?wsdl'
+
+        client = SoapClient(wsdl=WSDL,soap_server='axis')
+        response = client.doEnsembleURIQuery("Xpath", "/markovChain", 0, -1)
+
+        ret = response['doEnsembleURIQueryReturn']
+        self.assertIsInstance(ret['numberOfResults'], int)
+        self.assertIsInstance(ret['results'], list)
+        self.assertIsInstance(ret['results'][0], basestring)
+
+
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue78'))
+    suite.addTest(TestIssues('test_issue8_wsdl'))
     unittest.TextTestRunner().run(suite)
