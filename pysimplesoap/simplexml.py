@@ -17,6 +17,7 @@ from __future__ import unicode_literals
 import sys
 if sys.version > '3':
     basestring = str
+    unicode = str
 
 import logging
 import re
@@ -388,11 +389,16 @@ class SimpleXMLElement(object):
             else:
                 if fn is None:  # xsd:anyType not unmarshalled
                     value = node
-                elif str(node) or (fn == str and str(node) != ''):
+                elif unicode(node) or (fn == str and unicode(node) != ''):
                     try:
                         # get special deserialization function (if any)
                         fn = TYPE_UNMARSHAL_FN.get(fn, fn)
-                        value = fn(str(node))
+                        if fn == str:
+                            # always return an unicode object:
+                            # (avoid encoding errors in py<3!)
+                            value = unicode(node)
+                        else:
+                            value = fn(unicode(node))
                     except (ValueError, TypeError) as e:
                         raise ValueError("Tag: %s: %s" % (name, e))
                 else:
