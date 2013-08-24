@@ -16,7 +16,7 @@
 from __future__ import unicode_literals
 import sys
 if sys.version > '3':
-    basestring = str
+    basestring = unicode = str
 
 import datetime
 from decimal import Decimal
@@ -359,9 +359,8 @@ Time = datetime.time
 
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {
-    str: 'string',
-    str: 'base64Binary',
-    #unicode: 'string',
+    #str: 'string',
+    unicode: 'string',
     bool: 'boolean',
     short: 'short',
     byte: 'byte',
@@ -383,11 +382,14 @@ TYPE_UNMARSHAL_FN = {
     datetime.datetime: datetime_u,
     datetime.date: date_u,
     bool: bool_u,
-    #str: unicode,
+    str: unicode,
 }
 
 REVERSE_TYPE_MAP = dict([(v, k) for k, v in TYPE_MAP.items()])
 
+REVERSE_TYPE_MAP.update({
+    'base64Binary': str,
+})
 
 class OrderedDict(dict):
     """Minimal ordered dictionary for xsd:sequences"""
