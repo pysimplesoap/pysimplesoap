@@ -328,10 +328,15 @@ class SimpleXMLElement(object):
                     if ref_node['id'] == href:
                         node = ref_node
                         ref_name_type = ref_node['xsi:type'].split(":")[1]
-                        break
+                        break             
+
             try:
                 if isinstance(types, dict):
                     fn = types[name]
+                    # custom array only in the response (not defined in the WSDL):
+                    # <results soapenc:arrayType="xsd:string[199]>
+                    if any([k for k,v in node[:] if 'arrayType' in k]) and not isinstance(fn, list):
+                        fn = [fn]
                 else:
                     fn = types
             except (KeyError, ) as e:

@@ -273,8 +273,20 @@ class TestIssues(unittest.TestCase):
     def test_issue109(self):
         """Test multirefs and string arrays"""
         
-        WSDL = 'http://globe-meta.ifh.de:8080/axis/services/ILDG_MDC?wsdl'
         WSDL = 'http://usqcd.jlab.org/mdc-service/services/ILDGMDCService?wsdl'
+
+        client = SoapClient(wsdl=WSDL,soap_server='axis')
+        response = client.doEnsembleURIQuery("Xpath", "/markovChain", 0, -1)
+
+        ret = response['doEnsembleURIQueryReturn']
+        self.assertIsInstance(ret['numberOfResults'], int)
+        self.assertIsInstance(ret['results'], list)
+        self.assertIsInstance(ret['results'][0], basestring)
+
+    def test_issue109bis(self):
+        """Test string arrays not defined in the wsdl (but sent in the response)"""
+        
+        WSDL = 'http://globe-meta.ifh.de:8080/axis/services/ILDG_MDC?wsdl'
 
         client = SoapClient(wsdl=WSDL,soap_server='axis')
         response = client.doEnsembleURIQuery("Xpath", "/markovChain", 0, -1)
