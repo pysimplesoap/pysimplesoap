@@ -479,6 +479,28 @@ class SoapClient(object):
         # Parse WSDL XML:
         wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
+        # some wsdl are splitted down in several files, join them:
+        imported_wsdls = {}
+        for element in wsdl.children() or []:
+            if element.get_local_name() in ('import'):
+                wsdl_namespace = element['namespace']
+                wsdl_location = element['location']
+                if wsdl_location is None:
+                    log.debug('WSDL location not provided for %s!' % wsdl_namespace)
+                    continue
+                if wsdl_location in imported_wsdls:
+                    log.debug('WSDL %s already imported!' % wsdl_location)
+                    continue
+                imported_wsdls[wsdl_location] = wsdl_namespace
+                log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
+                # Open uri and read xml:
+                xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir)
+                # Parse imported XML schema (recursively):
+                imported_wsdl = SimpleXMLElement(xml, namespace=xsd_uri)
+                # merge the imported wsdl into the main document:
+                wsdl.import_node(imported_wsdl)
+                # warning: do not process schemas to avoid infinite recursion!
+
         # detect soap prefix and uri (xmlns attributes of <definitions>)
         xsd_ns = None
         soap_uris = {}

@@ -55,8 +55,8 @@ class TestCFDI(unittest.TestCase):
         # this tests "infinite recursion" issues
         
         # Concetarse al webservice (en producción, ver cache y otros parametros):
-        ##WSDL = "https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?wsdl"
-        WSDL = "federico.wsdl"
+        WSDL = "https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?wsdl"
+        #WSDL = "federico.wsdl"
         client = SoapClient(wsdl=WSDL, ns="ns0", soap_ns="soapenv")
 
         # llamo al método remoto:
