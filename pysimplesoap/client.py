@@ -61,6 +61,7 @@ soap_namespaces = dict(
     soap='http://schemas.xmlsoap.org/soap/envelope/',
     soapenv='http://schemas.xmlsoap.org/soap/envelope/',
     soap12='http://www.w3.org/2003/05/soap-env',
+    soap12env="http://www.w3.org/2003/05/soap-envelope",
 )
 
 
@@ -255,7 +256,7 @@ class SoapClient(object):
 
     def get_operation(self, method):
         # try to find operation in wsdl file
-        soap_ver = self.__soap_ns == 'soap12' and 'soap12' or 'soap11'
+        soap_ver = self.__soap_ns.startswith('soap12') and 'soap12' or 'soap11'
         if not self.service_port:
             for service_name, service in self.services.items():
                 for port_name, port in [port for port in service['ports'].items()]:
