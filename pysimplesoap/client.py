@@ -479,6 +479,10 @@ class SoapClient(object):
         # Parse WSDL XML:
         wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
+        # Extract useful data:
+        self.namespace = wsdl['targetNamespace']
+        self.documentation = unicode(wsdl('documentation', error=False)) or ''
+
         # some wsdl are splitted down in several files, join them:
         imported_wsdls = {}
         for element in wsdl.children() or []:
@@ -500,6 +504,10 @@ class SoapClient(object):
                 # merge the imported wsdl into the main document:
                 wsdl.import_node(imported_wsdl)
                 # warning: do not process schemas to avoid infinite recursion!
+                # TODO: review if namespace should be extracted from messages...
+                if imported_wsdl['targetNamespace']:
+                    self.namespace = imported_wsdl['targetNamespace']
+
 
         # detect soap prefix and uri (xmlns attributes of <definitions>)
         xsd_ns = None
@@ -509,10 +517,6 @@ class SoapClient(object):
                 soap_uris[get_local_name(k)] = v
             if v == xsd_uri and k.startswith('xmlns:'):
                 xsd_ns = get_local_name(k)
-
-        # Extract useful data:
-        self.namespace = wsdl['targetNamespace']
-        self.documentation = unicode(wsdl('documentation', error=False)) or ''
 
         services = {}
         bindings = {}            # binding_name: binding

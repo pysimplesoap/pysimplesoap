@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import unittest
-from pysimplesoap.client import SoapClient, SimpleXMLElement
+from pysimplesoap.client import SoapClient, SimpleXMLElement, SoapFault
 
 
 class TestIssues(unittest.TestCase):
@@ -298,6 +298,23 @@ class TestIssues(unittest.TestCase):
         self.assertIsInstance(ret['results'], list)
         self.assertIsInstance(ret['results'][0], basestring)
 
+    def test_issue113(self):
+        """Test target namespace in wsdl import"""
+        WSDL = "https://test.paymentgate.ru/testpayment/webservices/merchant-ws?wsdl"
+        client = SoapClient(wsdl=WSDL)
+        try:
+            client.getOrderStatusExtended(order={'merchantOrderNumber':'1'})
+        except SoapFault as sf:
+            # ignore exception caused by missing credentials sent in this test:
+            if sf.faultstring != "An error was discovered processing the <wsse:Security> header":
+                raise
+        
+        # verify the correct namespace:
+        xml = SimpleXMLElement(client.xml_request)
+        ns_uri = xml.getOrderStatusExtended['xmlns']
+        self.assertEqual(ns_uri,
+                         "http://engine.paymentgate.ru/webservices/merchant")
+        
 
 if __name__ == '__main__':
     #unittest.main()
