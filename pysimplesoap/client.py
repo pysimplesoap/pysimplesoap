@@ -287,6 +287,9 @@ class SoapClient(object):
         header = operation.get('header')
         if 'action' in operation:
             self.action = operation['action']
+        
+        if 'namespace' in operation:
+            self.namespace = operation['namespace']
 
         # construct header and parameters
         if header:
@@ -480,7 +483,7 @@ class SoapClient(object):
         wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
         # Extract useful data:
-        self.namespace = wsdl['targetNamespace']
+        self.namespace = None
         self.documentation = unicode(wsdl('documentation', error=False)) or ''
 
         # some wsdl are splitted down in several files, join them:
@@ -504,9 +507,6 @@ class SoapClient(object):
                 # merge the imported wsdl into the main document:
                 wsdl.import_node(imported_wsdl)
                 # warning: do not process schemas to avoid infinite recursion!
-                # TODO: review if namespace should be extracted from messages...
-                if imported_wsdl['targetNamespace']:
-                    self.namespace = imported_wsdl['targetNamespace']
 
 
         # detect soap prefix and uri (xmlns attributes of <definitions>)
@@ -627,7 +627,7 @@ class SoapClient(object):
             port_type_name = port_type['name']
             log.debug('Processing port type %s' % port_type_name)
 
-            for binding in port_type_bindings[port_type_name]:
+            for binding in port_type_bindings.get(port_type_name, []):
                 for operation in port_type.operation:
                     op_name = operation['name']
                     op = operations[binding['name']][op_name]
@@ -646,6 +646,14 @@ class SoapClient(object):
                                 header = None   # not enought info to search the header message:
                             op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'))
                             op['header'] = header
+                            try:
+                                ns_uri = op['input'].values()[0].namespace
+                            except AttributeError:
+                                # TODO: fix if no parameters parsed or "variants"
+                                ns = get_namespace_prefix(operation.input['message'])
+                                ns_uri = operation.get_namespace_uri(ns)
+                            if ns_uri:
+                                op['namespace'] = ns_uri
                         else:
                             op['input'] = None
                             op['header'] = None

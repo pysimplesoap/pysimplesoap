@@ -314,7 +314,23 @@ class TestIssues(unittest.TestCase):
         ns_uri = xml.getOrderStatusExtended['xmlns']
         self.assertEqual(ns_uri,
                          "http://engine.paymentgate.ru/webservices/merchant")
+
+    def test_issue105(self):
+        """Test target namespace in wsdl (conflicting import)"""
+        WSDL = "https://api.dc2.computing.cloud.it/WsEndUser/v2.4/WsEndUser.svc?wsdl"
+        client = SoapClient(wsdl=WSDL)
+        try:
+            client.SetEnqueueServerStop(serverId=37)
+        except SoapFault as sf:
+            # ignore exception caused by missing credentials sent in this test:
+            if sf.faultstring != "An error occurred when verifying security for the message.":
+                raise
         
+        # verify the correct namespace:
+        xml = SimpleXMLElement(client.xml_request)
+        ns_uri = xml.SetEnqueueServerStop['xmlns']
+        self.assertEqual(ns_uri,
+                         "https://api.computing.cloud.it/WsEndUser")        
 
 if __name__ == '__main__':
     #unittest.main()
