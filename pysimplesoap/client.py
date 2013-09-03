@@ -364,6 +364,9 @@ class SoapClient(object):
         else:
             typematch = False
 
+        if struct == str:
+            struct = unicode        # fix for py2 vs py3 string handling
+        
         if not isinstance(struct, (list, dict, tuple)) and struct in TYPE_MAP.keys():
             try:
                 struct(value)       # attempt to cast input to parameter type
