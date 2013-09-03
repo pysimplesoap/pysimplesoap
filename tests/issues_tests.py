@@ -254,7 +254,9 @@ class TestIssues(unittest.TestCase):
                              '<qmw:Checksum>PASSWORD</qmw:Checksum>' \
                          '</qmw:Security>' \
                      '</soap:Header>'
-            self.assert_(header in client.xml_request.decode(), "header not in request!")
+            xml = SimpleXMLElement(client.xml_request)
+            self.assertEquals(str(xml.ClientID), "NAME")
+            self.assertEquals(str(xml.Checksum), "PASSWORD")
 
     def test_issue104(self):
         """SoapClient did not build all arguments for Marketo."""
