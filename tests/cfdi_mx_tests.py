@@ -17,6 +17,11 @@ import os
 import unittest
 from pysimplesoap.client import SoapClient, SoapFault
 
+import sys
+if sys.version > '3':
+    basestring = str
+
+
 class TestCFDI(unittest.TestCase):
 
     def test_obtener_token(self):

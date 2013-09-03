@@ -3,6 +3,10 @@ from __future__ import unicode_literals
 import unittest
 from pysimplesoap.client import SoapClient, SimpleXMLElement, SoapFault
 
+import sys
+if sys.version > '3':
+    basestring = str
+    
 
 class TestIssues(unittest.TestCase):
 
