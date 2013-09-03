@@ -65,10 +65,10 @@ class SimpleXMLElement(object):
     def add_child(self, name, text=None, ns=True):
         """Adding a child tag to a node"""
         if not ns or self.__ns is False:
-            log.debug('adding %s without namespace', name)
+            ##log.debug('adding %s without namespace', name)
             element = self.__document.createElement(name)
         else:
-            log.debug('adding %s ns "%s" %s', name, self.__ns, ns)
+            ##log.debug('adding %s ns "%s" %s', name, self.__ns, ns)
             if isinstance(ns, basestring):
                 element = self.__document.createElement(name)
                 element.setAttribute("xmlns", ns)
@@ -94,7 +94,7 @@ class SimpleXMLElement(object):
         if tag.startswith("_"):
             object.__setattr__(self, tag, text)
         else:
-            log.debug('__setattr__(%s, %s)', tag, text)
+            ##log.debug('__setattr__(%s, %s)', tag, text)
             self.add_child(tag, text)
 
     def __delattr__(self, tag):
@@ -149,7 +149,7 @@ class SimpleXMLElement(object):
 
     def __getitem__(self, item):
         """Return xml tag attribute value or a slice of attributes (iter)"""
-        log.debug('__getitem__(%s)', item)
+        ##log.debug('__getitem__(%s)', item)
         if isinstance(item, basestring):
             if self._element.hasAttribute(item):
                 return self._element.attributes[item].value
@@ -207,18 +207,18 @@ class SimpleXMLElement(object):
                 elements = [self.__elements[tag]]
             if ns and not elements:
                 for ns_uri in isinstance(ns, (tuple, list)) and ns or (ns, ):
-                    log.debug('searching %s by ns=%s', tag, ns_uri)
+                    ##log.debug('searching %s by ns=%s', tag, ns_uri)
                     elements = self._element.getElementsByTagNameNS(ns_uri, tag)
                     if elements:
                         break
             if self.__ns and not elements:
-                log.debug('searching %s by ns=%s', tag, self.__ns)
+                ##log.debug('searching %s by ns=%s', tag, self.__ns)
                 elements = self._element.getElementsByTagNameNS(self.__ns, tag)
             if not elements:
-                log.debug('searching %s', tag)
+                ##log.debug('searching %s', tag)
                 elements = self._element.getElementsByTagName(tag)
             if not elements:
-                #log.debug(self._element.toxml())
+                ##log.debug(self._element.toxml())
                 if error:
                     raise AttributeError("No elements found")
                 else:

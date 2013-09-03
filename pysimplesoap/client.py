@@ -71,7 +71,7 @@ class SoapClient(object):
                  cert=None, exceptions=True, proxy=None, ns=None,
                  soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
-                 http_headers=None
+                 http_headers=None, trace=False,
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -85,6 +85,10 @@ class SoapClient(object):
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers or {}
         self.wsdl_basedir = wsdl_basedir
+        
+        # shortcut to print all debugging info and sent / received xml messages
+        if trace:
+            logging.basicConfig(level=logging.DEBUG)
         
         if not soap_ns and not ns:
             self.__soap_ns = 'soap'  # 1.1
@@ -442,7 +446,7 @@ class SoapClient(object):
     def wsdl_parse(self, url, cache=False):
         """Parse Web Service Description v1.1"""
 
-        log.debug('wsdl url: %s' % url)
+        log.debug('Parsing wsdl url: %s' % url)
         # Try to load a previously parsed wsdl:
         force_download = False
         if cache:
@@ -494,10 +498,10 @@ class SoapClient(object):
                 wsdl_namespace = element['namespace']
                 wsdl_location = element['location']
                 if wsdl_location is None:
-                    log.debug('WSDL location not provided for %s!' % wsdl_namespace)
+                    log.warning('WSDL location not provided for %s!' % wsdl_namespace)
                     continue
                 if wsdl_location in imported_wsdls:
-                    log.debug('WSDL %s already imported!' % wsdl_location)
+                    log.warning('WSDL %s already imported!' % wsdl_location)
                     continue
                 imported_wsdls[wsdl_location] = wsdl_namespace
                 log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
@@ -530,7 +534,6 @@ class SoapClient(object):
             service_name = service['name']
             if not service_name:
                 continue  # empty service?
-            log.debug("Processing service %s" % service_name)
             serv = services.setdefault(service_name, {'ports': {}})
             serv['documentation'] = service['documentation'] or ''
             for port in service.port:
@@ -598,7 +601,6 @@ class SoapClient(object):
         postprocess_element(elements)
 
         for message in wsdl.message:
-            log.debug('Processing message %s' % message['name'])
             for part in message('part', error=False) or []:
                 element = {}
                 element_name = part['element']
@@ -626,7 +628,6 @@ class SoapClient(object):
 
         for port_type in wsdl.portType:
             port_type_name = port_type['name']
-            log.debug('Processing port type %s' % port_type_name)
 
             for binding in port_type_bindings.get(port_type_name, []):
                 for operation in port_type.operation:
