@@ -650,7 +650,7 @@ class SoapClient(object):
                             op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'))
                             op['header'] = header
                             try:
-                                ns_uri = op['input'].values()[0].namespace
+                                ns_uri = list(op['input'].values())[0].namespace
                             except AttributeError:
                                 # TODO: fix if no parameters parsed or "variants"
                                 ns = get_namespace_prefix(operation.input['message'])
