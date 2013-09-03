@@ -71,7 +71,7 @@ class SoapClient(object):
                  cert=None, exceptions=True, proxy=None, ns=None,
                  soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
-                 http_headers={}
+                 http_headers=None
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -83,7 +83,7 @@ class SoapClient(object):
         self.namespace = namespace      # message
         self.exceptions = exceptions    # lanzar execpiones? (Soap Faults)
         self.xml_request = self.xml_response = ''
-        self.http_headers = http_headers
+        self.http_headers = http_headers or {}
         self.wsdl_basedir = wsdl_basedir
         
         if not soap_ns and not ns:
