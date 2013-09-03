@@ -332,7 +332,7 @@ class SoapClient(object):
         if input and (kwargs or all_args):
             if kwargs:
                 all_args.update({inputname: kwargs})
-            valid, errors, warnings = self.wsdl_validate_args_structure(input, all_args)
+            valid, errors, warnings = self.wsdl_validate_params(input, all_args)
             if not valid:
                 raise ValueError('Invalid Args Structure. Errors: %s' % errors)
             params = list(sort_dict(input, all_args).values())[0].items()
@@ -349,35 +349,36 @@ class SoapClient(object):
 
         return (method, params)
 
-    def wsdl_validate_args_structure(self, master, test):
-        """Validate the structure and types in the arguments. Fail for any invalid arguments or type mismatches."""
+    def wsdl_validate_params(self, struct, value):
+        """Validate the arguments (actual values) for the parameters structure. 
+           Fail for any invalid arguments or type mismatches."""
         errors = []
         warnings = []
         valid = True
 
-        # Determine master type
-        masterisclass = False
-        typematch = type(master) == type(test)
-        if isinstance(master, OrderedDict) and isinstance(test, dict):
+        # Determine parameter type
+        structisclass = False
+        typematch = type(struct) == type(value)
+        if isinstance(struct, OrderedDict) and isinstance(value, dict):
             typematch = True
         else:
-            # Is master a class? cannot use isinstance or issubclass to determine effectively
+            # Is struct a class? cannot use isinstance or issubclass to determine effectively
             try:
-                masterisclass = str(type(master))[:7] == '<class '
+                structisclass = str(type(struct))[:7] == '<class '
             except:
                 pass
 
-        if isinstance(master, type) or masterisclass:
-            # attempt to cast input to master type
+        if isinstance(struct, type) or structisclass:
+            # attempt to cast input to parameter type
             try:
-                test = master(test)
+                struct(value)
             except:
                 valid = False
-                errors.append('type mismatch for value. master(%s): %s, test(%s): %s' % (type(master), master, type(test), test))
+                errors.append('Type mismatch for argument value. parameter(%s): %s, value(%s): %s' % (type(struct), struct, type(value), value))
 
-        elif isinstance(master, list) and len(master) == 1 and not isinstance(test, list):
-            # master can have a dict in a list: [{}] indicating a list is allowed, but not needed if only one argument.
-            next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master[0], test)
+        elif isinstance(struct, list) and len(struct) == 1 and not isinstance(value, list):
+            # parameter can have a dict in a list: [{}] indicating a list is allowed, but not needed if only one argument.
+            next_valid, next_errors, next_warnings = self.wsdl_validate_params(struct[0], value)
             if not next_valid:
                 valid = False
             errors.extend(next_errors)
@@ -385,36 +386,36 @@ class SoapClient(object):
 
         elif not typematch:
             valid = False
-            errors.append('type mismatch. master(%s): %s, test(%s): %s' % (type(master), master, type(test), test))
+            errors.append('Type mismatch. parameter(%s): %s, value(%s): %s' % (type(struct), struct, type(value), value))
 
         else:
             # traverse tree
-            if isinstance(master, dict) or isinstance(master, OrderedDict):
-                if master and test:
-                    for key in test:
-                        if key not in master:
+            if isinstance(struct, dict) or isinstance(struct, OrderedDict):
+                if struct and value:
+                    for key in value:
+                        if key not in struct:
                             valid = False
-                            errors.append('Test key %s not in master. master: %s, test: %s' % (key, master, test))
+                            errors.append('Argument key %s not in parameter. parameter: %s, args: %s' % (key, struct, value))
                         else:
-                            next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master[key], test[key])
+                            next_valid, next_errors, next_warnings = self.wsdl_validate_params(struct[key], value[key])
                             if not next_valid:
                                 valid = False
                             errors.extend(next_errors)
                             warnings.extend(next_warnings)
-                    for key in master:
-                        if key not in test:
-                            warnings.append('Master key %s not in test. master: %s, test: %s' % (key, master, test))
-                elif master and not test:
-                    warnings.append('Master keys not in test. master: %s, test: %s' % (master, test))
-                elif not master and test:
+                    for key in struct:
+                        if key not in value:
+                            warnings.append('Parameter key %s not in args. parameter: %s, value: %s' % (key, struct, value))
+                elif struct and not value:
+                    warnings.append('parameter keys not in args. parameter: %s, args: %s' % (struct, value))
+                elif not struct and value:
                     valid = False
-                    errors.append('Test keys not in master. master: %s, test: %s' % (master, test))
+                    errors.append('Args keys not in parameter. parameter: %s, args: %s' % (struct, value))
                 else:
                     pass
-            elif isinstance(master, list):
-                master_list_value = master[0]
-                for item in test:
-                    next_valid, next_errors, next_warnings = self.wsdl_validate_args_structure(master_list_value, item)
+            elif isinstance(struct, list):
+                struct_list_value = struct[0]
+                for item in value:
+                    next_valid, next_errors, next_warnings = self.wsdl_validate_params(struct_list_value, item)
                     if not next_valid:
                         valid = False
                     errors.extend(next_errors)
