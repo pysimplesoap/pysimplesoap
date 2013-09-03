@@ -14,6 +14,7 @@
 
 
 import logging
+import sys
 try:
     import urllib2
     from cookielib import CookieJar
@@ -60,6 +61,19 @@ class TransportBase:
 #
 try:
     import httplib2
+    if sys.version > '3' and httplib2.__version__ <= "0.7.7":
+        import http.client
+        # httplib2 workaround: check_hostname needs a SSL context with either 
+        #                      CERT_OPTIONAL or CERT_REQUIRED
+        # see https://code.google.com/p/httplib2/issues/detail?id=173
+        orig__init__ = http.client.HTTPSConnection.__init__ 
+        def fixer(self, host, port, key_file, cert_file, timeout, context,
+                        check_hostname, *args, **kwargs):
+            chk = kwargs.get('disable_ssl_certificate_validation', True) ^ True
+            orig__init__(self, host, port=port, key_file=key_file,
+                cert_file=cert_file, timeout=timeout, context=context,
+                check_hostname=chk)
+        http.client.HTTPSConnection.__init__ = fixer
 except ImportError:
     TIMEOUT = None  # timeout not supported by urllib2
     pass
@@ -119,10 +133,11 @@ class urllib2Transport(TransportBase):
         req = urllib2.Request(url, body, headers)
         try:
             f = self.request_opener(req, timeout=self._timeout)
+            return f.info(), f.read()
         except urllib2.HTTPError as f:
             if f.code != 500:
                 raise
-        return f.info(), f.read()
+            return f.info(), f.read()
 
 _http_connectors['urllib2'] = urllib2Transport
 _http_facilities.setdefault('sessions', []).append('urllib2')
