@@ -20,6 +20,7 @@ from pysimplesoap.client import SoapClient, SoapFault
 import sys
 if sys.version > '3':
     basestring = str
+    long = int
 
 
 class TestCFDI(unittest.TestCase):
