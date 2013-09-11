@@ -336,12 +336,16 @@ class SoapClient(object):
             if not valid:
                 raise ValueError('Invalid Args Structure. Errors: %s' % errors)
             params = list(sort_dict(input, all_args).values())[0].items()
-            if self.__soap_server == 'axis':
+            # TODO: check style and document attributes
+            if self.__soap_server in ('axis', ):
                 # use the operation name
                 method = method
             else:
                 # use the message (element) name
                 method = inputname
+                # some .net webservices uses "OperationName.MessageName" 
+                if "." in method:
+                    method = method[:method.index(".")]   # remove the msg name
         #elif not input:
             #TODO: no message! (see wsmtxca.dummy)
         else:
