@@ -343,9 +343,6 @@ class SoapClient(object):
             else:
                 # use the message (element) name
                 method = inputname
-                # some .net webservices uses "OperationName.MessageName" 
-                if "." in method:
-                    method = method[:method.index(".")]   # remove the msg name
         #elif not input:
             #TODO: no message! (see wsmtxca.dummy)
         else:
