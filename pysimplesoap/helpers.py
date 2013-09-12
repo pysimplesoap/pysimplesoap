@@ -119,8 +119,6 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     soapenc_uri = 'http://schemas.xmlsoap.org/soap/encoding/'):
     """Parse and define simple element types"""
 
-    
-
     log.debug('Processing element %s %s' % (element_name, element_type))
     for tag in node:
         if tag.get_local_name() in ('annotation', 'documentation'):
@@ -149,7 +147,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             else:
                 ns, type_name = None, t[0]
             if element_name == type_name:
-                pass  # warning with infinite recursion
+                continue   # abort to prevent infinite recursion
             uri = ns and e.get_namespace_uri(ns) or xsd_uri
             if uri in (xsd_uri, soapenc_uri) and type_name != 'Array':
                 # look for the type, None == any
@@ -232,7 +230,8 @@ def postprocess_element(elements):
         if isinstance(v, list):
             for n in v:  # recurse list
                 if isinstance(n, (OrderedDict, list)):
-                    postprocess_element(n)
+                    if n != elements:  # TODO: fix recursive elements
+                        postprocess_element(n)
 
 
 def get_message(messages, message_name, part_name):
@@ -460,4 +459,3 @@ class OrderedDict(dict):
         if self.array and False:
             s = "[%s]" % s
         return s
-
