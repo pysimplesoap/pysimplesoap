@@ -146,7 +146,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 ns, type_name = t
             else:
                 ns, type_name = None, t[0]
-            if element_name == type_name:
+            if element_name == type_name and not alias and len(children) > 1:
                 continue   # abort to prevent infinite recursion
             uri = ns and e.get_namespace_uri(ns) or xsd_uri
             if uri in (xsd_uri, soapenc_uri) and type_name != 'Array':
