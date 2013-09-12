@@ -208,12 +208,18 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
         elements.setdefault(make_key(element_name, element_type, namespace), OrderedDict()).update(d)
 
 
-def postprocess_element(elements):
+def postprocess_element(elements, processed):
     """Fix unresolved references (elements referenced before its definition, thanks .net)"""
+    
+    # avoid already processed elements:
+    if elements in processed:
+        return
+    processed.append(elements)
+    
     for k, v in elements.items():
         if isinstance(v, OrderedDict):
             if v != elements:  # TODO: fix recursive elements
-                postprocess_element(v)
+                postprocess_element(v, processed)
             if None in v and v[None]:  # extension base?
                 if isinstance(v[None], dict):
                     for i, kk in enumerate(v[None]):
@@ -230,8 +236,8 @@ def postprocess_element(elements):
         if isinstance(v, list):
             for n in v:  # recurse list
                 if isinstance(n, (OrderedDict, list)):
-                    if n != elements:  # TODO: fix recursive elements
-                        postprocess_element(n)
+                    #if n != elements:  # TODO: fix recursive elements
+                    postprocess_element(n, processed)
 
 
 def get_message(messages, message_name, part_name):

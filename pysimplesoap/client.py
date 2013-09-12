@@ -599,7 +599,8 @@ class SoapClient(object):
         for schema in wsdl.types('schema', ns=xsd_uri):
             preprocess_schema(schema, imported_schemas, elements, xsd_uri, self.__soap_server, self.http, cache, force_download, self.wsdl_basedir, global_namespaces=global_namespaces)
 
-        postprocess_element(elements)
+        # 2nd phase: alias, postdefined elements, extend bases, convert lists
+        postprocess_element(elements, [])
 
         for message in wsdl.message:
             for part in message('part', error=False) or []:
