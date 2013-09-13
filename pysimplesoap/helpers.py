@@ -179,6 +179,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                             fn.append(REVERSE_TYPE_MAP.get(type_name, None))
             else:
                 fn = None
+
             if not fn:
                 # simple / complex type, postprocess later
                 if ns:
@@ -209,8 +210,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     else:
                         d.array = True
 
-            if e['name'] is not None and not alias:
-                e_name = e['name']
+            if (e['name'] is not None and not alias) or e['ref']:
+                e_name = e['name'] or type_name  # for refs, use the type name
                 d[e_name] = fn
             else:
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
