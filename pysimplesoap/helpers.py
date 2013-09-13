@@ -140,6 +140,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if not t:
                 t = e['base']  # complexContent (extension)!
             if not t:
+                t = e['ref']   # reference to another element
+            if not t:
                 # "anonymous" elements had no type attribute but children
                 if e['name'] and e.children():
                     # create a type name to process the children
