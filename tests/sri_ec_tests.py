@@ -22,6 +22,8 @@ if sys.version > '3':
     basestring = str
     long = int
 
+# Documentation: http://www.sri.gob.ec/web/10138/145
+
 
 class TestSRI(unittest.TestCase):
  
