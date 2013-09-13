@@ -17,6 +17,8 @@ def test():
     # licencias_tests is for internal use, wsdl is not published
     # from . import licencias_tests
     # from . import trazamed_tests
+    from . import cfdi_mx_tests
+    from . import sri_ec_tests
 
     suite = unittest.TestSuite()
 
@@ -27,7 +29,9 @@ def test():
     add(suite, server_multins_test)
     ##add(suite, licencias_tests)
     ##add(suite, trazamed_tests)
-
+    add(suite, cfdi_mx_tests)
+    add(suite, sri_ec_tests)
+    
     unittest.TextTestRunner(verbosity=2).run(suite)
 
 if __name__ == '__main__':
