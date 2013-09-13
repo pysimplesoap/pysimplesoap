@@ -98,6 +98,7 @@ def sort_dict(od, d):
                 ret[k] = v
         if hasattr(od, 'namespace'):
             ret.namespace = od.namespace
+            ret.qualified = od.qualified
         return ret
     else:
         return d
@@ -463,6 +464,7 @@ class OrderedDict(dict):
             self.array = other.array
         if isinstance(other, OrderedDict) and not self.namespace:
             self.namespace = other.namespace
+            self.qualified = other.qualified
 
     def copy(self):
         "Make a duplicate"
