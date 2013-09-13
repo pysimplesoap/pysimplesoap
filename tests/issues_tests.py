@@ -338,6 +338,22 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(ns_uri,
                          "https://api.computing.cloud.it/WsEndUser")        
 
+    def test_issue114(self):
+        """Test no schema in wsdl (Lotus-Domino)"""
+        WSDL = "http://mail.tpsgroup.ru/GateWay/WebRequests.nsf/WebRequest?WSDL"
+        # WSDL= "file:WebRequest.xml"
+        try:
+            client = SoapClient(wsdl=WSDL, soap_server="axis")
+            #print client.help("CREATEREQUEST")
+            ret = client.CREATEREQUEST(LOGIN="hello", REQUESTTYPE=1, REQUESTCONTENT="test")
+        except SoapFault as sf:
+            # todo: check as service is returning DOM failure
+            # verify the correct namespace:
+            xml = SimpleXMLElement(client.xml_request)
+            ns_uri = xml.CREATEREQUEST['xmlns']
+            self.assertEqual(ns_uri, "http://tps.ru")
+
+
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
