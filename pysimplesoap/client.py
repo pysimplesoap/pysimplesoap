@@ -294,8 +294,8 @@ class SoapClient(object):
             self.action = operation['action']
         
         if 'namespace' in operation:
-            self.namespace = operation['namespace']
-            self.qualified = operation['qualified']
+            self.namespace = operation['namespace'] or ''
+            self.qualified = operation['qualified']            
 
         # construct header and parameters
         if header:
@@ -487,7 +487,7 @@ class SoapClient(object):
         wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
         # Extract useful data:
-        self.namespace = None
+        self.namespace = ""
         self.documentation = unicode(wsdl('documentation', error=False)) or ''
 
         # some wsdl are splitted down in several files, join them:
@@ -590,7 +590,9 @@ class SoapClient(object):
                 schema = wsdl.types('schema', ns=xsd_uri)
                 attrs = dict(schema[:])
                 self.namespace = attrs.get('targetNamespace', self.namespace)
-            
+            else:
+                self.namespace = wsdl['targetNamespace'] or self.namespace
+                
         imported_schemas = {}
         global_namespaces = {}
 

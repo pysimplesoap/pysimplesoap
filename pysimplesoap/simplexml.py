@@ -71,7 +71,8 @@ class SimpleXMLElement(object):
             ##log.debug('adding %s ns "%s" %s', name, self.__ns, ns)
             if isinstance(ns, basestring):
                 element = self.__document.createElement(name)
-                element.setAttribute("xmlns", ns)
+                if ns:
+                    element.setAttribute("xmlns", ns)
             elif self.__prefix:
                 element = self.__document.createElementNS(self.__ns, "%s:%s" % (self.__prefix, name))
             else:
