@@ -32,7 +32,7 @@ from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from .helpers import fetch, sort_dict, make_key, process_element, \
                      postprocess_element, get_message, preprocess_schema, \
-                     get_local_name, get_namespace_prefix, TYPE_MAP
+                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit
 
 
 log = logging.getLogger(__name__)
@@ -84,6 +84,12 @@ class SoapClient(object):
         self.exceptions = exceptions    # lanzar execpiones? (Soap Faults)
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers or {}
+        # extract the base directory / url for wsdl relative imports:
+        if wsdl and wsdl_basedir == '':
+            # parse the wsdl url, strip the scheme and filename
+            url_scheme, netloc, path, query, fragment = urlsplit(wsdl)
+            wsdl_basedir = os.path.dirname(netloc + path)
+            
         self.wsdl_basedir = wsdl_basedir
         
         # shortcut to print all debugging info and sent / received xml messages
