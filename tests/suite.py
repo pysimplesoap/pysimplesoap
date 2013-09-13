@@ -19,6 +19,7 @@ def test():
     # from . import trazamed_tests
     from . import cfdi_mx_tests
     from . import sri_ec_tests
+    from . import nfp_br_tests
 
     suite = unittest.TestSuite()
 
@@ -31,6 +32,7 @@ def test():
     ##add(suite, trazamed_tests)
     add(suite, cfdi_mx_tests)
     add(suite, sri_ec_tests)
+    add(suite, nfp_br_tests)
     
     unittest.TextTestRunner(verbosity=2).run(suite)
 
