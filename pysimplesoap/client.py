@@ -183,7 +183,7 @@ class SoapClient(object):
                     getattr(request, method).import_node(param)
         elif parameters:
             # marshall parameters:
-            use_ns = None if self.__soap_server == "jetty" else True
+            use_ns = None if (self.__soap_server == "jetty" or self.qualified is False) else True
             for k, v in parameters:  # dict: tag=valor
                 getattr(request, method).marshall(k, v, ns=use_ns)
         elif not self.__soap_server in ('oracle',) or self.__soap_server in ('jbossas6',):
@@ -295,6 +295,7 @@ class SoapClient(object):
         
         if 'namespace' in operation:
             self.namespace = operation['namespace']
+            self.qualified = operation['qualified']
 
         # construct header and parameters
         if header:
@@ -648,13 +649,17 @@ class SoapClient(object):
                             op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'))
                             op['header'] = header
                             try:
-                                ns_uri = list(op['input'].values())[0].namespace
+                                element = list(op['input'].values())[0]
+                                ns_uri = element.namespace
+                                qualified = element.qualified
                             except AttributeError:
                                 # TODO: fix if no parameters parsed or "variants"
                                 ns = get_namespace_prefix(operation.input['message'])
                                 ns_uri = operation.get_namespace_uri(ns)
+                                qualified = None
                             if ns_uri:
                                 op['namespace'] = ns_uri
+                                op['qualified'] = qualified
                         else:
                             op['input'] = None
                             op['header'] = None

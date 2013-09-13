@@ -115,7 +115,7 @@ def make_key(element_name, element_type, namespace):
     return (element_name, eltype, namespace)
 
 
-def process_element(elements, element_name, node, element_type, xsd_uri, dialect, namespace,
+def process_element(elements, element_name, node, element_type, xsd_uri, dialect, namespace, qualified=None,
                     soapenc_uri = 'http://schemas.xmlsoap.org/soap/encoding/'):
     """Parse and define simple element types"""
 
@@ -135,6 +135,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             continue  # TODO: abstract?
         d = OrderedDict()
         d.namespace = namespace
+        d.qualified = qualified
         for e in children:
             t = e['type']
             if not t:
@@ -149,7 +150,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     c = e.children()
                     et = c.get_local_name()
                     c = c.children()
-                    process_element(elements, t, c, et, xsd_uri, dialect, namespace)
+                    process_element(elements, t, c, et, xsd_uri, dialect, namespace, qualified)
                 else:
                     t = 'anyType'  # no type given!
             t = t.split(":")
@@ -215,7 +216,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 d[None] = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
                 # extend base element:
-                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace)
+                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace, qualified)
         elements.setdefault(make_key(element_name, element_type, namespace), OrderedDict()).update(d)
 
 
@@ -279,8 +280,8 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
         if k == 'targetNamespace':
             # URI namespace reference for this schema
             local_namespaces[None] = v
-        if k == 'elementFormDefault' and v == "qualified" and qualified is None:
-            qualified = True
+        if k == 'elementFormDefault':
+            qualified = (v == "qualified")
     # add schema namespaces to the global namespace dict = {URI: ns prefix}
     for ns in local_namespaces.values():
         if ns not in global_namespaces:
@@ -303,7 +304,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
 
             # Parse imported XML schema (recursively):
             imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
-            preprocess_schema(imported_schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir, global_namespaces)
+            preprocess_schema(imported_schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir, global_namespaces, qualified)
 
         element_type = element.get_local_name()
         if element_type in ('element', 'complexType', "simpleType"):
@@ -324,7 +325,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
                 elif element.get_local_name() == 'element':
                     children = element
             if children:
-                process_element(elements, element_name, children, element_type, xsd_uri, dialect, namespace)
+                process_element(elements, element_name, children, element_type, xsd_uri, dialect, namespace, qualified)
 
 
 # simplexml utilities:
@@ -428,6 +429,7 @@ class OrderedDict(dict):
         self.__keys = []
         self.array = False
         self.namespace = None
+        self.qualified = None
 
     def __setitem__(self, key, value):
         if key not in self.__keys:
