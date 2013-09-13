@@ -140,7 +140,16 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if not t:
                 t = e['base']  # complexContent (extension)!
             if not t:
-                t = 'anyType'  # no type given!
+                # "anonymous" elements had no type attribute but children
+                if e['name'] and e.children():
+                    # create a type name to process the children
+                    t = "%s_%s" % (element_name, e['name'])  
+                    c = e.children()
+                    et = c.get_local_name()
+                    c = c.children()
+                    process_element(elements, t, c, et, xsd_uri, dialect, namespace)
+                else:
+                    t = 'anyType'  # no type given!
             t = t.split(":")
             if len(t) > 1:
                 ns, type_name = t
