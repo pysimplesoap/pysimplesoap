@@ -281,6 +281,8 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
             local_namespaces[get_local_name(k)] = v
         if k == 'targetNamespace':
             # URI namespace reference for this schema
+            if v == "urn:DefaultNamespace":
+                v = global_namespaces[None]
             local_namespaces[None] = v
         if k == 'elementFormDefault':
             qualified = (v == "qualified")

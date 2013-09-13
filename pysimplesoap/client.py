@@ -590,11 +590,11 @@ class SoapClient(object):
                 schema = wsdl.types('schema', ns=xsd_uri)
                 attrs = dict(schema[:])
                 self.namespace = attrs.get('targetNamespace', self.namespace)
-            else:
+            if not self.namespace or self.namespace == "urn:DefaultNamespace":
                 self.namespace = wsdl['targetNamespace'] or self.namespace
                 
         imported_schemas = {}
-        global_namespaces = {}
+        global_namespaces = {None: self.namespace}
 
         # process current wsdl schema (if any):
         if wsdl('types', error=False):
