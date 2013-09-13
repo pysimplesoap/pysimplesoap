@@ -262,6 +262,19 @@ class TestIssues(unittest.TestCase):
             self.assertEquals(str(xml.ClientID), "NAME")
             self.assertEquals(str(xml.Checksum), "PASSWORD")
 
+    def test_issue101(self):
+        """automatic relative import support"""
+        
+        client = SoapClient(wsdl="https://raw.github.com/vadimcomanescu/vmwarephp/master/library/Vmwarephp/Wsdl/vimService.wsdl")
+        try:
+            client.Login(parameters={'userName': 'username', 'password': 'password'})
+        except IOError:
+            pass
+        try:
+            client.Logout()
+        except IOError:
+            pass
+
     def test_issue104(self):
         """SoapClient did not build all arguments for Marketo."""
         method = 'getLead'
