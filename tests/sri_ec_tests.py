@@ -42,6 +42,5 @@ class TestSRI(unittest.TestCase):
         # https://cel.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantes?wsdl
         client = SoapClient(wsdl=WSDL, ns="ec")
         ret = client.autorizacionComprobante(claveAccesoComprobante="1702201205176001321000110010030001000011234567816")
-        print ret
         self.assertEquals(ret, {'RespuestaAutorizacionComprobante': {'autorizaciones': [], 'claveAccesoConsultada': u'1702201205176001321000110010030001000011234567816', 'numeroComprobantes': u'0'}})
 
