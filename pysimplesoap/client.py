@@ -376,11 +376,12 @@ class SoapClient(object):
             struct = unicode        # fix for py2 vs py3 string handling
         
         if not isinstance(struct, (list, dict, tuple)) and struct in TYPE_MAP.keys():
-            try:
-                struct(value)       # attempt to cast input to parameter type
-            except:
-                valid = False
-                errors.append('Type mismatch for argument value. parameter(%s): %s, value(%s): %s' % (type(struct), struct, type(value), value))
+            if not type(value) == struct:
+                try:
+                    struct(value)       # attempt to cast input to parameter type
+                except:
+                    valid = False
+                    errors.append('Type mismatch for argument value. parameter(%s): %s, value(%s): %s' % (type(struct), struct, type(value), value))
 
         elif isinstance(struct, list) and len(struct) == 1 and not isinstance(value, list):
             # parameter can have a dict in a list: [{}] indicating a list is allowed, but not needed if only one argument.
