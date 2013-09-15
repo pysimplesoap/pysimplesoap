@@ -363,7 +363,7 @@ def datetime_u(s):
                 s = s[:s.index(".")]
             return _strptime(s, fmt)
 
-datetime_m = lambda dt: dt.isoformat('T')
+datetime_m = lambda dt: dt.isoformat()
 date_u = lambda s: _strptime(s[0:10], "%Y-%m-%d").date()
 date_m = lambda d: d.strftime("%Y-%m-%d")
 time_u = lambda s: _strptime(s, "%H:%M:%S").time()
