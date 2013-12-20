@@ -72,6 +72,7 @@ class SoapClient(object):
                  soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
+                 username=None, password=None,
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -123,6 +124,10 @@ class SoapClient(object):
         # Create HTTP wrapper
         Http = get_Http()
         self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
+        if username and password:
+            if hasattr(self.http, 'add_credentials'):
+                self.http.add_credentials(username, password)
+            
 
         # namespace prefix, None to use xmlns attribute or False to not use it:
         self.__ns = ns
