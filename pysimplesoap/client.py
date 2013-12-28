@@ -44,11 +44,14 @@ class SoapFault(RuntimeError):
         self.faultstring = faultstring
         RuntimeError.__init__(self, faultcode, faultstring)
 
-    def __str__(self):
-        return self.__unicode__().encode('ascii', 'ignore')
-
     def __unicode__(self):
         return '%s: %s' % (self.faultcode, self.faultstring)
+
+    if sys.version > '3':
+        __str__ = __unicode__
+    else:
+        def __str__(self):
+            return self.__unicode__().encode('ascii', 'ignore')
 
     def __repr__(self):
         return "SoapFault(%s, %s)" % (repr(self.faultcode),
