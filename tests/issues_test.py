@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import unittest
@@ -365,6 +366,17 @@ class TestIssues(unittest.TestCase):
             xml = SimpleXMLElement(client.xml_request)
             ns_uri = xml.CREATEREQUEST['xmlns']
             self.assertEqual(ns_uri, "http://tps.ru")
+
+    def test_issue116(self):
+        """Test string conversion and encoding of a SoapFault exception"""
+        exception = SoapFault('000', u'fault stríng')
+        exception_string = str(exception)
+        self.assertTrue(isinstance(exception_string, str))
+        if sys.version < '3':
+            self.assertEqual(exception_string, '000: fault strng')
+        else:
+            self.assertEqual(exception_string, '000: fault stríng')
+
 
 
 if __name__ == '__main__':
