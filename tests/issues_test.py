@@ -263,6 +263,23 @@ class TestIssues(unittest.TestCase):
             self.assertEquals(str(xml.ClientID), "NAME")
             self.assertEquals(str(xml.Checksum), "PASSWORD")
 
+    def test_issue89(self):
+        """Setting attributes for request tag."""
+        # fake connection (just to test xml_request):
+        client = SoapClient(
+            location="https://localhost:666/",
+            namespace='http://localhost/api'
+        )
+        request = SimpleXMLElement(
+            """<?xml version="1.0" encoding="UTF-8"?><test a="b"><a>3</a></test>"""
+        ) # manually make request msg
+        try:
+            client.call('test', request)
+        except:
+            open("issue89.xml", "wb").write(client.xml_request)
+            self.assert_('<test a="b" xmlns="http://localhost/api">' in client.xml_request.decode(),
+                         "attribute not in request!")
+
     def test_issue101(self):
         """automatic relative import support"""
 
