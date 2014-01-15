@@ -195,6 +195,8 @@ class SoapClient(object):
             if parameters[0].children() is not None:
                 for param in parameters[0].children():
                     getattr(request, method).import_node(param)
+                for k,v in parameters[0].attributes().items():
+                    getattr(request, method)[k] = v
         elif parameters:
             # marshall parameters:
             use_ns = None if (self.__soap_server == "jetty" or self.qualified is False) else True
