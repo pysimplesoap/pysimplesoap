@@ -109,11 +109,14 @@ class SoapDispatcher(object):
     def register_function(self, name, fn, returns=None, args=None, doc=None):
         self.methods[name] = fn, returns, args, doc or getattr(fn, "__doc__", "")
 
-    def dispatch(self, xml, action=None):
-        """Receive and process SOAP call"""
+    def dispatch(self, xml, action=None, fault=None):
+        """Receive and process SOAP call, returns the xml"""
+        # a dict can be sent in fault to expose it to the caller
         # default values:
         prefix = self.prefix
-        ret = fault = None
+        ret = None
+        if fault is None:
+            fault = {}
         soap_ns, soap_uri = self.soap_ns, self.soap_uri
         soap_fault_code = 'VersionMismatch'
         name = None
@@ -184,9 +187,9 @@ class SoapDispatcher(object):
                 detail += '\n\nXML REQUEST\n\n' + xml
             else:
                 detail = None
-            fault = {'faultcode': "%s.%s" % (soap_fault_code, etype.__name__),
+            fault.update({'faultcode': "%s.%s" % (soap_fault_code, etype.__name__),
                      'faultstring': evalue,
-                     'detail': detail}
+                     'detail': detail})
 
         # build response message
         if not prefix:
@@ -431,11 +434,17 @@ class SOAPHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         """SOAP POST gateway"""
-        self.send_response(200)
+        request = self.rfile.read(int(self.headers.getheader('content-length')))
+        fault = {}
+        # execute the method
+        response = self.server.dispatcher.dispatch(request, fault=fault)
+        # check if fault dict was completed (faultcode, faultstring, detail)
+        if fault:
+            self.send_response(500)
+        else:
+            self.send_response(200)
         self.send_header("Content-type", "text/xml")
         self.end_headers()
-        request = self.rfile.read(int(self.headers.getheader('content-length')))
-        response = self.server.dispatcher.dispatch(request)
         self.wfile.write(response)
 
 
