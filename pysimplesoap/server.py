@@ -14,9 +14,15 @@
 
 
 from __future__ import unicode_literals
+import sys
+if sys.version > '3':
+    unicode = str
 
+
+import datetime
 import sys
 import logging
+import warnings
 import re
 import traceback
 try:
@@ -235,9 +241,19 @@ class SoapDispatcher(object):
 
             # serialize returned values (response) if type definition available
             if returns_types:
-                if not isinstance(ret, dict):
+                # TODO: full sanity check of type structure (recursive)
+                complex_type = isinstance(ret, dict)
+                if complex_type:
+                    # check if type mapping correlates with return value
+                    types_ok = all([k in returns_types for k in ret.keys()])
+                    if not types_ok:
+                        warnings.warn("Return value doesn't match type structure: "
+                                     "%s vs %s" % (str(returns_types), str(ret)))
+                if not complex_type or not types_ok:
+                    # backward compatibility for scalar and simple types
                     res.marshall(returns_types.keys()[0], ret, )
                 else:
+                    # new style for complex classes
                     for k, v in ret.items():
                         res.marshall(k, v)
             elif returns_types is None:
@@ -350,6 +366,8 @@ class SoapDispatcher(object):
                         n = "%s%s" % (name, k)
                         parse_element(n, v.items(), complex=True)
                         t = "tns:%s" % n
+                    else:
+                        raise TypeError("unknonw type v for marshalling" % str(v))
                     e.add_attribute('type', t)
 
             parse_element("%s" % method, args and args.items())
@@ -500,12 +518,11 @@ if __name__ == "__main__":
         action='http://localhost:8008/',  # SOAPAction
         namespace="http://example.com/pysimplesoapsamle/", prefix="ns0",
         documentation='Example soap service using PySimpleSoap',
-        trace=True,
+        trace=True, debug=True,
         ns=True)
 
     def adder(p, c, dt=None):
         """Add several values"""
-        import datetime
         dt = dt + datetime.timedelta(365)
         return {'ab': p['a'] + p['b'], 'dd': c[0]['d'] + c[1]['d'], 'dt': dt}
 
@@ -519,7 +536,7 @@ if __name__ == "__main__":
 
     dispatcher.register_function(
         'Adder', adder,
-        returns={'AddResult': {'ab': int, 'dd': str}},
+        returns={'AddResult': {'ab': int, 'dd': unicode, 'dt': datetime.date}},
         args={'p': {'a': int, 'b': int}, 'dt': Date, 'c': [{'d': Decimal}]}
     )
 
@@ -563,7 +580,21 @@ if __name__ == "__main__":
         )
         p = {'a': 1, 'b': 2}
         c = [{'d': '1.20'}, {'d': '2.01'}]
-        response = client.Adder(p=p, dt='20100724', c=c)
+        response = client.Adder(p=p, dt='2010-07-24', c=c)
         result = response.AddResult
         log.info(int(result.ab))
         log.info(str(result.dd))
+        
+    if '--consume-wsdl' in sys.argv:
+        from .client import SoapClient
+        client = SoapClient(
+            wsdl="http://localhost:8008/",
+        )
+        p = {'a': 1, 'b': 2}
+        c = [{'d': '1.20'}, {'d': '2.01'}]
+        dt = datetime.date.today()
+        response = client.Adder(p=p, dt=dt, c=c)
+        result = response['AddResult']
+        log.info(int(result['ab']))
+        log.info(str(result['dd']))
+
