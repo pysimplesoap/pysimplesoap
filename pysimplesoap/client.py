@@ -356,7 +356,17 @@ class SoapClient(object):
             valid, errors, warnings = self.wsdl_validate_params(input, all_args)
             if not valid:
                 raise ValueError('Invalid Args Structure. Errors: %s' % errors)
-            params = list(sort_dict(input, all_args).values())[0].items()
+            # sort and filter parameters acording wsdl input structure
+            tree = sort_dict(input, all_args)
+            root = list(tree.values())[0]
+            params = []
+            # make a params tuple list suitable for self.call(method, *params)
+            for k, v in root.items():
+                # fix referenced namespaces as info is lost when calling call 
+                root_ns = root.namespaces[k]
+                if not root.references[k]:
+                    v.namespaces[None] = root_ns
+                params.append((k, v))
             # TODO: check style and document attributes
             if self.__soap_server in ('axis', ):
                 # use the operation name
@@ -678,7 +688,7 @@ class SoapClient(object):
                             op['header'] = header
                             try:
                                 element = list(op['input'].values())[0]
-                                ns_uri = element.namespaces[None]       # TODO: FIX
+                                ns_uri = element.namespaces[None]
                                 qualified = element.qualified
                             except AttributeError:
                                 # TODO: fix if no parameters parsed or "variants"
