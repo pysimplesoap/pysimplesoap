@@ -96,8 +96,8 @@ def sort_dict(od, d):
                 elif isinstance(v, list):
                     v = [sort_dict(od[k][0], v1) for v1 in v]
                 ret[k] = v
-        if hasattr(od, 'namespace'):
-            ret.namespace = od.namespace
+        if hasattr(od, 'namespaces'):
+            ret.namespaces.update(od.namespaces)
             ret.qualified = od.qualified
         return ret
     else:
@@ -135,7 +135,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             log.debug('%s has no children! %s' % (element_name, tag))
             continue  # TODO: abstract?
         d = OrderedDict()
-        d.namespace = namespace
+        d.namespaces[None] = namespace   # set the default namespace
         d.qualified = qualified
         for e in children:
             t = e['type']
@@ -213,6 +213,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if (e['name'] is not None and not alias) or e['ref']:
                 e_name = e['name'] or type_name  # for refs, use the type name
                 d[e_name] = fn
+                d.namespaces[e_name] = namespace  # set the element namespace
             else:
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
                 d[None] = fn
@@ -240,11 +241,13 @@ def postprocess_element(elements, processed):
                         # extend base -keep orginal order-
                         if v[None] is not None:
                             elements[k].insert(kk, v[None][kk], i)
+                            # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
+                            if v[None].namespaces:
+                                elements[k].namespaces[kk] = v[None].namespaces[kk]
                     del v[None]
                 else:  # "alias", just replace
                     log.debug('Replacing %s = %s' % (k, v[None]))
                     elements[k] = v[None]
-                    #break
             if v.array:
                 elements[k] = [v]  # convert arrays to python lists
         if isinstance(v, list):
@@ -432,7 +435,7 @@ class OrderedDict(dict):
     def __init__(self):
         self.__keys = []
         self.array = False
-        self.namespace = None
+        self.namespaces = {}     # key: element, value: namespace URI
         self.qualified = None
 
     def __setitem__(self, key, value):
@@ -465,8 +468,9 @@ class OrderedDict(dict):
         # do not change if we are an array but the other is not:
         if isinstance(other, OrderedDict) and not self.array:
             self.array = other.array
-        if isinstance(other, OrderedDict) and not self.namespace:
-            self.namespace = other.namespace
+        if isinstance(other, OrderedDict):
+            namespaces = other.namespaces #dict([(k, v) for k, v in other.namespaces.items() if k])
+            self.namespaces.update(namespaces)
             self.qualified = other.qualified
 
     def copy(self):

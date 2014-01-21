@@ -664,7 +664,7 @@ class SoapClient(object):
                             op['header'] = header
                             try:
                                 element = list(op['input'].values())[0]
-                                ns_uri = element.namespace
+                                ns_uri = element.namespaces[None]       # TODO: FIX
                                 qualified = element.qualified
                             except AttributeError:
                                 # TODO: fix if no parameters parsed or "variants"
