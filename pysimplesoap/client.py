@@ -44,11 +44,14 @@ class SoapFault(RuntimeError):
         self.faultstring = faultstring
         RuntimeError.__init__(self, faultcode, faultstring)
 
-    def __str__(self):
-        return self.__unicode__().encode('ascii', 'ignore')
-
     def __unicode__(self):
         return '%s: %s' % (self.faultcode, self.faultstring)
+
+    if sys.version > '3':
+        __str__ = __unicode__
+    else:
+        def __str__(self):
+            return self.__unicode__().encode('ascii', 'ignore')
 
     def __repr__(self):
         return "SoapFault(%s, %s)" % (repr(self.faultcode),
@@ -72,6 +75,7 @@ class SoapClient(object):
                  soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
+                 username=None, password=None,
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -123,6 +127,10 @@ class SoapClient(object):
         # Create HTTP wrapper
         Http = get_Http()
         self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
+        if username and password:
+            if hasattr(self.http, 'add_credentials'):
+                self.http.add_credentials(username, password)
+            
 
         # namespace prefix, None to use xmlns attribute or False to not use it:
         self.__ns = ns
@@ -187,6 +195,8 @@ class SoapClient(object):
             if parameters[0].children() is not None:
                 for param in parameters[0].children():
                     getattr(request, method).import_node(param)
+                for k,v in parameters[0].attributes().items():
+                    getattr(request, method)[k] = v
         elif parameters:
             # marshall parameters:
             use_ns = None if (self.__soap_server == "jetty" or self.qualified is False) else True

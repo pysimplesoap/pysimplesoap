@@ -398,7 +398,6 @@ Time = datetime.time
 
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {
-    #str: 'string',
     unicode: 'string',
     bool: 'boolean',
     short: 'short',
@@ -429,6 +428,11 @@ REVERSE_TYPE_MAP = dict([(v, k) for k, v in TYPE_MAP.items()])
 REVERSE_TYPE_MAP.update({
     'base64Binary': str,
 })
+
+# insert str here to avoid collision in REVERSE_TYPE_MAP (i.e. decoding errors)
+if str not in TYPE_MAP:
+    TYPE_MAP[str] = 'string'    
+
 
 class OrderedDict(dict):
     """Minimal ordered dictionary for xsd:sequences"""
