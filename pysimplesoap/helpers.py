@@ -98,6 +98,7 @@ def sort_dict(od, d):
                 ret[k] = v
         if hasattr(od, 'namespaces'):
             ret.namespaces.update(od.namespaces)
+            ret.references.update(od.references)
             ret.qualified = od.qualified
         return ret
     else:
@@ -213,6 +214,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if (e['name'] is not None and not alias) or e['ref']:
                 e_name = e['name'] or type_name  # for refs, use the type name
                 d[e_name] = fn
+                d.references[e_name] = e['ref']                    
                 d.namespaces[e_name] = namespace  # set the element namespace
             else:
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
@@ -244,6 +246,7 @@ def postprocess_element(elements, processed):
                             # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
                             if v[None].namespaces:
                                 elements[k].namespaces[kk] = v[None].namespaces[kk]
+                                elements[k].references[kk] = v[None].references[kk]                                
                     del v[None]
                 else:  # "alias", just replace
                     log.debug('Replacing %s = %s' % (k, v[None]))
@@ -440,6 +443,7 @@ class OrderedDict(dict):
         self.__keys = []
         self.array = False
         self.namespaces = {}     # key: element, value: namespace URI
+        self.references = {}     # key: element, value: reference name
         self.qualified = None
 
     def __setitem__(self, key, value):
@@ -473,8 +477,9 @@ class OrderedDict(dict):
         if isinstance(other, OrderedDict) and not self.array:
             self.array = other.array
         if isinstance(other, OrderedDict):
-            namespaces = other.namespaces #dict([(k, v) for k, v in other.namespaces.items() if k])
-            self.namespaces.update(namespaces)
+            # TODO: check replacing default ns is a regression 
+            self.namespaces.update(other.namespaces)
+            self.references.update(other.references)
             self.qualified = other.qualified
 
     def copy(self):
