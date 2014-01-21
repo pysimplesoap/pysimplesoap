@@ -700,7 +700,7 @@ class SoapClient(object):
                                 element = list(op['input'].values())[0]
                                 ns_uri = element.namespaces[None]
                                 qualified = element.qualified
-                            except AttributeError:
+                            except (AttributeError, KeyError) as e:
                                 # TODO: fix if no parameters parsed or "variants"
                                 ns = get_namespace_prefix(operation.input['message'])
                                 ns_uri = operation.get_namespace_uri(ns)
