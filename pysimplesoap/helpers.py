@@ -125,7 +125,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
     for tag in node:
         if tag.get_local_name() in ('annotation', 'documentation'):
             continue
-        elif tag.get_local_name() in ('element', 'restriction'):
+        elif tag.get_local_name() in ('element', 'restriction', 'list'):
             log.debug('%s has no children! %s' % (element_name, tag))
             children = tag  # element "alias"?
             alias = True
@@ -140,6 +140,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
         d.qualified = qualified
         for e in children:
             t = e['type']
+            if not t:
+                t = e['itemType']  # xs:list
             if not t:
                 t = e['base']  # complexContent (extension)!
             if not t:
@@ -166,7 +168,10 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if uri in (xsd_uri, soapenc_uri) and type_name != 'Array':
                 # look for the type, None == any
                 fn = REVERSE_TYPE_MAP.get(type_name, None)
-            elif uri == soapenc_uri and type_name == 'Array':
+                if tag.get_local_name() == 'list':
+                    # simple list type (values separated by spaces)
+                    fn = lambda s: [fn(v) for v in s.split(" ")]
+            elif (uri == soapenc_uri and type_name == 'Array'):
                 # arrays of simple types (look at the attribute tags):
                 fn = []
                 for a in e.children():
@@ -325,7 +330,9 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
             if element.get_local_name() == 'complexType':
                 children = element.children()
             elif element.get_local_name() == 'simpleType':
-                children = element('restriction', ns=xsd_uri)
+                children = element('restriction', ns=xsd_uri, error=False)
+                if not children:
+                    children = element.children()       # xs:list
             elif element.get_local_name() == 'element' and element['type']:
                 children = element
             else:
