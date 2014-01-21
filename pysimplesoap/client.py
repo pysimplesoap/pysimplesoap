@@ -560,7 +560,7 @@ class SoapClient(object):
         messages = {}            # message: element
         elements = {}            # element: type def
 
-        for service in wsdl.service:
+        for service in wsdl("service", error=False) or []:
             service_name = service['name']
             if not service_name:
                 continue  # empty service?
@@ -568,7 +568,6 @@ class SoapClient(object):
             serv['documentation'] = service['documentation'] or ''
             for port in service.port:
                 binding_name = get_local_name(port['binding'])
-                operations[binding_name] = {}
                 address = port('address', ns=list(soap_uris.values()), error=False)
                 location = address and address['location'] or None
                 soap_uri = address and soap_uris.get(address.get_prefix())
@@ -580,11 +579,21 @@ class SoapClient(object):
                                           'soap_ver': soap_ver, }
                 serv['ports'][port['name']] = bindings[binding_name]
 
+        # create an default service if none is given in the wsdl:
+        if not services:
+            serv = services[''] = {'ports': {'': None}} 
+
         for binding in wsdl.binding:
             binding_name = binding['name']
             soap_binding = binding('binding', ns=list(soap_uris.values()), error=False)
             transport = soap_binding and soap_binding['transport'] or None
             port_type_name = get_local_name(binding['type'])
+            # create the binding in the default service: 
+            if not binding_name in bindings:
+                bindings[binding_name] = {'name': binding_name, 
+                                          'service_name': '', 'location': '', 
+                                          'soap_uri': '', 'soap_ver': 'soap11'}
+                serv['ports'][''] = bindings[binding_name]
             bindings[binding_name].update({
                 'port_type_name': port_type_name,
                 'transport': transport, 'operations': {},
@@ -592,6 +601,7 @@ class SoapClient(object):
             if port_type_name not in port_type_bindings:
                 port_type_bindings[port_type_name] = []
             port_type_bindings[port_type_name].append(bindings[binding_name])
+            operations[binding_name] = {}
             for operation in binding.operation:
                 op_name = operation['name']
                 op = operation('operation', ns=list(soap_uris.values()), error=False)
