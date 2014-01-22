@@ -216,7 +216,17 @@ class TestIssues(unittest.TestCase):
         except Exception as e:
             # It returns "This document you requested has moved temporarily."
             pass
-            
+
+    def test_issue57(self):
+        """Test SalesForce wsdl"""
+        # open the attached sfdc_enterprise_v20.wsdl to the issue in googlecode 
+        client = SoapClient(wsdl="https://pysimplesoap.googlecode.com/issues/attachment?aid=570000001&name=sfdc_enterprise_v20.wsdl&token=dnnjZu-x1aF5gV0bYfM6K6hpAIM%3A1390359396946")        
+        try:
+            response = client.login(username="john", password="doe")
+        except Exception as e:
+            # It returns "This document you requested has moved temporarily."
+            self.assertEqual(e.faultcode, u'INVALID_LOGIN')
+                        
     def test_issue66(self):
         """Verify marshaled requests can be sent with no children"""
         # fake connection (just to test xml_request):
@@ -456,5 +466,5 @@ class TestIssues(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue49'))
+    suite.addTest(TestIssues('test_issue57'))
     unittest.TextTestRunner().run(suite)
