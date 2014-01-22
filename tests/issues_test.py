@@ -134,7 +134,7 @@ class TestIssues(unittest.TestCase):
 
     def test_issue44(self):
         """Test namespace"""    
-        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc",namespace='http://clarizen.com/api',trace=True)        
+        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc")        
         try:
             response = client.Login(userName="foo",password="bar")
         except Exception as e:
@@ -208,6 +208,15 @@ class TestIssues(unittest.TestCase):
                          '</ns1:Session></soap:Header>' in client.xml_request.decode(),
                          "Session header not in request!")
 
+    def test_issue49(self):
+        """Test netsuite wsdl"""    
+        client = SoapClient(wsdl="https://webservices.netsuite.com/wsdl/v2011_2_0/netsuite.wsdl")        
+        try:
+            response = client.login(passport=dict(email="joe@example.com", password="secret", account='hello', role={'name': 'joe'}))
+        except Exception as e:
+            # It returns "This document you requested has moved temporarily."
+            pass
+            
     def test_issue66(self):
         """Verify marshaled requests can be sent with no children"""
         # fake connection (just to test xml_request):
@@ -447,5 +456,5 @@ class TestIssues(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue44'))
+    suite.addTest(TestIssues('test_issue49'))
     unittest.TextTestRunner().run(suite)

@@ -55,6 +55,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
                 return fetch(tmp_url, http, cache, force_download, wsdl_basedir)
             except Exception as e:
                 log.error(e)
+        import pdb; pdb.set_trace()
         raise RuntimeError('No scheme given for url: %s' % url)
 
     # make md5 hash of the url for caching...
