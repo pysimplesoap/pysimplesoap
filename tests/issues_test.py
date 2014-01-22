@@ -360,6 +360,16 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
         # the any is also returned as a SimpleXMLElement object (unmarshalled)
         self.assertEquals(str(result['AddPackageResult']['ExceedingQuotas']['diffgram']), '')
 
+    def test_issue94(self):
+        """Test wather forecast web service."""
+        client = SoapClient(wsdl='http://www.restfulwebservices.net/wcf/WeatherForecastService.svc?wsdl')
+        ret = client.GetCitiesByCountry('korea')
+        for d in ret['GetCitiesByCountryResult']:
+            #print d['string']
+            self.assertEquals(d.keys()[0], 'string')
+        self.assertEquals(len(ret['GetCitiesByCountryResult']), 53)
+        self.assertEquals(len(ret['GetCitiesByCountryResult'][0]), 1)
+        self.assertEquals(ret['GetCitiesByCountryResult'][0]['string'], u'KWANGJU')
 
     def test_issue101(self):
         """automatic relative import support"""
@@ -520,5 +530,5 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue93'))
+    suite.addTest(TestIssues('test_issue94'))
     unittest.TextTestRunner().run(suite)
