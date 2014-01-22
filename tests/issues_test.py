@@ -132,6 +132,14 @@ class TestIssues(unittest.TestCase):
         print(client.help("Metadata"))
         print(client.help("Execute"))
 
+    def test_issue44(self):
+        """Test namespace"""    
+        client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc",namespace='http://clarizen.com/api',trace=True)        
+        try:
+            response = client.Login(userName="foo",password="bar")
+        except Exception as e:
+            self.assertEquals(e.faultcode, u's:InvalidUserNameOrPassword')
+
     def test_issue46(self):
         """Example for sending an arbitrary header using SimpleXMLElement"""
 
@@ -439,5 +447,5 @@ class TestIssues(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue128'))
+    suite.addTest(TestIssues('test_issue44'))
     unittest.TextTestRunner().run(suite)
