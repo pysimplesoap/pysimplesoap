@@ -364,7 +364,7 @@ class SoapClient(object):
             for k, v in root.items():
                 # fix referenced namespaces as info is lost when calling call 
                 root_ns = root.namespaces[k]
-                if not root.references[k]:
+                if not root.references[k] and isinstance(v, OrderedDict):
                     v.namespaces[None] = root_ns
                 params.append((k, v))
             # TODO: check style and document attributes
@@ -587,10 +587,11 @@ class SoapClient(object):
             binding_name = binding['name']
             soap_binding = binding('binding', ns=list(soap_uris.values()), error=False)
             transport = soap_binding and soap_binding['transport'] or None
+            style = soap_binding and soap_binding['style'] or None  # rpc
             port_type_name = get_local_name(binding['type'])
             # create the binding in the default service: 
             if not binding_name in bindings:
-                bindings[binding_name] = {'name': binding_name, 
+                bindings[binding_name] = {'name': binding_name, 'style': style,
                                           'service_name': '', 'location': '', 
                                           'soap_uri': '', 'soap_ver': 'soap11'}
                 serv['ports'][''] = bindings[binding_name]
@@ -608,7 +609,7 @@ class SoapClient(object):
                 action = op and op['soapAction']
                 d = operations[binding_name].setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
-                d.update({'name': op_name})
+                d.update({'name': op_name, 'style': op['style'] or style})
                 d['parts'] = {}
                 # input and/or ouput can be not present!
                 input = operation('input', error=False)
@@ -657,22 +658,36 @@ class SoapClient(object):
                     element_name = part['type']
                 type_ns = get_namespace_prefix(element_name)
                 type_uri = wsdl.get_namespace_uri(type_ns)
+                part_name = part['name'] or None
                 if type_uri == xsd_uri:
                     element_name = get_local_name(element_name)
                     fn = REVERSE_TYPE_MAP.get(element_name, None)
-                    element = {part['name']: fn}
-                    # emulate a true Element (complexType)
-                    list(messages.setdefault((message['name'], None), {message['name']: OrderedDict()}).values())[0].update(element)
+                    element = {part_name: fn}
+                    # emulate a true Element (complexType) for rpc style
+                    if (message['name'], part_name) not in messages:
+                        od = OrderedDict()
+                        od.namespaces[None] = type_uri
+                        messages[(message['name'], part_name)] = {message['name']: od}
+                    else:
+                        od = messages[(message['name'], part_name)].values()[0]
+                    od.namespaces[part_name] = type_uri
+                    od.references[part_name] = False
+                    od.update(element)
                 else:
                     element_name = get_local_name(element_name)
                     fn = elements.get(make_key(element_name, 'element', type_uri))
                     if not fn:
-                        # some axis servers uses complexType for part messages
+                        # some axis servers uses complexType for part messages (rpc)
                         fn = elements.get(make_key(element_name, 'complexType', type_uri))
-                        element = {message['name']: {part['name']: fn}}
+                        od = OrderedDict()
+                        od[part_name] = fn
+                        od.namespaces[None] = type_uri
+                        od.namespaces[part_name] = type_uri
+                        od.references[part_name] = False
+                        element = {message['name']: od}
                     else:
                         element = {element_name: fn}
-                    messages[(message['name'], part['name'])] = element
+                    messages[(message['name'], part_name)] = element
 
         for port_type in wsdl.portType:
             port_type_name = port_type['name']

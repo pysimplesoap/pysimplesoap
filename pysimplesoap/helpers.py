@@ -271,9 +271,19 @@ def get_message(messages, message_name, part_name):
         return messages.get((message_name, part_name))
     else:
         # get the first part for the specified message:
+        parts = []
         for (message_name_key, part_name_key), message in messages.items():
             if message_name_key == message_name:
-                return message
+                parts.append(message)
+        if len(parts)>1:
+            # merge
+            new_msg = parts[0].copy()
+            for part in parts[1:]:
+                new_msg[message_name].update(part[message_name])
+            return new_msg
+        elif parts:
+            return parts[0]
+
 
 
 get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
