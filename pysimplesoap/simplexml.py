@@ -341,12 +341,21 @@ class SimpleXMLElement(object):
                 else:
                     fn = types
             except (KeyError, ) as e:
+                xmlns = node['xmlns'] or node.get_namespace_uri(node.get_prefix())
                 if 'xsi:type' in node.attributes().keys():
                     xsd_type = node['xsi:type'].split(":")[1]
                     try:
                         fn = REVERSE_TYPE_MAP[xsd_type]
                     except:
                         fn = None  # ignore multirefs!
+                elif xmlns == "http://www.w3.org/2001/XMLSchema":
+                    # self-defined schema, return the SimpleXMLElement
+                    # TODO: parse to python types if <s:element ref="s:schema"/>
+                    fn = None
+                elif None in types:
+                    # <s:any/>, return the SimpleXMLElement 
+                    # TODO: check position of None if inside <s:sequence>
+                    fn = None
                 elif strict:
                     raise TypeError("Tag: %s invalid (type not found)" % (name,))
                 else:
