@@ -46,10 +46,11 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
     if not url_scheme in ('http', 'https', 'file'):
         for scheme in ('http', 'https', 'file'):
             try:
+                path = os.path.normpath(os.path.join(wsdl_basedir, url))
                 if not url.startswith("/") and scheme in ('http', 'https'):
-                    tmp_url = "%s://%s" % (scheme, os.path.join(wsdl_basedir, url))
+                    tmp_url = "%s://%s" % (scheme, path)
                 else:
-                    tmp_url = "%s:%s" % (scheme, os.path.join(wsdl_basedir, url))
+                    tmp_url = "%s:%s" % (scheme, path)
                 log.debug('Scheme not found, trying %s' % scheme)
                 return fetch(tmp_url, http, cache, force_download, wsdl_basedir)
             except Exception as e:
@@ -332,10 +333,14 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
             log.debug('Importing schema %s from %s' % (schema_namespace, schema_location))
             # Open uri and read xml:
             xml = fetch(schema_location, http, cache, force_download, wsdl_basedir)
+            
+            # recalculate base path for relative schema locations 
+            path = os.path.normpath(os.path.join(wsdl_basedir, schema_location))
+            path = os.path.dirname(path)
 
             # Parse imported XML schema (recursively):
             imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
-            preprocess_schema(imported_schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir, global_namespaces, qualified)
+            preprocess_schema(imported_schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, path, global_namespaces, qualified)
 
         element_type = element.get_local_name()
         if element_type in ('element', 'complexType', "simpleType"):

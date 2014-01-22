@@ -406,6 +406,14 @@ class TestIssues(unittest.TestCase):
         except Exception as e:
             self.assertEqual(str(e), "RelativeURIError: Only absolute URIs are allowed. uri = ")
 
+    def test_issue127(self):
+        """Test relative schema locations in imports"""
+        client = SoapClient(wsdl = 'https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/wsdl/IrmInboundMediation_MTPLPolicyWSExport.wsdl')
+        try:
+            resp = client.voidMTPLPolicy()
+        except Exception, e:
+            self.assertEqual(e.faultcode, u'axis2ns133:InvalidSecurity')
+
     def test_issue128(self):
         ""
         client = SoapClient(
