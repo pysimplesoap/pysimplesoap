@@ -394,10 +394,23 @@ class TestIssues(unittest.TestCase):
         else:
             self.assertEqual(exception_string, '000: fault stríng')
 
+    def test_issue123(self):
+        """Basic test for WSDL lacking service tag """
+        wsdl = "http://www.onvif.org/onvif/ver10/device/wsdl/devicemgmt.wsdl"
+        client = SoapClient(wsdl=wsdl)
+        client.help("CreateUsers")
+        client.help("GetServices")
+        # this is not a real webservice (just specification) catch HTTP error
+        try: 
+            client.GetServices(IncludeCapability=True)
+        except Exception as e:
+            self.assertEqual(str(e), "RelativeURIError: Only absolute URIs are allowed. uri = ")
+
     def test_issue129(self):
+        """Test RPC style (axis) messages (including parameter order)"""
         wsdl_url = 'http://62.94.212.138:8081/teca/services/tecaServer?wsdl'
         client = SoapClient(wsdl=wsdl_url, soap_server='axis')
-        print client.help("contaVolumi")
+        client.help("contaVolumi")
         response = client.contaVolumi(user_id=1234, valoreIndice=["IDENTIFIER", ""])
         self.assertEqual(response, {'contaVolumiReturn': 0})
 
@@ -405,5 +418,5 @@ class TestIssues(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue129'))
+    suite.addTest(TestIssues('test_issue123'))
     unittest.TextTestRunner().run(suite)
