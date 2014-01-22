@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import datetime
 import unittest
 from pysimplesoap.client import SoapClient, SimpleXMLElement, SoapFault
+from .dummy_utils import DummyHTTP, TEST_DIR
 
 import sys
 if sys.version > '3':
@@ -295,6 +297,13 @@ class TestIssues(unittest.TestCase):
         client = SoapClient(wsdl="http://services.conzoom.eu/addit/AddItService.svc?wsdl")        
         client.help("GetValues")
 
+    def test_issue80(self):
+        """Test Issue in sending a webservice request with soap12"""    
+        client = SoapClient(wsdl="http://testserver:7007/testapp/services/testService?wsdl",
+                            soap_ns='soap12', trace=False, soap_server='oracle')        
+        result = client.hasRole(userId='test123', role='testview')
+        print result
+
     def test_issue89(self):
         """Setting attributes for request tag."""
         # fake connection (just to test xml_request):
@@ -311,6 +320,46 @@ class TestIssues(unittest.TestCase):
             open("issue89.xml", "wb").write(client.xml_request)
             self.assert_('<test a="b" xmlns="http://localhost/api">' in client.xml_request.decode(),
                          "attribute not in request!")
+
+    def test_issue93(self):
+        """Response with <xs:schema> and <xs:any>"""
+        # attached sample response to the ticket:
+        xml = """
+<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.
+xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance
+" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsa="http://schemas.xmlsoap
+.org/ws/2004/08/addressing"><soap:Header><wsa:Action>http://smbsaas/websitepanel
+/enterpriseserver/AddPackageResponse</wsa:Action><wsa:MessageID>urn:uuid:af841fc
+e-4607-4e4b-910e-252d1f1857fb</wsa:MessageID><wsa:RelatesTo>urn:uuid:fea15079-42
+57-424b-8da7-8c9a29ec52ce</wsa:RelatesTo><wsa:To>http://schemas.xmlsoap.org/ws/2
+004/08/addressing/role/anonymous</wsa:To></soap:Header><soap:Body><AddPackageRes
+ponse xmlns="http://smbsaas/websitepanel/enterpriseserver"><AddPackageResult><Re
+sult>798</Result><ExceedingQuotas><xs:schema id="NewDataSet" xmlns="" xmlns:xs="
+http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-ms
+data"><xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLoc
+ale="true"><xs:complexType><xs:choice minOccurs="0" maxOccurs="unbounded"><xs:el
+ement name="Table"><xs:complexType><xs:sequence><xs:element name="QuotaID" type=
+"xs:int" minOccurs="0" /><xs:element name="QuotaName" type="xs:string" minOccurs
+="0" /><xs:element name="QuotaValue" type="xs:int" minOccurs="0" /></xs:sequence
+></xs:complexType></xs:element></xs:choice></xs:complexType></xs:element></xs:sc
+hema><diffgr:diffgram xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:
+diffgr="urn:schemas-microsoft-com:xml-diffgram-v1" /></ExceedingQuotas></AddPack
+ageResult></AddPackageResponse></soap:Body></soap:Envelope>
+"""
+        xml = xml.replace("\n","").replace("\r","")
+        # parse the wsdl attached to the ticket
+        client = SoapClient(wsdl="https://pysimplesoap.googlecode.com/issues/attachment?aid=930004001&name=wsdl.txt&token=MzoiFyKFwzXUzawfchgBMY2qOO0%3A1390362120353", trace=True)        
+        # put the sample response (no call to the real webservice is made...)
+        client.http = DummyHTTP(xml)
+        result = client.AddPackage(657, 33, 'Services', 'Comment', 1, datetime.datetime.now())
+        # check unmarshalled results:
+        self.assertEquals(result['AddPackageResult']['Result'], 798)
+        # the schema is also returned as a SimpleXMLElement object (unmarshalled), get the xml:
+        self.assertEquals(repr(result['AddPackageResult']['ExceedingQuotas']['schema']['element']),
+            '<xs:element msdata:IsDataSet="true" msdata:UseCurrentLocale="true" name="NewDataSet"><xs:complexType><xs:choice maxOccurs="unbounded" minOccurs="0"><xs:element name="Table"><xs:complexType><xs:sequence><xs:element minOccurs="0" name="QuotaID" type="xs:int"/><xs:element minOccurs="0" name="QuotaName" type="xs:string"/><xs:element minOccurs="0" name="QuotaValue" type="xs:int"/></xs:sequence></xs:complexType></xs:element></xs:choice></xs:complexType></xs:element>')
+        # the any is also returned as a SimpleXMLElement object (unmarshalled)
+        self.assertEquals(str(result['AddPackageResult']['ExceedingQuotas']['diffgram']), '')
+
 
     def test_issue101(self):
         """automatic relative import support"""
@@ -471,5 +520,5 @@ class TestIssues(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue80'))
+    suite.addTest(TestIssues('test_issue93'))
     unittest.TextTestRunner().run(suite)
