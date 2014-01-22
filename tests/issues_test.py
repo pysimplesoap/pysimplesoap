@@ -394,10 +394,16 @@ class TestIssues(unittest.TestCase):
         else:
             self.assertEqual(exception_string, '000: fault stríng')
 
+    def test_issue129(self):
+        wsdl_url = 'http://62.94.212.138:8081/teca/services/tecaServer?wsdl'
+        client = SoapClient(wsdl=wsdl_url, soap_server='axis')
+        print client.help("contaVolumi")
+        response = client.contaVolumi(user_id=1234, valoreIndice=["IDENTIFIER", ""])
+        self.assertEqual(response, {'contaVolumiReturn': 0})
 
 
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue8_wsdl'))
+    suite.addTest(TestIssues('test_issue129'))
     unittest.TextTestRunner().run(suite)
