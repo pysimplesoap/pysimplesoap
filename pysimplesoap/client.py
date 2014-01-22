@@ -98,7 +98,12 @@ class SoapClient(object):
         
         # shortcut to print all debugging info and sent / received xml messages
         if trace:
-            logging.basicConfig(level=logging.DEBUG)
+            if trace is True:
+                level = logging.DEBUG           # default logging level
+            else:
+                level = trace                   # use the provided level
+            logging.basicConfig(level=level)
+            log.setLevel(level)
         
         if not soap_ns and not ns:
             self.__soap_ns = 'soap'  # 1.1
