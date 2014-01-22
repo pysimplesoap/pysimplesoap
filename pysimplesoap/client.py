@@ -609,7 +609,7 @@ class SoapClient(object):
                 action = op and op['soapAction']
                 d = operations[binding_name].setdefault(op_name, {})
                 bindings[binding_name]['operations'][op_name] = d
-                d.update({'name': op_name, 'style': op['style'] or style})
+                d.update({'name': op_name})
                 d['parts'] = {}
                 # input and/or ouput can be not present!
                 input = operation('input', error=False)
@@ -696,6 +696,8 @@ class SoapClient(object):
                 for operation in port_type.operation:
                     op_name = operation['name']
                     op = operations[binding['name']][op_name]
+                    op['style'] = operation['style'] or binding.get('style')
+                    op['parameter_order'] = (operation['parameterOrder'] or "").split(" ")
                     op['documentation'] = unicode(operation('documentation', error=False)) or ''
                     if binding['soap_ver']:
                         #TODO: separe operation_binding from operation (non SOAP?)
@@ -709,7 +711,7 @@ class SoapClient(object):
                                 header = get_message(messages, header_msg or input_msg, header_part)
                             else:
                                 header = None   # not enought info to search the header message:
-                            op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'))
+                            op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'), op['parameter_order'])
                             op['header'] = header
                             try:
                                 element = list(op['input'].values())[0]

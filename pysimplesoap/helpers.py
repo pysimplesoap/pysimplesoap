@@ -265,24 +265,30 @@ def postprocess_element(elements, processed):
                     postprocess_element(n, processed)
 
 
-def get_message(messages, message_name, part_name):
+def get_message(messages, message_name, part_name, parameter_order=None):
     if part_name:
         # get the specific part of the message:
         return messages.get((message_name, part_name))
     else:
         # get the first part for the specified message:
-        parts = []
+        parts = {}
         for (message_name_key, part_name_key), message in messages.items():
             if message_name_key == message_name:
-                parts.append(message)
+                parts[part_name_key] = message
         if len(parts)>1:
-            # merge
-            new_msg = parts[0].copy()
-            for part in parts[1:]:
-                new_msg[message_name].update(part[message_name])
+            # merge (sorted by parameter_order for rpc style)
+            new_msg = None
+            for part_name_key in parameter_order:
+                part = parts.get(part_name_key)
+                if not part:
+                    log.error('Part %s not found for %s' % (part_name_key, message_name))
+                elif not new_msg:
+                    new_msg = part.copy()
+                else:
+                    new_msg[message_name].update(part[message_name])
             return new_msg
         elif parts:
-            return parts[0]
+            return parts.values()[0]
 
 
 
