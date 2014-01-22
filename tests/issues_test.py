@@ -290,6 +290,11 @@ class TestIssues(unittest.TestCase):
             self.assertEquals(str(xml.ClientID), "NAME")
             self.assertEquals(str(xml.Checksum), "PASSWORD")
 
+    def test_issue80(self):
+        """Test services.conzoom.eu/addit/ wsdl"""    
+        client = SoapClient(wsdl="http://services.conzoom.eu/addit/AddItService.svc?wsdl")        
+        client.help("GetValues")
+
     def test_issue89(self):
         """Setting attributes for request tag."""
         # fake connection (just to test xml_request):
@@ -466,5 +471,5 @@ class TestIssues(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue57'))
+    suite.addTest(TestIssues('test_issue80'))
     unittest.TextTestRunner().run(suite)
