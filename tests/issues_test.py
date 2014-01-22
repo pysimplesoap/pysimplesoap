@@ -406,6 +406,19 @@ class TestIssues(unittest.TestCase):
         except Exception as e:
             self.assertEqual(str(e), "RelativeURIError: Only absolute URIs are allowed. uri = ")
 
+    def test_issue128(self):
+        ""
+        client = SoapClient(
+                wsdl = "https://apiapac.lumesse-talenthub.com/HRIS/SOAP/Candidate?WSDL",
+                location = "https://apiapac.lumesse-talenthub.com/HRIS/SOAP/Candidate?api_key=azhmc6m8sq2gf2jqwywa37g4",
+                ns = True
+                )
+        # basic test as no test case was provided
+        try:
+            resp = client.getContracts()
+        except:
+            self.assertEqual(client.xml_response, '<h1>Gateway Timeout</h1>')
+
     def test_issue129(self):
         """Test RPC style (axis) messages (including parameter order)"""
         wsdl_url = 'http://62.94.212.138:8081/teca/services/tecaServer?wsdl'
@@ -418,5 +431,5 @@ class TestIssues(unittest.TestCase):
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue123'))
+    suite.addTest(TestIssues('test_issue128'))
     unittest.TextTestRunner().run(suite)
