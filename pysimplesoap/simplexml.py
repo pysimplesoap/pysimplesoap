@@ -117,10 +117,15 @@ class SimpleXMLElement(object):
         else:
             return self.__document.toprettyxml(encoding='UTF-8')
 
-    def __repr__(self):
-        """Return the XML representation of this tag"""
-        # NOTE: do not use self.as_xml('UTF-8') as it returns the whole xml doc
-        return self._element.toxml('UTF-8')
+    if sys.version > '3':
+        def __repr__(self):
+            """Return the XML representation of this tag"""
+            return self._element.toxml()
+    else:
+        def __repr__(self):
+            """Return the XML representation of this tag"""
+            # NOTE: do not use self.as_xml('UTF-8') as it returns the whole xml doc
+            return self._element.toxml('UTF-8')
 
     def get_name(self):
         """Return the tag name of this node"""
@@ -284,17 +289,17 @@ class SimpleXMLElement(object):
 
     def __unicode__(self):
         """Returns the unicode text nodes of the current element"""
-        if self._element.childNodes:
-            rc = ""
-            for node in self._element.childNodes:
-                if node.nodeType == node.TEXT_NODE:
-                    rc = rc + node.data
-            return rc
-        return ''
+        rc = ''
+        for node in self._element.childNodes:
+            if node.nodeType == node.TEXT_NODE:
+                rc = rc + node.data
+        return rc
 
-    def __str__(self):
-        """Returns the str text nodes of the current element"""
-        return self.__unicode__()
+    if sys.version > '3':
+        __str__ = __unicode__
+    else:
+        def __str__(self):
+            return self.__unicode__().encode('utf-8')
 
     def __int__(self):
         """Returns the integer value of the current element"""
