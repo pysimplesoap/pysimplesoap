@@ -120,7 +120,7 @@ class SimpleXMLElement(object):
     if sys.version > '3':
         def __repr__(self):
             """Return the XML representation of this tag"""
-            return self._element.toxml('UTF-8').decode('utf-8')
+            return self._element.toxml()
     else:
         def __repr__(self):
             """Return the XML representation of this tag"""
@@ -299,7 +299,7 @@ class SimpleXMLElement(object):
         __str__ = __unicode__
     else:
         def __str__(self):
-            return self.__unicode__()
+            return self.__unicode__().encode('utf-8')
 
     def __int__(self):
         """Returns the integer value of the current element"""
