@@ -290,7 +290,8 @@ def get_message(messages, message_name, part_name, parameter_order=None):
                     new_msg[message_name].update(part[message_name])
             return new_msg
         elif parts:
-            return parts.values()[0]
+            return list(parts.values())[0]
+            #return parts.values()[0]
 
 
 
