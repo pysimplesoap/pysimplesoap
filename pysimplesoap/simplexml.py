@@ -28,7 +28,7 @@ from . import __author__, __copyright__, __license__, __version__
 
 # Utility functions used for marshalling, moved aside for readability
 from .helpers import TYPE_MAP, TYPE_MARSHAL_FN, TYPE_UNMARSHAL_FN, \
-                     REVERSE_TYPE_MAP, OrderedDict, Date, Decimal
+                     REVERSE_TYPE_MAP, OrderedDict, Date, Decimal, CDATA
 
 log = logging.getLogger(__name__)
 
@@ -62,7 +62,7 @@ class SimpleXMLElement(object):
             self.__elements = elements
             self.__document = document
 
-    def add_child(self, name, text=None, ns=True):
+    def add_child(self, name, text=None, ns=True, cdata=False):
         """Adding a child tag to a node"""
         if not ns or self.__ns is False:
             ##log.debug('adding %s without namespace', name)
@@ -79,7 +79,10 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, name)
         # don't append null tags!
         if text is not None:
-            element.appendChild(self.__document.createTextNode(text))
+            if cdata:
+                element.appendChild(self.__document.createCDATASection(text))
+            else:
+                element.appendChild(self.__document.createTextNode(text))
         self._element.appendChild(element)
         return SimpleXMLElement(
             elements=[element],
@@ -334,7 +337,7 @@ class SimpleXMLElement(object):
                     if ref_node['id'] == href:
                         node = ref_node
                         ref_name_type = ref_node['xsi:type'].split(":")[1]
-                        break             
+                        break
 
             try:
                 if isinstance(types, dict):
@@ -358,7 +361,7 @@ class SimpleXMLElement(object):
                     # TODO: parse to python types if <s:element ref="s:schema"/>
                     fn = None
                 elif None in types:
-                    # <s:any/>, return the SimpleXMLElement 
+                    # <s:any/>, return the SimpleXMLElement
                     # TODO: check position of None if inside <s:sequence>
                     fn = None
                 elif strict:
@@ -482,7 +485,7 @@ class SimpleXMLElement(object):
             for t in value:
                 child.marshall(name, t, False, add_comments=add_comments, ns=ns)
         elif isinstance(value, basestring):  # do not convert strings or unicodes
-            self.add_child(name, value, ns=ns)
+            self.add_child(name, value, ns=ns, cdata=isinstance(value, CDATA))
         elif value is None:  # sent a empty tag?
             self.add_child(name, ns=ns)
         elif value in TYPE_MAP.keys():

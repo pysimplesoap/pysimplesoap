@@ -152,7 +152,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 # "anonymous" elements had no type attribute but children
                 if e['name'] and e.children():
                     # create a type name to process the children
-                    t = "%s_%s" % (element_name, e['name'])  
+                    t = "%s_%s" % (element_name, e['name'])
                     c = e.children()
                     et = c.get_local_name()
                     c = c.children()
@@ -183,7 +183,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                             if ":" in type_name:
                                 type_name = type_name[type_name.index(":")+1:]
                             if "[]" in type_name:
-                                type_name = type_name[:type_name.index("[]")]                                
+                                type_name = type_name[:type_name.index("[]")]
                             fn.append(REVERSE_TYPE_MAP.get(type_name, None))
             else:
                 fn = None
@@ -197,7 +197,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 for k, v in e[:]:
                     if k.startswith("xmlns:"):
                         # get the namespace uri from the element
-                        fn_namespace = v        
+                        fn_namespace = v
                 fn = elements.setdefault(make_key(type_name, 'complexType', fn_namespace), OrderedDict())
 
             if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
@@ -221,7 +221,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if (e['name'] is not None and not alias) or e['ref']:
                 e_name = e['name'] or type_name  # for refs, use the type name
                 d[e_name] = fn
-                d.references[e_name] = e['ref']                    
+                d.references[e_name] = e['ref']
                 d.namespaces[e_name] = namespace  # set the element namespace
             else:
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
@@ -234,12 +234,12 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
 
 def postprocess_element(elements, processed):
     """Fix unresolved references (elements referenced before its definition, thanks .net)"""
-    
+
     # avoid already processed elements:
     if elements in processed:
         return
     processed.append(elements)
-    
+
     for k, v in elements.items():
         if isinstance(v, OrderedDict):
             if v != elements:  # TODO: fix recursive elements
@@ -253,7 +253,7 @@ def postprocess_element(elements, processed):
                             # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
                             if v[None].namespaces:
                                 elements[k].namespaces[kk] = v[None].namespaces[kk]
-                                elements[k].references[kk] = v[None].references[kk]                                
+                                elements[k].references[kk] = v[None].references[kk]
                     del v[None]
                 else:  # "alias", just replace
                     log.debug('Replacing %s = %s' % (k, v[None]))
@@ -320,7 +320,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
     for ns in local_namespaces.values():
         if ns not in global_namespaces:
             global_namespaces[ns] = 'ns%s' % len(global_namespaces)
-            
+
     for element in schema.children() or []:
         if element.get_local_name() in ('import', 'include',):
             schema_namespace = element['namespace']
@@ -335,8 +335,8 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
             log.debug('Importing schema %s from %s' % (schema_namespace, schema_location))
             # Open uri and read xml:
             xml = fetch(schema_location, http, cache, force_download, wsdl_basedir)
-            
-            # recalculate base path for relative schema locations 
+
+            # recalculate base path for relative schema locations
             path = os.path.normpath(os.path.join(wsdl_basedir, schema_location))
             path = os.path.dirname(path)
 
@@ -464,7 +464,7 @@ REVERSE_TYPE_MAP.update({
 
 # insert str here to avoid collision in REVERSE_TYPE_MAP (i.e. decoding errors)
 if str not in TYPE_MAP:
-    TYPE_MAP[str] = 'string'    
+    TYPE_MAP[str] = 'string'
 
 
 class OrderedDict(dict):
@@ -507,7 +507,7 @@ class OrderedDict(dict):
         if isinstance(other, OrderedDict) and not self.array:
             self.array = other.array
         if isinstance(other, OrderedDict):
-            # TODO: check replacing default ns is a regression 
+            # TODO: check replacing default ns is a regression
             self.namespaces.update(other.namespaces)
             self.references.update(other.references)
             self.qualified = other.qualified
@@ -526,3 +526,7 @@ class OrderedDict(dict):
         if self.array and False:
             s = "[%s]" % s
         return s
+
+
+class CDATA(str):
+    pass

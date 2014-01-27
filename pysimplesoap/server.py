@@ -199,7 +199,7 @@ class SoapDispatcher(object):
                      'detail': detail})
 
         # build response message
-        if not prefix:
+        if not self.prefix:
             xml = """<%(soap_ns)s:Envelope xmlns:%(soap_ns)s="%(soap_uri)s"/>"""
         else:
             xml = """<%(soap_ns)s:Envelope xmlns:%(soap_ns)s="%(soap_uri)s"
@@ -207,7 +207,7 @@ class SoapDispatcher(object):
 
         xml %= {    # a %= {} is a shortcut for a = a % {}
             'namespace': self.namespace,
-            'prefix': prefix,
+            'prefix': self.prefix,
             'soap_ns': soap_ns,
             'soap_uri': soap_uri
         }
@@ -224,7 +224,7 @@ class SoapDispatcher(object):
         response = SimpleXMLElement(xml,
                                     namespace=self.namespace,
                                     namespaces_map=mapping,
-                                    prefix=prefix)
+                                    prefix=self.prefix)
 
         response['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
         response['xmlns:xsd'] = "http://www.w3.org/2001/XMLSchema"
@@ -236,8 +236,8 @@ class SoapDispatcher(object):
             body.marshall("%s:Fault" % soap_ns, fault, ns=False)
         else:
             # return normal value
-            res = body.add_child("%sResponse" % name, ns=prefix)
-            if not prefix:
+            res = body.add_child("%sResponse" % name, ns=self.prefix)
+            if not self.prefix:
                 res['xmlns'] = self.namespace  # add target namespace
 
             # serialize returned values (response) if type definition available
@@ -585,7 +585,7 @@ if __name__ == "__main__":
         result = response.AddResult
         log.info(int(result.ab))
         log.info(str(result.dd))
-        
+
     if '--consume-wsdl' in sys.argv:
         from .client import SoapClient
         client = SoapClient(
