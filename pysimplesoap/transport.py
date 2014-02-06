@@ -184,9 +184,10 @@ class DummyTransport:
         self.xml_response = xml_response
         
     def request(self, location, method, body, headers):
-        print method, location
-        print headers
-        print body
+        if False:
+            print method, location
+            print headers
+            print body
         return {}, self.xml_response
 
 

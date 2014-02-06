@@ -226,12 +226,22 @@ class SoapClient(object):
         if self.location == 'test': return
         # location = "%s" % self.location #?op=%s" % (self.location, method)
         location = self.location
-        
+                
         if self.services:
             soap_action = self.action 
         else:
             soap_action = self.action + method
-        
+
+        # prevent unicode encoding error (implicit conversions):
+        if isinstance(soap_action, unicode):
+            soap_action = soap_action.encode("utf8")
+        if isinstance(location, unicode):
+            location = location.encode("utf8")
+        if isinstance(xml, unicode):
+            xml = xml.encode("utf8")
+        elif isinstance(xml, str):
+            xml = xml #.decode("latin1").encode("utf8")  # asume encoding ok
+
         headers={
             'Content-type': 'text/xml; charset="UTF-8"',
             'Content-length': str(len(xml)),
@@ -245,7 +255,7 @@ class SoapClient(object):
             print "-"*80
             print "POST %s" % location
             print '\n'.join(["%s: %s" % (k,v) for k,v in headers.items()])
-            print u"\n%s" % xml.decode("utf8","ignore")
+            print "\n%s" % xml.decode("utf8", "ignore").encode("ascii", "replace")
         
         response, content = self.http.request(
             location, "POST", body=xml, headers=headers)
@@ -255,7 +265,7 @@ class SoapClient(object):
         if self.trace: 
             print 
             print '\n'.join(["%s: %s" % (k,v) for k,v in response.items()])
-            print content#.decode("utf8","ignore")
+            print content.decode("utf8", "ignore").encode("ascii", "replace")
             print "="*80
         return content
 
@@ -606,7 +616,7 @@ class SoapClient(object):
                 elements.setdefault(make_key(element_name, element_type), OrderedDict()).update(d)
 
         # check axis2 namespace at schema types attributes
-        self.namespace = dict(wsdl.types("schema", ns=xsd_uri)[:]).get('targetNamespace', self.namespace) 
+        #self.namespace = dict(wsdl.types("schema", ns=xsd_uri)[:]).get('targetNamespace', self.namespace) 
 
         imported_schemas = {}
 
