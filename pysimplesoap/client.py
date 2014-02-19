@@ -347,10 +347,9 @@ class SoapClient(object):
             for idx, arg in enumerate(args):
                 key = list(inputargs.keys())[idx]
                 if isinstance(arg, dict):
-                    if key in arg:
-                        d[key] = arg[key]
-                    else:
-                        raise KeyError('Unhandled key %s. use client.help(method)')
+                    if key not in arg:
+                        raise KeyError('Unhandled key %s. use client.help(method)' % key)
+                    d[key] = arg[key]
                 else:
                     d[key] = arg
             all_args.update({inputname: d})
