@@ -400,22 +400,6 @@ def datetime_u(s):
             return _strptime(s, fmt)
 
 
-def duration_u(durationstr):
-    """Converts ISO 8601 duration (time only) to datetime.timedelta"""
-    
-    import re
-    regex = re.compile('PT(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)')
-    try:
-        duration = regex.match(durationstr).groupdict(0)
-        delta = datetime.timedelta(hours = int(duration['hours']),
-                     minutes = int(duration['minutes']),
-                     seconds = int(duration['seconds']))
-    except AttributeError:
-        # regex not matching will raise AttributeError; return None
-        delta = None
-    return delta
-
-
 datetime_m = lambda dt: dt.isoformat()
 date_u = lambda s: _strptime(s[0:10], "%Y-%m-%d").date()
 date_m = lambda d: d.strftime("%Y-%m-%d")
@@ -445,7 +429,7 @@ integer = Alias(long, 'integer')
 DateTime = datetime.datetime
 Date = datetime.date
 Time = datetime.time
-duration = datetime.timedelta
+duration = Alias(str, 'duration')
 
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {
@@ -462,7 +446,7 @@ TYPE_MAP = {
     datetime.datetime: 'dateTime',
     datetime.date: 'date',
     datetime.time: 'time',
-    datetime.timedelta: 'duration',
+    duration: 'duration',
 }
 TYPE_MARSHAL_FN = {
     datetime.datetime: datetime_m,
@@ -474,7 +458,6 @@ TYPE_UNMARSHAL_FN = {
     datetime.datetime: datetime_u,
     datetime.date: date_u,
     datetime.time: time_u,
-    duration: duration_u,
     bool: bool_u,
     str: unicode,
 }
