@@ -17,7 +17,7 @@ __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
 
 TIMEOUT = 60
-USE_SSLv3 = True    # prevent issues with TLSv1 on some systems (i.e. Ubuntu 14.04)
+USE_SSLv3 = True    # prevent issues with SSLv23/TLSv1 on some systems (i.e. Ubuntu 14.04)
 
 import os
 import cPickle as pickle
@@ -26,6 +26,12 @@ from urlparse import urlparse
 import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 import logging
+
+# Required in Python2.6+ to force SSLv3:
+try:
+    import ssl
+except:
+    ssl = None
 
 log = logging.getLogger(__name__)
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
@@ -66,7 +72,18 @@ else:
                 kwargs['timeout'] = timeout
             if httplib2.__version__ >= '0.7.0':
                 kwargs['disable_ssl_certificate_validation'] = cacert is None
-                kwargs['ca_certs'] = cacert    
+                kwargs['ca_certs'] = cacert
+            if USE_SSLv3 and ssl:
+                def _ssl_wrap_socket(sock, key_file, cert_file,
+                                     disable_validation, ca_certs):
+                    if disable_validation:
+                        cert_reqs = ssl.CERT_NONE
+                    else:
+                        cert_reqs = ssl.CERT_REQUIRED
+                    return ssl.wrap_socket(sock, keyfile=key_file, certfile=cert_file,
+                                   cert_reqs=cert_reqs, ca_certs=ca_certs,
+                                   ssl_version=ssl.PROTOCOL_SSLv3)
+                httplib2._ssl_wrap_socket = _ssl_wrap_socket
             httplib2.Http.__init__(self, **kwargs)
 
     _http_connectors['httplib2'] = Httplib2Transport
