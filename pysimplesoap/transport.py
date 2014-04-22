@@ -17,6 +17,7 @@ __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
 
 TIMEOUT = 60
+USE_SSLv3 = True    # prevent issues with TLSv1 on some systems (i.e. Ubuntu 14.04)
 
 import os
 import cPickle as pickle
@@ -155,6 +156,8 @@ else:
             #c.setopt(pycurl.HEADERFUNCTION, self.header)
             if self.cacert:
                 c.setopt(c.CAINFO, str(self.cacert)) 
+            if USE_SSLv3:
+                c.setopt(pycurl.SSLVERSION, pycurl.SSLVERSION_SSLv3)
             c.setopt(pycurl.SSL_VERIFYPEER, self.cacert and 1 or 0)
             c.setopt(pycurl.SSL_VERIFYHOST, self.cacert and 2 or 0)
             c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6) 
