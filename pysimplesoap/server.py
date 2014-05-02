@@ -252,7 +252,7 @@ class SoapDispatcher(object):
                                      "%s vs %s" % (str(returns_types), str(ret)))
                 if not complex_type or not types_ok:
                     # backward compatibility for scalar and simple types
-                    res.marshall(returns_types.keys()[0], ret, )
+                    res.marshall(list(returns_types.keys())[0], ret, )
                 else:
                     # new style for complex classes
                     for k, v in ret.items():
