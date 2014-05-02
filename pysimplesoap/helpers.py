@@ -55,7 +55,6 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
                 return fetch(tmp_url, http, cache, force_download, wsdl_basedir)
             except Exception as e:
                 log.error(e)
-        import pdb; pdb.set_trace()
         raise RuntimeError('No scheme given for url: %s' % url)
 
     # make md5 hash of the url for caching...
@@ -120,7 +119,8 @@ def make_key(element_name, element_type, namespace):
 
 
 def process_element(elements, element_name, node, element_type, xsd_uri, dialect, namespace, qualified=None,
-                    soapenc_uri = 'http://schemas.xmlsoap.org/soap/encoding/'):
+                    soapenc_uri = 'http://schemas.xmlsoap.org/soap/encoding/',
+                    element=None):
     """Parse and define simple element types"""
 
     log.debug('Processing element %s %s' % (element_name, element_type))
@@ -137,9 +137,14 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
         else:
             log.debug('%s has no children! %s' % (element_name, tag))
             continue  # TODO: abstract?
-        d = OrderedDict()
-        d.namespaces[None] = namespace   # set the default namespace
-        d.qualified = qualified
+        # check if extending a previous processed element ("extension"):
+        if element is None:
+            d = OrderedDict()
+            d.namespaces[None] = namespace   # set the default namespace
+            d.qualified = qualified
+        else:
+            ##	import pdb; pdb.set_trace()
+            d = element
         for e in children:
             t = e['type']
             if not t:
@@ -227,9 +232,14 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
                 d[None] = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
+                if isinstance(fn, OrderedDict) and None in fn:
+                    element_base = fn[None]
+                else:
+                    element_base = None
                 # extend base element:
-                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace, qualified)
-        elements.setdefault(make_key(element_name, element_type, namespace), OrderedDict()).update(d)
+                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace, qualified, element=element_base)
+        if element is None:
+            elements.setdefault(make_key(element_name, element_type, namespace), OrderedDict()).update(d)
 
 
 def postprocess_element(elements, processed):
