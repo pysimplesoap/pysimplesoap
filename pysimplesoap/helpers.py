@@ -124,7 +124,11 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
     """Parse and define simple element types"""
 
     log.debug('Processing element %s %s' % (element_name, element_type))
+
+    # iterate over inner tags of the element definition:
     for tag in node:
+        
+        # sanity checks (skip superfluous xml tags, resolve aliases, etc.):
         if tag.get_local_name() in ('annotation', 'documentation'):
             continue
         elif tag.get_local_name() in ('element', 'restriction', 'list'):
@@ -137,6 +141,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
         else:
             log.debug('%s has no children! %s' % (element_name, tag))
             continue  # TODO: abstract?
+
         # check if extending a previous processed element ("extension"):
         if element is None:
             d = OrderedDict()
@@ -145,7 +150,11 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
         else:
             ##	import pdb; pdb.set_trace()
             d = element
+
+        # iterate over the element's components (sub-elements):
         for e in children:
+
+            # extract type information from xml attributes / children:
             t = e['type']
             if not t:
                 t = e['itemType']  # xs:list
@@ -164,6 +173,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     process_element(elements, t, c, et, xsd_uri, dialect, namespace, qualified)
                 else:
                     t = 'anyType'  # no type given!
+
+            # extract namespace uri and type from xml attribute:
             t = t.split(":")
             if len(t) > 1:
                 ns, type_name = t
@@ -172,6 +183,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if element_name == type_name and not alias and len(children) > 1:
                 continue   # abort to prevent infinite recursion
             uri = ns and e.get_namespace_uri(ns) or xsd_uri
+
+            # look for the conversion function (python type) 
             if uri in (xsd_uri, soapenc_uri) and type_name != 'Array':
                 # look for the type, None == any
                 fn = REVERSE_TYPE_MAP.get(type_name, None)
@@ -191,6 +204,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                                 type_name = type_name[:type_name.index("[]")]                                
                             fn.append(REVERSE_TYPE_MAP.get(type_name, None))
             else:
+                # not a simple python type / conversion function not available
                 fn = None
 
             if not fn:
@@ -203,6 +217,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     if k.startswith("xmlns:"):
                         # get the namespace uri from the element
                         fn_namespace = v        
+                # create and store an empty python element (dict)
                 fn = elements.setdefault(make_key(type_name, 'complexType', fn_namespace), OrderedDict())
 
             if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
@@ -223,6 +238,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     else:
                         d.array = True
 
+            # store the sub-element python type (function) in the element dict
             if (e['name'] is not None and not alias) or e['ref']:
                 e_name = e['name'] or type_name  # for refs, use the type name
                 d[e_name] = fn
@@ -230,14 +246,19 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                 d.namespaces[e_name] = namespace  # set the element namespace
             else:
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
+                # use None to point this is a complex element reference
                 d[None] = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
+                # extend base element (if ComplexContent only!):
                 if isinstance(fn, OrderedDict) and None in fn:
                     element_base = fn[None]
                 else:
+                    # TODO: check if this actually works for SimpleContent
                     element_base = None
                 # extend base element:
                 process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace, qualified, element=element_base)
+
+        # add the processed element to the main dictionary (if not extension):
         if element is None:
             elements.setdefault(make_key(element_name, element_type, namespace), OrderedDict()).update(d)
 
