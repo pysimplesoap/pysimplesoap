@@ -453,7 +453,13 @@ class SOAPHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         """SOAP POST gateway"""
-        request = self.rfile.read(int(self.headers.getheader('content-length')))
+        request = self.rfile.read(int(self.headers.get('content-length')))
+        # convert xml request to unicode (according to request headers)
+        if sys.version < '3':
+            encoding = self.headers.getparam("charset")
+        else:
+            encoding = self.headers.get_param("charset")
+        request = request.decode(encoding)
         fault = {}
         # execute the method
         response = self.server.dispatcher.dispatch(request, fault=fault)
