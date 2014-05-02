@@ -188,7 +188,7 @@ class TestSimpleXMLElement(unittest.TestCase):
         el = SimpleXMLElement(xml.encode('utf-8'))
         el_unicode = unicode(el)
         self.assertTrue(isinstance(el_unicode, unicode))
-        self.eq(el_unicode, u'BÀr')
+        self.eq(el_unicode, 'BÀr')
 
 if __name__ == '__main__':
     unittest.main()

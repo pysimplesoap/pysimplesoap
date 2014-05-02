@@ -12,6 +12,8 @@
 
 """Ecuador S.R.I. Electronic Invoice (Emisión de Documentos Electrónicos)"""
 
+from __future__ import unicode_literals
+
 from decimal import Decimal
 import os
 import unittest
@@ -33,7 +35,7 @@ class TestSRI(unittest.TestCase):
         # https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantes?wsdl
         client = SoapClient(wsdl=WSDL, ns="ec")
         ret = client.validarComprobante(xml="cid:1218403525359")
-        self.assertEquals(ret, {'RespuestaRecepcionComprobante': {'comprobantes': [{'comprobante': {'mensajes': [{'mensaje': {'identificador': u'35', 'mensaje': u'ARCHIVO NO CUMPLE ESTRUCTURA XML', 'informacionAdicional': u'Content is not allowed in prolog.', 'tipo': u'ERROR'}}], 'claveAcceso': u'N/A'}}], 'estado': u'DEVUELTA'}})
+        self.assertEquals(ret, {'RespuestaRecepcionComprobante': {'comprobantes': [{'comprobante': {'mensajes': [{'mensaje': {'identificador': '35', 'mensaje': 'ARCHIVO NO CUMPLE ESTRUCTURA XML', 'informacionAdicional': 'Content is not allowed in prolog.', 'tipo': 'ERROR'}}], 'claveAcceso': 'N/A'}}], 'estado': 'DEVUELTA'}})
             
 
     def test_autorizar(self):
@@ -42,5 +44,5 @@ class TestSRI(unittest.TestCase):
         # https://cel.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantes?wsdl
         client = SoapClient(wsdl=WSDL, ns="ec")
         ret = client.autorizacionComprobante(claveAccesoComprobante="1702201205176001321000110010030001000011234567816")
-        self.assertEquals(ret, {'RespuestaAutorizacionComprobante': {'autorizaciones': [], 'claveAccesoConsultada': u'1702201205176001321000110010030001000011234567816', 'numeroComprobantes': u'0'}})
+        self.assertEquals(ret, {'RespuestaAutorizacionComprobante': {'autorizaciones': [], 'claveAccesoConsultada': '1702201205176001321000110010030001000011234567816', 'numeroComprobantes': '0'}})
 

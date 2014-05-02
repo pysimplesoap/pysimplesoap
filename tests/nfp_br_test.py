@@ -12,6 +12,8 @@
 
 """Brazil - Sao Paulo "Electronic Invoice"  (Nota Fiscal Paulista)"""
 
+from __future__ import unicode_literals
+
 from decimal import Decimal
 import os
 import unittest
@@ -41,7 +43,7 @@ class TestNFP(unittest.TestCase):
         client['Autenticacao'] = SimpleXMLElement(HEADER_XML % ("user","password", "fed_tax_num", 1))
         # call the webservice
         response = client.Enviar(NomeArquivo="file_name", ConteudoArquivo="content", EnvioNormal=True, Observacoes="")
-        self.assertEqual(response['EnviarResult'], u'206|CNPJ informado inv\xe1lido')            
+        self.assertEqual(response['EnviarResult'], '206|CNPJ informado inv\xe1lido')            
 
     def test_consultar(self):
         "consulta ao resultado do processamento dos arquivos de cupons fiscai"
@@ -51,7 +53,7 @@ class TestNFP(unittest.TestCase):
         client['Autenticacao'] = SimpleXMLElement(HEADER_XML % ("user","password", "fed_tax_num", 1))
         # call the webservice
         response = client.Consultar(Protocolo="")
-        self.assertEqual(response['ConsultarResult'], u'999|O protocolo informado n\xe3o \xe9 um n\xfamero v\xe1lido')
+        self.assertEqual(response['ConsultarResult'], '999|O protocolo informado n\xe3o \xe9 um n\xfamero v\xe1lido')
 
     def test_retificar(self):
         "Prueba da retifica de arquivos de cupons fiscais"
@@ -62,5 +64,5 @@ class TestNFP(unittest.TestCase):
         client['Autenticacao'] = SimpleXMLElement(HEADER_XML % ("user","password", "fed_tax_num", 1))
         # call the webservice
         response = client.Retificar(NomeArquivo="file_name", ConteudoArquivo="content", EnvioNormal=True, Observacoes="")
-        self.assertEqual(response['RetificarResult'], u'206|CNPJ informado inv\xe1lido')
+        self.assertEqual(response['RetificarResult'], '206|CNPJ informado inv\xe1lido')
         

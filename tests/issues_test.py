@@ -140,7 +140,7 @@ class TestIssues(unittest.TestCase):
         try:
             response = client.Login(userName="foo",password="bar")
         except Exception as e:
-            self.assertEquals(e.faultcode, u's:InvalidUserNameOrPassword')
+            self.assertEquals(e.faultcode, 's:InvalidUserNameOrPassword')
 
     def test_issue46(self):
         """Example for sending an arbitrary header using SimpleXMLElement"""
@@ -227,7 +227,7 @@ class TestIssues(unittest.TestCase):
             response = client.login(username="john", password="doe")
         except Exception as e:
             # It returns "This document you requested has moved temporarily."
-            self.assertEqual(e.faultcode, u'INVALID_LOGIN')
+            self.assertEqual(e.faultcode, 'INVALID_LOGIN')
                         
     def test_issue66(self):
         """Verify marshaled requests can be sent with no children"""
@@ -302,7 +302,7 @@ class TestIssues(unittest.TestCase):
         client = SoapClient(wsdl="http://testserver:7007/testapp/services/testService?wsdl",
                             soap_ns='soap12', trace=False, soap_server='oracle')        
         result = client.hasRole(userId='test123', role='testview')
-        print result
+        print(result)
 
     def test_issue89(self):
         """Setting attributes for request tag."""
@@ -369,7 +369,7 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
             self.assertEquals(d.keys()[0], 'string')
         self.assertEquals(len(ret['GetCitiesByCountryResult']), 53)
         self.assertEquals(len(ret['GetCitiesByCountryResult'][0]), 1)
-        self.assertEquals(ret['GetCitiesByCountryResult'][0]['string'], u'KWANGJU')
+        self.assertEquals(ret['GetCitiesByCountryResult'][0]['string'], 'KWANGJU')
 
     def test_issue101(self):
         """automatic relative import support"""
@@ -477,7 +477,7 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
 
     def test_issue116(self):
         """Test string conversion and encoding of a SoapFault exception"""
-        exception = SoapFault('000', u'fault stríng')
+        exception = SoapFault('000', 'fault stríng')
         exception_string = str(exception)
         self.assertTrue(isinstance(exception_string, str))
         if sys.version < '3':
@@ -502,8 +502,8 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
         client = SoapClient(wsdl = 'https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/wsdl/IrmInboundMediation_MTPLPolicyWSExport.wsdl')
         try:
             resp = client.voidMTPLPolicy()
-        except Exception, e:
-            self.assertEqual(e.faultcode, u'axis2ns133:InvalidSecurity')
+        except Exception as e:
+            self.assertEqual(e.faultcode, 'axis2ns133:InvalidSecurity')
 
     def test_issue128(self):
         ""
