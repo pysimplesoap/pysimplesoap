@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import datetime
 import unittest
+import httplib2
 from pysimplesoap.client import SoapClient, SimpleXMLElement, SoapFault
 from .dummy_utils import DummyHTTP, TEST_DIR
 
@@ -526,9 +527,19 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
         response = client.contaVolumi(user_id=1234, valoreIndice=["IDENTIFIER", ""])
         self.assertEqual(response, {'contaVolumiReturn': 0})
 
+    def test_issue139(self):
+        """Test MKS wsdl (extension)"""
+        # open the attached Integrity_10_2Service to the issue in googlecode 
+        client = SoapClient(wsdl="https://pysimplesoap.googlecode.com/issues/attachment?aid=1390000000&name=Integrity_10_2.wsdl&token=3VG47As2K-EupP9GgotYckgb0Bc%3A1399064656814")
+        #print client.help("getItemsByCustomQuery")
+        try:
+            response = client.getItemsByCustomQuery(arg0={'Username': 'user', 'Password' : 'pass', 'InputField' : 'ID', 'QueryDefinition' : 'query'})
+        except httplib2.ServerNotFoundError:
+	        pass
+
 
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue94'))
+    suite.addTest(TestIssues('test_issue139'))
     unittest.TextTestRunner().run(suite)
