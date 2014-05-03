@@ -148,7 +148,6 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             d.namespaces[None] = namespace   # set the default namespace
             d.qualified = qualified
         else:
-            ##	import pdb; pdb.set_trace()
             d = element
 
         # iterate over the element's components (sub-elements):
@@ -217,8 +216,12 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     if k.startswith("xmlns:"):
                         # get the namespace uri from the element
                         fn_namespace = v        
-                # create and store an empty python element (dict)
-                fn = elements.setdefault(make_key(type_name, 'complexType', fn_namespace), OrderedDict())
+                # create and store an empty python element (dict) filled later
+                if not e['ref']:
+                    ref_type = "complexType"
+                else:
+                    ref_type = "element"
+                fn = elements.setdefault(make_key(type_name, ref_type, fn_namespace), OrderedDict())
 
             if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
                 # it's an array... TODO: compound arrays? and check ns uri!
@@ -261,7 +264,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
         # add the processed element to the main dictionary (if not extension):
         if element is None:
             elements.setdefault(make_key(element_name, element_type, namespace), OrderedDict()).update(d)
-
+	
 
 def postprocess_element(elements, processed):
     """Fix unresolved references (elements referenced before its definition, thanks .net)"""
