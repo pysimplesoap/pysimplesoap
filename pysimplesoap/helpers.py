@@ -285,15 +285,15 @@ def postprocess_element(elements, processed):
                 if isinstance(v[None], dict):
                     for i, kk in enumerate(v[None]):
                         # extend base -keep orginal order-
-                        if v[None] is not None:
+                        if isinstance(v[None], OrderedDict):
                             elements[k].insert(kk, v[None][kk], i)
                             # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
-                            if v[None].namespaces:
+                            if isinstance(v[None], OrderedDict) and v[None].namespaces and kk:
                                 elements[k].namespaces[kk] = v[None].namespaces[kk]
                                 elements[k].references[kk] = v[None].references[kk]                                
                     del v[None]
                 else:  # "alias", just replace
-                    log.debug('Replacing %s = %s' % (k, v[None]))
+                    ##log.debug('Replacing %s = %s' % (k, v[None]))
                     elements[k] = v[None]
             if v.array:
                 elements[k] = [v]  # convert arrays to python lists
@@ -565,7 +565,11 @@ class OrderedDict(dict):
         return "%s" % dict.__str__(self)
 
     def __repr__(self):
-        s = "{%s}" % ", ".join(['%s: %s' % (repr(k), repr(v)) for k, v in self.items()])
+        try:
+            s = "{%s}" % ", ".join(['%s: %s' % (repr(k), repr(v)) for k, v in self.items()])
+        except RuntimeError as e:  # maximum recursion depth exceeded
+            s = "{%s}" % ", ".join(['%s: %s' % (repr(k), unicode(e)) for k, v in self.items()])
+            warnings.warn(unicode(e), RuntimeWarning)
         if self.array and False:
             s = "[%s]" % s
         return s
