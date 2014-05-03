@@ -537,9 +537,29 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
         except httplib2.ServerNotFoundError:
 	        pass
 
+    def test_issue141(self):
+        """Test voxone VoxAPI wsdl (ref element)"""
+        import datetime
+        import hmac
+        import hashlib
+
+        client = SoapClient(wsdl="http://sandbox.voxbone.com/VoxAPI/services/VoxAPI?wsdl", cache=None)
+        print client.help("GetPOPList")
+
+        key = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S:%f000000")
+        password="fwefewfewfew"
+        usertoken={'Username': "oihfweohf", 'Key': key, 'Hash': hmac.new(key, password, digestmod=hashlib.sha1).hexdigest()}
+        try:
+            response = client.GetPOPList(UserToken=usertoken)
+            result = response['GetPOPListResponse']
+        except SoapFault as sf:
+            # ignore exception caused by missing credentials sent in this test:
+            if sf.faultstring != "Either your username or password is invalid":
+                raise
+
 
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue139'))
+    suite.addTest(TestIssues('test_issue141'))
     unittest.TextTestRunner().run(suite)
