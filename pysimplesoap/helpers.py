@@ -277,7 +277,10 @@ def postprocess_element(elements, processed):
     for k, v in elements.items():
         if isinstance(v, OrderedDict):
             if v != elements:  # TODO: fix recursive elements
-                postprocess_element(v, processed)
+                try:
+                    postprocess_element(v, processed)
+                except RuntimeError as e:  # maximum recursion depth exceeded
+                    warnings.warn(unicode(e), RuntimeWarning)
             if None in v and v[None]:  # extension base?
                 if isinstance(v[None], dict):
                     for i, kk in enumerate(v[None]):
