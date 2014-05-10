@@ -494,6 +494,31 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
         else:
             self.assertEqual(exception_string, '000: fault stríng')
 
+    def test_issue122(self):
+        """Test multiple separate messages in input header"""
+        APIURL = "https://ecommercetest.collector.se/v3.0/InvoiceServiceV31.svc?singleWsdl"
+        client = SoapClient(wsdl=APIURL)
+
+        # set headers (first two were not correctly handled
+        client['Username'] = 'user'
+        client['Password'] = 'pass'
+        client['ClientIpAddress'] = '127.0.0.1'
+
+        variables = {
+            "CountryCode": "SE",
+            "RegNo": "1234567890",
+        }
+
+        expected_xml = ("<soap:Header>"
+                        "<Username>user</Username>"
+                        "<Password>pass</Password>"
+                        "<ClientIpAddress>127.0.0.1</ClientIpAddress>"
+                        "</soap:Header>")
+        try:
+            response = client.GetAddress(**variables)
+        except SoapFault:
+            self.assertIn(expected_xml, client.xml_request)
+
     def test_issue123(self):
         """Basic test for WSDL lacking service tag """
         wsdl = "http://www.onvif.org/onvif/ver10/device/wsdl/devicemgmt.wsdl"
