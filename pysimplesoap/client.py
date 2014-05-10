@@ -622,10 +622,17 @@ class SoapClient(object):
                 output = operation('output', error=False)
                 body = output and output('body', ns=list(soap_uris.values()), error=False)
                 d['parts']['output_body'] = body and body['parts'] or None
-                header = input and input('header', ns=list(soap_uris.values()), error=False)
-                d['parts']['input_header'] = header and {'message': header['message'], 'part': header['part']} or None
-                header = output and output('header', ns=list(soap_uris.values()), error=False)
-                d['parts']['output_header'] = header and {'message': header['message'], 'part': header['part']} or None
+                # parse optional header messages (some implementations use more than one!)
+                d['parts']['input_headers']  = []
+                headers = input and input('header', ns=list(soap_uris.values()), error=False)
+                for header in headers or []:
+                    hdr = {'message': header['message'], 'part': header['part']}
+                    d['parts']['input_headers'].append(hdr)
+                d['parts']['output_headers']  = []
+                headers = output and output('header', ns=list(soap_uris.values()), error=False)
+                for header in headers or []:
+                    hdr = {'message': header['message'], 'part': header['part']}
+                    d['parts']['output_headers'].append(hdr)
                 if action:
                     d['action'] = action
 
@@ -707,16 +714,19 @@ class SoapClient(object):
                         #TODO: separe operation_binding from operation (non SOAP?)
                         if operation('input', error=False):
                             input_msg = get_local_name(operation.input['message'])
-                            input_header = op['parts'].get('input_header')
-                            if input_header:
+                            input_headers = op['parts'].get('input_headers')
+                            headers = {}    # base header message structure
+                            for input_header in input_headers:
                                 header_msg = get_local_name(input_header.get('message'))
                                 header_part = get_local_name(input_header.get('part'))
                                 # warning: some implementations use a separate message!
-                                header = get_message(messages, header_msg or input_msg, header_part)
-                            else:
-                                header = None   # not enought info to search the header message:
+                                hdr = get_message(messages, header_msg or input_msg, header_part)
+                                if hdr:
+                                    headers.update(hdr)
+                                else:
+                                    pass # not enought info to search the header message:
                             op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'), op['parameter_order'])
-                            op['header'] = header
+                            op['header'] = headers
                             try:
                                 element = list(op['input'].values())[0]
                                 ns_uri = element.namespaces[None]
