@@ -197,11 +197,24 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     for k, v in a[:]:
                         if k.endswith(":arrayType"):
                             type_name = v
+                            fn_namespace = None
                             if ":" in type_name:
-                                type_name = type_name[type_name.index(":")+1:]
+                                fn_uri, type_name = type_name.split(":")
+                                fn_namespace = e.get_namespace_uri(fn_uri)
                             if "[]" in type_name:
-                                type_name = type_name[:type_name.index("[]")]                                
-                            fn.append(REVERSE_TYPE_MAP.get(type_name, None))
+                                type_name = type_name[:type_name.index("[]")]
+                            # get the scalar conversion function (if any)
+                            fn_array = REVERSE_TYPE_MAP.get(type_name, None)
+                            if fn_array is None and type_name != "anyType" and fn_namespace:
+                                # get the complext element:
+                                ref_type = "complexType"
+                                fn_complex = elements.setdefault(make_key(type_name, ref_type, fn_namespace), OrderedDict())
+                                # create an indirect struct {type_name: ...}:
+                                fn_array = OrderedDict()
+                                fn_array[type_name] = fn_complex
+                                fn_array.namespaces[None] = fn_namespace   # set the default namespace
+                                fn_array.qualified = qualified
+                            fn.append(fn_array)
             else:
                 # not a simple python type / conversion function not available
                 fn = None
