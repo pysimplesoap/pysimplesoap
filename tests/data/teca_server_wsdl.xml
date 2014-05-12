@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://62.94.212.138:8081/teca/services/tecaServer" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://62.94.212.138:8081/teca/services/tecaServer" xmlns:intf="http://62.94.212.138:8081/teca/services/tecaServer" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="urn:wsTecaServer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://62.94.212.138:8081/teca/services/tecaServer" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="urn:wsTecaServer"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_xsd_string">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOf_xsd_anyType">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:anyType[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOf_tns1_Contenitore">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:Contenitore[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://62.94.212.138:8081/teca/services/tecaServer"/>
+   <import namespace="urn:wsTecaServer"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="mapItem">
+    <sequence>
+     <element name="key" nillable="true" type="xsd:anyType"/>
+     <element name="value" nillable="true" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="Map">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="apachesoap:mapItem"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="urn:wsTecaServer" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://62.94.212.138:8081/teca/services/tecaServer"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="Contenitore">
+    <sequence>
+     <element name="EMail" nillable="true" type="xsd:string"/>
+     <element name="bloccato" nillable="true" type="xsd:boolean"/>
+     <element name="classe" nillable="true" type="xsd:string"/>
+     <element name="codice" nillable="true" type="xsd:string"/>
+     <element name="creatoDa" nillable="true" type="xsd:string"/>
+     <element name="creatoIl" nillable="true" type="xsd:string"/>
+     <element name="dbName" nillable="true" type="xsd:string"/>
+     <element name="dbPort" type="xsd:int"/>
+     <element name="dbUrl" nillable="true" type="xsd:string"/>
+     <element name="descrizione" nillable="true" type="xsd:string"/>
+     <element name="documentoId" type="xsd:int"/>
+     <element name="enabled" nillable="true" type="xsd:boolean"/>
+     <element name="endPoint" nillable="true" type="xsd:string"/>
+     <element name="fax" nillable="true" type="xsd:string"/>
+     <element name="filename" nillable="true" type="xsd:string"/>
+     <element name="hasDocumenti" type="xsd:boolean"/>
+     <element name="identifier" nillable="true" type="xsd:string"/>
+     <element name="indicizzazioni" nillable="true" type="apachesoap:Map"/>
+     <element name="indirizzo" nillable="true" type="xsd:string"/>
+     <element name="inviatoDa" nillable="true" type="xsd:string"/>
+     <element name="inviatoIl" nillable="true" type="xsd:string"/>
+     <element name="ipTeca" nillable="true" type="xsd:string"/>
+     <element name="mimeType" nillable="true" type="xsd:string"/>
+     <element name="modificatoDa" nillable="true" type="xsd:string"/>
+     <element name="nome" nillable="true" type="xsd:string"/>
+     <element name="ns" nillable="true" type="xsd:string"/>
+     <element name="parentId" type="xsd:int"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="pathUpload" nillable="true" type="xsd:string"/>
+     <element name="percorso" nillable="true" type="xsd:string"/>
+     <element name="realFilename" nillable="true" type="xsd:string"/>
+     <element name="sigla" nillable="true" type="xsd:string"/>
+     <element name="sito" nillable="true" type="xsd:string"/>
+     <element name="tecaId" type="xsd:int"/>
+     <element name="telefono" nillable="true" type="xsd:string"/>
+     <element name="tooltip" nillable="true" type="xsd:string"/>
+     <element name="urn" nillable="true" type="xsd:string"/>
+     <element name="username" nillable="true" type="xsd:string"/>
+     <element name="valoriDigitali" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="findRequest">
+
+      <wsdl:part name="user_id" type="xsd:int"/>
+
+      <wsdl:part name="valoreIndice" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="elementiPagina" type="xsd:int"/>
+
+      <wsdl:part name="da" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getValoriIndicizzatiTecaRequest">
+
+      <wsdl:part name="documento_id" type="xsd:int"/>
+
+      <wsdl:part name="user_id" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="contaVolumiRequest">
+
+      <wsdl:part name="user_id" type="xsd:int"/>
+
+      <wsdl:part name="valoreIndice" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDocumentoTecaByDocumentoIdRequest">
+
+      <wsdl:part name="libroId" type="xsd:int"/>
+
+      <wsdl:part name="user_id" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUserIdByLogonRequest">
+
+      <wsdl:part name="user" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="checkDocumentByIdentifierRequest">
+
+      <wsdl:part name="user_id" type="xsd:int"/>
+
+      <wsdl:part name="identifier" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="checkDocumentByIdentifierResponse">
+
+      <wsdl:part name="checkDocumentByIdentifierReturn" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUserIdByLogonResponse">
+
+      <wsdl:part name="getUserIdByLogonReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDocumentoTecaByDocumentoIdResponse">
+
+      <wsdl:part name="getDocumentoTecaByDocumentoIdReturn" type="tns1:Contenitore"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getValoriIndicizzatiTecaResponse">
+
+      <wsdl:part name="getValoriIndicizzatiTecaReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findResponse">
+
+      <wsdl:part name="findReturn" type="impl:ArrayOf_tns1_Contenitore"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="contaVolumiResponse">
+
+      <wsdl:part name="contaVolumiReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="WsTecaServer">
+
+      <wsdl:operation name="getUserIdByLogon" parameterOrder="user password">
+
+         <wsdl:input message="impl:getUserIdByLogonRequest" name="getUserIdByLogonRequest"/>
+
+         <wsdl:output message="impl:getUserIdByLogonResponse" name="getUserIdByLogonResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getValoriIndicizzatiTeca" parameterOrder="documento_id user_id">
+
+         <wsdl:input message="impl:getValoriIndicizzatiTecaRequest" name="getValoriIndicizzatiTecaRequest"/>
+
+         <wsdl:output message="impl:getValoriIndicizzatiTecaResponse" name="getValoriIndicizzatiTecaResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="checkDocumentByIdentifier" parameterOrder="user_id identifier">
+
+         <wsdl:input message="impl:checkDocumentByIdentifierRequest" name="checkDocumentByIdentifierRequest"/>
+
+         <wsdl:output message="impl:checkDocumentByIdentifierResponse" name="checkDocumentByIdentifierResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDocumentoTecaByDocumentoId" parameterOrder="libroId user_id">
+
+         <wsdl:input message="impl:getDocumentoTecaByDocumentoIdRequest" name="getDocumentoTecaByDocumentoIdRequest"/>
+
+         <wsdl:output message="impl:getDocumentoTecaByDocumentoIdResponse" name="getDocumentoTecaByDocumentoIdResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="contaVolumi" parameterOrder="user_id valoreIndice">
+
+         <wsdl:input message="impl:contaVolumiRequest" name="contaVolumiRequest"/>
+
+         <wsdl:output message="impl:contaVolumiResponse" name="contaVolumiResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="find" parameterOrder="user_id valoreIndice elementiPagina da">
+
+         <wsdl:input message="impl:findRequest" name="findRequest"/>
+
+         <wsdl:output message="impl:findResponse" name="findResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="tecaServerSoapBinding" type="impl:WsTecaServer">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getUserIdByLogon">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getUserIdByLogonRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wsTeca" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getUserIdByLogonResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://62.94.212.138:8081/teca/services/tecaServer" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getValoriIndicizzatiTeca">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getValoriIndicizzatiTecaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wsTeca" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getValoriIndicizzatiTecaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://62.94.212.138:8081/teca/services/tecaServer" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="checkDocumentByIdentifier">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="checkDocumentByIdentifierRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wsTeca" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="checkDocumentByIdentifierResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://62.94.212.138:8081/teca/services/tecaServer" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDocumentoTecaByDocumentoId">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDocumentoTecaByDocumentoIdRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wsTeca" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDocumentoTecaByDocumentoIdResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://62.94.212.138:8081/teca/services/tecaServer" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="contaVolumi">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="contaVolumiRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wsTeca" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="contaVolumiResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://62.94.212.138:8081/teca/services/tecaServer" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="find">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://wsTeca" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://62.94.212.138:8081/teca/services/tecaServer" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="WsTecaServerService">
+
+      <wsdl:port binding="impl:tecaServerSoapBinding" name="tecaServer">
+
+         <wsdlsoap:address location="http://62.94.212.138:8081/teca/services/tecaServer"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

@@ -554,11 +554,30 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
 
     def test_issue129(self):
         """Test RPC style (axis) messages (including parameter order)"""
-        wsdl_url = 'http://62.94.212.138:8081/teca/services/tecaServer?wsdl'
+        wsdl_url = 'file:tests/data/teca_server_wsdl.xml'
         client = SoapClient(wsdl=wsdl_url, soap_server='axis')
         client.help("contaVolumi")
         response = client.contaVolumi(user_id=1234, valoreIndice=["IDENTIFIER", ""])
         self.assertEqual(response, {'contaVolumiReturn': 0})
+
+    def test_issue130(self):
+        """Test complex Array (axis) """
+        wsdl_url = 'file:tests/data/teca_server_wsdl.xml'
+        client = SoapClient(wsdl=wsdl_url, soap_server='axis', trace=False)
+        #print client.help("find")
+        #response = client.find(25, ['SUBJECT', 'Ethos'], 10, 0)
+        port = client.services[u'WsTecaServerService']['ports']['tecaServer']
+        op = port['operations']['find']
+        out = op['output']['findResponse']['findReturn']
+        # findReturn should be a list of Contenitore
+        self.assertIsInstance(out, list)
+        element = out[0]['Contenitore']
+        for key in [u'EMail', u'bloccato', u'classe', u'codice', u'creatoDa', 
+                    u'creatoIl', u'dbName', u'dbPort', u'dbUrl', u'username']:
+            self.assertIn(key, element)
+        # valoriDigitali should be a list of anyType (None)
+        self.assertIsInstance(element[u'valoriDigitali'], list)
+        self.assertIsNone(element[u'valoriDigitali'][0])
 
     def test_issue139(self):
         """Test MKS wsdl (extension)"""
@@ -601,5 +620,6 @@ if __name__ == '__main__':
     suite.addTest(TestIssues('test_issue114'))
     suite.addTest(TestIssues('test_issue123'))
     suite.addTest(TestIssues('test_issue127'))
+    #suite.addTest(TestIssues('test_issue130'))
     suite.addTest(TestIssues('test_issue141'))
     unittest.TextTestRunner().run(suite)
