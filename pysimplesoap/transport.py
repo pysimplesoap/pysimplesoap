@@ -23,7 +23,7 @@ except ImportError:
     from http.cookiejar import CookieJar
 
 from . import __author__, __copyright__, __license__, __version__, TIMEOUT
-from .simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
+from .simplexml import SimpleXMLElement, TYPE_MAP, Struct
 
 log = logging.getLogger(__name__)
 

@@ -87,7 +87,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
 def sort_dict(od, d):
     """Sort parameters (same order as xsd:sequence)"""
     if isinstance(od, dict):
-        ret = OrderedDict()
+        ret = Struct()
         for k in od.keys():
             v = d.get(k)
             # don't append null tags!
@@ -120,7 +120,7 @@ def make_key(element_name, element_type, namespace):
 
 def process_element(elements, element_name, node, element_type, xsd_uri, dialect, namespace, qualified=None,
                     soapenc_uri = 'http://schemas.xmlsoap.org/soap/encoding/',
-                    element=None):
+                    struct=None):
     """Parse and define simple element types"""
 
     log.debug('Processing element %s %s' % (element_name, element_type))
@@ -143,12 +143,11 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             continue  # TODO: abstract?
 
         # check if extending a previous processed element ("extension"):
-        if element is None:
-            d = OrderedDict()
-            d.namespaces[None] = namespace   # set the default namespace
-            d.qualified = qualified
-        else:
-            d = element
+        new_struct = struct is None
+        if new_struct:
+            struct = Struct()
+            struct.namespaces[None] = namespace   # set the default namespace
+            struct.qualified = qualified
 
         # iterate over the element's components (sub-elements):
         for e in children:
@@ -208,9 +207,9 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                             if fn_array is None and type_name != "anyType" and fn_namespace:
                                 # get the complext element:
                                 ref_type = "complexType"
-                                fn_complex = elements.setdefault(make_key(type_name, ref_type, fn_namespace), OrderedDict())
+                                fn_complex = elements.setdefault(make_key(type_name, ref_type, fn_namespace), Struct())
                                 # create an indirect struct {type_name: ...}:
-                                fn_array = OrderedDict()
+                                fn_array = Struct()
                                 fn_array[type_name] = fn_complex
                                 fn_array.namespaces[None] = fn_namespace   # set the default namespace
                                 fn_array.qualified = qualified
@@ -234,11 +233,11 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     ref_type = "complexType"
                 else:
                     ref_type = "element"
-                fn = elements.setdefault(make_key(type_name, ref_type, fn_namespace), OrderedDict())
+                fn = elements.setdefault(make_key(type_name, ref_type, fn_namespace), Struct())
 
             if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
                 # it's an array... TODO: compound arrays? and check ns uri!
-                if isinstance(fn, OrderedDict):
+                if isinstance(fn, Struct):
                     if len(children) > 1 or (dialect in ('jetty', 'axis')):
                         # Jetty style support
                         # {'ClassName': [{'attr1': val1, 'attr2': val2}]
@@ -246,37 +245,37 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     else:
                         # .NET style support (backward compatibility)
                         # [{'ClassName': {'attr1': val1, 'attr2': val2}]
-                        d.array = True
+                        struct.array = True
                 else:
                     if dialect in ('jetty',):
                         # scalar support [{'attr1': [val1]}]
                         fn = [fn]
                     else:
-                        d.array = True
+                        struct.array = True
 
             # store the sub-element python type (function) in the element dict
             if (e['name'] is not None and not alias) or e['ref']:
                 e_name = e['name'] or type_name  # for refs, use the type name
-                d[e_name] = fn
-                d.references[e_name] = e['ref']                    
-                d.namespaces[e_name] = namespace  # set the element namespace
+                struct[e_name] = fn
+                struct.references[e_name] = e['ref']                    
+                struct.namespaces[e_name] = namespace  # set the element namespace
             else:
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
                 # use None to point this is a complex element reference
-                d[None] = fn
+                struct[None] = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
                 # extend base element (if ComplexContent only!):
-                if isinstance(fn, OrderedDict) and None in fn:
-                    element_base = fn[None]
+                if isinstance(fn, Struct) and None in fn:
+                    base_struct = fn[None]
                 else:
                     # TODO: check if this actually works for SimpleContent
-                    element_base = None
+                    base_struct = None
                 # extend base element:
-                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace, qualified, element=element_base)
+                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace, qualified, struct=base_struct)
 
         # add the processed element to the main dictionary (if not extension):
-        if element is None:
-            elements.setdefault(make_key(element_name, element_type, namespace), OrderedDict()).update(d)
+        if new_struct:
+            elements.setdefault(make_key(element_name, element_type, namespace), Struct()).update(struct)
 	
 
 def postprocess_element(elements, processed):
@@ -288,7 +287,7 @@ def postprocess_element(elements, processed):
     processed.append(elements)
     
     for k, v in elements.items():
-        if isinstance(v, OrderedDict):
+        if isinstance(v, Struct):
             if v != elements:  # TODO: fix recursive elements
                 try:
                     postprocess_element(v, processed)
@@ -298,10 +297,10 @@ def postprocess_element(elements, processed):
                 if isinstance(v[None], dict):
                     for i, kk in enumerate(v[None]):
                         # extend base -keep orginal order-
-                        if isinstance(v[None], OrderedDict):
+                        if isinstance(v[None], Struct):
                             elements[k].insert(kk, v[None][kk], i)
                             # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
-                            if isinstance(v[None], OrderedDict) and v[None].namespaces and kk:
+                            if isinstance(v[None], Struct) and v[None].namespaces and kk:
                                 elements[k].namespaces[kk] = v[None].namespaces[kk]
                                 elements[k].references[kk] = v[None].references[kk]                                
                     del v[None]
@@ -312,7 +311,7 @@ def postprocess_element(elements, processed):
                 elements[k] = [v]  # convert arrays to python lists
         if isinstance(v, list):
             for n in v:  # recurse list
-                if isinstance(n, (OrderedDict, list)):
+                if isinstance(n, (Struct, list)):
                     #if n != elements:  # TODO: fix recursive elements
                     postprocess_element(n, processed)
 
@@ -523,7 +522,7 @@ if str not in TYPE_MAP:
     TYPE_MAP[str] = 'string'    
 
 
-class OrderedDict(dict):
+class Struct(dict):
     """Minimal ordered dictionary for xsd:sequences"""
     def __init__(self):
         self.__keys = []
@@ -560,9 +559,9 @@ class OrderedDict(dict):
         for k, v in other.items():
             self[k] = v
         # do not change if we are an array but the other is not:
-        if isinstance(other, OrderedDict) and not self.array:
+        if isinstance(other, Struct) and not self.array:
             self.array = other.array
-        if isinstance(other, OrderedDict):
+        if isinstance(other, Struct):
             # TODO: check replacing default ns is a regression 
             self.namespaces.update(other.namespaces)
             self.references.update(other.references)
@@ -570,7 +569,7 @@ class OrderedDict(dict):
 
     def copy(self):
         "Make a duplicate"
-        new = OrderedDict()
+        new = Struct()
         new.update(self)
         return new
 

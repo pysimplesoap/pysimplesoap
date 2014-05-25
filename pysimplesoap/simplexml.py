@@ -28,7 +28,7 @@ from . import __author__, __copyright__, __license__, __version__
 
 # Utility functions used for marshalling, moved aside for readability
 from .helpers import TYPE_MAP, TYPE_MARSHAL_FN, TYPE_UNMARSHAL_FN, \
-                     REVERSE_TYPE_MAP, OrderedDict, Date, Decimal
+                     REVERSE_TYPE_MAP, Struct, Date, Decimal
 
 log = logging.getLogger(__name__)
 

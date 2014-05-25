@@ -27,7 +27,7 @@ import os
 import tempfile
 
 from . import __author__, __copyright__, __license__, __version__, TIMEOUT
-from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
+from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, Struct
 from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from .helpers import fetch, sort_dict, make_key, process_element, \
@@ -117,7 +117,7 @@ class SoapClient(object):
 
         # SOAP Header support
         self.__headers = {}         # general headers
-        self.__call_headers = None  # OrderedDict to be marshalled for RPC Call
+        self.__call_headers = None  # Struct to be marshalled for RPC Call
 
         # check if the Certification Authority Cert is a string and store it
         if cacert and cacert.startswith('-----BEGIN CERTIFICATE-----'):
@@ -368,7 +368,7 @@ class SoapClient(object):
             for k, v in root.items():
                 # fix referenced namespaces as info is lost when calling call 
                 root_ns = root.namespaces[k]
-                if not root.references[k] and isinstance(v, OrderedDict):
+                if not root.references[k] and isinstance(v, Struct):
                     v.namespaces[None] = root_ns
                 params.append((k, v))
             # TODO: check style and document attributes
@@ -396,7 +396,7 @@ class SoapClient(object):
         if type(struct) == type(value):
             typematch = True
         if not isinstance(struct, dict) and isinstance(value, dict):
-            typematch = True    # struct can be an OrderedDict
+            typematch = True    # struct can be a dict or derived (Struct)
         else:
             typematch = False
 
@@ -676,7 +676,7 @@ class SoapClient(object):
                     element = {part_name: fn}
                     # emulate a true Element (complexType) for rpc style
                     if (message['name'], part_name) not in messages:
-                        od = OrderedDict()
+                        od = Struct()
                         od.namespaces[None] = type_uri
                         messages[(message['name'], part_name)] = {message['name']: od}
                     else:
@@ -690,7 +690,7 @@ class SoapClient(object):
                     if not fn:
                         # some axis servers uses complexType for part messages (rpc)
                         fn = elements.get(make_key(element_name, 'complexType', type_uri))
-                        od = OrderedDict()
+                        od = Struct()
                         od[part_name] = fn
                         od.namespaces[None] = type_uri
                         od.namespaces[part_name] = type_uri
