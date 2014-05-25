@@ -232,7 +232,18 @@ class TestIssues(unittest.TestCase):
         except Exception as e:
             # It returns "This document you requested has moved temporarily."
             self.assertEqual(e.faultcode, 'INVALID_LOGIN')
-                        
+                     
+    def test_issue60(self):
+        """Verify unmarshalling of custom xsi:type="SOAPENC:Array""""
+        wsdl_url = 'http://peopleask.ooz.ie/soap.wsdl' 
+        client = SoapClient(wsdl=wsdl_url, soap_server="unknown", trace=False)
+        questions = client.GetQuestionsAbout(query="money")
+        self.assertIsInstance(questions, list)
+        for question in questions:
+            self.assertIsNotNone(question)
+            self.assertNotEqual(question, "")
+
+                            
     def test_issue66(self):
         """Verify marshaled requests can be sent with no children"""
         # fake connection (just to test xml_request):
@@ -628,6 +639,7 @@ if __name__ == '__main__':
     suite = unittest.TestSuite()
     suite.addTest(TestIssues('test_issue93'))
     suite.addTest(TestIssues('test_issue57'))
+    suite.addTest(TestIssues('test_issue60'))
     suite.addTest(TestIssues('test_issue80'))
     suite.addTest(TestIssues('test_issue101'))
     suite.addTest(TestIssues('test_issue114'))

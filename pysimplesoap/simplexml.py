@@ -350,7 +350,15 @@ class SimpleXMLElement(object):
                 if 'xsi:type' in node.attributes().keys():
                     xsd_type = node['xsi:type'].split(":")[1]
                     try:
-                        fn = REVERSE_TYPE_MAP[xsd_type]
+                        # get fn type from SOAP-ENC:arrayType="xsd:string[28]"
+                        if xsd_type == 'Array':
+                            array_type = [k for k,v in node[:] if 'arrayType' in k][0]
+                            xsd_type = node[array_type].split(":")[1]
+                            if "[" in xsd_type:
+                                xsd_type = xsd_type[:xsd_type.index("[")]
+                            fn = [REVERSE_TYPE_MAP[xsd_type]]
+                        else:
+                            fn = REVERSE_TYPE_MAP[xsd_type]
                     except:
                         fn = None  # ignore multirefs!
                 elif xmlns == "http://www.w3.org/2001/XMLSchema":
