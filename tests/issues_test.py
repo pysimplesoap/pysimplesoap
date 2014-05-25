@@ -36,7 +36,7 @@ class TestIssues(unittest.TestCase):
         # instead of "getValidLanguages12Response"
         met_data = client.services['MetDataService']['ports']['MetDataServicePort']
         languages = met_data['operations']['getValidLanguages']
-        output = languages['output']['getValidLanguages12Response']
+        output = languages['output']['getValidLanguages13Response']
         languages['output'] = {'getValidLanguagesResponse': output}
 
         lang = client.getValidLanguages()
@@ -234,7 +234,7 @@ class TestIssues(unittest.TestCase):
             self.assertEqual(e.faultcode, 'INVALID_LOGIN')
                      
     def test_issue60(self):
-        """Verify unmarshalling of custom xsi:type="SOAPENC:Array""""
+        """Verify unmarshalling of custom xsi:type="SOAPENC:Array" """
         wsdl_url = 'http://peopleask.ooz.ie/soap.wsdl' 
         client = SoapClient(wsdl=wsdl_url, soap_server="unknown", trace=False)
         questions = client.GetQuestionsAbout(query="money")
@@ -637,6 +637,7 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
+    suite.addTest(TestIssues('test_issue34'))
     suite.addTest(TestIssues('test_issue93'))
     suite.addTest(TestIssues('test_issue57'))
     suite.addTest(TestIssues('test_issue60'))
