@@ -609,6 +609,18 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
             if sf.faultstring != "Either your username or password is invalid":
                 raise
 
+    def test_issue143(self):
+        """Test webservice.vso.dunes.ch wsdl (array sub-element)"""
+        wsdl_url = 'file:tests/data/vco.wsdl' 
+        try:
+            vcoWS = SoapClient(wsdl=wsdl_url, soap_server="axis", trace=False)
+            workflowInputs = [{'name': 'vmName', 'type': 'string', 'value': 'VMNAME'}]
+            workflowToken = vcoWS.executeWorkflow(workflowId='my_uuid', username="my_user", password="my_password", workflowInputs=workflowInputs)
+        except httplib2.ServerNotFoundError:
+            #import pdb;pdb.set_trace()
+            print vcoWS.xml_response
+            pass
+
 
 if __name__ == '__main__':
     #unittest.main()
@@ -622,4 +634,5 @@ if __name__ == '__main__':
     suite.addTest(TestIssues('test_issue127'))
     #suite.addTest(TestIssues('test_issue130'))
     suite.addTest(TestIssues('test_issue141'))
+    suite.addTest(TestIssues('test_issue143'))
     unittest.TextTestRunner().run(suite)
