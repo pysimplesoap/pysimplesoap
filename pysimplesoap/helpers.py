@@ -262,11 +262,11 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             else:
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
                 # use None to point this is a complex element reference
-                struct[None] = fn
+                struct.refers_to = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
                 # extend base element (if ComplexContent only!):
-                if isinstance(fn, Struct) and None in fn:
-                    base_struct = fn[None]
+                if isinstance(fn, Struct) and fn.refers_to:
+                    base_struct = fn.refers_to
                 else:
                     # TODO: check if this actually works for SimpleContent
                     base_struct = None
@@ -293,20 +293,21 @@ def postprocess_element(elements, processed):
                     postprocess_element(v, processed)
                 except RuntimeError as e:  # maximum recursion depth exceeded
                     warnings.warn(unicode(e), RuntimeWarning)
-            if None in v and v[None]:  # extension base?
-                if isinstance(v[None], dict):
-                    for i, kk in enumerate(v[None]):
+            if v.refers_to:  # extension base?
+                if isinstance(v.refers_to, dict):
+                    for i, kk in enumerate(v.refers_to):
                         # extend base -keep orginal order-
-                        if isinstance(v[None], Struct):
-                            elements[k].insert(kk, v[None][kk], i)
+                        if isinstance(v.refers_to, Struct):
+                            elements[k].insert(kk, v.refers_to[kk], i)
                             # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
-                            if isinstance(v[None], Struct) and v[None].namespaces and kk:
-                                elements[k].namespaces[kk] = v[None].namespaces[kk]
-                                elements[k].references[kk] = v[None].references[kk]                                
-                    del v[None]
+                            if isinstance(v.refers_to, Struct) and v.refers_to.namespaces and kk:
+                                elements[k].namespaces[kk] = v.refers_to.namespaces[kk]
+                                elements[k].references[kk] = v.refers_to.references[kk]                                
+                    # clean the reference:
+                    v.refers_to = None
                 else:  # "alias", just replace
-                    ##log.debug('Replacing %s = %s' % (k, v[None]))
-                    elements[k] = v[None]
+                    ##log.debug('Replacing %s = %s' % (k, v.refers_to))
+                    elements[k] = v.refers_to
             if v.array:
                 elements[k] = [v]  # convert arrays to python lists
         if isinstance(v, list):
@@ -523,12 +524,14 @@ if str not in TYPE_MAP:
 
 
 class Struct(dict):
-    """Minimal ordered dictionary for xsd:sequences"""
+    """Minimal ordered dictionary to represent elements (i.e. xsd:sequences)"""
+    
     def __init__(self):
         self.__keys = []
         self.array = False
         self.namespaces = {}     # key: element, value: namespace URI
         self.references = {}     # key: element, value: reference name
+        self.refers_to = None    # name of the "symbolic linked" struct
         self.qualified = None
 
     def __setitem__(self, key, value):
@@ -566,6 +569,7 @@ class Struct(dict):
             self.namespaces.update(other.namespaces)
             self.references.update(other.references)
             self.qualified = other.qualified
+            self.refers_to = other.refers_to
 
     def copy(self):
         "Make a duplicate"
