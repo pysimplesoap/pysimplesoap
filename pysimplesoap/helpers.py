@@ -239,7 +239,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
             if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
                 # it's an array... TODO: compound arrays? and check ns uri!
                 if isinstance(fn, OrderedDict):
-                    if len(children) > 1 and dialect in ('jetty',):
+                    if len(children) > 1 or (dialect in ('jetty', 'axis')):
                         # Jetty style support
                         # {'ClassName': [{'attr1': val1, 'attr2': val2}]
                         fn.array = True
