@@ -211,7 +211,7 @@ class SoapClient(object):
                 else:
                     ns = use_ns
                 getattr(request, method).marshall(k, v, ns=ns)
-        elif not self.__soap_server in ('oracle',) or self.__soap_server in ('jbossas6',):
+        elif self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=list(soap_namespaces.values()),), method)
 
