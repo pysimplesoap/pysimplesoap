@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by the
-# Free Software Foundation; either version 3, or (at your option) any later
-# version.
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 3, or (at your option) any
+# later version.
 #
 # This program is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTIBILITY
@@ -118,10 +118,11 @@ def make_key(element_name, element_type, namespace):
     return (element_name, eltype, namespace)
 
 
-def process_element(elements, element_name, node, element_type, xsd_uri, dialect, namespace, qualified=None,
-                    soapenc_uri = 'http://schemas.xmlsoap.org/soap/encoding/',
+def process_element(elements, element_name, node, element_type, xsd_uri, 
+                    dialect, namespace, qualified=None,
+                    soapenc_uri='http://schemas.xmlsoap.org/soap/encoding/',
                     struct=None):
-    """Parse and define simple element types"""
+    """Parse and define simple element types as Struct objects"""
 
     log.debug('Processing element %s %s' % (element_name, element_type))
 
@@ -168,7 +169,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     c = e.children()
                     et = c.get_local_name()
                     c = c.children()
-                    process_element(elements, t, c, et, xsd_uri, dialect, namespace, qualified)
+                    process_element(elements, t, c, et, xsd_uri, dialect, 
+                                    namespace, qualified)
                 else:
                     t = 'anyType'  # no type given!
 
@@ -207,7 +209,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                             if fn_array is None and type_name != "anyType" and fn_namespace:
                                 # get the complext element:
                                 ref_type = "complexType"
-                                fn_complex = elements.setdefault(make_key(type_name, ref_type, fn_namespace), Struct())
+                                key = make_key(type_name, ref_type, fn_namespace)
+                                fn_complex = elements.setdefault(key, Struct())
                                 # create an indirect struct {type_name: ...}:
                                 fn_array = Struct()
                                 fn_array[type_name] = fn_complex
@@ -233,7 +236,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     ref_type = "complexType"
                 else:
                     ref_type = "element"
-                fn = elements.setdefault(make_key(type_name, ref_type, fn_namespace), Struct())
+                key = make_key(type_name, ref_type, fn_namespace)
+                fn = elements.setdefault(key, Struct())
 
             if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
                 # it's an array... TODO: compound arrays? and check ns uri!
@@ -271,16 +275,19 @@ def process_element(elements, element_name, node, element_type, xsd_uri, dialect
                     # TODO: check if this actually works for SimpleContent
                     base_struct = None
                 # extend base element:
-                process_element(elements, element_name, e.children(), element_type, xsd_uri, dialect, namespace, qualified, struct=base_struct)
+                process_element(elements, element_name, e.children(), 
+                                element_type, xsd_uri, dialect, namespace, 
+                                qualified, struct=base_struct)
 
         # add the processed element to the main dictionary (if not extension):
         if new_struct:
-            elements.setdefault(make_key(element_name, element_type, namespace), Struct()).update(struct)
-	
+            key = make_key(element_name, element_type, namespace)
+            elements.setdefault(key, Struct()).update(struct)
+
 
 def postprocess_element(elements, processed):
-    """Fix unresolved references (elements referenced before its definition, thanks .net)"""
-    
+    """Fix unresolved references"""
+    # (elements referenced before its definition, thanks .net)
     # avoid already processed elements:
     if elements in processed:
         return
@@ -302,7 +309,7 @@ def postprocess_element(elements, processed):
                             # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
                             if isinstance(v.refers_to, Struct) and v.refers_to.namespaces and kk:
                                 elements[k].namespaces[kk] = v.refers_to.namespaces[kk]
-                                elements[k].references[kk] = v.refers_to.references[kk]                                
+                                elements[k].references[kk] = v.refers_to.references[kk]
                     # clean the reference:
                     v.refers_to = None
                 else:  # "alias", just replace
@@ -349,7 +356,9 @@ get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
 get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
 
 
-def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, wsdl_basedir, global_namespaces=None, qualified=False):
+def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, 
+                      http, cache, force_download, wsdl_basedir, 
+                      global_namespaces=None, qualified=False):
     """Find schema elements and complex types"""
 
     from .simplexml import SimpleXMLElement    # here to avoid recursive imports
@@ -392,7 +401,9 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
 
             # Parse imported XML schema (recursively):
             imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
-            preprocess_schema(imported_schema, imported_schemas, elements, xsd_uri, dialect, http, cache, force_download, path, global_namespaces, qualified)
+            preprocess_schema(imported_schema, imported_schemas, elements, 
+                              xsd_uri, dialect, http, cache, force_download, 
+                              path, global_namespaces, qualified)
 
         element_type = element.get_local_name()
         if element_type in ('element', 'complexType', "simpleType"):
@@ -415,7 +426,8 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, http
                 elif element.get_local_name() == 'element':
                     children = element
             if children:
-                process_element(elements, element_name, children, element_type, xsd_uri, dialect, namespace, qualified)
+                process_element(elements, element_name, children, element_type,
+                                xsd_uri, dialect, namespace, qualified)
 
 
 # simplexml utilities:
@@ -531,7 +543,7 @@ class Struct(dict):
         self.array = False
         self.namespaces = {}     # key: element, value: namespace URI
         self.references = {}     # key: element, value: reference name
-        self.refers_to = None    # name of the "symbolic linked" struct
+        self.refers_to = None    # "symbolic linked" struct
         self.qualified = None
 
     def __setitem__(self, key, value):
