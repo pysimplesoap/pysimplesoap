@@ -251,10 +251,13 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                         # [{'ClassName': {'attr1': val1, 'attr2': val2}]
                         struct.array = True
                 else:
-                    if dialect in ('jetty',):
-                        # scalar support [{'attr1': [val1]}]
+                    if len(children) > 1 or dialect in ('jetty',):
+                        # Jetty style support
+                        # scalar array support {'attr1': [val1]}
                         fn = [fn]
                     else:
+                        # Jetty.NET style support (backward compatibility)
+                        # scalar array support [{'attr1': val1}]
                         struct.array = True
 
             # store the sub-element python type (function) in the element dict
