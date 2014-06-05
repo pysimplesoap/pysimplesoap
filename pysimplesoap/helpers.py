@@ -495,6 +495,7 @@ DateTime = datetime.datetime
 Date = datetime.date
 Time = datetime.time
 duration = Alias(str, 'duration')
+any_uri = Alias(str, 'anyURI')
 
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {
@@ -512,6 +513,7 @@ TYPE_MAP = {
     datetime.date: 'date',
     datetime.time: 'time',
     duration: 'duration',
+    any_uri: 'anyURI',
 }
 TYPE_MARSHAL_FN = {
     datetime.datetime: datetime_m,
