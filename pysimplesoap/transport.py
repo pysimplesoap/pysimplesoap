@@ -83,7 +83,7 @@ else:
         _wrapper_name = 'httplib2'
 
         def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
-            ##httplib2.debuglevel=4
+            httplib2.debuglevel=2 #TODO
             kwargs = {}
             if proxy:
                 import socks

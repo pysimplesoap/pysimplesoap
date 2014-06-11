@@ -76,12 +76,13 @@ class SoapClient(object):
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
                  username=None, password=None,
+                 key_file=None,
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
         """
         self.certssl = cert
-        self.keyssl = None
+        self.keyssl = key_file
         self.location = location        # server location (url)
         self.action = action            # SOAP base action
         self.namespace = namespace      # message
@@ -135,6 +136,9 @@ class SoapClient(object):
         if username and password:
             if hasattr(self.http, 'add_credentials'):
                 self.http.add_credentials(username, password)
+        if cert and key_file:
+            if hasattr(self.http, 'add_certificate'):
+                self.http.add_certificate(key=key_file, cert=cert, domain='')
             
 
         # namespace prefix, None to use xmlns attribute or False to not use it:
