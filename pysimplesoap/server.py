@@ -115,6 +115,9 @@ class SoapDispatcher(object):
     def register_function(self, name, fn, returns=None, args=None, doc=None):
         self.methods[name] = fn, returns, args, doc or getattr(fn, "__doc__", "")
 
+    def response_element_name(self, method):
+        return '%sResponse' % method
+
     def dispatch(self, xml, action=None, fault=None):
         """Receive and process SOAP call, returns the xml"""
         # a dict can be sent in fault to expose it to the caller
@@ -236,7 +239,7 @@ class SoapDispatcher(object):
             body.marshall("%s:Fault" % soap_ns, fault, ns=False)
         else:
             # return normal value
-            res = body.add_child("%sResponse" % name, ns=prefix)
+            res = body.add_child(self.response_element_name(name), ns=prefix)
             if not prefix:
                 res['xmlns'] = self.namespace  # add target namespace
 
