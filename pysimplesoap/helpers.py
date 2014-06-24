@@ -38,7 +38,7 @@ from . import __author__, __copyright__, __license__, __version__
 log = logging.getLogger(__name__)
 
 
-def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
+def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers={}):
     """Download a document from a URL, save it locally if cache enabled"""
 
     # check / append a valid schema if not given:
@@ -52,7 +52,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
                 else:
                     tmp_url = "%s:%s" % (scheme, path)
                 log.debug('Scheme not found, trying %s' % scheme)
-                return fetch(tmp_url, http, cache, force_download, wsdl_basedir)
+                return fetch(tmp_url, http, cache, force_download, wsdl_basedir, headers)
             except Exception as e:
                 log.error(e)
         raise RuntimeError('No scheme given for url: %s' % url)
@@ -73,7 +73,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir=''):
             xml = f.read()
         else:
             log.info('GET %s using %s' % (url, http._wrapper_version))
-            response, xml = http.request(url, 'GET', None, {})
+            response, xml = http.request(url, 'GET', None, headers)
         if cache:
             log.info('Writing file %s' % filename)
             if not os.path.isdir(cache):
