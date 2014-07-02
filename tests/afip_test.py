@@ -97,17 +97,6 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['dbserver'], "OK")
         self.assertEqual(result['authserver'], "OK")
 
-    def test_wscoc_dummy(self):
-        """Test Argentina AFIP Foreign Exchange Control WSCOC dummy method"""
-        client = SoapClient(
-            wsdl="https://fwshomo.afip.gov.ar/wscoc/COCService?wsdl",
-            cache=None, ns='ser'
-        )
-        result = client.dummy()['dummyReturn']
-        self.assertEqual(result['appserver'], "OK")
-        self.assertEqual(result['dbserver'], "OK")
-        self.assertEqual(result['authserver'], "OK")
-
     def test_wsfexv1_getcmp(self):
         """Test Argentina AFIP Electronic Invoice WSFEXv1 GetCMP method"""
         # create the proxy and parse the WSDL
