@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import sys
 import datetime
 import unittest
+from xml.dom.minidom import CDATASection
 from pysimplesoap.simplexml import SimpleXMLElement
 
 PY2 = sys.version < '3'
@@ -38,6 +39,21 @@ class TestSimpleXMLElement(unittest.TestCase):
             '<?xml version="1.0" encoding="UTF-8"?><span><a href="google.com">'
             'google</a><a>yahoo</a><a>hotmail</a></span>')
         self.eq(SimpleXMLElement(xml).as_xml(), xml if PY2 else xml.encode('utf-8'))
+
+    def test_unmarshall_cdata(self):
+        span = SimpleXMLElement('<span><name><![CDATA[foo<name/>]]></name><value>3</value></span>')
+        d = {'span': {'name': str, 'value': int}}
+        e = {'span': {'name': 'foo<name/>', 'value': 3}}
+        self.eq(span.unmarshall(d), e)
+
+    def test_marshall_cdata(self):
+        span = SimpleXMLElement('<span/>')
+        cdata = CDATASection()
+        cdata.data = 'python'
+        span.add_child('a', cdata)
+
+        xml = '<?xml version="1.0" encoding="UTF-8"?><span><a><![CDATA[python]]></a></span>'
+        self.eq(span.as_xml(), xml if PY2 else xml.encode('utf-8'))
 
     def test_unmarshall(self):
         span = SimpleXMLElement('<span><name>foo</name><value>3</value></span>')
