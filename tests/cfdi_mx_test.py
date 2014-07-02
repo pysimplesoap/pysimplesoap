@@ -40,7 +40,7 @@ class TestCFDI(unittest.TestCase):
     def test_cancela(self):
             
         # Concetarse al webservice (en producción, ver cache y otros parametros):
-        WSDL = "https://wsdexpruebas.ecodex.com.mx:2045/ServicioCancelacion.svc?wsdl"
+        WSDL = "https://pruebas.ecodex.com.mx:2045/ServicioCancelacion.svc?wsdl"
         client = SoapClient(wsdl=WSDL, ns="cfdi", soap_ns="soapenv")
   
         try:
