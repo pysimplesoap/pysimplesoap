@@ -79,7 +79,10 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, name)
         # don't append null tags!
         if text is not None:
-            element.appendChild(self.__document.createTextNode(text))
+            if isinstance(text, xml.dom.minidom.CDATASection):
+                element.appendChild(self.__document.createCDATASection(text.data))
+            else:
+                element.appendChild(self.__document.createTextNode(text))
         self._element.appendChild(element)
         return SimpleXMLElement(
             elements=[element],
@@ -291,7 +294,7 @@ class SimpleXMLElement(object):
         """Returns the unicode text nodes of the current element"""
         rc = ''
         for node in self._element.childNodes:
-            if node.nodeType == node.TEXT_NODE:
+            if node.nodeType == node.TEXT_NODE or node.nodeType == node.CDATA_SECTION_NODE:
                 rc = rc + node.data
         return rc
 
@@ -489,7 +492,7 @@ class SimpleXMLElement(object):
                 child.add_comment("Repetitive array of:")
             for t in value:
                 child.marshall(name, t, False, add_comments=add_comments, ns=ns)
-        elif isinstance(value, basestring):  # do not convert strings or unicodes
+        elif isinstance(value, (xml.dom.minidom.CDATASection, basestring)):  # do not convert strings or unicodes
             self.add_child(name, value, ns=ns)
         elif value is None:  # sent a empty tag?
             self.add_child(name, ns=ns)
