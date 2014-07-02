@@ -521,7 +521,7 @@ class SoapClient(object):
         REVERSE_TYPE_MAP['string'] = str
 
         # Open uri and read xml:
-        xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir)
+        xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
         # Parse WSDL XML:
         wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
@@ -544,7 +544,7 @@ class SoapClient(object):
                 imported_wsdls[wsdl_location] = wsdl_namespace
                 log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
                 # Open uri and read xml:
-                xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir)
+                xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
                 # Parse imported XML schema (recursively):
                 imported_wsdl = SimpleXMLElement(xml, namespace=xsd_uri)
                 # merge the imported wsdl into the main document:
