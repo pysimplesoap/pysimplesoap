@@ -523,39 +523,7 @@ class SoapClient(object):
 
         return wsdl
 
-    def wsdl_parse(self, url, cache=False):
-        """Parse Web Service Description v1.1"""
-
-        log.debug('Parsing wsdl url: %s' % url)
-        # Try to load a previously parsed wsdl:
-        force_download = False
-        if cache:
-            # make md5 hash of the url for caching...
-            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
-            if isinstance(cache, basestring):
-                filename_pkl = os.path.join(cache, filename_pkl)
-            if os.path.exists(filename_pkl):
-                log.debug('Unpickle file %s' % (filename_pkl, ))
-                f = open(filename_pkl, 'r')
-                pkl = pickle.load(f)
-                f.close()
-                # sanity check:
-                if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
-                    import warnings
-                    warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
-                    log.debug('Version: %s %s' % (pkl['version'], __version__))
-                    log.debug('URL: %s %s' % (pkl['url'], url))
-                    force_download = True
-                else:
-                    self.namespace = pkl['namespace']
-                    self.documentation = pkl['documentation']
-                    return pkl['services']
-
-        # always return an unicode object:
-        REVERSE_TYPE_MAP['string'] = str
-
-        wsdl = self._url_to_xml_tree(url, cache, force_download)
-
+    def _xml_tree_to_services(self, wsdl, cache, force_download):
         # detect soap prefix and uri (xmlns attributes of <definitions>)
         xsd_ns = None
         soap_uris = {}
@@ -756,6 +724,42 @@ class SoapClient(object):
                             op['output'] = get_message(messages, output_msg, op['parts'].get('output_body'))
                         else:
                             op['output'] = None
+
+        return services
+
+    def wsdl_parse(self, url, cache=False):
+        """Parse Web Service Description v1.1"""
+
+        log.debug('Parsing wsdl url: %s' % url)
+        # Try to load a previously parsed wsdl:
+        force_download = False
+        if cache:
+            # make md5 hash of the url for caching...
+            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
+            if isinstance(cache, basestring):
+                filename_pkl = os.path.join(cache, filename_pkl)
+            if os.path.exists(filename_pkl):
+                log.debug('Unpickle file %s' % (filename_pkl, ))
+                f = open(filename_pkl, 'r')
+                pkl = pickle.load(f)
+                f.close()
+                # sanity check:
+                if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
+                    import warnings
+                    warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
+                    log.debug('Version: %s %s' % (pkl['version'], __version__))
+                    log.debug('URL: %s %s' % (pkl['url'], url))
+                    force_download = True
+                else:
+                    self.namespace = pkl['namespace']
+                    self.documentation = pkl['documentation']
+                    return pkl['services']
+
+        # always return an unicode object:
+        REVERSE_TYPE_MAP['string'] = str
+
+        wsdl = self._url_to_xml_tree(url, cache, force_download)
+        services = self._xml_tree_to_services(wsdl, cache, force_download)
 
         # dump the full service/port/operation map
         #log.debug(pprint.pformat(services))
