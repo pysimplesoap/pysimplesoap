@@ -94,9 +94,9 @@ class SoapClient(object):
             # parse the wsdl url, strip the scheme and filename
             url_scheme, netloc, path, query, fragment = urlsplit(wsdl)
             wsdl_basedir = os.path.dirname(netloc + path)
-            
+
         self.wsdl_basedir = wsdl_basedir
-        
+
         # shortcut to print all debugging info and sent / received xml messages
         if trace:
             if trace is True:
@@ -105,7 +105,7 @@ class SoapClient(object):
                 level = trace                   # use the provided level
             logging.basicConfig(level=level)
             log.setLevel(level)
-        
+
         if not soap_ns and not ns:
             self.__soap_ns = 'soap'  # 1.1
         elif not soap_ns and ns:
@@ -139,7 +139,7 @@ class SoapClient(object):
         if cert and key_file:
             if hasattr(self.http, 'add_certificate'):
                 self.http.add_certificate(key=key_file, cert=cert, domain='')
-            
+
 
         # namespace prefix, None to use xmlns attribute or False to not use it:
         self.__ns = ns
@@ -189,7 +189,7 @@ class SoapClient(object):
                                 ns=self.__ns,               # method ns prefix
                                 soap_ns=self.__soap_ns,     # soap prefix & uri
                                 soap_uri=soap_namespaces[self.__soap_ns])
-        request = SimpleXMLElement(xml, namespace=self.__ns and self.namespace, 
+        request = SimpleXMLElement(xml, namespace=self.__ns and self.namespace,
                                         prefix=self.__ns)
 
         request_headers = kwargs.pop('headers', None)
@@ -321,10 +321,10 @@ class SoapClient(object):
         header = operation.get('header')
         if 'action' in operation:
             self.action = operation['action']
-        
+
         if 'namespace' in operation:
             self.namespace = operation['namespace'] or ''
-            self.qualified = operation['qualified']            
+            self.qualified = operation['qualified']
 
         # construct header and parameters
         if header:
@@ -370,7 +370,7 @@ class SoapClient(object):
             params = []
             # make a params tuple list suitable for self.call(method, *params)
             for k, v in root.items():
-                # fix referenced namespaces as info is lost when calling call 
+                # fix referenced namespaces as info is lost when calling call
                 root_ns = root.namespaces[k]
                 if not root.references[k] and isinstance(v, Struct):
                     v.namespaces[None] = root_ns
@@ -390,7 +390,7 @@ class SoapClient(object):
         return (method, params)
 
     def wsdl_validate_params(self, struct, value):
-        """Validate the arguments (actual values) for the parameters structure. 
+        """Validate the arguments (actual values) for the parameters structure.
            Fail for any invalid arguments or type mismatches."""
         errors = []
         warnings = []
@@ -406,7 +406,7 @@ class SoapClient(object):
 
         if struct == str:
             struct = unicode        # fix for py2 vs py3 string handling
-        
+
         if not isinstance(struct, (list, dict, tuple)) and struct in TYPE_MAP.keys():
             if not type(value) == struct:
                 try:
@@ -568,6 +568,7 @@ class SoapClient(object):
         messages = {}            # message: element
         elements = {}            # element: type def
 
+        default_service = None
         for service in wsdl("service", error=False) or []:
             service_name = service['name']
             if not service_name:
@@ -589,7 +590,7 @@ class SoapClient(object):
 
         # create an default service if none is given in the wsdl:
         if not services:
-            serv = services[''] = {'ports': {'': None}} 
+            default_service = services[''] = {'ports': {'': None}}
 
         for binding in wsdl.binding:
             binding_name = binding['name']
@@ -597,12 +598,12 @@ class SoapClient(object):
             transport = soap_binding and soap_binding['transport'] or None
             style = soap_binding and soap_binding['style'] or None  # rpc
             port_type_name = get_local_name(binding['type'])
-            # create the binding in the default service: 
-            if not binding_name in bindings:
+            # create the binding in the default service:
+            if default_service and (not binding_name in bindings):
                 bindings[binding_name] = {'name': binding_name, 'style': style,
-                                          'service_name': '', 'location': '', 
+                                          'service_name': '', 'location': '',
                                           'soap_uri': '', 'soap_ver': 'soap11'}
-                serv['ports'][''] = bindings[binding_name]
+                default_service['ports'][''] = bindings[binding_name]
             bindings[binding_name].update({
                 'port_type_name': port_type_name,
                 'transport': transport, 'operations': {},
@@ -641,7 +642,7 @@ class SoapClient(object):
                     d['action'] = action
 
         # check axis2 namespace at schema types attributes (europa.eu checkVat)
-        if "http://xml.apache.org/xml-soap" in dict(wsdl[:]).values(): 
+        if "http://xml.apache.org/xml-soap" in dict(wsdl[:]).values():
             # get the sub-namespace in the first schema element (see issue 8)
             if wsdl('types', error=False):
                 schema = wsdl.types('schema', ns=xsd_uri)
@@ -649,16 +650,16 @@ class SoapClient(object):
                 self.namespace = attrs.get('targetNamespace', self.namespace)
             if not self.namespace or self.namespace == "urn:DefaultNamespace":
                 self.namespace = wsdl['targetNamespace'] or self.namespace
-                
+
         imported_schemas = {}
         global_namespaces = {None: self.namespace}
 
         # process current wsdl schema (if any):
         if wsdl('types', error=False):
             for schema in wsdl.types('schema', ns=xsd_uri):
-                preprocess_schema(schema, imported_schemas, elements, xsd_uri, 
-                                  self.__soap_server, self.http, cache, 
-                                  force_download, self.wsdl_basedir, 
+                preprocess_schema(schema, imported_schemas, elements, xsd_uri,
+                                  self.__soap_server, self.http, cache,
+                                  force_download, self.wsdl_basedir,
                                   global_namespaces=global_namespaces)
 
         # 2nd phase: alias, postdefined elements, extend bases, convert lists
