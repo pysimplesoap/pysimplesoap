@@ -481,6 +481,48 @@ class SoapClient(object):
             headers,
         )
 
+    soap_ns = {
+        'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
+        'http://schemas.xmlsoap.org/wsdl/soap12/': 'soap12',
+    }
+    wsdl_uri = 'http://schemas.xmlsoap.org/wsdl/'
+    xsd_uri = 'http://www.w3.org/2001/XMLSchema'
+    xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
+
+    def _url_to_xml_tree(self, url, cache, force_download):
+        # Open uri and read xml:
+        xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
+        # Parse WSDL XML:
+        wsdl = SimpleXMLElement(xml, namespace=self.wsdl_uri)
+
+        # Extract useful data:
+        self.namespace = ""
+        self.documentation = unicode(wsdl('documentation', error=False)) or ''
+
+        # some wsdl are splitted down in several files, join them:
+        imported_wsdls = {}
+        for element in wsdl.children() or []:
+            if element.get_local_name() in ('import'):
+                wsdl_namespace = element['namespace']
+                wsdl_location = element['location']
+                if wsdl_location is None:
+                    log.warning('WSDL location not provided for %s!' % wsdl_namespace)
+                    continue
+                if wsdl_location in imported_wsdls:
+                    log.warning('WSDL %s already imported!' % wsdl_location)
+                    continue
+                imported_wsdls[wsdl_location] = wsdl_namespace
+                log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
+                # Open uri and read xml:
+                xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
+                # Parse imported XML schema (recursively):
+                imported_wsdl = SimpleXMLElement(xml, namespace=self.xsd_uri)
+                # merge the imported wsdl into the main document:
+                wsdl.import_node(imported_wsdl)
+                # warning: do not process schemas to avoid infinite recursion!
+
+        return wsdl
+
     def wsdl_parse(self, url, cache=False):
         """Parse Web Service Description v1.1"""
 
@@ -509,56 +551,18 @@ class SoapClient(object):
                     self.documentation = pkl['documentation']
                     return pkl['services']
 
-        soap_ns = {
-            'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
-            'http://schemas.xmlsoap.org/wsdl/soap12/': 'soap12',
-        }
-        wsdl_uri = 'http://schemas.xmlsoap.org/wsdl/'
-        xsd_uri = 'http://www.w3.org/2001/XMLSchema'
-        xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
-
         # always return an unicode object:
         REVERSE_TYPE_MAP['string'] = str
 
-        # Open uri and read xml:
-        xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
-        # Parse WSDL XML:
-        wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
-
-        # Extract useful data:
-        self.namespace = ""
-        self.documentation = unicode(wsdl('documentation', error=False)) or ''
-
-        # some wsdl are splitted down in several files, join them:
-        imported_wsdls = {}
-        for element in wsdl.children() or []:
-            if element.get_local_name() in ('import'):
-                wsdl_namespace = element['namespace']
-                wsdl_location = element['location']
-                if wsdl_location is None:
-                    log.warning('WSDL location not provided for %s!' % wsdl_namespace)
-                    continue
-                if wsdl_location in imported_wsdls:
-                    log.warning('WSDL %s already imported!' % wsdl_location)
-                    continue
-                imported_wsdls[wsdl_location] = wsdl_namespace
-                log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
-                # Open uri and read xml:
-                xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
-                # Parse imported XML schema (recursively):
-                imported_wsdl = SimpleXMLElement(xml, namespace=xsd_uri)
-                # merge the imported wsdl into the main document:
-                wsdl.import_node(imported_wsdl)
-                # warning: do not process schemas to avoid infinite recursion!
-
+        wsdl = self._url_to_xml_tree(url, cache, force_download)
 
         # detect soap prefix and uri (xmlns attributes of <definitions>)
         xsd_ns = None
         soap_uris = {}
         for k, v in wsdl[:]:
-            if v in soap_ns and k.startswith('xmlns:'):
+            if v in self.soap_ns and k.startswith('xmlns:'):
                 soap_uris[get_local_name(k)] = v
-            if v == xsd_uri and k.startswith('xmlns:'):
+            if v == self.xsd_uri and k.startswith('xmlns:'):
                 xsd_ns = get_local_name(k)
 
         services = {}
@@ -580,7 +584,7 @@ class SoapClient(object):
                 address = port('address', ns=list(soap_uris.values()), error=False)
                 location = address and address['location'] or None
                 soap_uri = address and soap_uris.get(address.get_prefix())
-                soap_ver = soap_uri and soap_ns.get(soap_uri)
+                soap_ver = soap_uri and self.soap_ns.get(soap_uri)
                 bindings[binding_name] = {'name': binding_name,
                                           'service_name': service_name,
                                           'location': location,
@@ -645,7 +649,7 @@ class SoapClient(object):
         if "http://xml.apache.org/xml-soap" in dict(wsdl[:]).values():
             # get the sub-namespace in the first schema element (see issue 8)
             if wsdl('types', error=False):
-                schema = wsdl.types('schema', ns=xsd_uri)
+                schema = wsdl.types('schema', ns=self.xsd_uri)
                 attrs = dict(schema[:])
                 self.namespace = attrs.get('targetNamespace', self.namespace)
             if not self.namespace or self.namespace == "urn:DefaultNamespace":
@@ -656,8 +660,8 @@ class SoapClient(object):
 
         # process current wsdl schema (if any):
         if wsdl('types', error=False):
-            for schema in wsdl.types('schema', ns=xsd_uri):
-                preprocess_schema(schema, imported_schemas, elements, xsd_uri,
+            for schema in wsdl.types('schema', ns=self.xsd_uri):
+                preprocess_schema(schema, imported_schemas, elements, self.xsd_uri,
                                   self.__soap_server, self.http, cache,
                                   force_download, self.wsdl_basedir,
                                   global_namespaces=global_namespaces)
@@ -675,7 +679,7 @@ class SoapClient(object):
                 type_ns = get_namespace_prefix(element_name)
                 type_uri = wsdl.get_namespace_uri(type_ns)
                 part_name = part['name'] or None
-                if type_uri == xsd_uri:
+                if type_uri == self.xsd_uri:
                     element_name = get_local_name(element_name)
                     fn = REVERSE_TYPE_MAP.get(element_name, None)
                     element = {part_name: fn}
