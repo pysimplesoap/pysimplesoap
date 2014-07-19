@@ -481,7 +481,7 @@ class SoapClient(object):
             headers,
         )
 
-    soap_ns = {
+    soap_ns_uris = {
         'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
         'http://schemas.xmlsoap.org/wsdl/soap12/': 'soap12',
     }
@@ -528,7 +528,7 @@ class SoapClient(object):
         xsd_ns = None
         soap_uris = {}
         for k, v in wsdl[:]:
-            if v in self.soap_ns and k.startswith('xmlns:'):
+            if v in self.soap_ns_uris and k.startswith('xmlns:'):
                 soap_uris[get_local_name(k)] = v
             if v == self.xsd_uri and k.startswith('xmlns:'):
                 xsd_ns = get_local_name(k)
@@ -552,7 +552,7 @@ class SoapClient(object):
                 address = port('address', ns=list(soap_uris.values()), error=False)
                 location = address and address['location'] or None
                 soap_uri = address and soap_uris.get(address.get_prefix())
-                soap_ver = soap_uri and self.soap_ns.get(soap_uri)
+                soap_ver = soap_uri and self.soap_ns_uris.get(soap_uri)
                 bindings[binding_name] = {'name': binding_name,
                                           'service_name': service_name,
                                           'location': location,
