@@ -94,9 +94,9 @@ class SoapClient(object):
             # parse the wsdl url, strip the scheme and filename
             url_scheme, netloc, path, query, fragment = urlsplit(wsdl)
             wsdl_basedir = os.path.dirname(netloc + path)
-            
+
         self.wsdl_basedir = wsdl_basedir
-        
+
         # shortcut to print all debugging info and sent / received xml messages
         if trace:
             if trace is True:
@@ -105,7 +105,7 @@ class SoapClient(object):
                 level = trace                   # use the provided level
             logging.basicConfig(level=level)
             log.setLevel(level)
-        
+
         if not soap_ns and not ns:
             self.__soap_ns = 'soap'  # 1.1
         elif not soap_ns and ns:
@@ -139,7 +139,7 @@ class SoapClient(object):
         if cert and key_file:
             if hasattr(self.http, 'add_certificate'):
                 self.http.add_certificate(key=key_file, cert=cert, domain='')
-            
+
 
         # namespace prefix, None to use xmlns attribute or False to not use it:
         self.__ns = ns
@@ -189,7 +189,7 @@ class SoapClient(object):
                                 ns=self.__ns,               # method ns prefix
                                 soap_ns=self.__soap_ns,     # soap prefix & uri
                                 soap_uri=soap_namespaces[self.__soap_ns])
-        request = SimpleXMLElement(xml, namespace=self.__ns and self.namespace, 
+        request = SimpleXMLElement(xml, namespace=self.__ns and self.namespace,
                                         prefix=self.__ns)
 
         request_headers = kwargs.pop('headers', None)
@@ -321,10 +321,10 @@ class SoapClient(object):
         header = operation.get('header')
         if 'action' in operation:
             self.action = operation['action']
-        
+
         if 'namespace' in operation:
             self.namespace = operation['namespace'] or ''
-            self.qualified = operation['qualified']            
+            self.qualified = operation['qualified']
 
         # construct header and parameters
         if header:
@@ -370,7 +370,7 @@ class SoapClient(object):
             params = []
             # make a params tuple list suitable for self.call(method, *params)
             for k, v in root.items():
-                # fix referenced namespaces as info is lost when calling call 
+                # fix referenced namespaces as info is lost when calling call
                 root_ns = root.namespaces[k]
                 if not root.references[k] and isinstance(v, Struct):
                     v.namespaces[None] = root_ns
@@ -390,7 +390,7 @@ class SoapClient(object):
         return (method, params)
 
     def wsdl_validate_params(self, struct, value):
-        """Validate the arguments (actual values) for the parameters structure. 
+        """Validate the arguments (actual values) for the parameters structure.
            Fail for any invalid arguments or type mismatches."""
         errors = []
         warnings = []
@@ -406,7 +406,7 @@ class SoapClient(object):
 
         if struct == str:
             struct = unicode        # fix for py2 vs py3 string handling
-        
+
         if not isinstance(struct, (list, dict, tuple)) and struct in TYPE_MAP.keys():
             if not type(value) == struct:
                 try:
@@ -481,49 +481,19 @@ class SoapClient(object):
             headers,
         )
 
-    def wsdl_parse(self, url, cache=False):
-        """Parse Web Service Description v1.1"""
+    soap_ns_uris = {
+        'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
+        'http://schemas.xmlsoap.org/wsdl/soap12/': 'soap12',
+    }
+    wsdl_uri = 'http://schemas.xmlsoap.org/wsdl/'
+    xsd_uri = 'http://www.w3.org/2001/XMLSchema'
+    xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
 
-        log.debug('Parsing wsdl url: %s' % url)
-        # Try to load a previously parsed wsdl:
-        force_download = False
-        if cache:
-            # make md5 hash of the url for caching...
-            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
-            if isinstance(cache, basestring):
-                filename_pkl = os.path.join(cache, filename_pkl)
-            if os.path.exists(filename_pkl):
-                log.debug('Unpickle file %s' % (filename_pkl, ))
-                f = open(filename_pkl, 'r')
-                pkl = pickle.load(f)
-                f.close()
-                # sanity check:
-                if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
-                    import warnings
-                    warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
-                    log.debug('Version: %s %s' % (pkl['version'], __version__))
-                    log.debug('URL: %s %s' % (pkl['url'], url))
-                    force_download = True
-                else:
-                    self.namespace = pkl['namespace']
-                    self.documentation = pkl['documentation']
-                    return pkl['services']
-
-        soap_ns = {
-            'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
-            'http://schemas.xmlsoap.org/wsdl/soap12/': 'soap12',
-        }
-        wsdl_uri = 'http://schemas.xmlsoap.org/wsdl/'
-        xsd_uri = 'http://www.w3.org/2001/XMLSchema'
-        xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
-
-        # always return an unicode object:
-        REVERSE_TYPE_MAP['string'] = str
-
+    def _url_to_xml_tree(self, url, cache, force_download):
         # Open uri and read xml:
         xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
         # Parse WSDL XML:
-        wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
+        wsdl = SimpleXMLElement(xml, namespace=self.wsdl_uri)
 
         # Extract useful data:
         self.namespace = ""
@@ -546,19 +516,21 @@ class SoapClient(object):
                 # Open uri and read xml:
                 xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
                 # Parse imported XML schema (recursively):
-                imported_wsdl = SimpleXMLElement(xml, namespace=xsd_uri)
+                imported_wsdl = SimpleXMLElement(xml, namespace=self.xsd_uri)
                 # merge the imported wsdl into the main document:
                 wsdl.import_node(imported_wsdl)
                 # warning: do not process schemas to avoid infinite recursion!
 
+        return wsdl
 
+    def _xml_tree_to_services(self, wsdl, cache, force_download):
         # detect soap prefix and uri (xmlns attributes of <definitions>)
         xsd_ns = None
         soap_uris = {}
         for k, v in wsdl[:]:
-            if v in soap_ns and k.startswith('xmlns:'):
+            if v in self.soap_ns_uris and k.startswith('xmlns:'):
                 soap_uris[get_local_name(k)] = v
-            if v == xsd_uri and k.startswith('xmlns:'):
+            if v == self.xsd_uri and k.startswith('xmlns:'):
                 xsd_ns = get_local_name(k)
 
         services = {}
@@ -568,6 +540,7 @@ class SoapClient(object):
         messages = {}            # message: element
         elements = {}            # element: type def
 
+        default_service = None
         for service in wsdl("service", error=False) or []:
             service_name = service['name']
             if not service_name:
@@ -579,7 +552,7 @@ class SoapClient(object):
                 address = port('address', ns=list(soap_uris.values()), error=False)
                 location = address and address['location'] or None
                 soap_uri = address and soap_uris.get(address.get_prefix())
-                soap_ver = soap_uri and soap_ns.get(soap_uri)
+                soap_ver = soap_uri and self.soap_ns_uris.get(soap_uri)
                 bindings[binding_name] = {'name': binding_name,
                                           'service_name': service_name,
                                           'location': location,
@@ -589,7 +562,7 @@ class SoapClient(object):
 
         # create an default service if none is given in the wsdl:
         if not services:
-            serv = services[''] = {'ports': {'': None}} 
+            default_service = services[''] = {'ports': {'': None}}
 
         for binding in wsdl.binding:
             binding_name = binding['name']
@@ -597,12 +570,12 @@ class SoapClient(object):
             transport = soap_binding and soap_binding['transport'] or None
             style = soap_binding and soap_binding['style'] or None  # rpc
             port_type_name = get_local_name(binding['type'])
-            # create the binding in the default service: 
-            if not binding_name in bindings:
+            # create the binding in the default service:
+            if default_service and (not binding_name in bindings):
                 bindings[binding_name] = {'name': binding_name, 'style': style,
-                                          'service_name': '', 'location': '', 
+                                          'service_name': '', 'location': '',
                                           'soap_uri': '', 'soap_ver': 'soap11'}
-                serv['ports'][''] = bindings[binding_name]
+                default_service['ports'][''] = bindings[binding_name]
             bindings[binding_name].update({
                 'port_type_name': port_type_name,
                 'transport': transport, 'operations': {},
@@ -641,24 +614,24 @@ class SoapClient(object):
                     d['action'] = action
 
         # check axis2 namespace at schema types attributes (europa.eu checkVat)
-        if "http://xml.apache.org/xml-soap" in dict(wsdl[:]).values(): 
+        if "http://xml.apache.org/xml-soap" in dict(wsdl[:]).values():
             # get the sub-namespace in the first schema element (see issue 8)
             if wsdl('types', error=False):
-                schema = wsdl.types('schema', ns=xsd_uri)
+                schema = wsdl.types('schema', ns=self.xsd_uri)
                 attrs = dict(schema[:])
                 self.namespace = attrs.get('targetNamespace', self.namespace)
             if not self.namespace or self.namespace == "urn:DefaultNamespace":
                 self.namespace = wsdl['targetNamespace'] or self.namespace
-                
+
         imported_schemas = {}
         global_namespaces = {None: self.namespace}
 
         # process current wsdl schema (if any):
         if wsdl('types', error=False):
-            for schema in wsdl.types('schema', ns=xsd_uri):
-                preprocess_schema(schema, imported_schemas, elements, xsd_uri, 
-                                  self.__soap_server, self.http, cache, 
-                                  force_download, self.wsdl_basedir, 
+            for schema in wsdl.types('schema', ns=self.xsd_uri):
+                preprocess_schema(schema, imported_schemas, elements, self.xsd_uri,
+                                  self.__soap_server, self.http, cache,
+                                  force_download, self.wsdl_basedir,
                                   global_namespaces=global_namespaces)
 
         # 2nd phase: alias, postdefined elements, extend bases, convert lists
@@ -674,7 +647,7 @@ class SoapClient(object):
                 type_ns = get_namespace_prefix(element_name)
                 type_uri = wsdl.get_namespace_uri(type_ns)
                 part_name = part['name'] or None
-                if type_uri == xsd_uri:
+                if type_uri == self.xsd_uri:
                     element_name = get_local_name(element_name)
                     fn = REVERSE_TYPE_MAP.get(element_name, None)
                     element = {part_name: fn}
@@ -751,6 +724,42 @@ class SoapClient(object):
                             op['output'] = get_message(messages, output_msg, op['parts'].get('output_body'))
                         else:
                             op['output'] = None
+
+        return services
+
+    def wsdl_parse(self, url, cache=False):
+        """Parse Web Service Description v1.1"""
+
+        log.debug('Parsing wsdl url: %s' % url)
+        # Try to load a previously parsed wsdl:
+        force_download = False
+        if cache:
+            # make md5 hash of the url for caching...
+            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
+            if isinstance(cache, basestring):
+                filename_pkl = os.path.join(cache, filename_pkl)
+            if os.path.exists(filename_pkl):
+                log.debug('Unpickle file %s' % (filename_pkl, ))
+                f = open(filename_pkl, 'r')
+                pkl = pickle.load(f)
+                f.close()
+                # sanity check:
+                if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
+                    import warnings
+                    warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
+                    log.debug('Version: %s %s' % (pkl['version'], __version__))
+                    log.debug('URL: %s %s' % (pkl['url'], url))
+                    force_download = True
+                else:
+                    self.namespace = pkl['namespace']
+                    self.documentation = pkl['documentation']
+                    return pkl['services']
+
+        # always return an unicode object:
+        REVERSE_TYPE_MAP['string'] = str
+
+        wsdl = self._url_to_xml_tree(url, cache, force_download)
+        services = self._xml_tree_to_services(wsdl, cache, force_download)
 
         # dump the full service/port/operation map
         #log.debug(pprint.pformat(services))
