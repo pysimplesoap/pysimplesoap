@@ -118,7 +118,7 @@ def make_key(element_name, element_type, namespace):
     return (element_name, eltype, namespace)
 
 
-def process_element(elements, element_name, node, element_type, xsd_uri, 
+def process_element(elements, element_name, node, element_type, xsd_uri,
                     dialect, namespace, qualified=None,
                     soapenc_uri='http://schemas.xmlsoap.org/soap/encoding/',
                     struct=None):
@@ -128,7 +128,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
 
     # iterate over inner tags of the element definition:
     for tag in node:
-        
+
         # sanity checks (skip superfluous xml tags, resolve aliases, etc.):
         if tag.get_local_name() in ('annotation', 'documentation'):
             continue
@@ -165,11 +165,11 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                 # "anonymous" elements had no type attribute but children
                 if e['name'] and e.children():
                     # create a type name to process the children
-                    t = "%s_%s" % (element_name, e['name'])  
+                    t = "%s_%s" % (element_name, e['name'])
                     c = e.children()
                     et = c.get_local_name()
                     c = c.children()
-                    process_element(elements, t, c, et, xsd_uri, dialect, 
+                    process_element(elements, t, c, et, xsd_uri, dialect,
                                     namespace, qualified)
                 else:
                     t = 'anyType'  # no type given!
@@ -184,7 +184,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                 continue   # abort to prevent infinite recursion
             uri = ns and e.get_namespace_uri(ns) or xsd_uri
 
-            # look for the conversion function (python type) 
+            # look for the conversion function (python type)
             if uri in (xsd_uri, soapenc_uri) and type_name != 'Array':
                 # look for the type, None == any
                 fn = REVERSE_TYPE_MAP.get(type_name, None)
@@ -230,7 +230,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                 for k, v in e[:]:
                     if k.startswith("xmlns:"):
                         # get the namespace uri from the element
-                        fn_namespace = v        
+                        fn_namespace = v
                 # create and store an empty python element (dict) filled later
                 if not e['ref']:
                     ref_type = "complexType"
@@ -264,7 +264,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
             if (e['name'] is not None and not alias) or e['ref']:
                 e_name = e['name'] or type_name  # for refs, use the type name
                 struct[e_name] = fn
-                struct.references[e_name] = e['ref']                    
+                struct.references[e_name] = e['ref']
                 struct.namespaces[e_name] = namespace  # set the element namespace
             else:
                 log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
@@ -278,8 +278,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                     # TODO: check if this actually works for SimpleContent
                     base_struct = None
                 # extend base element:
-                process_element(elements, element_name, e.children(), 
-                                element_type, xsd_uri, dialect, namespace, 
+                process_element(elements, element_name, e.children(),
+                                element_type, xsd_uri, dialect, namespace,
                                 qualified, struct=base_struct)
 
         # add the processed element to the main dictionary (if not extension):
@@ -295,7 +295,7 @@ def postprocess_element(elements, processed):
     if elements in processed:
         return
     processed.append(elements)
-    
+
     for k, v in elements.items():
         if isinstance(v, Struct):
             if v != elements:  # TODO: fix recursive elements
@@ -359,8 +359,8 @@ get_local_name = lambda s: s and str((':' in s) and s.split(':')[1] or s)
 get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or None)
 
 
-def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect, 
-                      http, cache, force_download, wsdl_basedir, 
+def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
+                      http, cache, force_download, wsdl_basedir,
                       global_namespaces=None, qualified=False):
     """Find schema elements and complex types"""
 
@@ -382,7 +382,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
     for ns in local_namespaces.values():
         if ns not in global_namespaces:
             global_namespaces[ns] = 'ns%s' % len(global_namespaces)
-            
+
     for element in schema.children() or []:
         if element.get_local_name() in ('import', 'include',):
             schema_namespace = element['namespace']
@@ -397,15 +397,15 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             log.debug('Importing schema %s from %s' % (schema_namespace, schema_location))
             # Open uri and read xml:
             xml = fetch(schema_location, http, cache, force_download, wsdl_basedir)
-            
-            # recalculate base path for relative schema locations 
+
+            # recalculate base path for relative schema locations
             path = os.path.normpath(os.path.join(wsdl_basedir, schema_location))
             path = os.path.dirname(path)
 
             # Parse imported XML schema (recursively):
             imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
-            preprocess_schema(imported_schema, imported_schemas, elements, 
-                              xsd_uri, dialect, http, cache, force_download, 
+            preprocess_schema(imported_schema, imported_schemas, elements,
+                              xsd_uri, dialect, http, cache, force_download,
                               path, global_namespaces, qualified)
 
         element_type = element.get_local_name()
@@ -450,7 +450,25 @@ def datetime_u(s):
         try:
             # strip utc offset
             if s[-3] == ":" and s[-6] in (' ', '-', '+'):
-                warnings.warn('removing unsupported UTC offset', RuntimeWarning)
+                try:
+                    import iso8601
+                    return iso8601.parse_date(s)
+                except ImportError:
+                    pass
+
+                try:
+                    import isodate
+                    return isodate.parse_datetime(s)
+                except ImportError:
+                    pass
+
+                try:
+                    import dateutil.parser
+                    return dateutil.parser.parse(s)
+                except ImportError:
+                    pass
+
+                warnings.warn('removing unsupported UTC offset. Install `iso8601`, `isodate` or `python-dateutil` package to support it', RuntimeWarning)
                 s = s[:-6]
             # parse microseconds
             try:
@@ -537,12 +555,12 @@ REVERSE_TYPE_MAP.update({
 
 # insert str here to avoid collision in REVERSE_TYPE_MAP (i.e. decoding errors)
 if str not in TYPE_MAP:
-    TYPE_MAP[str] = 'string'    
+    TYPE_MAP[str] = 'string'
 
 
 class Struct(dict):
     """Minimal ordered dictionary to represent elements (i.e. xsd:sequences)"""
-    
+
     def __init__(self):
         self.__keys = []
         self.array = False
@@ -582,7 +600,7 @@ class Struct(dict):
         if isinstance(other, Struct) and not self.array:
             self.array = other.array
         if isinstance(other, Struct):
-            # TODO: check replacing default ns is a regression 
+            # TODO: check replacing default ns is a regression
             self.namespaces.update(other.namespaces)
             self.references.update(other.references)
             self.qualified = other.qualified
