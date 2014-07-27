@@ -21,6 +21,7 @@ try:
     import cPickle as pickle
 except ImportError:
     import pickle
+import copy
 import hashlib
 import logging
 import os
@@ -533,85 +534,11 @@ class SoapClient(object):
             if v == self.xsd_uri and k.startswith('xmlns:'):
                 xsd_ns = get_local_name(k)
 
-        services = {}
-        bindings = {}            # binding_name: binding
-        operations = {}          # operation_name: operation
-        port_type_bindings = {}  # port_type_name: binding
-        messages = {}            # message: element
         elements = {}            # element: type def
-
-        default_service = None
-        for service in wsdl("service", error=False) or []:
-            service_name = service['name']
-            if not service_name:
-                continue  # empty service?
-            serv = services.setdefault(service_name, {'ports': {}})
-            serv['documentation'] = service['documentation'] or ''
-            for port in service.port:
-                binding_name = get_local_name(port['binding'])
-                address = port('address', ns=list(soap_uris.values()), error=False)
-                location = address and address['location'] or None
-                soap_uri = address and soap_uris.get(address.get_prefix())
-                soap_ver = soap_uri and self.soap_ns_uris.get(soap_uri)
-                bindings[binding_name] = {'name': binding_name,
-                                          'service_name': service_name,
-                                          'location': location,
-                                          'soap_uri': soap_uri,
-                                          'soap_ver': soap_ver, }
-                serv['ports'][port['name']] = bindings[binding_name]
-
-        # create an default service if none is given in the wsdl:
-        if not services:
-            default_service = services[''] = {'ports': {'': None}}
-
-        for binding in wsdl.binding:
-            binding_name = binding['name']
-            soap_binding = binding('binding', ns=list(soap_uris.values()), error=False)
-            transport = soap_binding and soap_binding['transport'] or None
-            style = soap_binding and soap_binding['style'] or None  # rpc
-            port_type_name = get_local_name(binding['type'])
-            # create the binding in the default service:
-            if default_service and (not binding_name in bindings):
-                bindings[binding_name] = {'name': binding_name, 'style': style,
-                                          'service_name': '', 'location': '',
-                                          'soap_uri': '', 'soap_ver': 'soap11'}
-                default_service['ports'][''] = bindings[binding_name]
-            bindings[binding_name].update({
-                'port_type_name': port_type_name,
-                'transport': transport, 'operations': {},
-            })
-            if port_type_name not in port_type_bindings:
-                port_type_bindings[port_type_name] = []
-            port_type_bindings[port_type_name].append(bindings[binding_name])
-            operations[binding_name] = {}
-            for operation in binding.operation:
-                op_name = operation['name']
-                op = operation('operation', ns=list(soap_uris.values()), error=False)
-                action = op and op['soapAction']
-                d = operations[binding_name].setdefault(op_name, {})
-                bindings[binding_name]['operations'][op_name] = d
-                d.update({'name': op_name})
-                d['parts'] = {}
-                # input and/or ouput can be not present!
-                input = operation('input', error=False)
-                body = input and input('body', ns=list(soap_uris.values()), error=False)
-                d['parts']['input_body'] = body and body['parts'] or None
-                output = operation('output', error=False)
-                body = output and output('body', ns=list(soap_uris.values()), error=False)
-                d['parts']['output_body'] = body and body['parts'] or None
-                # parse optional header messages (some implementations use more than one!)
-                d['parts']['input_headers']  = []
-                headers = input and input('header', ns=list(soap_uris.values()), error=False)
-                for header in headers or []:
-                    hdr = {'message': header['message'], 'part': header['part']}
-                    d['parts']['input_headers'].append(hdr)
-                d['parts']['output_headers']  = []
-                headers = output and output('header', ns=list(soap_uris.values()), error=False)
-                for header in headers or []:
-                    hdr = {'message': header['message'], 'part': header['part']}
-                    d['parts']['output_headers'].append(hdr)
-                if action:
-                    d['action'] = action
+        messages = {}            # message: element
+        port_types = {}          # port_type_name: port_type
+        bindings = {}            # binding_name: binding
+        services = {}            # service_name: service
 
         # check axis2 namespace at schema types attributes (europa.eu checkVat)
         if "http://xml.apache.org/xml-soap" in dict(wsdl[:]).values():
@@ -677,53 +604,151 @@ class SoapClient(object):
                         element = {element_name: fn}
                     messages[(message['name'], part_name)] = element
 
-        for port_type in wsdl.portType:
-            port_type_name = port_type['name']
+        for port_type_node in wsdl.portType:
+            port_type_name = port_type_node['name']
+            port_type = port_types[port_type_name] = {}
+            operations = port_type['operations'] = {}
 
-            for binding in port_type_bindings.get(port_type_name, []):
-                for operation in port_type.operation:
-                    op_name = operation['name']
-                    op = operations[binding['name']][op_name]
-                    op['style'] = operation['style'] or binding.get('style')
-                    op['parameter_order'] = (operation['parameterOrder'] or "").split(" ")
-                    op['documentation'] = unicode(operation('documentation', error=False)) or ''
-                    if binding['soap_ver']:
-                        #TODO: separe operation_binding from operation (non SOAP?)
-                        if operation('input', error=False):
-                            input_msg = get_local_name(operation.input['message'])
-                            input_headers = op['parts'].get('input_headers')
-                            headers = {}    # base header message structure
-                            for input_header in input_headers:
-                                header_msg = get_local_name(input_header.get('message'))
-                                header_part = get_local_name(input_header.get('part'))
-                                # warning: some implementations use a separate message!
-                                hdr = get_message(messages, header_msg or input_msg, header_part)
-                                if hdr:
-                                    headers.update(hdr)
-                                else:
-                                    pass # not enought info to search the header message:
-                            op['input'] = get_message(messages, input_msg, op['parts'].get('input_body'), op['parameter_order'])
-                            op['header'] = headers
-                            try:
-                                element = list(op['input'].values())[0]
-                                ns_uri = element.namespaces[None]
-                                qualified = element.qualified
-                            except (AttributeError, KeyError) as e:
-                                # TODO: fix if no parameters parsed or "variants"
-                                ns = get_namespace_prefix(operation.input['message'])
-                                ns_uri = operation.get_namespace_uri(ns)
-                                qualified = None
-                            if ns_uri:
-                                op['namespace'] = ns_uri
-                                op['qualified'] = qualified
+            for operation_node in port_type_node.operation:
+                op_name = operation_node['name']
+                op = operations[op_name] = {}
+                op['style'] = operation_node['style']
+                op['parameter_order'] = (operation_node['parameterOrder'] or "").split(" ")
+                op['documentation'] = unicode(operation_node('documentation', error=False)) or ''
+
+                if operation_node('input', error=False):
+                    op['input_msg'] = get_local_name(operation_node.input['message'])
+                    ns = get_namespace_prefix(operation_node.input['message'])
+                    op['namespace'] = operation_node.get_namespace_uri(ns)
+
+                if operation_node('output', error=False):
+                    op['output_msg'] = get_local_name(operation_node.output['message'])
+
+        for binding_node in wsdl.binding:
+            port_type_name = get_local_name(binding_node['type'])
+            if port_type_name not in port_types:
+                # Invalid port type
+                continue
+            port_type = port_types[port_type_name]
+            binding_name = binding_node['name']
+            soap_binding = binding_node('binding', ns=list(soap_uris.values()), error=False)
+            transport = soap_binding and soap_binding['transport'] or None
+            style = soap_binding and soap_binding['style'] or None  # rpc
+
+            binding = bindings[binding_name] = {
+                'name': binding_name,
+                'operations': copy.deepcopy(port_type['operations']),
+                'port_type_name': port_type_name,
+                'transport': transport,
+                'style': style,
+            }
+
+            for operation_node in binding_node.operation:
+                op_name = operation_node['name']
+                op_op = operation_node('operation', ns=list(soap_uris.values()), error=False)
+                action = op_op and op_op['soapAction']
+
+                op = binding['operations'].setdefault(op_name, {})
+                op['name'] = op_name
+                op['style'] = op['style'] or style
+                if action:
+                    op['action'] = action
+
+                # input and/or ouput can be not present!
+                input = operation_node('input', error=False)
+                body = input and input('body', ns=list(soap_uris.values()), error=False)
+                parts_input_body = body and body['parts'] or None
+
+                # parse optional header messages (some implementations use more than one!)
+                parts_input_headers = []
+                headers = input and input('header', ns=list(soap_uris.values()), error=False)
+                for header in headers or []:
+                    hdr = {'message': header['message'], 'part': header['part']}
+                    parts_input_headers.append(hdr)
+
+                if 'input_msg' in op:
+                    headers = {}    # base header message structure
+                    for input_header in parts_input_headers:
+                        header_msg = get_local_name(input_header.get('message'))
+                        header_part = get_local_name(input_header.get('part'))
+                        # warning: some implementations use a separate message!
+                        hdr = get_message(messages, header_msg or op['input_msg'], header_part)
+                        if hdr:
+                            headers.update(hdr)
                         else:
-                            op['input'] = None
-                            op['header'] = None
-                        if operation('output', error=False):
-                            output_msg = get_local_name(operation.output['message'])
-                            op['output'] = get_message(messages, output_msg, op['parts'].get('output_body'))
-                        else:
-                            op['output'] = None
+                            pass # not enought info to search the header message:
+                    op['input'] = get_message(messages, op['input_msg'], parts_input_body, op['parameter_order'])
+                    op['header'] = headers
+
+                    try:
+                        element = list(op['input'].values())[0]
+                        ns_uri = element.namespaces[None]
+                        qualified = element.qualified
+                    except (AttributeError, KeyError) as e:
+                        # TODO: fix if no parameters parsed or "variants"
+                        ns_uri = op['namespace']
+                        qualified = None
+                    if ns_uri:
+                        op['namespace'] = ns_uri
+                        op['qualified'] = qualified
+
+                    # Remove temporary property
+                    del op['input_msg']
+
+                else:
+                    op['input'] = None
+                    op['header'] = None
+
+                output = operation_node('output', error=False)
+                body = output and output('body', ns=list(soap_uris.values()), error=False)
+                parts_output_body = body and body['parts'] or None
+                if 'output_msg' in op:
+                    op['output'] = get_message(messages, op['output_msg'], parts_output_body)
+                    # Remove temporary property
+                    del op['output_msg']
+                else:
+                    op['output'] = None
+
+                # useless? never used
+                parts_output_headers = []
+                headers = output and output('header', ns=list(soap_uris.values()), error=False)
+                for header in headers or []:
+                    hdr = {'message': header['message'], 'part': header['part']}
+                    parts_output_headers.append(hdr)
+
+
+
+
+        for service in wsdl("service", error=False) or []:
+            service_name = service['name']
+            if not service_name:
+                continue  # empty service?
+
+            serv = services.setdefault(service_name, {})
+            ports = serv['ports'] = {}
+            serv['documentation'] = service['documentation'] or ''
+            for port in service.port:
+                binding_name = get_local_name(port['binding'])
+
+                if not binding_name in bindings:
+                    continue    # unknown binding
+
+                binding = ports[port['name']] = copy.deepcopy(bindings[binding_name])
+                address = port('address', ns=list(soap_uris.values()), error=False)
+                location = address and address['location'] or None
+                soap_uri = address and soap_uris.get(address.get_prefix())
+                soap_ver = soap_uri and self.soap_ns_uris.get(soap_uri)
+
+                binding.update({
+                    'location': location,
+                    'service_name': service_name,
+                    'soap_uri': soap_uri,
+                    'soap_ver': soap_ver,
+                })
+
+        # create an default service if none is given in the wsdl:
+        if not services:
+            services[''] = {'ports': {'': None}}
 
         return services
 
