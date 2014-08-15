@@ -650,7 +650,7 @@ class SoapClient(object):
 
                 op = binding['operations'].setdefault(op_name, {})
                 op['name'] = op_name
-                op['style'] = op['style'] or style
+                op['style'] = op.get('style', style)
                 if action:
                     op['action'] = action
 
