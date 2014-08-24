@@ -180,8 +180,6 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                 ns, type_name = t
             else:
                 ns, type_name = None, t[0]
-            if element_name == type_name and not alias and len(children) > 1:
-                continue   # abort to prevent infinite recursion
             uri = ns and e.get_namespace_uri(ns) or xsd_uri
 
             # look for the conversion function (python type)
