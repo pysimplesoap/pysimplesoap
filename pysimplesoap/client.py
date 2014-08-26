@@ -262,6 +262,7 @@ class SoapClient(object):
         """Send SOAP request using HTTP"""
         if self.location == 'test': return
         # location = '%s' % self.location #?op=%s" % (self.location, method)
+        http_method = str('POST')
         location = str(self.location)
 
         if self.services:
@@ -279,8 +280,15 @@ class SoapClient(object):
         log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
         log.debug(xml)
 
+        if sys.version < '3':
+            # Ensure http_method, location and all headers are binary to prevent
+            # UnicodeError inside httplib.HTTPConnection._send_output.
+
+            # httplib in python3 do the same inside itself, don't need to convert it here
+            headers = { str(k): str(v) for k, v in headers.items() }
+
         response, content = self.http.request(
-            location, 'POST', body=xml, headers=headers)
+            location, http_method, body=xml, headers=headers)
         self.response = response
         self.content = content
 
