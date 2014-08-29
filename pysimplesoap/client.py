@@ -285,7 +285,7 @@ class SoapClient(object):
             # UnicodeError inside httplib.HTTPConnection._send_output.
 
             # httplib in python3 do the same inside itself, don't need to convert it here
-            headers = { str(k): str(v) for k, v in headers.items() }
+            headers = dict((str(k), str(v)) for k, v in headers.items())
 
         response, content = self.http.request(
             location, http_method, body=xml, headers=headers)
