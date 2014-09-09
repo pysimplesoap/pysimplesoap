@@ -16,7 +16,7 @@ import base64
 import hashlib
 import lxml.etree
 from cStringIO import StringIO
-from M2Crypto import RSA
+from M2Crypto import RSA, m2
 
 # Features:
 #  * Uses M2Crypto and lxml (libxml2) but it is independent from libxmlsec1
@@ -42,8 +42,8 @@ SIGNED_TMPL = """
 <KeyInfo>
   <KeyValue>
     <RSAKeyValue>
-      <Modulus></Modulus>
-      <Exponent></Exponent>
+      <Modulus>%(modulus)s</Modulus>
+      <Exponent>%(exponent)s</Exponent>
     </RSAKeyValue>
   </KeyValue>
 </KeyInfo>
@@ -78,14 +78,22 @@ def rsa_sign_ref(ref_xml, ref_uri, key, password=None):
     pkey = RSA.load_key(key, lambda *args, **kwargs: password)
     signature = pkey.sign(hashlib.sha1(signed_info).digest())
     # extract info from private key
-    key_info = ""
+    modulus, exponent = rsa_key_info(pkey)
     # create the final xml signed message
     return SIGNED_TMPL % {
             'ref_xml': ref_xml, 'ref_uri': ref_uri,
             'signed_info': signed_info,
             'signature_value': base64.b64encode(signature),
+            'modulus': modulus,
+            'exponent': exponent,
             }
 
+
+def rsa_key_info(pkey):
+    "Convert private key (PEM) to XML Signature format (RSAKeyValue)"
+    exponent = base64.b64encode(pkey.e[4:])
+    modulus = m2.bn_to_hex(m2.mpi_to_bn(pkey.n)).decode("hex").encode("base64")
+    return modulus, exponent
 
 
 if __name__ == "__main__":
