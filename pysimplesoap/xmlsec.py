@@ -82,7 +82,7 @@ def rsa_sign_ref(ref_xml, ref_uri, key, password=None, key_info=None):
     pkey = RSA.load_key(key, lambda *args, **kwargs: password)
     signature = pkey.sign(hashlib.sha1(signed_info).digest())
     # create the final xml signed message
-    return SIGNED_TMPL % {
+    return {
             'ref_xml': ref_xml, 'ref_uri': ref_uri,
             'signed_info': signed_info,
             'signature_value': base64.b64encode(signature),
@@ -103,4 +103,4 @@ def rsa_key_info(pkey):
 if __name__ == "__main__":
     sample_xml = """<Object xmlns="http://www.w3.org/2000/09/xmldsig#" Id="object">data</Object>"""
     print canonicalize(sample_xml)
-    print rsa_sign_ref(sample_xml, '#object', "private.key", "password")
+    print SIGNED_TMPL % rsa_sign_ref(sample_xml, '#object', "private.key", "password")
