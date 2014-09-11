@@ -77,7 +77,7 @@ class SoapClient(object):
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
                  username=None, password=None,
-                 key_file=None,
+                 key_file=None, plugins=None,
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -90,6 +90,7 @@ class SoapClient(object):
         self.exceptions = exceptions    # lanzar execpiones? (Soap Faults)
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers or {}
+        self.plugins = plugins or []
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
             # parse the wsdl url, strip the scheme and filename
@@ -185,11 +186,12 @@ class SoapClient(object):
         """
         #TODO: method != input_message
         # Basic SOAP request:
+        soap_uri = soap_namespaces[self.__soap_ns]
         xml = self.__xml % dict(method=method,              # method tag name
                                 namespace=self.namespace,   # method ns uri
                                 ns=self.__ns,               # method ns prefix
                                 soap_ns=self.__soap_ns,     # soap prefix & uri
-                                soap_uri=soap_namespaces[self.__soap_ns])
+                                soap_uri=soap_uri)
         request = SimpleXMLElement(xml, namespace=self.__ns and self.namespace,
                                         prefix=self.__ns)
 
@@ -233,6 +235,7 @@ class SoapClient(object):
             header.marshall(k, v, ns=False, add_children_ns=False)
             header(k)['xmlns:wsse'] = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
             #<wsse:UsernameToken xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'>
+
         if self.__call_headers:
             header = request('Header', ns=list(soap_namespaces.values()),)
             for k, v in self.__call_headers.items():
@@ -249,6 +252,11 @@ class SoapClient(object):
             header = request('Header', ns=list(soap_namespaces.values()),)
             for subheader in request_headers.children():
                 header.import_node(subheader)
+
+        # do pre-processing using plugins (for example WSSE)
+        for plugin in self.plugins:
+            plugin.preprocess(self, request, method, args, kwargs, 
+                                    self.__headers, soap_uri)
 
         self.xml_request = request.as_xml()
         self.xml_response = self.send(method, self.xml_request)
