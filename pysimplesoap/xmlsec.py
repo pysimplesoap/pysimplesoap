@@ -39,6 +39,12 @@ SIGNED_TMPL = """
 <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
 %(signed_info)s
 <SignatureValue>%(signature_value)s</SignatureValue>
+%(key_info)s
+%(ref_xml)s
+</Signature>
+"""
+
+KEY_INFO_TMPL = """
 <KeyInfo>
   <KeyValue>
     <RSAKeyValue>
@@ -47,8 +53,6 @@ SIGNED_TMPL = """
     </RSAKeyValue>
   </KeyValue>
 </KeyInfo>
-%(ref_xml)s
-</Signature>
 """
 
 def canonicalize(xml):
@@ -65,7 +69,7 @@ def digest(payload):
     return base64.b64encode(hashlib.sha1(payload).digest())
 
 
-def rsa_sign_ref(ref_xml, ref_uri, key, password=None):
+def rsa_sign_ref(ref_xml, ref_uri, key, password=None, key_info=None):
     "Sign an XML document (by reference) usign RSA"
 
     # normalize the referenced xml (to compute the SHA1 hash)
@@ -77,15 +81,12 @@ def rsa_sign_ref(ref_xml, ref_uri, key, password=None):
     # Sign the SHA1 digest of the signed xml using RSA cipher
     pkey = RSA.load_key(key, lambda *args, **kwargs: password)
     signature = pkey.sign(hashlib.sha1(signed_info).digest())
-    # extract info from private key
-    modulus, exponent = rsa_key_info(pkey)
     # create the final xml signed message
     return SIGNED_TMPL % {
             'ref_xml': ref_xml, 'ref_uri': ref_uri,
             'signed_info': signed_info,
             'signature_value': base64.b64encode(signature),
-            'modulus': modulus,
-            'exponent': exponent,
+            'key_info': key_info or rsa_key_info(pkey),
             }
 
 
@@ -93,7 +94,10 @@ def rsa_key_info(pkey):
     "Convert private key (PEM) to XML Signature format (RSAKeyValue)"
     exponent = base64.b64encode(pkey.e[4:])
     modulus = m2.bn_to_hex(m2.mpi_to_bn(pkey.n)).decode("hex").encode("base64")
-    return modulus, exponent
+    return KEY_INFO_TMPL % {
+        'modulus': modulus,
+        'exponent': exponent,
+        }
 
 
 if __name__ == "__main__":
