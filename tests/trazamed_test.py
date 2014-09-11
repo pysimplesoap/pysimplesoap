@@ -27,6 +27,7 @@ if sys.version > '3':
 
 from pysimplesoap.client import SoapClient, SoapFault, parse_proxy, \
                                 set_http_wrapper
+from pysimplesoap.wsse import UsernameToken
 
 
 WSDL = "https://186.153.145.2:9050/trazamed.WebService?wsdl"
@@ -51,12 +52,19 @@ class TestTrazamed(unittest.TestCase):
         self.client.services['IWebServiceService']['ports']['IWebServicePort']['location'] = LOCATION
 
         # Set WSSE security credentials
-        self.client['wsse:Security'] = {
-            'wsse:UsernameToken': {
-                'wsse:Username': 'testwservice',
-                'wsse:Password': 'testwservicepsw',
-                }
-            }
+        if False:
+            # deprecated, do not use in new code! (just for testing)
+            self.client['wsse:Security'] = {
+                    'wsse:UsernameToken': {
+                        'wsse:Username': "testwservice",
+                        'wsse:Password': "testwservicepsw",
+                        }
+                    }
+        else:
+            # new recommended style using plugins
+            wsse_token = UsernameToken(username='testwservice', 
+                                       password='testwservicepsw')
+            self.client.plugins.append(wsse_token)
 
     def test_send_medicamentos(self):
         #self.client.help("sendMedicamentos")
