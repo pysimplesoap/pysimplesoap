@@ -205,12 +205,11 @@ class SoapClient(object):
         else:
             parameters = args
         if parameters and isinstance(parameters[0], SimpleXMLElement):
+            body = request('Body', ns=list(soap_namespaces.values()),)
+            # remove default body parameter (method name)
+            delattr(body, method)
             # merge xmlelement parameter ("raw" - already marshalled)
-            if parameters[0].children() is not None:
-                for param in parameters[0].children():
-                    getattr(request, method).import_node(param)
-                for k,v in parameters[0].attributes().items():
-                    getattr(request, method)[k] = v
+            body.import_node(parameters[0])
         elif parameters:
             # marshall parameters:
             use_ns = None if (self.__soap_server == "jetty" or self.qualified is False) else True
