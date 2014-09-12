@@ -25,9 +25,12 @@ from M2Crypto import RSA, m2
 
 SIG_TMPL = """
 <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-  <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+  <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
   <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
   <Reference URI="%(ref_uri)s">
+    <Transforms>
+      <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+    </Transforms>
     <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
     <DigestValue>%(digest_value)s</DigestValue>
   </Reference>
@@ -60,7 +63,7 @@ def canonicalize(xml):
     # UTF8, normalization of line feeds/spaces, quoting, attribute ordering...
     et = lxml.etree.parse(StringIO(xml))
     output = StringIO()
-    et.write_c14n(output)
+    et.write_c14n(output, exclusive=True)
     return output.getvalue()
 
 
