@@ -87,7 +87,12 @@ class BinaryTokenSignature:
         # prepare body xml attributes to be signed (reference)
         body['wsu:Id'] = "id-14"
         body['xmlns:wsu'] = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
-        ref_xml = body.as_xml()
+        # workaround: copy namespaces so lxml can parse the xml to be signed
+        for attr, value in request[:]:
+            if attr.startswith("xmlns"):
+                body[attr] = value
+        # use the internal tag xml representation (not the full xml document)
+        ref_xml = repr(body)
         # sign using RSA-SHA1 (XML Security)
         from . import xmlsec
         vars = xmlsec.rsa_sign_ref(ref_xml, "#id-14", 
