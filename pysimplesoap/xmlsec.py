@@ -16,7 +16,7 @@ import base64
 import hashlib
 import lxml.etree
 from cStringIO import StringIO
-from M2Crypto import RSA, m2
+from M2Crypto import BIO, EVP, RSA, X509, m2
 
 # Features:
 #  * Uses M2Crypto and lxml (libxml2) but it is independent from libxmlsec1
@@ -93,6 +93,26 @@ def rsa_sign_ref(ref_xml, ref_uri, key, password=None, key_info=None):
             }
 
 
+def rsa_verify(xml, signature, key):
+    "Verify a XML document signature usign RSA-SHA1, return True if valid"
+
+    # load the public key (from buffer or filename)
+    if key.startswith("-----BEGIN PUBLIC KEY-----"):
+        bio = BIO.MemoryBuffer(key)
+        rsa = RSA.load_pub_key_bio(bio)
+    else:
+        rsa = RSA.load_pub_key(certificate)
+    # create the digital envelope
+    pubkey = EVP.PKey()
+    pubkey.assign_rsa(rsa)
+    # do the cryptographic validation (using the default sha1 hash digest)
+    pubkey.reset_context(md='sha1')
+    pubkey.verify_init()
+    pubkey.verify_update(canonicalize(xml))
+    ret = pubkey.verify_final(base64.b64decode(signature))
+    return ret == 1
+
+
 def rsa_key_info(pkey):
     "Convert private key (PEM) to XML Signature format (RSAKeyValue)"
     exponent = base64.b64encode(pkey.e[4:])
@@ -103,7 +123,20 @@ def rsa_key_info(pkey):
         }
 
 
+def x509_extract_public_key(cert):
+    "Return the public key (PEM format) from a X509 certificate"
+    if cert.startswith("-----BEGIN CERTIFICATE-----"):
+        bio = BIO.MemoryBuffer(cert)
+        x509 = X509.load_cert_bio(bio, 1)
+    else:
+        x509 = X509.load_cert(cert, 1)
+    return x509.get_pubkey().get_rsa().as_pem()
+
+
 if __name__ == "__main__":
     sample_xml = """<Object xmlns="http://www.w3.org/2000/09/xmldsig#" Id="object">data</Object>"""
     print canonicalize(sample_xml)
-    print SIGNED_TMPL % rsa_sign_ref(sample_xml, '#object', "private.key", "password")
+    vars = rsa_sign_ref(sample_xml, '#object', "no_encriptada.key", "password")
+    print SIGNED_TMPL % vars
+    public_key = x509_extract_public_key(open("zunimercado.crt").read())
+    assert rsa_verify(vars['signed_info'], vars['signature_value'], public_key)
