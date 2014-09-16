@@ -49,12 +49,13 @@ SIGNED_TMPL = """
 
 # Enveloped templates (signature is child, the reference is the root object):
 SIGN_ENV_TMPL = """
-<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#" xmlns:DGICFE="http://cfe.dgi.gub.uy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cfe.dgi.gub.uy EnvioCFE_v1.11.xsd">
+<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
   <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
   <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
   <Reference URI="">
     <Transforms>
        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+       <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
     </Transforms>
     <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
     <DigestValue>%(digest_value)s</DigestValue>
@@ -183,7 +184,7 @@ if __name__ == "__main__":
     print SIGNED_TMPL % vars
 
     # basic test of enveloped signature (the reference is the document itself)
-    sample_xml = """<?xml version="1.0" encoding="UTF-8"?><Object xmlns:DGICFE="http://cfe.dgi.gub.uy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cfe.dgi.gub.uy EnvioCFE_v1.11.xsd">data%s</Object>"""
+    sample_xml = """<?xml version="1.0" encoding="UTF-8"?><Object>data%s</Object>"""
     vars = rsa_sign(sample_xml % "", '', "no_encriptada.key", "password",
                     sign_template=SIGN_ENV_TMPL, c14n_exc=False)
     print sample_xml % (SIGNATURE_TMPL % vars)
