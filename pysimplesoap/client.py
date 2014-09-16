@@ -250,7 +250,7 @@ class SoapClient(object):
             for subheader in request_headers.children():
                 header.import_node(subheader)
 
-        # do pre-processing using plugins (for example WSSE)
+        # do pre-processing using plugins (i.e. WSSE signing)
         for plugin in self.plugins:
             plugin.preprocess(self, request, method, args, kwargs, 
                                     self.__headers, soap_uri)
@@ -261,6 +261,12 @@ class SoapClient(object):
                                     jetty=self.__soap_server in ('jetty',))
         if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
             raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
+
+        # do post-processing using plugins (i.e. WSSE signature verification)
+        for plugin in self.plugins:
+            plugin.postprocess(self, response, method, args, kwargs, 
+                                     self.__headers, soap_uri)
+
         return response
 
     def send(self, method, xml):
