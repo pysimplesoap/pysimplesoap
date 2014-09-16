@@ -104,8 +104,8 @@ class BinaryTokenSignature:
         ref_xml = repr(body)
         # sign using RSA-SHA1 (XML Security)
         from . import xmlsec
-        vars = xmlsec.rsa_sign_ref(ref_xml, "#id-14", 
-                                   self.private_key, self.password)
+        vars = xmlsec.rsa_sign(ref_xml, "#id-14", 
+                               self.private_key, self.password)
         vars['certificate'] = self.certificate
         # generate the xml (filling the placeholders)
         wsse = SimpleXMLElement(BIN_TOKEN_TMPL % vars)

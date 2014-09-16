@@ -23,8 +23,8 @@ from M2Crypto import BIO, EVP, RSA, X509, m2
 #  * Uses M2Crypto and lxml (libxml2) but it is independent from libxmlsec1
 #  * Sign, Verify, Encrypt & Decrypt XML documents
 
-
-SIG_TMPL = """
+# Enveloping templates ("by reference": signature is parent):
+SIGN_REF_TMPL = """
 <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
   <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
   <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
@@ -37,7 +37,6 @@ SIG_TMPL = """
   </Reference>
 </SignedInfo>
 """
-
 SIGNED_TMPL = """
 <?xml version="1.0" encoding="UTF-8"?>
 <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
@@ -47,6 +46,26 @@ SIGNED_TMPL = """
 %(ref_xml)s
 </Signature>
 """
+
+# Enveloped templates (signature is child, the reference is the root object):
+SIGN_ENV_TMPL = """
+<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+  <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+  <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+  <Reference URI="">
+    <Transforms>
+       <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+    </Transforms>
+    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+    <DigestValue>%(digest_value)s</DigestValue>
+  </Reference>
+</SignedInfo>
+"""
+SIGNATURE_TMPL = """<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+%(signed_info)s
+<SignatureValue>%(signature_value)s</SignatureValue>
+%(key_info)s
+</Signature>"""
 
 KEY_INFO_TMPL = """
 <KeyInfo>
@@ -59,12 +78,13 @@ KEY_INFO_TMPL = """
 </KeyInfo>
 """
 
-def canonicalize(xml):
+
+def canonicalize(xml, c14n_exc=True):
     "Return the canonical (c14n) form of the xml document for hashing"
     # UTF8, normalization of line feeds/spaces, quoting, attribute ordering...
     et = lxml.etree.parse(StringIO(xml))
     output = StringIO()
-    et.write_c14n(output, exclusive=True)
+    et.write_c14n(output, exclusive=c14n_exc)
     return output.getvalue()
 
 
@@ -73,14 +93,15 @@ def sha1_hash_digest(payload):
     return base64.b64encode(hashlib.sha1(payload).digest())
 
 
-def rsa_sign_ref(ref_xml, ref_uri, key, password=None, key_info=None):
-    "Sign an XML document (by reference) usign RSA"
+def rsa_sign(xml, ref_uri, key, password=None, key_info=None, 
+             sign_template=SIGN_REF_TMPL, c14n_exc=True):
+    "Sign an XML document usign RSA (templates: enveloped -ref- or enveloping)"
 
     # normalize the referenced xml (to compute the SHA1 hash)
-    ref_xml = canonicalize(ref_xml)
+    ref_xml = canonicalize(xml, c14n_exc)
     # create the signed xml normalized (with the referenced uri and hash value)
-    signed_info = SIG_TMPL % {'ref_uri': ref_uri, 
-                              'digest_value': sha1_hash_digest(ref_xml)}
+    signed_info = sign_template % {'ref_uri': ref_uri, 
+                                   'digest_value': sha1_hash_digest(ref_xml)}
     signed_info = canonicalize(signed_info)
     # Sign the SHA1 digest of the signed xml using RSA cipher
     pkey = RSA.load_key(key, lambda *args, **kwargs: password)
@@ -155,9 +176,18 @@ def x509_verify(cacert, cert, binary=False):
 
 
 if __name__ == "__main__":
+    # basic test of enveloping signature (the reference is a part of the xml)
     sample_xml = """<Object xmlns="http://www.w3.org/2000/09/xmldsig#" Id="object">data</Object>"""
     print canonicalize(sample_xml)
-    vars = rsa_sign_ref(sample_xml, '#object', "no_encriptada.key", "password")
+    vars = rsa_sign(sample_xml, '#object', "no_encriptada.key", "password")
     print SIGNED_TMPL % vars
+
+    # basic test of enveloped signature (the reference is the document itself)
+    sample_xml = """<?xml version="1.0" encoding="UTF-8"?><Object>data%s</Object>"""
+    vars = rsa_sign(sample_xml % "", '', "no_encriptada.key", "password",
+                    sign_template=SIGN_ENV_TMPL, c14n_exc=False)
+    print sample_xml % (SIGNATURE_TMPL % vars)
+
+    # basic signature verification:
     public_key = x509_extract_rsa_public_key(open("zunimercado.crt").read())
     assert rsa_verify(vars['signed_info'], vars['signature_value'], public_key)
