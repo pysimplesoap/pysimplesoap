@@ -49,7 +49,7 @@ SIGNED_TMPL = """
 
 # Enveloped templates (signature is child, the reference is the root object):
 SIGN_ENV_TMPL = """
-<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#" xmlns:DGICFE="http://cfe.dgi.gub.uy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cfe.dgi.gub.uy EnvioCFE_v1.11.xsd">
   <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
   <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
   <Reference URI="">
@@ -102,7 +102,7 @@ def rsa_sign(xml, ref_uri, key, password=None, key_info=None,
     # create the signed xml normalized (with the referenced uri and hash value)
     signed_info = sign_template % {'ref_uri': ref_uri, 
                                    'digest_value': sha1_hash_digest(ref_xml)}
-    signed_info = canonicalize(signed_info)
+    signed_info = canonicalize(signed_info, c14n_exc)
     # Sign the SHA1 digest of the signed xml using RSA cipher
     pkey = RSA.load_key(key, lambda *args, **kwargs: password)
     signature = pkey.sign(hashlib.sha1(signed_info).digest())
@@ -183,7 +183,7 @@ if __name__ == "__main__":
     print SIGNED_TMPL % vars
 
     # basic test of enveloped signature (the reference is the document itself)
-    sample_xml = """<?xml version="1.0" encoding="UTF-8"?><Object>data%s</Object>"""
+    sample_xml = """<?xml version="1.0" encoding="UTF-8"?><Object xmlns:DGICFE="http://cfe.dgi.gub.uy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cfe.dgi.gub.uy EnvioCFE_v1.11.xsd">data%s</Object>"""
     vars = rsa_sign(sample_xml % "", '', "no_encriptada.key", "password",
                     sign_template=SIGN_ENV_TMPL, c14n_exc=False)
     print sample_xml % (SIGNATURE_TMPL % vars)
