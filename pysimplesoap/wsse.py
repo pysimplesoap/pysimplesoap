@@ -49,6 +49,7 @@ class UsernameToken:
             }
 
     def preprocess(self, client, request, method, args, kwargs, headers, soap_uri):
+        "Add basic credentials to outgoing message"
         # always extract WS Security header and send it
         header = request('Header', ns=soap_uri, )
         k = 'wsse:Security'
@@ -59,6 +60,11 @@ class UsernameToken:
         header.marshall(k, self.token, ns=False, add_children_ns=False)
         header(k)['xmlns:wsse'] = WSSE_URI
         #<wsse:UsernameToken xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'>
+
+    def postprocess(self, client, response, method, args, kwargs, headers, soap_uri):
+        "Analyze incoming credentials"
+        # TODO: add some password validation callback?
+        pass
 
 
 BIN_TOKEN_TMPL = """<?xml version="1.0" encoding="UTF-8"?>
