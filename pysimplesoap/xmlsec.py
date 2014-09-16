@@ -125,8 +125,11 @@ def rsa_key_info(pkey):
         }
 
 
-def x509_extract_rsa_public_key(cert, binary=False):
-    "Return the public key (PEM format) from a X509 certificate"
+# Miscellaneous certificate utility functions:
+
+
+def x509_parse_cert(cert, binary=False):
+    "Create a X509 certificate from binary DER, plain text PEM or filename"
     if binary:
         bio = BIO.MemoryBuffer(cert)
         x509 = X509.load_cert_bio(bio, X509.FORMAT_DER)
@@ -135,7 +138,20 @@ def x509_extract_rsa_public_key(cert, binary=False):
         x509 = X509.load_cert_bio(bio, X509.FORMAT_PEM)
     else:
         x509 = X509.load_cert(cert, 1)
+    return x509
+
+
+def x509_extract_rsa_public_key(cert, binary=False):
+    "Return the public key (PEM format) from a X509 certificate"
+    x509 = x509_parse_cert(cert, binary)
     return x509.get_pubkey().get_rsa().as_pem()
+
+
+def x509_verify(cacert, cert, binary=False):
+    "Validate the certificate's authenticity using a certification authority"
+    ca = x509_parse_cert(cacert)
+    crt = x509_parse_cert(cert, binary)
+    return crt.verify(ca.get_pubkey())
 
 
 if __name__ == "__main__":
