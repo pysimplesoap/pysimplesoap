@@ -68,7 +68,7 @@ SIGNATURE_TMPL = """<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
 %(key_info)s
 </Signature>"""
 
-KEY_INFO_TMPL = """
+KEY_INFO_RSA_TMPL = """
 <KeyInfo>
   <KeyValue>
     <RSAKeyValue>
@@ -79,6 +79,16 @@ KEY_INFO_TMPL = """
 </KeyInfo>
 """
 
+KEY_INFO_X509_TMPL = """
+<KeyInfo>
+    <X509Data>
+        <X509IssuerSerial>
+            <X509IssuerName>%(issuer_name)s</X509IssuerName>
+            <X509SerialNumber>%(serial_number)s</X509SerialNumber>
+        </X509IssuerSerial>
+    </X509Data>
+</KeyInfo>
+"""
 
 def canonicalize(xml, c14n_exc=True):
     "Return the canonical (c14n) form of the xml document for hashing"
@@ -94,8 +104,8 @@ def sha1_hash_digest(payload):
     return base64.b64encode(hashlib.sha1(payload).digest())
 
 
-def rsa_sign(xml, ref_uri, key, password=None, key_info=None, 
-             sign_template=SIGN_REF_TMPL, c14n_exc=True):
+def rsa_sign(xml, ref_uri, private_key, password=None, cert=None, c14n_exc=True,
+             sign_template=SIGN_REF_TMPL, key_info_template=KEY_INFO_RSA_TMPL):
     "Sign an XML document usign RSA (templates: enveloped -ref- or enveloping)"
 
     # normalize the referenced xml (to compute the SHA1 hash)
@@ -105,14 +115,14 @@ def rsa_sign(xml, ref_uri, key, password=None, key_info=None,
                                    'digest_value': sha1_hash_digest(ref_xml)}
     signed_info = canonicalize(signed_info, c14n_exc)
     # Sign the SHA1 digest of the signed xml using RSA cipher
-    pkey = RSA.load_key(key, lambda *args, **kwargs: password)
+    pkey = RSA.load_key(private_key, lambda *args, **kwargs: password)
     signature = pkey.sign(hashlib.sha1(signed_info).digest())
-    # create the final xml signed message
+    # build the mapping (placeholders) to create the final xml signed message
     return {
             'ref_xml': ref_xml, 'ref_uri': ref_uri,
             'signed_info': signed_info,
             'signature_value': base64.b64encode(signature),
-            'key_info': key_info or rsa_key_info(pkey),
+            'key_info': key_info(pkey, cert, key_info_template),
             }
 
 
@@ -137,13 +147,16 @@ def rsa_verify(xml, signature, key, c14n_exc=True):
     return ret == 1
 
 
-def rsa_key_info(pkey):
-    "Convert private key (PEM) to XML Signature format (RSAKeyValue)"
+def key_info(pkey, cert, key_info_template):
+    "Convert private key (PEM) to XML Signature format (RSAKeyValue/X509Data)"
     exponent = base64.b64encode(pkey.e[4:])
     modulus = m2.bn_to_hex(m2.mpi_to_bn(pkey.n)).decode("hex").encode("base64")
-    return KEY_INFO_TMPL % {
+    x509 = x509_parse_cert(cert) if cert else None
+    return key_info_template % {
         'modulus': modulus,
         'exponent': exponent,
+        'issuer_name': x509.get_issuer().as_text() if x509 else "",
+        'serial_number': x509.get_serial_number() if x509 else "",
         }
 
 
