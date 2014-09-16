@@ -115,7 +115,7 @@ def rsa_sign(xml, ref_uri, key, password=None, key_info=None,
             }
 
 
-def rsa_verify(xml, signature, key):
+def rsa_verify(xml, signature, key, c14n_exc=True):
     "Verify a XML document signature usign RSA-SHA1, return True if valid"
 
     # load the public key (from buffer or filename)
@@ -131,7 +131,7 @@ def rsa_verify(xml, signature, key):
     pubkey.reset_context(md='sha1')
     pubkey.verify_init()
     # normalize and feed the signed xml to be verified
-    pubkey.verify_update(canonicalize(xml))
+    pubkey.verify_update(canonicalize(xml, c14n_exc))
     ret = pubkey.verify_final(base64.b64decode(signature))
     return ret == 1
 
@@ -190,4 +190,5 @@ if __name__ == "__main__":
 
     # basic signature verification:
     public_key = x509_extract_rsa_public_key(open("zunimercado.crt").read())
-    assert rsa_verify(vars['signed_info'], vars['signature_value'], public_key)
+    assert rsa_verify(vars['signed_info'], vars['signature_value'], public_key,
+                      c14n_exc=False)
