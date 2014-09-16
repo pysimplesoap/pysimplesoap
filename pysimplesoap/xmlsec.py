@@ -14,6 +14,7 @@
 
 import base64
 import hashlib
+import os
 import lxml.etree
 from cStringIO import StringIO
 from M2Crypto import BIO, EVP, RSA, X509, m2
@@ -67,7 +68,7 @@ def canonicalize(xml):
     return output.getvalue()
 
 
-def digest(payload):
+def sha1_hash_digest(payload):
     "Create a SHA1 hash and return the base64 string"
     return base64.b64encode(hashlib.sha1(payload).digest())
 
@@ -79,7 +80,7 @@ def rsa_sign_ref(ref_xml, ref_uri, key, password=None, key_info=None):
     ref_xml = canonicalize(ref_xml)
     # create the signed xml normalized (with the referenced uri and hash value)
     signed_info = SIG_TMPL % {'ref_uri': ref_uri, 
-                              'digest_value': digest(ref_xml)}
+                              'digest_value': sha1_hash_digest(ref_xml)}
     signed_info = canonicalize(signed_info)
     # Sign the SHA1 digest of the signed xml using RSA cipher
     pkey = RSA.load_key(key, lambda *args, **kwargs: password)
@@ -108,6 +109,7 @@ def rsa_verify(xml, signature, key):
     # do the cryptographic validation (using the default sha1 hash digest)
     pubkey.reset_context(md='sha1')
     pubkey.verify_init()
+    # normalize and feed the signed xml to be verified
     pubkey.verify_update(canonicalize(xml))
     ret = pubkey.verify_final(base64.b64decode(signature))
     return ret == 1
@@ -123,11 +125,14 @@ def rsa_key_info(pkey):
         }
 
 
-def x509_extract_public_key(cert):
+def x509_extract_rsa_public_key(cert, binary=False):
     "Return the public key (PEM format) from a X509 certificate"
-    if cert.startswith("-----BEGIN CERTIFICATE-----"):
+    if binary:
         bio = BIO.MemoryBuffer(cert)
-        x509 = X509.load_cert_bio(bio, 1)
+        x509 = X509.load_cert_bio(bio, X509.FORMAT_DER)
+    elif cert.startswith("-----BEGIN CERTIFICATE-----"):
+        bio = BIO.MemoryBuffer(cert)
+        x509 = X509.load_cert_bio(bio, X509.FORMAT_PEM)
     else:
         x509 = X509.load_cert(cert, 1)
     return x509.get_pubkey().get_rsa().as_pem()
@@ -138,5 +143,5 @@ if __name__ == "__main__":
     print canonicalize(sample_xml)
     vars = rsa_sign_ref(sample_xml, '#object', "no_encriptada.key", "password")
     print SIGNED_TMPL % vars
-    public_key = x509_extract_public_key(open("zunimercado.crt").read())
+    public_key = x509_extract_rsa_public_key(open("zunimercado.crt").read())
     assert rsa_verify(vars['signed_info'], vars['signature_value'], public_key)
