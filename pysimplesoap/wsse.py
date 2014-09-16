@@ -80,12 +80,13 @@ BIN_TOKEN_TMPL = """<?xml version="1.0" encoding="UTF-8"?>
 class BinaryTokenSignature:
     "WebService Security extension to add a basic signature to xml request"
 
-    def __init__(self, certificate="", private_key="", password=None):
+    def __init__(self, certificate="", private_key="", password=None, cacert=None):
         # read the X509v3 certificate (PEM)
         self.certificate = ''.join([line for line in open(certificate)
                                          if not line.startswith("---")])
         self.private_key = private_key
-        self.password = None
+        self.password = password
+        self.cacert = cacert
 
     def preprocess(self, client, request, method, args, kwargs, headers, soap_uri):
         "Sign the outgoing SOAP request"
@@ -124,6 +125,11 @@ class BinaryTokenSignature:
         # extract the certificate (in DER to avoid new line & padding issues!)
         cert_der = str(cert).decode("base64")
         public_key = xmlsec.x509_extract_rsa_public_key(cert_der, binary=True)
+        # validate the certificate using the certification authority:
+        if not self.cacert:
+            warnings.warn("No CA provided, WSSE not validating certificate")
+        elif not xmlsec.x509_verify(self.cacert, cert_der, binary=True):
+            raise RuntimeError("WSSE certificate validation failed")
         # check body xml attributes was signed correctly (reference)
         self.__check(body['xmlns:wsu'], WSU_URI)
         ref_uri = body['wsu:Id']
@@ -156,7 +162,6 @@ class BinaryTokenSignature:
         if not ok:
             raise RuntimeError("WSSE RSA-SHA1 signature verification failed")
         # TODO: remove any unsigned part from the xml?
-        # TODO: check CA certificate
         
     def __check(self, value, expected, msg="WSSE sanity check failed"):
         if value != expected:
