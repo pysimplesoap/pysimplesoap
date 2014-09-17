@@ -512,3 +512,10 @@ class SimpleXMLElement(object):
     def import_node(self, other):
         x = self.__document.importNode(other._element, True)  # deep copy
         self._element.appendChild(x)
+
+    def write_c14n(self, output=None, exclusive=True):
+        "Generate the canonical version of the XML node"
+        from . import c14n
+        xml = c14n.Canonicalize(self._element, output,
+                                unsuppressedPrefixes=[] if exclusive else None)
+        return xml
