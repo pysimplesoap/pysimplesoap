@@ -39,6 +39,13 @@ log = logging.getLogger(__name__)
 NS_RX = re.compile(r'xmlns:(\w+)="(.+?)"')
 
 
+class SoapFault(Exception):
+    def __init__(self, faultcode=None, faultstring=None, detail=None):
+        self.faultcode = faultcode or self.__class__.__name__
+        self.faultstring = faultstring or ''
+        self.detail = detail
+
+
 class SoapDispatcher(object):
     """Simple Dispatcher for SOAP Server"""
 
@@ -187,6 +194,13 @@ class SoapDispatcher(object):
             # execute function
             ret = function(**args)
             log.debug('dispathed method returns: %s', ret)
+
+        except SoapFault as e:
+            fault.update({
+                'faultcode': "%s.%s" % (soap_fault_code, e.faultcode),
+                'faultstring': e.faultstring,
+                'detail': e.detail
+            })
 
         except Exception:  # This shouldn't be one huge try/except
             import sys
