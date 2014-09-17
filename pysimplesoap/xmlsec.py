@@ -15,10 +15,15 @@
 import base64
 import hashlib
 import os
-import lxml.etree
 from cStringIO import StringIO
 from M2Crypto import BIO, EVP, RSA, X509, m2
 
+# if lxml is not installed, use c14n.py native implementation
+try:
+    import lxml.etree
+except ImportError:
+    lxml = None
+    
 # Features:
 #  * Uses M2Crypto and lxml (libxml2) but it is independent from libxmlsec1
 #  * Sign, Verify, Encrypt & Decrypt XML documents
@@ -93,9 +98,15 @@ KEY_INFO_X509_TMPL = """
 def canonicalize(xml, c14n_exc=True):
     "Return the canonical (c14n) form of the xml document for hashing"
     # UTF8, normalization of line feeds/spaces, quoting, attribute ordering...
-    et = lxml.etree.parse(StringIO(xml))
     output = StringIO()
-    et.write_c14n(output, exclusive=c14n_exc)
+    if lxml is not None:
+        # use faster libxml2 / lxml canonicalization function if available
+        et = lxml.etree.parse(StringIO(xml))
+        et.write_c14n(output, exclusive=c14n_exc)
+    else:
+        # use pure-python implementation: c14n.py (avoid recursive import)
+        from .simplexml import SimpleXMLElement
+        SimpleXMLElement(xml).write_c14n(output, exclusive=c14n_exc)
     return output.getvalue()
 
 
