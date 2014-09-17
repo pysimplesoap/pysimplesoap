@@ -591,7 +591,7 @@ class SoapClient(object):
                     # some implementations (axis) uses type instead
                     element_name = part['type']
                 type_ns = get_namespace_prefix(element_name)
-                type_uri = wsdl.get_namespace_uri(type_ns)
+                type_uri = part.get_namespace_uri(type_ns)
                 part_name = part['name'] or None
                 if type_uri == self.xsd_uri:
                     element_name = get_local_name(element_name)
