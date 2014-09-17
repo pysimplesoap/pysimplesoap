@@ -412,8 +412,8 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
 
         params = ('paramsGetLead', [('leadKey', {'keyType': 'IDNUM', 'keyValue': '1'})])
 
-        self.assertEqual(params, client.wsdl_call_get_params(method, input, args))
-        self.assertEqual(params, client.wsdl_call_get_params(method, input, leadKey=args['leadKey']))
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, [args], {}))
+        self.assertEqual(params, client.wsdl_call_get_params(method, input, [], dict(leadKey=args['leadKey'])))
 
     def test_issue109(self):
         """Test multirefs and string arrays"""

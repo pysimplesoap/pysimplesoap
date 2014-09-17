@@ -332,6 +332,10 @@ class SoapClient(object):
 
     def wsdl_call(self, method, *args, **kwargs):
         """Pre and post process SOAP call, input and output parameters using WSDL"""
+        return self.wsdl_call_with_args(method, args, kwargs)
+
+    def wsdl_call_with_args(self, method, args, kwargs):
+        """Pre and post process SOAP call, input and output parameters using WSDL"""
         soap_uri = soap_namespaces[self.__soap_ns]
         operation = self.get_operation(method)
 
@@ -349,7 +353,7 @@ class SoapClient(object):
         # construct header and parameters
         if header:
             self.__call_headers = sort_dict(header, self.__headers)
-        method, params = self.wsdl_call_get_params(method, input, *args, **kwargs)
+        method, params = self.wsdl_call_get_params(method, input, args, kwargs)
 
         # call remote procedure
         response = self.call(method, *params)
@@ -357,7 +361,7 @@ class SoapClient(object):
         resp = response('Body', ns=soap_uri).children().unmarshall(output)
         return resp and list(resp.values())[0]  # pass Response tag children
 
-    def wsdl_call_get_params(self, method, input, *args, **kwargs):
+    def wsdl_call_get_params(self, method, input, args, kwargs):
         """Build params from input and args/kwargs"""
         params = inputname = inputargs = None
         all_args = {}
