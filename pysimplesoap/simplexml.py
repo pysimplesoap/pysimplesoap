@@ -190,6 +190,10 @@ class SimpleXMLElement(object):
             for k, v in value.items():
                 self.add_attribute(k, v)
 
+    def __delitem__(self, item):
+        "Remove an attribute"
+        self._element.removeAttribute(item)
+
     def __call__(self, tag=None, ns=None, children=False, root=False,
                  error=True, ):
         """Search (even in child nodes) and return a child tag by name"""
