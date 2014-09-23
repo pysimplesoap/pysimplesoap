@@ -633,20 +633,31 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
             print vcoWS.xml_response
             pass
 
+    def test_issue157(self):
+        """Test WSDL types "top level" import for .NET WCF"""
+        wsdl = "https://sdkstage.microbilt.com/WebServices/Ex/ExStd.svc?wsdl"
+        client = SoapClient(wsdl=wsdl, trace=False)
+        # method call, should not fail, but doesn't return anything useful:
+        client.Map(bureauResponse=1234)     
+        # in case of issue, it will throw the following exceptions:
+        # AttributeError: Tag not found: schema (No elements found)
+        # ValueError: Invalid Args Structure
+
 
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
-    suite.addTest(TestIssues('test_issue34'))
-    suite.addTest(TestIssues('test_issue93'))
-    suite.addTest(TestIssues('test_issue57'))
-    suite.addTest(TestIssues('test_issue60'))
-    suite.addTest(TestIssues('test_issue80'))
-    suite.addTest(TestIssues('test_issue101'))
-    suite.addTest(TestIssues('test_issue114'))
+    #suite.addTest(TestIssues('test_issue34'))
+    #suite.addTest(TestIssues('test_issue93'))
+    #suite.addTest(TestIssues('test_issue57'))
+    #suite.addTest(TestIssues('test_issue60'))
+    #suite.addTest(TestIssues('test_issue80'))
+    #suite.addTest(TestIssues('test_issue101'))
+    #suite.addTest(TestIssues('test_issue114'))
     #suite.addTest(TestIssues('test_issue123'))
-    suite.addTest(TestIssues('test_issue127'))
+    #suite.addTest(TestIssues('test_issue127'))
     #suite.addTest(TestIssues('test_issue130'))
-    suite.addTest(TestIssues('test_issue141'))
-    suite.addTest(TestIssues('test_issue143'))
+    #suite.addTest(TestIssues('test_issue141'))
+    #suite.addTest(TestIssues('test_issue143'))
+    suite.addTest(TestIssues('test_issue157'))
     unittest.TextTestRunner().run(suite)
