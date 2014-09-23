@@ -576,9 +576,11 @@ class SoapClient(object):
         imported_schemas = {}
         global_namespaces = {None: self.namespace}
 
-        # process current wsdl schema (if any):
-        if wsdl('types', error=False):
-            for schema in wsdl.types('schema', ns=self.xsd_uri):
+        # process current wsdl schema (if any, or many if imported):
+        for types in wsdl('types', error=False) or []:
+            # avoid issue if schema is not given in the main WSDL file
+            schemas = types('schema', ns=self.xsd_uri, error=False)
+            for schema in schemas or []:
                 preprocess_schema(schema, imported_schemas, elements, self.xsd_uri,
                                   self.__soap_server, self.http, cache,
                                   force_download, self.wsdl_basedir,
@@ -793,7 +795,6 @@ class SoapClient(object):
                 f.close()
                 # sanity check:
                 if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
-                    import warnings
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
                     log.debug('Version: %s %s' % (pkl['version'], __version__))
                     log.debug('URL: %s %s' % (pkl['url'], url))
