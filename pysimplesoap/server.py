@@ -160,7 +160,7 @@ class SoapDispatcher(object):
                     # Now we change 'external' and 'model' to the received forms i.e. 'ext' and 'mod'
                 # After that we know how the client has prefixed additional namespaces
 
-            ns = NS_RX.findall(xml)
+            ns = NS_RX.findall(str(xml))
             for k, v in ns:
                 if v in self.namespaces.values():
                     _ns_reversed[v] = k
