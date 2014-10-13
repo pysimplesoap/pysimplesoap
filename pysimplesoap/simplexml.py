@@ -502,7 +502,8 @@ class SimpleXMLElement(object):
         elif isinstance(value, (xml.dom.minidom.CDATASection, basestring)):  # do not convert strings or unicodes
             self.add_child(name, value, ns=ns)
         elif value is None:  # sent a empty tag?
-            self.add_child(name, ns=ns)
+            child = self.add_child(name, ns=ns)
+            child['xsi:nil'] = 'true'
         elif value in TYPE_MAP.keys():
             # add commented placeholders for simple tipes (for examples/help only)
             child = self.add_child(name, ns=ns)
