@@ -341,7 +341,7 @@ class SimpleXMLElement(object):
                     if ref_node['id'] == href:
                         node = ref_node
                         ref_name_type = ref_node['xsi:type'].split(":")[1]
-                        break             
+                        break
 
             try:
                 if isinstance(types, dict):
@@ -373,7 +373,7 @@ class SimpleXMLElement(object):
                     # TODO: parse to python types if <s:element ref="s:schema"/>
                     fn = None
                 elif None in types:
-                    # <s:any/>, return the SimpleXMLElement 
+                    # <s:any/>, return the SimpleXMLElement
                     # TODO: check position of None if inside <s:sequence>
                     fn = None
                 elif strict:
@@ -431,10 +431,13 @@ class SimpleXMLElement(object):
                 ##    fn = fn[ref_name_type]
                 children = node.children()
                 value = children and children.unmarshall(fn, strict)
+
             else:
                 if fn is None:  # xsd:anyType not unmarshalled
                     value = node
-                elif unicode(node) or (fn == str and unicode(node) != ''):
+                elif (node['xsi:nil'] or '').strip().lower() == 'true':
+                    value = None
+                elif unicode(node) or (fn == str):
                     try:
                         # get special deserialization function (if any)
                         fn = TYPE_UNMARSHAL_FN.get(fn, fn)
