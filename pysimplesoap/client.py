@@ -229,7 +229,7 @@ class SoapClient(object):
                                         if not k.startswith('wsse:')])
         # always extract WS Security header and send it (backward compatible)
         if 'wsse:Security' in self.__headers and not self.plugins:
-            warnings.warn("Replace wsse:Security with UsernameToken plugin", 
+            warnings.warn("Replace wsse:Security with UsernameToken plugin",
                           DeprecationWarning)
             self.plugins.append(UsernameToken())
 
@@ -252,7 +252,7 @@ class SoapClient(object):
 
         # do pre-processing using plugins (i.e. WSSE signing)
         for plugin in self.plugins:
-            plugin.preprocess(self, request, method, args, kwargs, 
+            plugin.preprocess(self, request, method, args, kwargs,
                                     self.__headers, soap_uri)
 
         self.xml_request = request.as_xml()
@@ -264,7 +264,7 @@ class SoapClient(object):
 
         # do post-processing using plugins (i.e. WSSE signature verification)
         for plugin in self.plugins:
-            plugin.postprocess(self, response, method, args, kwargs, 
+            plugin.postprocess(self, response, method, args, kwargs,
                                      self.__headers, soap_uri)
 
         return response
@@ -432,7 +432,7 @@ class SoapClient(object):
             struct = unicode        # fix for py2 vs py3 string handling
 
         if not isinstance(struct, (list, dict, tuple)) and struct in TYPE_MAP.keys():
-            if not type(value) == struct:
+            if not type(value) == struct  and value is not None:
                 try:
                     struct(value)       # attempt to cast input to parameter type
                 except:
