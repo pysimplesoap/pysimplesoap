@@ -536,7 +536,7 @@ TYPE_MARSHAL_FN = {
     datetime.date: date_m,
     datetime.time: time_m,
     float: float_m,
-    decimal: decimal_m,
+    Decimal: decimal_m,
     bool: bool_m,
 }
 TYPE_UNMARSHAL_FN = {
