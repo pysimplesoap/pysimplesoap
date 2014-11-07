@@ -487,7 +487,8 @@ time_u = lambda s: _strptime(s, "%H:%M:%S").time()
 time_m = lambda d: d.strftime("%H%M%S")
 bool_u = lambda s: {'0': False, 'false': False, '1': True, 'true': True}[s]
 bool_m = lambda s: {False: 'false', True: 'true'}[s]
-
+decimal_m = lambda d: '{0:f}'.format(d)
+float_m = lambda f: '{0:.10f}'.format(f)
 
 # aliases:
 class Alias(object):
@@ -534,6 +535,8 @@ TYPE_MARSHAL_FN = {
     datetime.datetime: datetime_m,
     datetime.date: date_m,
     datetime.time: time_m,
+    float: float_m,
+    Decimal: decimal_m,
     bool: bool_m,
 }
 TYPE_UNMARSHAL_FN = {
