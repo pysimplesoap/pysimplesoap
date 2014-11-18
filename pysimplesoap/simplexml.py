@@ -431,13 +431,10 @@ class SimpleXMLElement(object):
                 ##    fn = fn[ref_name_type]
                 children = node.children()
                 value = children and children.unmarshall(fn, strict)
-
             else:
                 if fn is None:  # xsd:anyType not unmarshalled
                     value = node
-                elif (node['xsi:nil'] or '').strip().lower() == 'true':
-                    value = None
-                elif unicode(node) or (fn == str):
+                elif unicode(node) or (fn == str and unicode(node) != ''):
                     try:
                         # get special deserialization function (if any)
                         fn = TYPE_UNMARSHAL_FN.get(fn, fn)
@@ -502,8 +499,7 @@ class SimpleXMLElement(object):
         elif isinstance(value, (xml.dom.minidom.CDATASection, basestring)):  # do not convert strings or unicodes
             self.add_child(name, value, ns=ns)
         elif value is None:  # sent a empty tag?
-            child = self.add_child(name, ns=ns)
-            child['xsi:nil'] = 'true'
+            self.add_child(name, ns=ns)
         elif value in TYPE_MAP.keys():
             # add commented placeholders for simple tipes (for examples/help only)
             child = self.add_child(name, ns=ns)
