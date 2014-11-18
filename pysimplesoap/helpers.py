@@ -91,11 +91,12 @@ def sort_dict(od, d):
         for k in od.keys():
             v = d.get(k)
             # don't append null tags!
-            if isinstance(v, dict):
-                v = sort_dict(od[k], v)
-            elif isinstance(v, list):
-                v = [sort_dict(od[k][0], v1) for v1 in v]
-            ret[k] = v
+            if v is not None:
+                if isinstance(v, dict):
+                    v = sort_dict(od[k], v)
+                elif isinstance(v, list):
+                    v = [sort_dict(od[k][0], v1) for v1 in v]
+                ret[k] = v
         if hasattr(od, 'namespaces'):
             ret.namespaces.update(od.namespaces)
             ret.references.update(od.references)
