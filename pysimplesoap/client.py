@@ -27,6 +27,7 @@ import logging
 import os
 import tempfile
 import warnings
+import pprint
 
 from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, Struct
@@ -40,12 +41,12 @@ from .wsse import UsernameToken
 
 log = logging.getLogger(__name__)
 
-
 class SoapFault(RuntimeError):
-    def __init__(self, faultcode, faultstring):
+    def __init__(self, faultcode, faultstring, detail=None):
         self.faultcode = faultcode
         self.faultstring = faultstring
-        RuntimeError.__init__(self, faultcode, faultstring)
+        self.detail = detail
+        RuntimeError.__init__(self, faultcode, faultstring, detail)
 
     def __unicode__(self):
         return '%s: %s' % (self.faultcode, self.faultstring)
@@ -57,8 +58,9 @@ class SoapFault(RuntimeError):
             return self.__unicode__().encode('ascii', 'ignore')
 
     def __repr__(self):
-        return "SoapFault(%s, %s)" % (repr(self.faultcode),
-                                      repr(self.faultstring))
+        return "SoapFault(faultcode = %s, faultstring %s, detail = %s)" % (repr(self.faultcode),
+                                                                           repr(self.faultstring),
+                                                                           repr(self.detail))
 
 
 # soap protocol specification & namespace
@@ -260,7 +262,17 @@ class SoapClient(object):
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty',))
         if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
-            raise SoapFault(unicode(response.faultcode), unicode(response.faultstring))
+            detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
+            detail = None
+
+            if detailXml and detailXml.children():
+                operation = self.get_operation(method)
+                fault = operation['faults'][detailXml.children()[0].get_name()]
+                detail = detailXml.children()[0].unmarshall(fault, strict=False)
+
+            raise SoapFault(unicode(response.faultcode),
+                            unicode(response.faultstring),
+                            detail)
 
         # do post-processing using plugins (i.e. WSSE signature verification)
         for plugin in self.plugins:
@@ -649,6 +661,11 @@ class SoapClient(object):
                 if operation_node('output', error=False):
                     op['output_msg'] = get_local_name(operation_node.output['message'])
 
+                #Get all fault message types this operation may return
+                fault_msgs = op['fault_msgs'] = {}
+                for fault in operation_node('fault', error=False):
+                    fault_msgs[fault['name']] = get_local_name(fault['message'])
+
         for binding_node in wsdl.binding:
             port_type_name = get_local_name(binding_node['type'])
             if port_type_name not in port_types:
@@ -733,6 +750,13 @@ class SoapClient(object):
                     del op['output_msg']
                 else:
                     op['output'] = None
+
+                if 'fault_msgs' in op:
+                    faults = op['faults'] = {}
+                    for name, msg in op['fault_msgs'].iteritems():
+                        msg_obj = get_message(messages, msg, parts_output_body)
+                        tag_name = msg_obj.keys()[0]
+                        faults[tag_name] = msg_obj
 
                 # useless? never used
                 parts_output_headers = []
