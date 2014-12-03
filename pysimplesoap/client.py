@@ -27,7 +27,6 @@ import logging
 import os
 import tempfile
 import warnings
-import pprint
 
 from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, Struct
