@@ -175,7 +175,7 @@ class SoapClient(object):
     def __getattr__(self, attr):
         """Return a pseudo-method that can be called"""
         if not self.services:  # not using WSDL?
-            return lambda self=self, *args, **kwargs: self.call(attr, *args, **kwargs)
+            return lambda *args, **kwargs: self.call(attr, *args, **kwargs)
         else:  # using WSDL:
             return lambda *args, **kwargs: self.wsdl_call(attr, *args, **kwargs)
 
