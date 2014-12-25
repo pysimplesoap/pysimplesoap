@@ -324,7 +324,7 @@ def postprocess_element(elements, processed):
                     #if n != elements:  # TODO: fix recursive elements
                     postprocess_element(n, processed)
 	
-	processed.pop()
+    processed.pop()
 
 def get_message(messages, message_name, part_name, parameter_order=None):
     if part_name:
