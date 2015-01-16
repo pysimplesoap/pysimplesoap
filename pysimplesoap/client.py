@@ -662,8 +662,10 @@ class SoapClient(object):
 
                 #Get all fault message types this operation may return
                 fault_msgs = op['fault_msgs'] = {}
-                for fault in operation_node('fault', error=False):
-                    fault_msgs[fault['name']] = get_local_name(fault['message'])
+                faults = operation_node('fault', error=False)
+                if faults is not None:
+                    for fault in operation_node('fault', error=False):
+                        fault_msgs[fault['name']] = get_local_name(fault['message'])
 
         for binding_node in wsdl.binding:
             port_type_name = get_local_name(binding_node['type'])
