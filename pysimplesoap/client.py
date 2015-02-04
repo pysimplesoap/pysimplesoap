@@ -265,9 +265,14 @@ class SoapClient(object):
             detail = None
 
             if detailXml and detailXml.children():
-                operation = self.get_operation(method)
-                fault = operation['faults'][detailXml.children()[0].get_name()]
-                detail = detailXml.children()[0].unmarshall(fault, strict=False)
+                if self.services is not None:
+                    operation = self.get_operation(method)
+                    fault = operation['faults'][
+                        detailXml.children()[0].get_name()]
+                    detail = detailXml.children()[0].unmarshall(
+                        fault, strict=False)
+                else:
+                    detail = detailXml.children()
 
             raise SoapFault(unicode(response.faultcode),
                             unicode(response.faultstring),
