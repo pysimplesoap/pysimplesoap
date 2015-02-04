@@ -272,7 +272,7 @@ class SoapClient(object):
                     detail = detailXml.children()[0].unmarshall(
                         fault, strict=False)
                 else:
-                    detail = detailXml.children()
+                    detail = repr(detailXml.children())
 
             raise SoapFault(unicode(response.faultcode),
                             unicode(response.faultstring),
