@@ -34,7 +34,8 @@ from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from .helpers import fetch, sort_dict, make_key, process_element, \
                      postprocess_element, get_message, preprocess_schema, \
-                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit
+                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit, \
+                     iteritems
 from .wsse import UsernameToken
 
 
@@ -81,6 +82,7 @@ class SoapClient(object):
                  http_headers=None, trace=False,
                  username=None, password=None,
                  key_file=None, plugins=None,
+                 soap_ver=None
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -117,6 +119,11 @@ class SoapClient(object):
             self.__soap_ns = 'soapenv'  # 1.2
         else:
             self.__soap_ns = soap_ns
+
+        if soap_ver is None:
+            self.soap_ver = self.__soap_ns.startswith('soap12') and 'soap12' or 'soap11'
+        else:
+            self.soap_ver = soap_ver
 
         # SOAP Server (special cases like oracle, jbossas6 or jetty)
         self.__soap_server = soap_server
@@ -316,16 +323,15 @@ class SoapClient(object):
 
     def get_operation(self, method):
         # try to find operation in wsdl file
-        soap_ver = self.__soap_ns.startswith('soap12') and 'soap12' or 'soap11'
         if not self.service_port:
             for service_name, service in self.services.items():
                 for port_name, port in [port for port in service['ports'].items()]:
-                    if port['soap_ver'] == soap_ver:
+                    if port['soap_ver'] == self.soap_ver:
                         self.service_port = service_name, port_name
                         break
                 else:
                     raise RuntimeError('Cannot determine service in WSDL: '
-                                       'SOAP version: %s' % soap_ver)
+                                       'SOAP version: %s' % self.soap_ver)
         else:
             port = self.services[self.service_port[0]]['ports'][self.service_port[1]]
         if not self.location:
@@ -764,7 +770,7 @@ class SoapClient(object):
 
                 if 'fault_msgs' in op:
                     faults = op['faults'] = {}
-                    for msg in op['fault_msgs'].values():
+                    for name, msg in iteritems(op['fault_msgs']):
                         msg_obj = get_message(messages, msg, parts_output_body)
                         tag_name = msg_obj.keys()[0]
                         faults[tag_name] = msg_obj

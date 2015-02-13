@@ -18,6 +18,13 @@ import sys
 if sys.version > '3':
     basestring = unicode = str
 
+if sys.version_info[0] == 3:
+    def iteritems(d, **kw):
+        return iter(d.items(**kw))
+else:
+    def iteritems(d, **kw):
+        return iter(d.iteritems(**kw))
+
 import datetime
 from decimal import Decimal
 import os
@@ -36,7 +43,6 @@ from . import __author__, __copyright__, __license__, __version__
 
 
 log = logging.getLogger(__name__)
-
 
 def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers={}):
     """Download a document from a URL, save it locally if cache enabled"""
