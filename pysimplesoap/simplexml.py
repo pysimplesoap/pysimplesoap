@@ -557,14 +557,22 @@ class SimpleXMLElement(object):
                 ns = False
             for k,v in value:
                 getattr(self, name).marshall(k, v, add_comments=add_comments, ns=ns)
-        elif isinstance(value, list): # serialize lists
+        elif isinstance(value, list): # serialize lists name: [value1, value2]
+            # list elements should be a dict with one element:
+            # 'vats': [{'vat': {'vat_amount': 50, 'vat_percent': 5}}, {...}]
+            # or an array of complex types directly (a.k.a. jetty dialect)
+            # 'vat': [{'vat_amount': 100, 'vat_percent': 21.0}, {...}]
             child=self.add_child(name, ns=ns)
             if not add_children_ns:
                 ns = False
             if add_comments:
                 child.add_comment("Repetitive array of:")
-            for t in value:
+            for i, t in enumerate(value):
                 child.marshall(name, t, False, add_comments=add_comments, ns=ns)
+                # "jetty" arrays: add new base node (if not last) -see abobe-
+                # TODO: this could be an issue for some arrays of single values
+                if isinstance(t, dict) and len(t) > 1 and i < len(value) - 1:
+                    child = self.add_child(name, ns=ns)
         elif isinstance(value, basestring): # do not convert strings or unicodes
             self.add_child(name, value,ns=ns)
         elif value is None: # sent a empty tag?
