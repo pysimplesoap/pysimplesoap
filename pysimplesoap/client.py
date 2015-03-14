@@ -300,18 +300,40 @@ class SoapClient(object):
     def succeded(self, xml_response, method, soap_uri, *args, **kwargs):
         response = SimpleXMLElement(xml_response, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty',))
-        if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
-            detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
-            detail = None
 
-            if detailXml and detailXml.children():
-                operation = self.get_operation(method)
-                fault = operation['faults'][detailXml.children()[0].get_name()]
-                detail = detailXml.children()[0].unmarshall(fault, strict=False)
+        if self.exceptions:
+            soap12env = soap_namespaces['soap12env']
+            fault12 = response("Fault", ns=soap12env, error=False)
 
-            raise SoapFault(unicode(response.faultcode),
-                            unicode(response.faultstring),
-                            detail)
+            # it's a soap 1.2 fault: http://www.w3.org/TR/soap12-part1/#soapfault
+            if fault12 is not None:
+                # Code > Value is mandatory
+                faultcode = unicode(fault12("Code", ns=soap12env)("Value", ns=soap12env))
+
+                # Reason > Text is mandatory, we ignore mandatory attribute lang
+                faultstring = unicode(fault12("Reason", ns=soap12env)("Text", ns=soap12env))
+
+                # Detail is optional
+                detail = fault12("Detail", ns=soap12env, error=False)
+                if detail is not None:
+                    # Text is optional
+                    detail = detail("Text", ns=soap12env, error=False)
+                detail = unicode(detail or '')
+                raise SoapFault(unicode(faultcode), unicode(faultstring), detail)
+
+            # soap 1.1 fault
+            elif response("Fault", ns=list(soap_namespaces.values()), error=False):
+                detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
+                detail = None
+
+                if detailXml and detailXml.children():
+                    operation = self.get_operation(method)
+                    fault = operation['faults'][detailXml.children()[0].get_name()]
+                    detail = detailXml.children()[0].unmarshall(fault, strict=False)
+
+                faultcode = response.faultcode
+                faultstring = response.faultstring
+                raise SoapFault(unicode(faultcode), unicode(faultstring), detail)
 
         # do post-processing using plugins (i.e. WSSE signature verification)
         for plugin in self.plugins:
