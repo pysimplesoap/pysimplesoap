@@ -1,0 +1,239 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [usqcd.jlab.org]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://usqcd.jlab.org/mdc-service/services/ILDGMDCService?wsdl
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<wsdl:definitions\
+        \ targetNamespace=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        \ xmlns:apachesoap=\"http://xml.apache.org/xml-soap\" xmlns:impl=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        \ xmlns:intf=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        \ xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:wsdl=\"\
+        http://schemas.xmlsoap.org/wsdl/\" xmlns:wsdlsoap=\"http://schemas.xmlsoap.org/wsdl/soap/\"\
+        \ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n<!--WSDL created by Apache\
+        \ Axis version: 1.3\nBuilt on Oct 05, 2005 (05:23:37 EDT)-->\n <wsdl:types>\n\
+        \  <schema targetNamespace=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        \ xmlns=\"http://www.w3.org/2001/XMLSchema\">\n   <import namespace=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        />\n   <complexType name=\"ArrayOf_xsd_string\">\n    <complexContent>\n \
+        \    <restriction base=\"soapenc:Array\">\n      <attribute ref=\"soapenc:arrayType\"\
+        \ wsdl:arrayType=\"xsd:string[]\"/>\n     </restriction>\n    </complexContent>\n\
+        \   </complexType>\n   <complexType name=\"QueryResults\">\n    <sequence>\n\
+        \     <element name=\"statusCode\" nillable=\"true\" type=\"soapenc:string\"\
+        />\n     <element name=\"queryTime\" nillable=\"true\" type=\"soapenc:string\"\
+        />\n     <element name=\"totalResults\" type=\"xsd:int\"/>\n     <element\
+        \ name=\"startIndex\" type=\"xsd:int\"/>\n     <element name=\"numberOfResults\"\
+        \ type=\"xsd:int\"/>\n     <element name=\"results\" nillable=\"true\" type=\"\
+        impl:ArrayOf_xsd_string\"/>\n    </sequence>\n   </complexType>\n   <complexType\
+        \ name=\"MetadataResult\">\n    <sequence>\n     <element name=\"document\"\
+        \ nillable=\"true\" type=\"soapenc:string\"/>\n     <element name=\"statusCode\"\
+        \ nillable=\"true\" type=\"soapenc:string\"/>\n    </sequence>\n   </complexType>\n\
+        \   <complexType name=\"MDCinfo\">\n    <sequence>\n     <element name=\"\
+        groupName\" nillable=\"true\" type=\"xsd:string\"/>\n     <element name=\"\
+        groupURL\" nillable=\"true\" type=\"xsd:string\"/>\n     <element name=\"\
+        queryTypes\" nillable=\"true\" type=\"xsd:string\"/>\n     <element name=\"\
+        version\" nillable=\"true\" type=\"xsd:string\"/>\n    </sequence>\n   </complexType>\n\
+        \  </schema>\n </wsdl:types>\n\n   <wsdl:message name=\"doRawQueryResponse\"\
+        >\n\n      <wsdl:part name=\"doRawQueryReturn\" type=\"impl:QueryResults\"\
+        />\n\n   </wsdl:message>\n\n   <wsdl:message name=\"doRawQueryRequest\">\n\
+        \n      <wsdl:part name=\"queryFormat\" type=\"xsd:string\"/>\n\n      <wsdl:part\
+        \ name=\"queryString\" type=\"xsd:string\"/>\n\n      <wsdl:part name=\"startIndex\"\
+        \ type=\"xsd:int\"/>\n\n      <wsdl:part name=\"maxResults\" type=\"xsd:int\"\
+        />\n\n   </wsdl:message>\n\n   <wsdl:message name=\"getConfigurationMetadataResponse\"\
+        >\n\n      <wsdl:part name=\"getConfigurationMetadataReturn\" type=\"impl:MetadataResult\"\
+        />\n\n   </wsdl:message>\n\n   <wsdl:message name=\"getEnsembleMetadataResponse\"\
+        >\n\n      <wsdl:part name=\"getEnsembleMetadataReturn\" type=\"impl:MetadataResult\"\
+        />\n\n   </wsdl:message>\n\n   <wsdl:message name=\"getEnsembleMetadataRequest\"\
+        >\n\n      <wsdl:part name=\"ensembleURI\" type=\"xsd:string\"/>\n\n   </wsdl:message>\n\
+        \n   <wsdl:message name=\"getMDCinfoResponse\">\n\n      <wsdl:part name=\"\
+        getMDCinfoReturn\" type=\"impl:MDCinfo\"/>\n\n   </wsdl:message>\n\n   <wsdl:message\
+        \ name=\"doEnsembleURIQueryResponse\">\n\n      <wsdl:part name=\"doEnsembleURIQueryReturn\"\
+        \ type=\"impl:QueryResults\"/>\n\n   </wsdl:message>\n\n   <wsdl:message name=\"\
+        doConfigurationLFNQueryResponse\">\n\n      <wsdl:part name=\"doConfigurationLFNQueryReturn\"\
+        \ type=\"impl:QueryResults\"/>\n\n   </wsdl:message>\n\n   <wsdl:message name=\"\
+        getMDCinfoRequest\">\n\n   </wsdl:message>\n\n   <wsdl:message name=\"doConfigurationLFNQueryRequest\"\
+        >\n\n      <wsdl:part name=\"queryFormat\" type=\"xsd:string\"/>\n\n     \
+        \ <wsdl:part name=\"queryString\" type=\"xsd:string\"/>\n\n      <wsdl:part\
+        \ name=\"startIndex\" type=\"xsd:int\"/>\n\n      <wsdl:part name=\"maxResults\"\
+        \ type=\"xsd:int\"/>\n\n   </wsdl:message>\n\n   <wsdl:message name=\"getConfigurationMetadataRequest\"\
+        >\n\n      <wsdl:part name=\"configurationLFN\" type=\"xsd:string\"/>\n\n\
+        \   </wsdl:message>\n\n   <wsdl:message name=\"doEnsembleURIQueryRequest\"\
+        >\n\n      <wsdl:part name=\"queryFormat\" type=\"xsd:string\"/>\n\n     \
+        \ <wsdl:part name=\"queryString\" type=\"xsd:string\"/>\n\n      <wsdl:part\
+        \ name=\"startIndex\" type=\"xsd:int\"/>\n\n      <wsdl:part name=\"maxResults\"\
+        \ type=\"xsd:int\"/>\n\n   </wsdl:message>\n\n   <wsdl:portType name=\"MdcSoapBindingImpl\"\
+        >\n\n      <wsdl:operation name=\"doEnsembleURIQuery\" parameterOrder=\"queryFormat\
+        \ queryString startIndex maxResults\">\n\n         <wsdl:input message=\"\
+        impl:doEnsembleURIQueryRequest\" name=\"doEnsembleURIQueryRequest\"/>\n\n\
+        \         <wsdl:output message=\"impl:doEnsembleURIQueryResponse\" name=\"\
+        doEnsembleURIQueryResponse\"/>\n\n      </wsdl:operation>\n\n      <wsdl:operation\
+        \ name=\"doConfigurationLFNQuery\" parameterOrder=\"queryFormat queryString\
+        \ startIndex maxResults\">\n\n         <wsdl:input message=\"impl:doConfigurationLFNQueryRequest\"\
+        \ name=\"doConfigurationLFNQueryRequest\"/>\n\n         <wsdl:output message=\"\
+        impl:doConfigurationLFNQueryResponse\" name=\"doConfigurationLFNQueryResponse\"\
+        />\n\n      </wsdl:operation>\n\n      <wsdl:operation name=\"getEnsembleMetadata\"\
+        \ parameterOrder=\"ensembleURI\">\n\n         <wsdl:input message=\"impl:getEnsembleMetadataRequest\"\
+        \ name=\"getEnsembleMetadataRequest\"/>\n\n         <wsdl:output message=\"\
+        impl:getEnsembleMetadataResponse\" name=\"getEnsembleMetadataResponse\"/>\n\
+        \n      </wsdl:operation>\n\n      <wsdl:operation name=\"getConfigurationMetadata\"\
+        \ parameterOrder=\"configurationLFN\">\n\n         <wsdl:input message=\"\
+        impl:getConfigurationMetadataRequest\" name=\"getConfigurationMetadataRequest\"\
+        />\n\n         <wsdl:output message=\"impl:getConfigurationMetadataResponse\"\
+        \ name=\"getConfigurationMetadataResponse\"/>\n\n      </wsdl:operation>\n\
+        \n      <wsdl:operation name=\"getMDCinfo\">\n\n         <wsdl:input message=\"\
+        impl:getMDCinfoRequest\" name=\"getMDCinfoRequest\"/>\n\n         <wsdl:output\
+        \ message=\"impl:getMDCinfoResponse\" name=\"getMDCinfoResponse\"/>\n\n  \
+        \    </wsdl:operation>\n\n      <wsdl:operation name=\"doRawQuery\" parameterOrder=\"\
+        queryFormat queryString startIndex maxResults\">\n\n         <wsdl:input message=\"\
+        impl:doRawQueryRequest\" name=\"doRawQueryRequest\"/>\n\n         <wsdl:output\
+        \ message=\"impl:doRawQueryResponse\" name=\"doRawQueryResponse\"/>\n\n  \
+        \    </wsdl:operation>\n\n   </wsdl:portType>\n\n   <wsdl:binding name=\"\
+        ILDGMDCServiceSoapBinding\" type=\"impl:MdcSoapBindingImpl\">\n\n      <wsdlsoap:binding\
+        \ style=\"rpc\" transport=\"http://schemas.xmlsoap.org/soap/http\"/>\n\n \
+        \     <wsdl:operation name=\"doEnsembleURIQuery\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"doEnsembleURIQueryRequest\"\
+        >\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"doEnsembleURIQueryResponse\">\n\n         \
+        \   <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\
+        \n      <wsdl:operation name=\"doConfigurationLFNQuery\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"doConfigurationLFNQueryRequest\"\
+        >\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"doConfigurationLFNQueryResponse\">\n\n    \
+        \        <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\
+        \n      <wsdl:operation name=\"getEnsembleMetadata\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"getEnsembleMetadataRequest\"\
+        >\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"getEnsembleMetadataResponse\">\n\n        \
+        \    <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\
+        \n      <wsdl:operation name=\"getConfigurationMetadata\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"getConfigurationMetadataRequest\"\
+        >\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"getConfigurationMetadataResponse\">\n\n   \
+        \         <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\
+        \n      <wsdl:operation name=\"getMDCinfo\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"getMDCinfoRequest\">\n\n\
+        \            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"http://mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"getMDCinfoResponse\">\n\n            <wsdlsoap:body\
+        \ encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"\
+        http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\" use=\"encoded\"\
+        />\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\n      <wsdl:operation\
+        \ name=\"doRawQuery\">\n\n         <wsdlsoap:operation soapAction=\"\"/>\n\
+        \n         <wsdl:input name=\"doRawQueryRequest\">\n\n            <wsdlsoap:body\
+        \ encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"\
+        http://mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\n\
+        \         <wsdl:output name=\"doRawQueryResponse\">\n\n            <wsdlsoap:body\
+        \ encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"\
+        http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\" use=\"encoded\"\
+        />\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\n   </wsdl:binding>\n\
+        \n   <wsdl:service name=\"MdcSoapBindingImplService\">\n\n      <wsdl:port\
+        \ binding=\"impl:ILDGMDCServiceSoapBinding\" name=\"ILDGMDCService\">\n\n\
+        \         <wsdlsoap:address location=\"http://usqcd.jlab.org/mdc-service/services/ILDGMDCService\"\
+        />\n\n      </wsdl:port>\n\n   </wsdl:service>\n\n</wsdl:definitions>\n"}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml;charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 14:29:43 GMT']
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8ZG9FbnNlbWJsZVVSSVF1ZXJ5IHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8y
+      MDAxL1hNTFNjaGVtYSI+CiAgICA8cXVlcnlGb3JtYXQ+WHBhdGg8L3F1ZXJ5Rm9ybWF0PjxxdWVy
+      eVN0cmluZz4vbWFya292Q2hhaW48L3F1ZXJ5U3RyaW5nPjxzdGFydEluZGV4PjA8L3N0YXJ0SW5k
+      ZXg+PG1heFJlc3VsdHM+LTE8L21heFJlc3VsdHM+PC9kb0Vuc2VtYmxlVVJJUXVlcnk+Cjwvc29h
+      cDpCb2R5Pgo8L3NvYXA6RW52ZWxvcGU+
+    headers:
+      Connection: [close]
+      Content-Length: ['480']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [usqcd.jlab.org]
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: http://usqcd.jlab.org/mdc-service/services/ILDGMDCService
+  response:
+    body: {string: '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><xsd:doEnsembleURIQueryResponse
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><doEnsembleURIQueryReturn
+        href="#id0"/></xsd:doEnsembleURIQueryResponse><multiRef id="id0" soapenc:root="0"
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xsi:type="ns1:QueryResults"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="urn:mdc.ildg.lqcd.org"><statusCode
+        xsi:type="soapenc:string">MDC_SUCCESS</statusCode><queryTime xsi:type="soapenc:string">Mar
+        20, 2015</queryTime><totalResults xsi:type="xsd:int">42</totalResults><startIndex
+        xsi:type="xsd:int">0</startIndex><numberOfResults xsi:type="xsd:int">42</numberOfResults><results
+        soapenc:arrayType="soapenc:string[42]" xsi:type="soapenc:Array"><results xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2896f21b711m0124m031</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2064f21b676m010m050rhmc</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/1648f21b6628m0484m0484</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2896f21b710m0093m031</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/4096f21b708m0031m031</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2896f21b710m0093m031</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/64144f21b746m0036m0108</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/3_flavor/4096f3b7045m0031</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2064f21b676m007m050</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/56144f21b7465m0025m018</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/1648f21b6572m0097m0484</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/4096f21b708m0031m031rhmc</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2896f21b709m0062m031</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/6496f21b7075m00155m031</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/1648f21b6586m0194m0484</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/1648f21b6600m0290m0484</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/3296f21b7085m00465m031</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/3_flavor/3264f3b6715m005</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/48144f21b7475m0054m018</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/64144f21b746m0018m018</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/64192f21b781m0028m014</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/48144f21b748m0072m018</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2064f21b679m020m050</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2464f21b676m005m050</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2896f21b709m0062m031rhmc</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2464f21b676m005m050rhmc</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2048f21b6566m00484m0484</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2064f21b679m020m050rhmc</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2064f21b676m010m050</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/48144f21b747m0036m018</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2896f21b711m0124m031rhmc</results><results
+        xsi:type="soapenc:string">mc://USQCD/MILC/asqtad/2_plus_1_flavor/2064f21b676m007m050rhmc</results><results
+        xsi:type="soapenc:string">mc://USQCD/LHPC/aniso/wilson/NF2/wl_16_64_5p5_x2p38_um0p4125</results><results
+        xsi:type="soapenc:string">mc://USQCD/LHPC/aniso/wilson/NF2/wl_24_64_5p5_x2p38_um0p4148</results><results
+        xsi:type="soapenc:string">mc://USQCD/LHPC/aniso/wilson/NF2/wl_16_64_5p5_x2p38_um0p4086</results><results
+        xsi:type="soapenc:string">mc://USQCD/LHPC/aniso/wilson/NF2/wl_32_96_5p5_x2p38_um0p4086</results><results
+        xsi:type="soapenc:string">mc://USQCD/LHPC/aniso/wilson/NF2/wl_32_96_5p5_x2p38_um0p4125</results><results
+        xsi:type="soapenc:string">mc://USQCD/LHPC/aniso/wilson/NF2/wl_24_64_5p5_x2p38_um0p4125</results><results
+        xsi:type="soapenc:string">mc://USQCD/LHPC/aniso/wilson/NF2/wl_32_96_5p5_x2p38_um0p4148</results><results
+        xsi:type="soapenc:string">mc://USQCD/LHPC/aniso/wilson/NF2/wl_24_64_5p5_x2p38_um0p4086</results><results
+        xsi:type="soapenc:string">
+
+        mc://USQCD/RBC-UKQCD/2plus1_24nt64_IWASAKI_b2p13_ls16_M1p8_ms0p04_mu0p02_rhmc_H_R_G
+
+        </results><results xsi:type="soapenc:string">
+
+        mc://USQCD/RBC-UKQCD/2plus1_24nt64_IWASAKI_b2p13_ls16_M1p8_ms0p04_mu0p03_rhmc_H_R_G
+
+        </results></results></multiRef></soapenv:Body></soapenv:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml;charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 14:29:44 GMT']
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+version: 1

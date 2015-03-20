@@ -27,6 +27,7 @@ import logging
 import os
 import tempfile
 import warnings
+import six
 
 from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, Struct
@@ -34,7 +35,8 @@ from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from .helpers import fetch, sort_dict, make_key, process_element, \
                      postprocess_element, get_message, preprocess_schema, \
-                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit
+                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit,\
+                     Alias
 from .wsse import UsernameToken
 
 
@@ -225,7 +227,8 @@ class SoapClient(object):
             delattr(request("Body", ns=list(soap_namespaces.values()),), method)
 
         # construct header and parameters (if not wsdl given) except wsse
-        if self.__headers and not self.services:
+        # the "and not self.services" prevents the documented client['someheader'] = ... from working
+        if self.__headers:# and not self.services:
             self.__call_headers = dict([(k, v) for k, v in self.__headers.items()
                                         if not k.startswith('wsse:')])
         # always extract WS Security header and send it (backward compatible)
@@ -434,10 +437,15 @@ class SoapClient(object):
         # Determine parameter type
         if type(struct) == type(value):
             typematch = True
+        # TODO: Previous if-statement is superfluous, should it have done something?
         if not isinstance(struct, dict) and isinstance(value, dict):
             typematch = True    # struct can be a dict or derived (Struct)
         else:
             typematch = False
+
+        # Check for if struct is an Alias
+        if isinstance(struct, Alias):
+            struct = struct.py_type
 
         if struct == str:
             struct = unicode        # fix for py2 vs py3 string handling
@@ -754,9 +762,9 @@ class SoapClient(object):
 
                 if 'fault_msgs' in op:
                     faults = op['faults'] = {}
-                    for name, msg in op['fault_msgs'].iteritems():
+                    for name, msg in six.iteritems(op['fault_msgs']):
                         msg_obj = get_message(messages, msg, parts_output_body)
-                        tag_name = msg_obj.keys()[0]
+                        tag_name = next(iter(msg_obj))
                         faults[tag_name] = msg_obj
 
                 # useless? never used

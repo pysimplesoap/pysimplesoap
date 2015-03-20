@@ -1,0 +1,39 @@
+interactions:
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8ZG9FbnNlbWJsZVVSSVF1ZXJ5IHhtbG5zPSJOb25lIj4KICAgIDxxdWVyeUZv
+      cm1hdD5YcGF0aDwvcXVlcnlGb3JtYXQ+PHF1ZXJ5U3RyaW5nPi9tYXJrb3ZDaGFpbjwvcXVlcnlT
+      dHJpbmc+PHN0YXJ0SW5kZXg+MDwvc3RhcnRJbmRleD48bWF4UmVzdWx0cz4tMTwvbWF4UmVzdWx0
+      cz48L2RvRW5zZW1ibGVVUklRdWVyeT4KPC9zb2FwOkJvZHk+Cjwvc29hcDpFbnZlbG9wZT4=
+    headers:
+      Connection: [close]
+      Content-Length: ['452']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: ['wennekers.epcc.ed.ac.uk:8080']
+      Soapaction: ['"doEnsembleURIQuery"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue
+  response:
+    body: {string: '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><ns1:doEnsembleURIQueryResponse
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="None"><doEnsembleURIQueryReturn
+        href="#id0"/></ns1:doEnsembleURIQueryResponse><multiRef id="id0" soapenc:root="0"
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xsi:type="ns2:QueryResults"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns2="urn:mdc.ildg.lqcd.org"><statusCode
+        xsi:type="xsd:string">MDC_INVALID_REQUEST</statusCode><queryTime xsi:type="xsd:string">3/20/15
+        2:40 PM</queryTime><totalResults xsi:type="xsd:int">0</totalResults><startIndex
+        xsi:type="xsd:int">0</startIndex><numberOfResults xsi:type="xsd:int">0</numberOfResults><results
+        xsi:type="xsd:string" xsi:nil="true"/></multiRef></soapenv:Body></soapenv:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml;charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 14:40:53 GMT']
+      Server: [Apache-Coyote/1.1]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+version: 1

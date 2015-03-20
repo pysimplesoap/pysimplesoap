@@ -1,0 +1,323 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [services.conzoom.eu]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://services.conzoom.eu/addit/AddItService.svc?wsdl
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><wsdl:definitions name="AddItService"
+        targetNamespace="http://services.conzoom.eu/addit/2009/07" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+        xmlns:tns="http://services.conzoom.eu/addit/2009/07" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+        xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+        xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+        xmlns:i0="http://services.conzoom.eu/06/07/bindings" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+        xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"><wsdl:import
+        namespace="http://services.conzoom.eu/06/07/bindings" location="http://services.conzoom.eu/addit/AddItService.svc?wsdl=wsdl0"/><wsdl:types><xsd:schema
+        targetNamespace="http://services.conzoom.eu/addit/2009/07/Imports"><xsd:import
+        schemaLocation="http://services.conzoom.eu/addit/AddItService.svc?xsd=xsd0"
+        namespace="http://services.conzoom.eu/addit/2009/07"/><xsd:import schemaLocation="http://services.conzoom.eu/addit/AddItService.svc?xsd=xsd1"
+        namespace="http://schemas.microsoft.com/2003/10/Serialization/"/><xsd:import
+        schemaLocation="http://services.conzoom.eu/addit/AddItService.svc?xsd=xsd2"
+        namespace="http://services.conzoom.eu/2007/06"/></xsd:schema></wsdl:types><wsdl:message
+        name="AddItService_GetValues_InputMessage"><wsdl:part name="parameters" element="tns:GetValues"/></wsdl:message><wsdl:message
+        name="AddItService_GetValues_OutputMessage"><wsdl:part name="parameters" element="tns:GetValuesResponse"/></wsdl:message><wsdl:message
+        name="AddItService_GetValuesInBatch_InputMessage"><wsdl:part name="parameters"
+        element="tns:GetValuesInBatch"/></wsdl:message><wsdl:message name="AddItService_GetValuesInBatch_OutputMessage"><wsdl:part
+        name="parameters" element="tns:GetValuesInBatchResponse"/></wsdl:message><wsdl:message
+        name="AddItService_GetVariableById_InputMessage"><wsdl:part name="parameters"
+        element="tns:GetVariableById"/></wsdl:message><wsdl:message name="AddItService_GetVariableById_OutputMessage"><wsdl:part
+        name="parameters" element="tns:GetVariableByIdResponse"/></wsdl:message><wsdl:message
+        name="AddItService_GetVariables_InputMessage"><wsdl:part name="parameters"
+        element="tns:GetVariables"/></wsdl:message><wsdl:message name="AddItService_GetVariables_OutputMessage"><wsdl:part
+        name="parameters" element="tns:GetVariablesResponse"/></wsdl:message><wsdl:portType
+        name="AddItService"><wsdl:operation name="GetValues"><wsdl:input wsaw:Action="http://services.conzoom.eu/addit/2009/07/AddItService/GetValues"
+        message="tns:AddItService_GetValues_InputMessage"/><wsdl:output wsaw:Action="http://services.conzoom.eu/addit/2009/07/AddItService/GetValuesResponse"
+        message="tns:AddItService_GetValues_OutputMessage"/></wsdl:operation><wsdl:operation
+        name="GetValuesInBatch"><wsdl:input wsaw:Action="http://services.conzoom.eu/addit/2009/07/AddItService/GetValuesInBatch"
+        message="tns:AddItService_GetValuesInBatch_InputMessage"/><wsdl:output wsaw:Action="http://services.conzoom.eu/addit/2009/07/AddItService/GetValuesInBatchResponse"
+        message="tns:AddItService_GetValuesInBatch_OutputMessage"/></wsdl:operation><wsdl:operation
+        name="GetVariableById"><wsdl:input wsaw:Action="http://services.conzoom.eu/addit/2009/07/AddItService/GetVariableById"
+        message="tns:AddItService_GetVariableById_InputMessage"/><wsdl:output wsaw:Action="http://services.conzoom.eu/addit/2009/07/AddItService/GetVariableByIdResponse"
+        message="tns:AddItService_GetVariableById_OutputMessage"/></wsdl:operation><wsdl:operation
+        name="GetVariables"><wsdl:input wsaw:Action="http://services.conzoom.eu/addit/2009/07/AddItService/GetVariables"
+        message="tns:AddItService_GetVariables_InputMessage"/><wsdl:output wsaw:Action="http://services.conzoom.eu/addit/2009/07/AddItService/GetVariablesResponse"
+        message="tns:AddItService_GetVariables_OutputMessage"/></wsdl:operation></wsdl:portType><wsdl:service
+        name="AddItService"><wsdl:port name="BasicHttpBinding_AddItService" binding="i0:BasicHttpBinding_AddItService"><soap:address
+        location="https://services.conzoom.eu/addit/AddItService.svc"/></wsdl:port></wsdl:service></wsdl:definitions>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['4606']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:45:20 GMT']
+      Server: [Microsoft-IIS/7.0]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [services.conzoom.eu]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://services.conzoom.eu/addit/AddItService.svc?wsdl=wsdl0
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><wsdl:definitions targetNamespace="http://services.conzoom.eu/06/07/bindings"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+        xmlns:tns="http://services.conzoom.eu/06/07/bindings" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+        xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+        xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+        xmlns:i0="http://services.conzoom.eu/addit/2009/07" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+        xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"><wsp:Policy
+        wsu:Id="BasicHttpBinding_AddItService_policy"><wsp:ExactlyOne><wsp:All><sp:TransportBinding
+        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"><wsp:Policy><sp:TransportToken><wsp:Policy><sp:HttpsToken
+        RequireClientCertificate="false"/></wsp:Policy></sp:TransportToken><sp:AlgorithmSuite><wsp:Policy><sp:Basic256/></wsp:Policy></sp:AlgorithmSuite><sp:Layout><wsp:Policy><sp:Lax/></wsp:Policy></sp:Layout><sp:IncludeTimestamp/></wsp:Policy></sp:TransportBinding><sp:SignedSupportingTokens
+        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"><wsp:Policy><sp:UsernameToken
+        sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient"><wsp:Policy><sp:WssUsernameToken10/></wsp:Policy></sp:UsernameToken></wsp:Policy></sp:SignedSupportingTokens><sp:Wss10
+        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"><wsp:Policy/></sp:Wss10></wsp:All></wsp:ExactlyOne></wsp:Policy><wsdl:import
+        namespace="http://services.conzoom.eu/addit/2009/07" location="http://services.conzoom.eu/addit/AddItService.svc?wsdl"/><wsdl:types/><wsdl:binding
+        name="BasicHttpBinding_AddItService" type="i0:AddItService"><wsp:PolicyReference
+        URI="#BasicHttpBinding_AddItService_policy"/><soap:binding transport="http://schemas.xmlsoap.org/soap/http"/><wsdl:operation
+        name="GetValues"><soap:operation soapAction="http://services.conzoom.eu/addit/2009/07/AddItService/GetValues"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output></wsdl:operation><wsdl:operation name="GetValuesInBatch"><soap:operation
+        soapAction="http://services.conzoom.eu/addit/2009/07/AddItService/GetValuesInBatch"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output></wsdl:operation><wsdl:operation name="GetVariableById"><soap:operation
+        soapAction="http://services.conzoom.eu/addit/2009/07/AddItService/GetVariableById"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output></wsdl:operation><wsdl:operation name="GetVariables"><soap:operation
+        soapAction="http://services.conzoom.eu/addit/2009/07/AddItService/GetVariables"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output></wsdl:operation></wsdl:binding></wsdl:definitions>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['3475']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:45:21 GMT']
+      Server: [Microsoft-IIS/7.0]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [services.conzoom.eu]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://services.conzoom.eu/addit/AddItService.svc?xsd=xsd0
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://services.conzoom.eu/addit/2009/07" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://services.conzoom.eu/addit/2009/07"><xs:import schemaLocation="http://services.conzoom.eu/addit/AddItService.svc?xsd=xsd2"
+        namespace="http://services.conzoom.eu/2007/06"/><xs:element name="GetValues"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="input" nillable="true" type="q1:InputRecord" xmlns:q1="http://services.conzoom.eu/2007/06"/><xs:element
+        minOccurs="0" name="variables" nillable="true" type="q2:VariableIdSet" xmlns:q2="http://services.conzoom.eu/2007/06"/><xs:element
+        minOccurs="0" name="options" nillable="true" type="tns:AddItOptions"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="AddItOptions"><xs:sequence/></xs:complexType><xs:element name="AddItOptions"
+        nillable="true" type="tns:AddItOptions"/><xs:element name="GetValuesResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="GetValuesResult" nillable="true" type="tns:AddItResult"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="AddItResult"><xs:sequence><xs:element name="Info" nillable="true" type="tns:AddItResultInfo"/><xs:element
+        name="Values" nillable="true" type="q3:ValueSet" xmlns:q3="http://services.conzoom.eu/2007/06"/></xs:sequence></xs:complexType><xs:element
+        name="AddItResult" nillable="true" type="tns:AddItResult"/><xs:complexType
+        name="AddItResultInfo"><xs:sequence><xs:element minOccurs="0" name="MatchLevel"
+        type="q4:MatchLevel" xmlns:q4="http://services.conzoom.eu/2007/06"/></xs:sequence></xs:complexType><xs:element
+        name="AddItResultInfo" nillable="true" type="tns:AddItResultInfo"/><xs:element
+        name="GetValuesInBatch"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="input" nillable="true" type="q5:ListOfInputRecord" xmlns:q5="http://services.conzoom.eu/2007/06"/><xs:element
+        minOccurs="0" name="variables" nillable="true" type="q6:VariableIdSet" xmlns:q6="http://services.conzoom.eu/2007/06"/><xs:element
+        minOccurs="0" name="options" nillable="true" type="tns:AddItOptions"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetValuesInBatchResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="GetValuesInBatchResult" nillable="true" type="tns:ListOfAddItResult"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="ListOfAddItResult"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="AddItResult" nillable="true" type="tns:AddItResult"/></xs:sequence></xs:complexType><xs:element
+        name="ListOfAddItResult" nillable="true" type="tns:ListOfAddItResult"/><xs:element
+        name="GetVariableById"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="variableId" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetVariableByIdResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="GetVariableByIdResult" nillable="true" type="q7:Variable" xmlns:q7="http://services.conzoom.eu/2007/06"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetVariables"><xs:complexType><xs:sequence/></xs:complexType></xs:element><xs:element
+        name="GetVariablesResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="GetVariablesResult" nillable="true" type="q8:VariableSet" xmlns:q8="http://services.conzoom.eu/2007/06"/></xs:sequence></xs:complexType></xs:element></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['3467']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:45:21 GMT']
+      Server: [Microsoft-IIS/7.0]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [services.conzoom.eu]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://services.conzoom.eu/addit/AddItService.svc?xsd=xsd2
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://services.conzoom.eu/2007/06" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://services.conzoom.eu/2007/06"><xs:import schemaLocation="http://services.conzoom.eu/addit/AddItService.svc?xsd=xsd1"
+        namespace="http://schemas.microsoft.com/2003/10/Serialization/"/><xs:complexType
+        name="InputRecord"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="Field" nillable="true" type="tns:InputValue"/></xs:sequence></xs:complexType><xs:element
+        name="InputRecord" nillable="true" type="tns:InputRecord"/><xs:complexType
+        name="InputValue"><xs:sequence><xs:element name="Type" type="tns:InputValueType"/><xs:element
+        name="Value" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="InputValue" nillable="true" type="tns:InputValue"/><xs:simpleType name="InputValueType"><xs:restriction
+        base="xs:string"><xs:enumeration value="Street"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Houseno"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Houseletter"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Floor"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Suite"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Placename"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Postcode"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Postdistrict"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="FloorAndSuite"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PostcodeAndDistrict"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PostdistrictAndPlacename"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PostcodeDistrictAndPlacename"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="StreetAndHouseno"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">13</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="StreetHousenoFloorAndSuite"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">14</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="StreetLine"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="EntireAddress"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Kvhx"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">17</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="HousenoFloorSuite"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">18</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Name"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">100</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Firstname"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">101</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Lastname"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">102</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Phone"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">201</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Cvr"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">202</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Email"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">206</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="InputValueType" nillable="true" type="tns:InputValueType"/><xs:complexType
+        name="VariableIdSet"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="Id" type="xs:int"/></xs:sequence></xs:complexType><xs:element name="VariableIdSet"
+        nillable="true" type="tns:VariableIdSet"/><xs:simpleType name="MatchLevel"><xs:restriction
+        base="xs:string"><xs:enumeration value="NoMatch"/><xs:enumeration value="PostalDistrict"/><xs:enumeration
+        value="Street"/><xs:enumeration value="Neighbour"/><xs:enumeration value="House"/><xs:enumeration
+        value="Suite"/><xs:enumeration value="Contact"/></xs:restriction></xs:simpleType><xs:element
+        name="MatchLevel" nillable="true" type="tns:MatchLevel"/><xs:complexType name="ValueSet"><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="Value" nillable="true" type="tns:Value"/></xs:sequence></xs:complexType><xs:element
+        name="ValueSet" nillable="true" type="tns:ValueSet"/><xs:complexType name="Value"><xs:sequence><xs:element
+        name="VarId" type="xs:int"/></xs:sequence></xs:complexType><xs:element name="Value"
+        nillable="true" type="tns:Value"/><xs:complexType name="BigIntValue"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Value"><xs:sequence><xs:element minOccurs="0"
+        name="Val" type="xs:long"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="BigIntValue" nillable="true" type="tns:BigIntValue"/><xs:complexType
+        name="DoubleValue"><xs:complexContent mixed="false"><xs:extension base="tns:Value"><xs:sequence><xs:element
+        minOccurs="0" name="Val" type="xs:double"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DoubleValue" nillable="true" type="tns:DoubleValue"/><xs:complexType
+        name="EmptyValue"><xs:complexContent mixed="false"><xs:extension base="tns:Value"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="EmptyValue" nillable="true" type="tns:EmptyValue"/><xs:complexType name="Distribution"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Value"><xs:sequence><xs:element minOccurs="0"
+        name="ValueFreqs" nillable="true" type="tns:ValueFreqs"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="Distribution" nillable="true" type="tns:Distribution"/><xs:complexType
+        name="ValueFreqs"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="ValueFreq" nillable="true" type="tns:ValueFrequency"/></xs:sequence></xs:complexType><xs:element
+        name="ValueFreqs" nillable="true" type="tns:ValueFreqs"/><xs:complexType name="ValueFrequency"><xs:sequence><xs:element
+        name="Freq" type="xs:double"/><xs:element name="ValueId" type="xs:int"/></xs:sequence></xs:complexType><xs:element
+        name="ValueFrequency" nillable="true" type="tns:ValueFrequency"/><xs:complexType
+        name="FixedValueRef"><xs:complexContent mixed="false"><xs:extension base="tns:Value"><xs:sequence><xs:element
+        minOccurs="0" name="ValueId" type="xs:int"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="FixedValueRef" nillable="true" type="tns:FixedValueRef"/><xs:complexType
+        name="IntValue"><xs:complexContent mixed="false"><xs:extension base="tns:Value"><xs:sequence><xs:element
+        minOccurs="0" name="Val" type="xs:int"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="IntValue" nillable="true" type="tns:IntValue"/><xs:complexType name="StringValue"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Value"><xs:sequence><xs:element minOccurs="0"
+        name="Val" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="StringValue" nillable="true" type="tns:StringValue"/><xs:complexType
+        name="ListOfInputRecord"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="InputRecord" nillable="true" type="tns:InputRecord"/></xs:sequence></xs:complexType><xs:element
+        name="ListOfInputRecord" nillable="true" type="tns:ListOfInputRecord"/><xs:complexType
+        name="Variable"><xs:sequence><xs:element minOccurs="0" name="RequiredMatchLevel"
+        type="tns:MatchLevel"/><xs:element name="Name" nillable="true" type="xs:string"/><xs:element
+        name="VarId" type="xs:int"/><xs:element minOccurs="0" name="ValueDefinition"
+        nillable="true" type="tns:ValueDefinition"/></xs:sequence></xs:complexType><xs:element
+        name="Variable" nillable="true" type="tns:Variable"/><xs:complexType name="ValueDefinition"><xs:sequence><xs:element
+        name="ValueType" type="tns:ValueTypes"/><xs:element minOccurs="0" name="FixedValues"
+        nillable="true" type="tns:FixedValueList"/></xs:sequence></xs:complexType><xs:element
+        name="ValueDefinition" nillable="true" type="tns:ValueDefinition"/><xs:simpleType
+        name="ValueTypes"><xs:restriction base="xs:string"><xs:enumeration value="Distribution"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="IntValue"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="DoubleValue"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="FixedValue"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="StringValue"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="DateTimeValue"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BigIntValue"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="RowCountValue"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CountSelector"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MultiValue"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SingleValueGroup"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Boolean"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="ValueTypes" nillable="true" type="tns:ValueTypes"/><xs:complexType name="FixedValueList"><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="FixedValue" nillable="true" type="tns:FixedValue"/></xs:sequence></xs:complexType><xs:element
+        name="FixedValueList" nillable="true" type="tns:FixedValueList"/><xs:complexType
+        name="FixedValue"><xs:complexContent mixed="false"><xs:extension base="tns:FixedValueRef"><xs:sequence><xs:element
+        name="Name" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="FixedValue" nillable="true" type="tns:FixedValue"/><xs:complexType name="VariableSet"><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="Variable" nillable="true" type="tns:Variable"/></xs:sequence></xs:complexType><xs:element
+        name="VariableSet" nillable="true" type="tns:VariableSet"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['14171']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:45:21 GMT']
+      Server: [Microsoft-IIS/7.0]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [services.conzoom.eu]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://services.conzoom.eu/addit/AddItService.svc?xsd=xsd1
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema attributeFormDefault="qualified"
+        elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/"><xs:element
+        name="anyType" nillable="true" type="xs:anyType"/><xs:element name="anyURI"
+        nillable="true" type="xs:anyURI"/><xs:element name="base64Binary" nillable="true"
+        type="xs:base64Binary"/><xs:element name="boolean" nillable="true" type="xs:boolean"/><xs:element
+        name="byte" nillable="true" type="xs:byte"/><xs:element name="dateTime" nillable="true"
+        type="xs:dateTime"/><xs:element name="decimal" nillable="true" type="xs:decimal"/><xs:element
+        name="double" nillable="true" type="xs:double"/><xs:element name="float" nillable="true"
+        type="xs:float"/><xs:element name="int" nillable="true" type="xs:int"/><xs:element
+        name="long" nillable="true" type="xs:long"/><xs:element name="QName" nillable="true"
+        type="xs:QName"/><xs:element name="short" nillable="true" type="xs:short"/><xs:element
+        name="string" nillable="true" type="xs:string"/><xs:element name="unsignedByte"
+        nillable="true" type="xs:unsignedByte"/><xs:element name="unsignedInt" nillable="true"
+        type="xs:unsignedInt"/><xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/><xs:element
+        name="unsignedShort" nillable="true" type="xs:unsignedShort"/><xs:element
+        name="char" nillable="true" type="tns:char"/><xs:simpleType name="char"><xs:restriction
+        base="xs:int"/></xs:simpleType><xs:element name="duration" nillable="true"
+        type="tns:duration"/><xs:simpleType name="duration"><xs:restriction base="xs:duration"><xs:pattern
+        value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/><xs:minInclusive value="-P10675199DT2H48M5.4775808S"/><xs:maxInclusive
+        value="P10675199DT2H48M5.4775807S"/></xs:restriction></xs:simpleType><xs:element
+        name="guid" nillable="true" type="tns:guid"/><xs:simpleType name="guid"><xs:restriction
+        base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType><xs:attribute
+        name="FactoryType" type="xs:QName"/><xs:attribute name="Id" type="xs:ID"/><xs:attribute
+        name="Ref" type="xs:IDREF"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['2273']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:45:21 GMT']
+      Server: [Microsoft-IIS/7.0]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+version: 1

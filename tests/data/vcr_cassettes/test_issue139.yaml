@@ -1,0 +1,524 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [pysimplesoap.googlecode.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://pysimplesoap.googlecode.com:443/issues/attachment?aid=1390000000&name=Integrity_10_2.wsdl&token=ABZ6GAe7XF7_ylQgBdOB08F0ijv7td8x5w%3A1426867996622
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<definitions name=\"\
+        Integrity_10_2Service\" targetNamespace=\"http://webservice.mks.com/10/2/Integrity\"\
+        \ xmlns:ns2=\"http://webservice.mks.com/10/2/Integrity/fault\" xmlns=\"http://schemas.xmlsoap.org/wsdl/\"\
+        \ xmlns:ns1=\"http://webservice.mks.com/10/2/Integrity/schema\" xmlns:ns3=\"\
+        http://www.w3.org/2005/05/xmlmime\" xmlns:tns=\"http://webservice.mks.com/10/2/Integrity\"\
+        \ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"\
+        >\r\n  <types>\r\n    <xs:schema elementFormDefault=\"qualified\" targetNamespace=\"\
+        http://webservice.mks.com/10/2/Integrity/schema\" version=\"1.0\" xmlns:tns=\"\
+        http://webservice.mks.com/10/2/Integrity/schema\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"\
+        >\r\n    <!-- <xs:import namespace=\"http://www.w3.org/2005/05/xmlmime\" schemaLocation=\"\
+        http://www.w3.org/2005/05/xmlmime\"/> -->\r\n       <xs:element name=\"AttachmentChecksum\"\
+        >\r\n            <xs:complexType>\r\n               <xs:sequence>\r\n    \
+        \              <xs:element name=\"Field\" type=\"xs:string\"/>\r\n       \
+        \           <xs:element name=\"FileName\" type=\"xs:string\"/>\r\n       \
+        \           <xs:element name=\"FileSize\" type=\"xs:integer\"/>\r\n      \
+        \            <xs:element name=\"Checksum\" type=\"xs:string\"/>\r\n      \
+        \            <xs:element name=\"ChecksumAlgorithm\" type=\"xs:string\"/>\r\
+        \n               </xs:sequence>\r\n               <xs:attribute name=\"status\"\
+        \ type=\"xs:string\"/>\r\n            </xs:complexType>\r\n         </xs:element>\r\
+        \n         <xs:element name=\"Fields\">\r\n            <xs:complexType>\r\n\
+        \               <xs:sequence>\r\n                  <xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"Field\">\r\n                     <xs:complexType>\r\
+        \n                        <xs:sequence/>\r\n                        <xs:attribute\
+        \ name=\"Name\" type=\"xs:string\" use=\"required\"/>\r\n                \
+        \        <xs:attribute name=\"Value\" type=\"xs:string\"/>\r\n           \
+        \          </xs:complexType>\r\n                  </xs:element>\r\n      \
+        \         </xs:sequence>\r\n            </xs:complexType>\r\n         </xs:element>\r\
+        \n         \r\n         <xs:complexType name=\"ItemFieldRequest\">\r\n   \
+        \         <xs:complexContent>\r\n              <xs:extension base=\"tns:ItemFieldBase\"\
+        >\r\n                 <xs:sequence>\r\n                    <xs:element minOccurs=\"\
+        0\" name=\"user\" type=\"tns:NullableString\"/>\r\n                 </xs:sequence>\r\
+        \n              </xs:extension>\r\n            </xs:complexContent>\r\n  \
+        \       </xs:complexType>\r\n \r\n         <xs:complexType name=\"ItemFieldResponse\"\
+        >\r\n            <xs:complexContent>\r\n              <xs:extension base=\"\
+        tns:ItemFieldBase\">\r\n                 <xs:sequence>\r\n               \
+        \     <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"UserRecord\"\
+        \ type=\"tns:UserRecord\"/>\r\n                 </xs:sequence>\r\n       \
+        \       </xs:extension>\r\n            </xs:complexContent>\r\n         </xs:complexType>\r\
+        \n         \r\n         <xs:complexType name=\"UserRecord\">\r\n         \
+        \   <xs:sequence>\r\n               <xs:element minOccurs=\"0\" name=\"user\"\
+        \ type=\"tns:NullableString\"/>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"fullname\" type=\"tns:NullableString\"/>\r\n               <xs:element\
+        \ minOccurs=\"0\" name=\"email\" type=\"tns:NullableString\"/>\r\n       \
+        \     </xs:sequence>\r\n         </xs:complexType>\r\n         \r\n      \
+        \   <xs:complexType name=\"ItemFieldBase\">\r\n            <xs:choice minOccurs=\"\
+        0\">\r\n                <xs:element name=\"shorttext\" type=\"tns:NullableShortString\"\
+        />\r\n                  <xs:element name=\"longtext\" type=\"tns:NullableString\"\
+        />\r\n                  <xs:element name=\"group\" type=\"tns:NullableString\"\
+        />\r\n                  <xs:element name=\"state\" type=\"xs:string\"/>\r\n\
+        \                  <xs:element name=\"type\" type=\"xs:string\"/>\r\n    \
+        \              <xs:element name=\"project\" type=\"tns:NullableString\"/>\r\
+        \n                  <xs:element name=\"siProject\" type=\"tns:NullableString\"\
+        />\r\n                  <xs:element name=\"double\" type=\"tns:NullableDouble\"\
+        />\r\n                  <xs:element name=\"boolean\" type=\"tns:NullableBoolean\"\
+        />\r\n                  <xs:element name=\"integer\" type=\"tns:NullableInteger\"\
+        />\r\n                  <xs:element name=\"pick\">\r\n                   \
+        \  <xs:complexType>\r\n                        <xs:sequence>\r\n         \
+        \                  <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"\
+        value\" nillable=\"true\" type=\"xs:string\"/>\r\n                       \
+        \ </xs:sequence>\r\n                        <xs:attribute name=\"null\" type=\"\
+        xs:boolean\"/>\r\n                     </xs:complexType>\r\n             \
+        \     </xs:element>\r\n                  <xs:element name=\"relationship\"\
+        >\r\n                     <xs:complexType>\r\n                        <xs:sequence>\r\
+        \n                           <xs:element maxOccurs=\"unbounded\" minOccurs=\"\
+        0\" name=\"value\" nillable=\"true\" type=\"xs:string\"/>\r\n            \
+        \            </xs:sequence>\r\n                     </xs:complexType>\r\n\
+        \                  </xs:element>\r\n                  <xs:element name=\"\
+        date\" type=\"tns:NullableString\">\r\n                     <xs:annotation>\r\
+        \n                        <xs:documentation>The value for the date field -\
+        \ that is, a date having no time component. The format may be specified \r\
+        \nin the DateFormat entity in the request, following the conventions outlined\
+        \ at this url: \r\nhttp://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html\r\
+        \nIf the format is not specified in the request, the default is &quot;yyyy-MM-dd&quot;.\r\
+        \nBe careful to not send a date when a timestamp is required.\r\nFor getItem\
+        \ and createItem, if the Integrity field is a timestamp but this field is\
+        \ used to send the information, the end user will get an error \r\nmessage\
+        \ that recommends the wrong formatting. This error message comes from the\
+        \ Integrity API and should be ignored since it is a symptom of \r\nthe problem,\
+        \ not the root cause.\r\n                        </xs:documentation>\r\n \
+        \                    </xs:annotation>\r\n      </xs:element>\r\n         \
+        \         <xs:element name=\"dateTime\" type=\"tns:NullableString\">\r\n \
+        \                    <xs:annotation>\r\n                        <xs:documentation>The\
+        \ value for the timestamp field - that is, a date having a time component.\
+        \ The format may be specified \r\nin the DateTimeFormat entity in the request,\
+        \ following the conventions outlined at this url: \r\nhttp://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html\r\
+        \nIf the format is not specified in the request, the default is &quot;yyyy-MM-dd\
+        \ HH:mm:ss&quot;.\r\nBe careful to not send a timestamp when a date is required.\r\
+        \nFor getItem and createItem, if the Integrity field is a date but this field\
+        \ is used to send the information, the end user will get an error \r\nmessage\
+        \ that recommends the wrong formatting. This error message comes from the\
+        \ Integrity API and should be ignored since it is a symptom of \r\nthe problem,\
+        \ not the root cause.\r\n                        </xs:documentation>\r\n \
+        \                    </xs:annotation>\r\n                  </xs:element>\r\
+        \n            </xs:choice>\r\n            <xs:attribute name=\"Name\" type=\"\
+        xs:string\" use=\"required\"/>\r\n         </xs:complexType>\r\n         \r\
+        \n         <xs:element name=\"Project\">\r\n            <xs:complexType>\r\
+        \n               <xs:sequence>\r\n                  <xs:element minOccurs=\"\
+        0\" ref=\"tns:Fields\"/>\r\n               </xs:sequence>\r\n            \
+        \   <xs:attribute name=\"Name\" type=\"xs:string\"/>\r\n            </xs:complexType>\r\
+        \n         </xs:element>\r\n         <xs:element name=\"RelatedItem\">\r\n\
+        \            <xs:complexType>\r\n               <xs:sequence>\r\n        \
+        \          <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"Item\"\
+        \ type=\"tns:Relationship\"/>\r\n                  <xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"IBPL\" type=\"xs:integer\"/>\r\n      \
+        \         </xs:sequence>\r\n               <xs:attribute name=\"FieldName\"\
+        \ type=\"xs:string\" use=\"required\"/>\r\n            </xs:complexType>\r\
+        \n         </xs:element>\r\n         <xs:complexType name=\"GetItemType\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:GetItemCommon\">\r\n                  <xs:sequence/>\r\n             \
+        \     <xs:attribute form=\"qualified\" name=\"ItemId\" type=\"xs:integer\"\
+        \ use=\"required\"/>\r\n               </xs:extension>\r\n            </xs:complexContent>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"GetItemCommon\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:Credentials\">\r\n                  <xs:sequence>\r\n                \
+        \     <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"InputField\"\
+        \ type=\"xs:string\"/>\r\n                  </xs:sequence>\r\n           \
+        \    </xs:extension>\r\n            </xs:complexContent>\r\n         </xs:complexType>\r\
+        \n         <xs:complexType name=\"Credentials\">\r\n            <xs:sequence>\r\
+        \n               <xs:element name=\"Username\" type=\"xs:string\"/>\r\n  \
+        \             <xs:element name=\"Password\" type=\"xs:string\"/>\r\n     \
+        \          <xs:element minOccurs=\"0\" name=\"ImpersonatedUser\" type=\"xs:string\"\
+        />\r\n               <xs:element minOccurs=\"0\" name=\"DateFormat\" type=\"\
+        xs:string\"/>\r\n               <xs:element minOccurs=\"0\" name=\"DateTimeFormat\"\
+        \ type=\"xs:string\"/>\r\n            </xs:sequence>\r\n            <xs:attribute\
+        \ name=\"transactionId\" type=\"xs:string\"/>\r\n         </xs:complexType>\r\
+        \n         <xs:complexType name=\"Item\">\r\n            <xs:complexContent>\r\
+        \n               <xs:extension base=\"tns:StatusResponse\">\r\n          \
+        \        <xs:sequence>\r\n                     <xs:element maxOccurs=\"unbounded\"\
+        \ minOccurs=\"0\" name=\"ItemField\" type=\"tns:ItemFieldResponse\"/>\r\n\
+        \                     <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\"\
+        \ name=\"Attachment\" type=\"tns:AttachmentInfo\"/>\r\n                  \
+        \   <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" ref=\"tns:RelatedItem\"\
+        />\r\n                  </xs:sequence>\r\n                  <xs:attribute\
+        \ name=\"State\" type=\"xs:string\"/>\r\n                  <xs:attribute name=\"\
+        Type\" type=\"xs:string\"/>\r\n                  <xs:attribute form=\"qualified\"\
+        \ name=\"ItemId\" type=\"xs:integer\"/>\r\n               </xs:extension>\r\
+        \n            </xs:complexContent>\r\n         </xs:complexType>\r\n     \
+        \    <xs:complexType name=\"StatusResponse\">\r\n            <xs:sequence>\r\
+        \n               <xs:element minOccurs=\"0\" name=\"return\" type=\"xs:string\"\
+        />\r\n            </xs:sequence>\r\n            <xs:attribute name=\"transactionId\"\
+        \ type=\"xs:string\"/>\r\n         </xs:complexType>\r\n         <xs:complexType\
+        \ name=\"NullableShortString\">\r\n            <xs:choice>\r\n           \
+        \    <xs:element name=\"value\" type=\"xs:string\"/>\r\n               <xs:element\
+        \ name=\"null\" type=\"xs:boolean\"/>\r\n            </xs:choice>\r\n    \
+        \     </xs:complexType>\r\n         <xs:complexType name=\"NullableString\"\
+        >\r\n            <xs:choice>\r\n               <xs:element name=\"value\"\
+        \ type=\"xs:string\"/>\r\n               <xs:element name=\"null\" type=\"\
+        xs:boolean\"/>\r\n            </xs:choice>\r\n         </xs:complexType>\r\
+        \n         <xs:complexType name=\"NullableDouble\">\r\n            <xs:choice>\r\
+        \n               <xs:element name=\"value\" type=\"xs:double\"/>\r\n     \
+        \          <xs:element name=\"null\" type=\"xs:boolean\"/>\r\n           \
+        \ </xs:choice>\r\n         </xs:complexType>\r\n         <xs:complexType name=\"\
+        NullableBoolean\">\r\n            <xs:choice>\r\n               <xs:element\
+        \ name=\"value\" type=\"xs:boolean\"/>\r\n               <xs:element name=\"\
+        null\" type=\"xs:boolean\"/>\r\n            </xs:choice>\r\n         </xs:complexType>\r\
+        \n         <xs:complexType name=\"NullableInteger\">\r\n            <xs:choice>\r\
+        \n               <xs:element name=\"value\" type=\"xs:int\"/>\r\n        \
+        \       <xs:element name=\"null\" type=\"xs:boolean\"/>\r\n            </xs:choice>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"AttachmentInfo\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:StatusResponse\">\r\n                  <xs:sequence>\r\n             \
+        \        <xs:element name=\"Name\" type=\"xs:string\"/>\r\n              \
+        \       <xs:element name=\"Size\" type=\"xs:int\"/>\r\n                  \
+        \   <xs:element name=\"Checksum\" type=\"xs:string\"/>\r\n               \
+        \   </xs:sequence>\r\n               </xs:extension>\r\n            </xs:complexContent>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"Relationship\"\
+        >\r\n            <xs:simpleContent>\r\n               <xs:extension base=\"\
+        xs:integer\">\r\n                  <xs:attribute name=\"flag\" type=\"xs:string\"\
+        />\r\n               </xs:extension>\r\n            </xs:simpleContent>\r\n\
+        \         </xs:complexType>\r\n         <xs:complexType name=\"AttachmentRequest\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:Credentials\">\r\n                  <xs:sequence/>\r\n               \
+        \   <xs:attribute name=\"AttachmentName\" type=\"xs:string\"/>\r\n       \
+        \           <xs:attribute name=\"FieldName\" type=\"xs:string\"/>\r\n    \
+        \              <xs:attribute form=\"qualified\" name=\"ItemId\" type=\"xs:integer\"\
+        \ use=\"required\"/>\r\n               </xs:extension>\r\n            </xs:complexContent>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"AttachmentContents\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:StatusResponse\">\r\n                  <xs:sequence>\r\n             \
+        \        <xs:element minOccurs=\"0\" name=\"Attachment\" ns3:expectedContentTypes=\"\
+        application/octet-stream\" type=\"xs:base64Binary\" xmlns:ns3=\"http://www.w3.org/2005/05/xmlmime\"\
+        />\r\n                  </xs:sequence>\r\n               </xs:extension>\r\
+        \n            </xs:complexContent>\r\n         </xs:complexType>\r\n     \
+        \    <xs:complexType name=\"ProjectRequest\">\r\n            <xs:complexContent>\r\
+        \n               <xs:extension base=\"tns:Credentials\">\r\n             \
+        \     <xs:sequence>\r\n                     <xs:element maxOccurs=\"unbounded\"\
+        \ minOccurs=\"0\" name=\"FieldList\" type=\"xs:string\"/>\r\n            \
+        \      </xs:sequence>\r\n               </xs:extension>\r\n            </xs:complexContent>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"ProjectList\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:StatusResponse\">\r\n                  <xs:sequence>\r\n             \
+        \        <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" ref=\"tns:Project\"\
+        />\r\n                  </xs:sequence>\r\n               </xs:extension>\r\
+        \n            </xs:complexContent>\r\n         </xs:complexType>\r\n     \
+        \    <xs:complexType name=\"CreateItemType\">\r\n            <xs:complexContent>\r\
+        \n               <xs:extension base=\"tns:CreateEdit\">\r\n              \
+        \    <xs:sequence/>\r\n                  <xs:attribute name=\"Type\" type=\"\
+        xs:string\"/>\r\n               </xs:extension>\r\n            </xs:complexContent>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"CreateEdit\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:Credentials\">\r\n                  <xs:sequence>\r\n                \
+        \     <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"ItemField\"\
+        \ type=\"tns:ItemFieldRequest\"/>\r\n                     <xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"Attachment\" type=\"tns:AttachmentEdit\"\
+        />                     \r\n                  </xs:sequence>\r\n          \
+        \     </xs:extension>\r\n            </xs:complexContent>\r\n         </xs:complexType>\r\
+        \n         <xs:complexType name=\"AttachmentEdit\">\r\n            <xs:sequence>\r\
+        \n               <xs:element name=\"Name\" type=\"xs:string\"/>\r\n      \
+        \         <xs:element name=\"Field\" type=\"xs:string\"/>\r\n            \
+        \   <xs:element minOccurs=\"0\" name=\"Description\" type=\"xs:string\"/>\r\
+        \n               <xs:element name=\"Attachment\" ns3:expectedContentTypes=\"\
+        application/octet-stream\" type=\"xs:base64Binary\" xmlns:ns3=\"http://www.w3.org/2005/05/xmlmime\"\
+        />\r\n            </xs:sequence>\r\n         </xs:complexType>\r\n       \
+        \  <xs:complexType name=\"ItemResponse\">\r\n            <xs:complexContent>\r\
+        \n               <xs:extension base=\"tns:StatusResponse\">\r\n          \
+        \        <xs:sequence>\r\n                     <xs:element maxOccurs=\"unbounded\"\
+        \ minOccurs=\"0\" ref=\"tns:AttachmentChecksum\"/>\r\n                  </xs:sequence>\r\
+        \n                  <xs:attribute form=\"qualified\" name=\"ItemId\" type=\"\
+        xs:integer\" use=\"required\"/>\r\n               </xs:extension>\r\n    \
+        \        </xs:complexContent>\r\n         </xs:complexType>\r\n         <xs:complexType\
+        \ name=\"EditItemType\">\r\n            <xs:complexContent>\r\n          \
+        \     <xs:extension base=\"tns:CreateEdit\">\r\n                  <xs:sequence/>\r\
+        \n                  <xs:attribute form=\"qualified\" name=\"ItemId\" type=\"\
+        xs:integer\"/>\r\n               </xs:extension>\r\n            </xs:complexContent>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"AttachmentDetails\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:AttachmentInfo\">\r\n                  <xs:sequence>\r\n             \
+        \        <xs:element name=\"ContentType\" type=\"xs:string\"/>\r\n       \
+        \              <xs:element name=\"Description\" type=\"xs:string\"/>\r\n \
+        \                    <xs:element name=\"AddedBy\" type=\"xs:string\"/>\r\n\
+        \                     <xs:element name=\"AddedDate\" type=\"xs:string\"/>\r\
+        \n                  </xs:sequence>\r\n               </xs:extension>\r\n \
+        \           </xs:complexContent>\r\n         </xs:complexType>\r\n       \
+        \  <xs:complexType name=\"CustomQuery\">\r\n            <xs:complexContent>\r\
+        \n               <xs:extension base=\"tns:GetItemCommon\">\r\n           \
+        \       <xs:sequence>\r\n                     <xs:element name=\"QueryDefinition\"\
+        \ type=\"xs:string\"/>\r\n                  </xs:sequence>\r\n           \
+        \    </xs:extension>\r\n            </xs:complexContent>\r\n         </xs:complexType>\r\
+        \n         <xs:complexType name=\"ItemList\">\r\n            <xs:complexContent>\r\
+        \n               <xs:extension base=\"tns:StatusResponse\">\r\n          \
+        \        <xs:sequence>\r\n                     <xs:element maxOccurs=\"unbounded\"\
+        \ minOccurs=\"0\" name=\"Item\" type=\"tns:Item\"/>\r\n                  </xs:sequence>\r\
+        \n               </xs:extension>\r\n            </xs:complexContent>\r\n \
+        \        </xs:complexType>\r\n         <xs:complexType name=\"GetItemsByIDsType\"\
+        >\r\n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:Credentials\">\r\n                  <xs:sequence>\r\n                \
+        \     <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"InputField\"\
+        \ type=\"xs:string\"/>\r\n                     <xs:element maxOccurs=\"unbounded\"\
+        \ name=\"ItemId\" type=\"xs:integer\"/>\r\n                  </xs:sequence>\r\
+        \n                  <xs:attribute name=\"Name\" type=\"xs:string\"/>\r\n \
+        \              </xs:extension>\r\n            </xs:complexContent>\r\n   \
+        \      </xs:complexType>\r\n         <xs:complexType name=\"NamedQuery\">\r\
+        \n            <xs:complexContent>\r\n               <xs:extension base=\"\
+        tns:GetItemCommon\">\r\n                  <xs:sequence>\r\n              \
+        \       <xs:element name=\"QueryName\" type=\"xs:string\"/>\r\n          \
+        \        </xs:sequence>\r\n               </xs:extension>\r\n            </xs:complexContent>\r\
+        \n         </xs:complexType>\r\n         <xs:attribute name=\"ItemId\" type=\"\
+        xs:integer\"/>\r\n      </xs:schema>\r\n    <xs:schema targetNamespace=\"\
+        http://webservice.mks.com/10/2/Integrity/fault\" version=\"1.0\" xmlns:tns=\"\
+        http://webservice.mks.com/10/2/Integrity/fault\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"\
+        >\r\n         <xs:element name=\"MKSException\" nillable=\"true\" type=\"\
+        tns:MKSFault\"/>\r\n         <xs:complexType name=\"MKSFault\">\r\n      \
+        \      <xs:simpleContent>\r\n               <xs:extension base=\"xs:string\"\
+        >\r\n                  <xs:attribute name=\"class\" type=\"xs:string\"/>\r\
+        \n                  <xs:attribute name=\"id\" type=\"xs:string\"/>\r\n   \
+        \               <xs:attribute name=\"implication\" type=\"xs:string\"/>\r\n\
+        \               </xs:extension>\r\n            </xs:simpleContent>\r\n   \
+        \      </xs:complexType>\r\n      </xs:schema>\r\n    <xs:schema targetNamespace=\"\
+        http://webservice.mks.com/10/2/Integrity\" version=\"1.0\" xmlns:tns=\"http://webservice.mks.com/10/2/Integrity\"\
+        \ xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\r\n         <xs:import namespace=\"\
+        http://webservice.mks.com/10/2/Integrity/schema\"/>\r\n         <xs:element\
+        \ name=\"createItem\" type=\"tns:createItem\"/>\r\n         <xs:element name=\"\
+        createItemResponse\" type=\"tns:createItemResponse\"/>\r\n         <xs:element\
+        \ name=\"editItem\" type=\"tns:editItem\"/>\r\n         <xs:element name=\"\
+        editItemResponse\" type=\"tns:editItemResponse\"/>\r\n         <xs:element\
+        \ name=\"fetchAttachments\" type=\"tns:fetchAttachments\"/>\r\n         <xs:element\
+        \ name=\"fetchAttachmentsResponse\" type=\"tns:fetchAttachmentsResponse\"\
+        />\r\n         <xs:element name=\"getAttachmentDetails\" type=\"tns:getAttachmentDetails\"\
+        />\r\n         <xs:element name=\"getAttachmentDetailsResponse\" type=\"tns:getAttachmentDetailsResponse\"\
+        />\r\n         <xs:element name=\"getItem\" type=\"tns:getItem\"/>\r\n   \
+        \      <xs:element name=\"getItemResponse\" type=\"tns:getItemResponse\"/>\r\
+        \n         <xs:element name=\"getItemsByCustomQuery\" type=\"tns:getItemsByCustomQuery\"\
+        />\r\n         <xs:element name=\"getItemsByCustomQueryResponse\" type=\"\
+        tns:getItemsByCustomQueryResponse\"/>\r\n         <xs:element name=\"getItemsByIDs\"\
+        \ type=\"tns:getItemsByIDs\"/>\r\n         <xs:element name=\"getItemsByIDsResponse\"\
+        \ type=\"tns:getItemsByIDsResponse\"/>\r\n         <xs:element name=\"getItemsByNamedQuery\"\
+        \ type=\"tns:getItemsByNamedQuery\"/>\r\n         <xs:element name=\"getItemsByNamedQueryResponse\"\
+        \ type=\"tns:getItemsByNamedQueryResponse\"/>\r\n         <xs:element name=\"\
+        getProjects\" type=\"tns:getProjects\"/>\r\n         <xs:element name=\"getProjectsResponse\"\
+        \ type=\"tns:getProjectsResponse\"/>\r\n         <xs:element name=\"removeAttachment\"\
+        \ type=\"tns:removeAttachment\"/>\r\n         <xs:element name=\"removeAttachmentResponse\"\
+        \ type=\"tns:removeAttachmentResponse\"/>\r\n         <xs:complexType name=\"\
+        getItem\">\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:GetItemType\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getItemResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:Item\"/>\r\n            </xs:sequence>\r\n\
+        \         </xs:complexType>\r\n         <xs:complexType name=\"fetchAttachments\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:AttachmentRequest\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"fetchAttachmentsResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:AttachmentContents\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getProjects\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:ProjectRequest\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getProjectsResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:ProjectList\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"createItem\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:CreateItemType\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"createItemResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:ItemResponse\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"editItem\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:EditItemType\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"editItemResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:ItemResponse\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getAttachmentDetails\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:AttachmentRequest\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getAttachmentDetailsResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:AttachmentDetails\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"removeAttachment\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:AttachmentRequest\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"removeAttachmentResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:AttachmentInfo\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getItemsByCustomQuery\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:CustomQuery\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getItemsByCustomQueryResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:ItemList\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getItemsByIDs\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:GetItemsByIDsType\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getItemsByIDsResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:ItemList\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getItemsByNamedQuery\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"arg0\" type=\"ns1:NamedQuery\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n         <xs:complexType name=\"getItemsByNamedQueryResponse\"\
+        >\r\n            <xs:sequence>\r\n               <xs:element minOccurs=\"\
+        0\" name=\"return\" type=\"ns1:ItemList\"/>\r\n            </xs:sequence>\r\
+        \n         </xs:complexType>\r\n      </xs:schema>\r\n  </types>\r\n  <message\
+        \ name=\"Integrity_10_2_getAttachmentDetails\">\r\n    <part name=\"getAttachmentDetails\"\
+        \ element=\"tns:getAttachmentDetails\">\r\n    </part>\r\n  </message>\r\n\
+        \  <message name=\"Integrity_10_2_removeAttachment\">\r\n    <part name=\"\
+        removeAttachment\" element=\"tns:removeAttachment\">\r\n    </part>\r\n  </message>\r\
+        \n  <message name=\"Integrity_10_2_getItem\">\r\n    <part name=\"getItem\"\
+        \ element=\"tns:getItem\">\r\n    </part>\r\n  </message>\r\n  <message name=\"\
+        Integrity_10_2_editItem\">\r\n    <part name=\"editItem\" element=\"tns:editItem\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_createItem\"\
+        >\r\n    <part name=\"createItem\" element=\"tns:createItem\">\r\n    </part>\r\
+        \n  </message>\r\n  <message name=\"Integrity_10_2_getProjectsResponse\">\r\
+        \n    <part name=\"getProjectsResponse\" element=\"tns:getProjectsResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"MKSException\">\r\n\
+        \    <part name=\"MKSException\" element=\"ns2:MKSException\">\r\n    </part>\r\
+        \n  </message>\r\n  <message name=\"Integrity_10_2_removeAttachmentResponse\"\
+        >\r\n    <part name=\"removeAttachmentResponse\" element=\"tns:removeAttachmentResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getItemsByCustomQueryResponse\"\
+        >\r\n    <part name=\"getItemsByCustomQueryResponse\" element=\"tns:getItemsByCustomQueryResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getProjects\"\
+        >\r\n    <part name=\"getProjects\" element=\"tns:getProjects\">\r\n    </part>\r\
+        \n  </message>\r\n  <message name=\"Integrity_10_2_fetchAttachments\">\r\n\
+        \    <part name=\"fetchAttachments\" element=\"tns:fetchAttachments\">\r\n\
+        \    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getItemsByNamedQueryResponse\"\
+        >\r\n    <part name=\"getItemsByNamedQueryResponse\" element=\"tns:getItemsByNamedQueryResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getItemsByNamedQuery\"\
+        >\r\n    <part name=\"getItemsByNamedQuery\" element=\"tns:getItemsByNamedQuery\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_editItemResponse\"\
+        >\r\n    <part name=\"editItemResponse\" element=\"tns:editItemResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getItemsByIDsResponse\"\
+        >\r\n    <part name=\"getItemsByIDsResponse\" element=\"tns:getItemsByIDsResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getItemsByIDs\"\
+        >\r\n    <part name=\"getItemsByIDs\" element=\"tns:getItemsByIDs\">\r\n \
+        \   </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_createItemResponse\"\
+        >\r\n    <part name=\"createItemResponse\" element=\"tns:createItemResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getItemsByCustomQuery\"\
+        >\r\n    <part name=\"getItemsByCustomQuery\" element=\"tns:getItemsByCustomQuery\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getItemResponse\"\
+        >\r\n    <part name=\"getItemResponse\" element=\"tns:getItemResponse\">\r\
+        \n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_fetchAttachmentsResponse\"\
+        >\r\n    <part name=\"fetchAttachmentsResponse\" element=\"tns:fetchAttachmentsResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <message name=\"Integrity_10_2_getAttachmentDetailsResponse\"\
+        >\r\n    <part name=\"getAttachmentDetailsResponse\" element=\"tns:getAttachmentDetailsResponse\"\
+        >\r\n    </part>\r\n  </message>\r\n  <portType name=\"Integrity_10_2\">\r\
+        \n    <operation name=\"createItem\" parameterOrder=\"createItem\">\r\n  \
+        \    <input message=\"tns:Integrity_10_2_createItem\">\r\n    </input>\r\n\
+        \      <output message=\"tns:Integrity_10_2_createItemResponse\">\r\n    </output>\r\
+        \n      <fault name=\"MKSException\" message=\"tns:MKSException\">\r\n   \
+        \ </fault>\r\n    </operation>\r\n    <operation name=\"editItem\" parameterOrder=\"\
+        editItem\">\r\n      <input message=\"tns:Integrity_10_2_editItem\">\r\n \
+        \   </input>\r\n      <output message=\"tns:Integrity_10_2_editItemResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n    <operation name=\"fetchAttachments\"\
+        \ parameterOrder=\"fetchAttachments\">\r\n      <input message=\"tns:Integrity_10_2_fetchAttachments\"\
+        >\r\n    </input>\r\n      <output message=\"tns:Integrity_10_2_fetchAttachmentsResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n    <operation name=\"getAttachmentDetails\"\
+        \ parameterOrder=\"getAttachmentDetails\">\r\n      <input message=\"tns:Integrity_10_2_getAttachmentDetails\"\
+        >\r\n    </input>\r\n      <output message=\"tns:Integrity_10_2_getAttachmentDetailsResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n    <operation name=\"getItem\" parameterOrder=\"\
+        getItem\">\r\n      <input message=\"tns:Integrity_10_2_getItem\">\r\n   \
+        \ </input>\r\n      <output message=\"tns:Integrity_10_2_getItemResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n    <operation name=\"getItemsByCustomQuery\"\
+        \ parameterOrder=\"getItemsByCustomQuery\">\r\n      <input message=\"tns:Integrity_10_2_getItemsByCustomQuery\"\
+        >\r\n    </input>\r\n      <output message=\"tns:Integrity_10_2_getItemsByCustomQueryResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n    <operation name=\"getItemsByIDs\"\
+        \ parameterOrder=\"getItemsByIDs\">\r\n      <input message=\"tns:Integrity_10_2_getItemsByIDs\"\
+        >\r\n    </input>\r\n      <output message=\"tns:Integrity_10_2_getItemsByIDsResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n    <operation name=\"getItemsByNamedQuery\"\
+        \ parameterOrder=\"getItemsByNamedQuery\">\r\n      <input message=\"tns:Integrity_10_2_getItemsByNamedQuery\"\
+        >\r\n    </input>\r\n      <output message=\"tns:Integrity_10_2_getItemsByNamedQueryResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n    <operation name=\"getProjects\"\
+        \ parameterOrder=\"getProjects\">\r\n      <input message=\"tns:Integrity_10_2_getProjects\"\
+        >\r\n    </input>\r\n      <output message=\"tns:Integrity_10_2_getProjectsResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n    <operation name=\"removeAttachment\"\
+        \ parameterOrder=\"removeAttachment\">\r\n      <input message=\"tns:Integrity_10_2_removeAttachment\"\
+        >\r\n    </input>\r\n      <output message=\"tns:Integrity_10_2_removeAttachmentResponse\"\
+        >\r\n    </output>\r\n      <fault name=\"MKSException\" message=\"tns:MKSException\"\
+        >\r\n    </fault>\r\n    </operation>\r\n  </portType>\r\n  <binding name=\"\
+        Integrity_10_2Binding\" type=\"tns:Integrity_10_2\">\r\n    <soap:binding\
+        \ style=\"document\" transport=\"http://schemas.xmlsoap.org/soap/http\"/>\r\
+        \n    <wsp:PolicyReference URI=\"#wsmtom_policy\" required=\"true\" xmlns:wsp=\"\
+        http://schemas.xmlsoap.org/ws/2004/09/policy\"/>\r\n    <operation name=\"\
+        createItem\">\r\n      <soap:operation soapAction=\"\"/>\r\n      <input>\r\
+        \n        <soap:body use=\"literal\"/>\r\n      </input>\r\n      <output>\r\
+        \n        <soap:body use=\"literal\"/>\r\n      </output>\r\n      <fault\
+        \ name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\" use=\"\
+        literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation name=\"\
+        editItem\">\r\n      <soap:operation soapAction=\"\"/>\r\n      <input>\r\n\
+        \        <soap:body use=\"literal\"/>\r\n      </input>\r\n      <output>\r\
+        \n        <soap:body use=\"literal\"/>\r\n      </output>\r\n      <fault\
+        \ name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\" use=\"\
+        literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation name=\"\
+        fetchAttachments\">\r\n      <soap:operation soapAction=\"\"/>\r\n      <input>\r\
+        \n        <soap:body use=\"literal\"/>\r\n      </input>\r\n      <output>\r\
+        \n        <soap:body use=\"literal\"/>\r\n      </output>\r\n      <fault\
+        \ name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\" use=\"\
+        literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation name=\"\
+        getAttachmentDetails\">\r\n      <soap:operation soapAction=\"\"/>\r\n   \
+        \   <input>\r\n        <soap:body use=\"literal\"/>\r\n      </input>\r\n\
+        \      <output>\r\n        <soap:body use=\"literal\"/>\r\n      </output>\r\
+        \n      <fault name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\"\
+        \ use=\"literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation\
+        \ name=\"getItem\">\r\n      <soap:operation soapAction=\"\"/>\r\n      <input>\r\
+        \n        <soap:body use=\"literal\"/>\r\n      </input>\r\n      <output>\r\
+        \n        <soap:body use=\"literal\"/>\r\n      </output>\r\n      <fault\
+        \ name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\" use=\"\
+        literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation name=\"\
+        getItemsByCustomQuery\">\r\n      <soap:operation soapAction=\"\"/>\r\n  \
+        \    <input>\r\n        <soap:body use=\"literal\"/>\r\n      </input>\r\n\
+        \      <output>\r\n        <soap:body use=\"literal\"/>\r\n      </output>\r\
+        \n      <fault name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\"\
+        \ use=\"literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation\
+        \ name=\"getItemsByIDs\">\r\n      <soap:operation soapAction=\"\"/>\r\n \
+        \     <input>\r\n        <soap:body use=\"literal\"/>\r\n      </input>\r\n\
+        \      <output>\r\n        <soap:body use=\"literal\"/>\r\n      </output>\r\
+        \n      <fault name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\"\
+        \ use=\"literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation\
+        \ name=\"getItemsByNamedQuery\">\r\n      <soap:operation soapAction=\"\"\
+        />\r\n      <input>\r\n        <soap:body use=\"literal\"/>\r\n      </input>\r\
+        \n      <output>\r\n        <soap:body use=\"literal\"/>\r\n      </output>\r\
+        \n      <fault name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\"\
+        \ use=\"literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation\
+        \ name=\"getProjects\">\r\n      <soap:operation soapAction=\"\"/>\r\n   \
+        \   <input>\r\n        <soap:body use=\"literal\"/>\r\n      </input>\r\n\
+        \      <output>\r\n        <soap:body use=\"literal\"/>\r\n      </output>\r\
+        \n      <fault name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\"\
+        \ use=\"literal\"/>\r\n      </fault>\r\n    </operation>\r\n    <operation\
+        \ name=\"removeAttachment\">\r\n      <soap:operation soapAction=\"\"/>\r\n\
+        \      <input>\r\n        <soap:body use=\"literal\"/>\r\n      </input>\r\
+        \n      <output>\r\n        <soap:body use=\"literal\"/>\r\n      </output>\r\
+        \n      <fault name=\"MKSException\">\r\n        <soap:fault name=\"MKSException\"\
+        \ use=\"literal\"/>\r\n      </fault>\r\n    </operation>\r\n  </binding>\r\
+        \n  <service name=\"Integrity_10_2Service\">\r\n    <port name=\"Integrity_10_2Port\"\
+        \ binding=\"tns:Integrity_10_2Binding\">\r\n      <soap:address location=\"\
+        http://jbossws.undefined.host:8080/webservices/10/2/Integrity/\"/>\r\n   \
+        \ </port>\r\n  </service>\r\n    <wsp:Policy wsu:Id=\"wsmtom_policy\" xmlns:wsp=\"\
+        http://schemas.xmlsoap.org/ws/2004/09/policy\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\"\
+        >\r\n    <wsoma:OptimizedMimeSerialization xmlns:wsoma=\"http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization\"\
+        />\r\n  </wsp:Policy>\r\n</definitions>\r\n"}
+    headers:
+      Alternate-Protocol: ['443:quic,p=0.5']
+      Cache-Control: ['max-age=31536000, private']
+      Connection: [close]
+      Content-Disposition: [attachment; filename="Integrity_10_2.wsdl"]
+      Content-Length: ['36316']
+      Content-Type: [application/octet-stream]
+      Date: ['Fri, 20 Mar 2015 16:13:42 GMT']
+      Expires: ['Fri, 20 Mar 2015 16:13:42 GMT']
+      Last-Modified: ['Fri, 20 Mar 2015 16:13:42 GMT']
+      Server: [codesite]
+      Set-Cookie: ['PREF=ID=61974c210efa18cd:TM=1426868022:LM=1426868022:S=zM9m4TM-8aHKKZcT;
+          expires=Sun, 19-Mar-2017 16:13:42 GMT; path=/; domain=pysimplesoap.googlecode.com']
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

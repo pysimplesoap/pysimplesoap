@@ -1,0 +1,378 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['globe-meta.ifh.de:8080']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://globe-meta.ifh.de:8080/axis/services/ILDG_MDC?wsdl
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<wsdl:definitions\
+        \ targetNamespace=\"urn:mdc.ildg.lqcd.org\" xmlns:apachesoap=\"http://xml.apache.org/xml-soap\"\
+        \ xmlns:impl=\"urn:mdc.ildg.lqcd.org\" xmlns:intf=\"urn:mdc.ildg.lqcd.org\"\
+        \ xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:wsdl=\"\
+        http://schemas.xmlsoap.org/wsdl/\" xmlns:wsdlsoap=\"http://schemas.xmlsoap.org/wsdl/soap/\"\
+        \ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n<!--WSDL created by Apache\
+        \ Axis version: 1.4\nBuilt on Nov 19, 2006 (02:31:34 GMT+00:00)-->\n <wsdl:types>\n\
+        \  <schema targetNamespace=\"urn:mdc.ildg.lqcd.org\" xmlns=\"http://www.w3.org/2001/XMLSchema\"\
+        >\n   <import namespace=\"http://schemas.xmlsoap.org/soap/encoding/\"/>\n\
+        \   <complexType name=\"QueryResults\">\n    <sequence>\n     <element name=\"\
+        numberOfResults\" type=\"xsd:int\"/>\n     <element name=\"queryTime\" nillable=\"\
+        true\" type=\"xsd:string\"/>\n     <element name=\"results\" nillable=\"true\"\
+        \ type=\"xsd:string\"/>\n     <element name=\"startIndex\" type=\"xsd:int\"\
+        />\n     <element name=\"statusCode\" nillable=\"true\" type=\"xsd:string\"\
+        />\n     <element name=\"totalResults\" type=\"xsd:int\"/>\n    </sequence>\n\
+        \   </complexType>\n   <complexType name=\"MetadataResult\">\n    <sequence>\n\
+        \     <element name=\"document\" nillable=\"true\" type=\"xsd:string\"/>\n\
+        \     <element name=\"statusCode\" nillable=\"true\" type=\"xsd:string\"/>\n\
+        \    </sequence>\n   </complexType>\n   <complexType name=\"MDCinfo\">\n \
+        \   <sequence>\n     <element name=\"groupName\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n     <element name=\"groupURL\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n     <element name=\"queryTypes\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n     <element name=\"version\" nillable=\"true\" type=\"xsd:string\"\
+        />\n    </sequence>\n   </complexType>\n  </schema>\n </wsdl:types>\n\n  \
+        \ <wsdl:message name=\"getEnsembleMetadataRequest\">\n\n      <wsdl:part name=\"\
+        ensembleURI\" type=\"xsd:string\"/>\n\n   </wsdl:message>\n\n   <wsdl:message\
+        \ name=\"getConfigurationMetadataResponse\">\n\n      <wsdl:part name=\"getConfigurationMetadataReturn\"\
+        \ type=\"impl:MetadataResult\"/>\n\n   </wsdl:message>\n\n   <wsdl:message\
+        \ name=\"getEnsembleMetadataResponse\">\n\n      <wsdl:part name=\"getEnsembleMetadataReturn\"\
+        \ type=\"impl:MetadataResult\"/>\n\n   </wsdl:message>\n\n   <wsdl:message\
+        \ name=\"getConfigurationMetadataRequest\">\n\n      <wsdl:part name=\"configurationLFN\"\
+        \ type=\"xsd:string\"/>\n\n   </wsdl:message>\n\n   <wsdl:message name=\"\
+        doEnsembleURIQueryRequest\">\n\n      <wsdl:part name=\"queryFormat\" type=\"\
+        xsd:string\"/>\n\n      <wsdl:part name=\"queryString\" type=\"xsd:string\"\
+        />\n\n      <wsdl:part name=\"startIndex\" type=\"xsd:int\"/>\n\n      <wsdl:part\
+        \ name=\"maxResults\" type=\"xsd:int\"/>\n\n   </wsdl:message>\n\n   <wsdl:message\
+        \ name=\"doConfigurationLFNQueryResponse\">\n\n      <wsdl:part name=\"doConfigurationLFNQueryReturn\"\
+        \ type=\"impl:QueryResults\"/>\n\n   </wsdl:message>\n\n   <wsdl:message name=\"\
+        getMDCinfoRequest\">\n\n   </wsdl:message>\n\n   <wsdl:message name=\"doConfigurationLFNQueryRequest\"\
+        >\n\n      <wsdl:part name=\"queryFormat\" type=\"xsd:string\"/>\n\n     \
+        \ <wsdl:part name=\"queryString\" type=\"xsd:string\"/>\n\n      <wsdl:part\
+        \ name=\"startIndex\" type=\"xsd:int\"/>\n\n      <wsdl:part name=\"maxResults\"\
+        \ type=\"xsd:int\"/>\n\n   </wsdl:message>\n\n   <wsdl:message name=\"doEnsembleURIQueryResponse\"\
+        >\n\n      <wsdl:part name=\"doEnsembleURIQueryReturn\" type=\"impl:QueryResults\"\
+        />\n\n   </wsdl:message>\n\n   <wsdl:message name=\"getMDCinfoResponse\">\n\
+        \n      <wsdl:part name=\"getMDCinfoReturn\" type=\"impl:MDCinfo\"/>\n\n \
+        \  </wsdl:message>\n\n   <wsdl:portType name=\"MDCInterface\">\n\n      <wsdl:operation\
+        \ name=\"doEnsembleURIQuery\" parameterOrder=\"queryFormat queryString startIndex\
+        \ maxResults\">\n\n         <wsdl:input message=\"impl:doEnsembleURIQueryRequest\"\
+        \ name=\"doEnsembleURIQueryRequest\"/>\n\n         <wsdl:output message=\"\
+        impl:doEnsembleURIQueryResponse\" name=\"doEnsembleURIQueryResponse\"/>\n\n\
+        \      </wsdl:operation>\n\n      <wsdl:operation name=\"doConfigurationLFNQuery\"\
+        \ parameterOrder=\"queryFormat queryString startIndex maxResults\">\n\n  \
+        \       <wsdl:input message=\"impl:doConfigurationLFNQueryRequest\" name=\"\
+        doConfigurationLFNQueryRequest\"/>\n\n         <wsdl:output message=\"impl:doConfigurationLFNQueryResponse\"\
+        \ name=\"doConfigurationLFNQueryResponse\"/>\n\n      </wsdl:operation>\n\n\
+        \      <wsdl:operation name=\"getConfigurationMetadata\" parameterOrder=\"\
+        configurationLFN\">\n\n         <wsdl:input message=\"impl:getConfigurationMetadataRequest\"\
+        \ name=\"getConfigurationMetadataRequest\"/>\n\n         <wsdl:output message=\"\
+        impl:getConfigurationMetadataResponse\" name=\"getConfigurationMetadataResponse\"\
+        />\n\n      </wsdl:operation>\n\n      <wsdl:operation name=\"getEnsembleMetadata\"\
+        \ parameterOrder=\"ensembleURI\">\n\n         <wsdl:input message=\"impl:getEnsembleMetadataRequest\"\
+        \ name=\"getEnsembleMetadataRequest\"/>\n\n         <wsdl:output message=\"\
+        impl:getEnsembleMetadataResponse\" name=\"getEnsembleMetadataResponse\"/>\n\
+        \n      </wsdl:operation>\n\n      <wsdl:operation name=\"getMDCinfo\">\n\n\
+        \         <wsdl:input message=\"impl:getMDCinfoRequest\" name=\"getMDCinfoRequest\"\
+        />\n\n         <wsdl:output message=\"impl:getMDCinfoResponse\" name=\"getMDCinfoResponse\"\
+        />\n\n      </wsdl:operation>\n\n   </wsdl:portType>\n\n   <wsdl:binding name=\"\
+        ILDG_MDCSoapBinding\" type=\"impl:MDCInterface\">\n\n      <wsdlsoap:binding\
+        \ style=\"rpc\" transport=\"http://schemas.xmlsoap.org/soap/http\"/>\n\n \
+        \     <wsdl:operation name=\"doEnsembleURIQuery\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"doEnsembleURIQueryRequest\"\
+        >\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"doEnsembleURIQueryResponse\">\n\n         \
+        \   <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:output>\n\
+        \n      </wsdl:operation>\n\n      <wsdl:operation name=\"doConfigurationLFNQuery\"\
+        >\n\n         <wsdlsoap:operation soapAction=\"\"/>\n\n         <wsdl:input\
+        \ name=\"doConfigurationLFNQueryRequest\">\n\n            <wsdlsoap:body encodingStyle=\"\
+        http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"urn:mdc.ildg.lqcd.org\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:input>\n\n         <wsdl:output name=\"\
+        doConfigurationLFNQueryResponse\">\n\n            <wsdlsoap:body encodingStyle=\"\
+        http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"urn:mdc.ildg.lqcd.org\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\
+        \n      <wsdl:operation name=\"getConfigurationMetadata\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"getConfigurationMetadataRequest\"\
+        >\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"getConfigurationMetadataResponse\">\n\n   \
+        \         <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:output>\n\
+        \n      </wsdl:operation>\n\n      <wsdl:operation name=\"getEnsembleMetadata\"\
+        >\n\n         <wsdlsoap:operation soapAction=\"\"/>\n\n         <wsdl:input\
+        \ name=\"getEnsembleMetadataRequest\">\n\n            <wsdlsoap:body encodingStyle=\"\
+        http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"urn:mdc.ildg.lqcd.org\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:input>\n\n         <wsdl:output name=\"\
+        getEnsembleMetadataResponse\">\n\n            <wsdlsoap:body encodingStyle=\"\
+        http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"urn:mdc.ildg.lqcd.org\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\
+        \n      <wsdl:operation name=\"getMDCinfo\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"getMDCinfoRequest\">\n\n\
+        \            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"getMDCinfoResponse\">\n\n            <wsdlsoap:body\
+        \ encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"\
+        urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:output>\n\n \
+        \     </wsdl:operation>\n\n   </wsdl:binding>\n\n   <wsdl:service name=\"\
+        MDCService\">\n\n      <wsdl:port binding=\"impl:ILDG_MDCSoapBinding\" name=\"\
+        ILDG_MDC\">\n\n         <wsdlsoap:address location=\"http://globe-meta.ifh.de:8080/axis/services/ILDG_MDC\"\
+        />\n\n      </wsdl:port>\n\n   </wsdl:service>\n\n</wsdl:definitions>\n"}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml;charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 14:39:00 GMT']
+      Server: [Apache-Coyote/1.1]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8ZG9FbnNlbWJsZVVSSVF1ZXJ5IHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8y
+      MDAxL1hNTFNjaGVtYSI+CiAgICA8cXVlcnlGb3JtYXQ+WHBhdGg8L3F1ZXJ5Rm9ybWF0PjxxdWVy
+      eVN0cmluZz4vbWFya292Q2hhaW48L3F1ZXJ5U3RyaW5nPjxzdGFydEluZGV4PjA8L3N0YXJ0SW5k
+      ZXg+PG1heFJlc3VsdHM+LTE8L21heFJlc3VsdHM+PC9kb0Vuc2VtYmxlVVJJUXVlcnk+Cjwvc29h
+      cDpCb2R5Pgo8L3NvYXA6RW52ZWxvcGU+
+    headers:
+      Connection: [close]
+      Content-Length: ['480']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: ['globe-meta.ifh.de:8080']
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: http://globe-meta.ifh.de:8080/axis/services/ILDG_MDC
+  response:
+    body: {string: '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><xsd:doEnsembleURIQueryResponse
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><doEnsembleURIQueryReturn
+        href="#id0"/></xsd:doEnsembleURIQueryResponse><multiRef id="id0" soapenc:root="0"
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xsi:type="ns1:QueryResults"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="urn:mdc.ildg.lqcd.org"><numberOfResults
+        xsi:type="xsd:int">213</numberOfResults><queryTime xsi:type="xsd:string">2015-03-20
+        15:39:00</queryTime><results soapenc:arrayType="xsd:string[213]" xsi:type="soapenc:Array"><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12104kp12062-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12092kp12092-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12080kp12080-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L24T48_k0.1609_mu0.0075</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p20kp13420-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13460-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13575-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13500-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.160524_mu0.0020_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13550-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13550-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13590-12x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13590-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13590-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13620-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.161229_mu0.0180_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p40kp13500-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.160826_mu0.0180_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p40kp13610-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.160943_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.90_L16T32_k0.160856_mu0.004</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12083kp12104-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.163255_mu0.010_musigma0.15_mudelta0.19</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12090kp12090-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12087kp12102-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.156315_mu0.0045_musigma0.0937_mudelta0.1077-3</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.16327_mu0.004_musigma0.15_mudelta0.19</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L24T48_k0.160856_mu0.0064</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.161739_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L16T32_k0.1609_mu0.0075</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L32T64_k0.15701_mu0.006</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L24T48_k0.160856_mu0.0150</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13550-12x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L24T48_k0.160856_mu0.01</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.75_L24T48_k0.1660_mu0.0200</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L32T64_k0.15701_mu0.003</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13600-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p40kp11945kp11945-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/dik/clover_nf2/b5p40kp13640-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L24T48_k0.160856_mu0.0085</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L32T64_k0.161236_mu0.0055_musigma0.135_mudelta0.17-2</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L32T64_k0.15701_mu0.008</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L32T64_k0.15701_mu0.006-2</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L24T48_k0.160856_mu0.004-2</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L32T64_k0.15701_mu0.012</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L32T64_k0.160856_mu0.004</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.8_L20T48_k0.164099_mu0.0060</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.8_L20T48_k0.164099_mu0.0090</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L48T96_k0.156318_mu0.0030_musigma0.0937_mudelta0.1077</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L32T64_k0.15701_mu0.012-2</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L24T48_k0.15701_mu0.006</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.8_L20T48_k0.164111_mu0.006</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12050kp12050-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.8_L24T48_k0.164111_mu0.006</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p25kp11700kp11700-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.160389_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.8_L24T48_k0.164111_mu0.0165</results><results
+        xsi:type="xsd:string">mc://ldg/dik/clover_nf2/b5p40kp13640-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.8_L24T48_k0.164111_mu0.008</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13632-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/dik/clover_nf2/b5p40kp13660-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.16327_mu0.004_musigma0.15_mudelta0.19-2</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p40kp13660-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L20T48_k0.15701_mu0.006</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.90_L32T64_k0.160856_mu0.003</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b7p20kp13350kp13350-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12098kp12080-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121050kp120661-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.20_L32T64_k0.154073_mu0.0065</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13590-32x12</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13600-32x12</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p40kp11965kp11965-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13605-32x12</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13610-32x12</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.20_L24T48_k0.154073_mu0.002</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.161229_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12000kp12000-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12095kp12095-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/rqcd/clover_nf2/b5p29kp13620-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L24T48_k0.160856_mu0.004</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p40kp13640-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.162876_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p25kp11750kp11750-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/dik/clover_nf2/b5p29kp13632-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.163265_mu0.006_musigma0.15_mudelta0.19</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.163260_mu0.008_musigma0.15_mudelta0.19</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13632-40x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.9_L20T40_k0.160856_mu0.004</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12099kp12099-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12100kp12100-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp120920kp120920-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.8_L24T48_k0.164111_mu0.0045</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p25kp11800kp11800-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13632-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp120900kp120900bqp800-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p40kp120000kp120000-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12092kp12092-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.156315_mu0.0045_musigma0.0937_mudelta0.1077</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.162752_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp120900kp120900_sig12ll050ls050-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.05_L20T40_k0.15701_mu0.003</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121145kp120413-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p60kp12090kp12090-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b6p00kp12300kp12300c2p130-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12030kp12030-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L48T96_k0.156361_mu0.0015_musigma0.12_mudelta0.1385</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b7p20kp12300kp12300-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121050kp120661-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.160826_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121500kp124200bqp800-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.162900_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b7p20kp12500kp12500-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121040kp120770-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b4.2_L48T96.154073_mu0.002</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L32T64_k0.163272_mu0.003_musigma0.15_mudelta0.19</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L32T64_k0.163270_mu0.004_musigma0.15_mudelta0.19</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L32T64_k0.163267_mu0.005_musigma0.15_mudelta0.19</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p40kp1198600kp119860-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L32T64_k0.161242_mu0.0025_musigma0.135_mudelta0.17</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.1612312_mu0.0085_musigma0.135_mudelta0.17</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L32T64_k0.16124_mu0.0035_musigma0.135_mudelta0.17</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L32T64_k0.161236_mu0.0055_musigma0.135_mudelta0.17</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L24T48_k0.156052_mu0.0030_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L48T96_k0.156357_mu0.002_musigma0.12_mudelta0.1385</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.161585_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.161585_mu0.0020_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121095kp120512-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.160524_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2/tlSym_b3.8_L24T48_k0.164111_mu0.011</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12080kp12080-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12100kp12070-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13615-32x12</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p25kp13620-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12090kp12090-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.156291_mu0.0078_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p40kp13660-48x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p40kp13640-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/theta/clover_nf2/b2p10kp13570tp023628619121625510-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/theta/clover_nf2/b2p10kp13570tp004725723824325102-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13640-48x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p40kp11975kp11975-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b6p00kp12250kp12250-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p80kp122700kp122700-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p80kp122880kp122670-48x96</results><results
+        xsi:type="xsd:string">mc://ldg/theta/clover_nf2/b2p10kp13570tp00945144764865020434-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p80kp122500kp122500-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p65kp122030kp122030-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp120900kp120900_A3ll000000ls030000-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p40kp13625-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.163204_mu0.008_musigma0.15_mudelta0.197</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p95kp123460kp123460-48x96</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p40kp13560-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L48T96_k0.16124_mu0.0035_musigma0.135_mudelta0.17</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/b5p29kp13640-40x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12107kp12107-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L32T64_k0.16124_mu0.0025_musigma0.135_mudelta0.17</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.163062_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50eb0p80kpu121713ep2kpd124362em1kps124362em1-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp120900kp120900_A3ll000000ls200000-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p80kp122860kp122860-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L48T96_k0.156355_mu0.003_musigma0.12_mudelta0.1385</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.162935_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L20T48_k0.16327_mu0.004_musigma0.15_mudelta0.19</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.163206_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/theta/clover_nf2/b2p10kp13570tp035442928682438265-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.156209_mu0.0046_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p40kp11920kp11920-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/test/testproject/testensemble</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.162819_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b6p00kp12200kp12200c2p130-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121021kp121021-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.156017_mu0.0046_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p65kp122050kp122050-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b6p00kp12400kp12400c2p130-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p80kp122810kp122810-48x96</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.161095_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L24T48_k0.160870_mu0.0085_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12095kp12080-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121288kp124000bqp800-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p60kp12110kp12110-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b6p10kp123960kp123960-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/theta/clover_nf2/b2p10kp13820tp001128-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12090kp12090-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p80kp122825kp122825-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/theta/clover_nf2/b2p10kp13570tp00000000000000000000-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p65kp122005kp122005-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121099kp120653-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121145kp120413-32x96</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b6p10kp123880kp123880-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.155949_mu0.0078_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b7p20kp12450kp12450-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p60kp12070kp12070-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121166kp120371-48x96</results><results
+        xsi:type="xsd:string">mc://ldg/theta/clover_nf2/b2p10kp13820tp002256-24x48</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12104kp12062-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.156315_mu0.0045_musigma0.0937_mudelta0.1077-2</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp12104kp12062-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.163476_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.162689_mu0.0080_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.156157_mu0.0030_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp121117kp120528-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p60kp12110kp12110-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p50kp120900kp120900_A3ll000000ls003000-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p80kp122810kp122810-32x64</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.156042_mu0.0030_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L32T64_k0.155983_mu0.0064_nf4</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.90_L24T48_k0.163196_mu0.010_musigma0.15_mudelta0.197</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b2.10_L48T96_k0.156361_mu0.0015_musigma0.12_mudelta0.1385-2</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b5p80kp122940kp122551-48x96</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2p1/b6p00kp12200kp12200-16x32</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L32T64_k0.161236_mu0.0055_musigma0.135_mudelta0.17-3</results><results
+        xsi:type="xsd:string">mc://ldg/etmc/tmqcd_nf2p1p1/iwasaki_b1.95_L32T64_k0.161232_mu0.0075_musigma0.135_mudelta0.17</results><results
+        xsi:type="xsd:string">mc://ldg/qcdsf/clover_nf2/TEST</results></results><startIndex
+        xsi:type="xsd:int">0</startIndex><statusCode xsi:type="xsd:string">MDC_SUCCESS</statusCode><totalResults
+        xsi:type="xsd:int">213</totalResults></multiRef></soapenv:Body></soapenv:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml;charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 14:39:00 GMT']
+      Server: [Apache-Coyote/1.1]
+    status: {code: 200, message: OK}
+version: 1

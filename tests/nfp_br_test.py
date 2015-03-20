@@ -18,6 +18,7 @@ from decimal import Decimal
 import os
 import unittest
 from pysimplesoap.client import SoapClient, SoapFault, SimpleXMLElement
+import vcr
 
 import sys
 if sys.version > '3':
@@ -34,6 +35,7 @@ HEADER_XML = """<Autenticacao Usuario="%s" Senha="%s" CNPJ="%s"
 
 class TestNFP(unittest.TestCase):
  
+    @vcr.use_cassette('tests/data/vcr_cassettes/test_enviar.yaml')
     def test_enviar(self):
         "Prueba da envio de arquivos de cupons fiscais"
         
@@ -45,6 +47,7 @@ class TestNFP(unittest.TestCase):
         response = client.Enviar(NomeArquivo="file_name", ConteudoArquivo="content", EnvioNormal=True, Observacoes="")
         self.assertEqual(response['EnviarResult'], '206|CNPJ informado inv\xe1lido')            
 
+    @vcr.use_cassette('tests/data/vcr_cassettes/test_consultar.yaml')
     def test_consultar(self):
         "consulta ao resultado do processamento dos arquivos de cupons fiscai"
         # create the client webservice
@@ -55,6 +58,7 @@ class TestNFP(unittest.TestCase):
         response = client.Consultar(Protocolo="")
         self.assertEqual(response['ConsultarResult'], '999|O protocolo informado n\xe3o \xe9 um n\xfamero v\xe1lido')
 
+    @vcr.use_cassette('tests/data/vcr_cassettes/test_retificar.yaml')
     def test_retificar(self):
         "Prueba da retifica de arquivos de cupons fiscais"
         

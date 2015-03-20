@@ -1,0 +1,685 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [test.paymentgate.ru]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://test.paymentgate.ru:443/testpayment/webservices/merchant-ws?wsdl
+  response:
+    body: {string: "<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name=\"\
+        MerchantServiceImplService\" targetNamespace=\"http://soap.merchant.api.web.phoenix.bpc.ru/\"\
+        \ xmlns:ns1=\"http://engine.paymentgate.ru/webservices/merchant\" xmlns:ns2=\"\
+        http://schemas.xmlsoap.org/soap/http\" xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"\
+        \ xmlns:tns=\"http://soap.merchant.api.web.phoenix.bpc.ru/\" xmlns:wsdl=\"\
+        http://schemas.xmlsoap.org/wsdl/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
+        >\n  <wsdl:import location=\"https://test.paymentgate.ru/testpayment/webservices/merchant-ws?wsdl=MerchantService.wsdl\"\
+        \ namespace=\"http://engine.paymentgate.ru/webservices/merchant\">\n    </wsdl:import>\n\
+        \  <wsdl:binding name=\"MerchantServiceImplServiceSoapBinding\" type=\"ns1:MerchantService\"\
+        >\n    <soap:binding style=\"rpc\" transport=\"http://schemas.xmlsoap.org/soap/http\"\
+        />\n    <wsdl:operation name=\"getLastOrders\">\n      <soap:operation soapAction=\"\
+        \" style=\"rpc\"/>\n      <wsdl:input name=\"getLastOrders\">\n        <soap:body\
+        \ namespace=\"http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"\
+        />\n      </wsdl:input>\n      <wsdl:output name=\"getLastOrdersResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"verifyEnrollment\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"verifyEnrollment\">\n        <soap:body\
+        \ namespace=\"http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"\
+        />\n      </wsdl:input>\n      <wsdl:output name=\"verifyEnrollmentResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"paymentOrderBinding\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"paymentOrderBinding\">\n        <soap:body\
+        \ namespace=\"http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"\
+        />\n      </wsdl:input>\n      <wsdl:output name=\"paymentOrderBindingResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"bindCard\">\n      <soap:operation soapAction=\"\" style=\"rpc\"\
+        />\n      <wsdl:input name=\"bindCard\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"bindCardResponse\">\n      \
+        \  <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"reverseOrder\">\n      <soap:operation soapAction=\"\" style=\"rpc\"\
+        />\n      <wsdl:input name=\"reverseOrder\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"reverseOrderResponse\">\n  \
+        \      <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"updateWhiteCardList\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"updateWhiteCardList\">\n        <soap:body\
+        \ namespace=\"http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"\
+        />\n      </wsdl:input>\n      <wsdl:output name=\"updateWhiteCardListResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"paymentOrderOtherWay\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"paymentOrderOtherWay\">\n        <soap:body\
+        \ namespace=\"http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"\
+        />\n      </wsdl:input>\n      <wsdl:output name=\"paymentOrderOtherWayResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"checkAuthenticate\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"checkAuthenticate\">\n        <soap:body\
+        \ namespace=\"http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"\
+        />\n      </wsdl:input>\n      <wsdl:output name=\"checkAuthenticateResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"extendBinding\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"extendBinding\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"extendBindingResponse\">\n \
+        \       <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"paymentOrder\">\n      <soap:operation soapAction=\"\" style=\"rpc\"\
+        />\n      <wsdl:input name=\"paymentOrder\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"paymentOrderResponse\">\n  \
+        \      <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"addParams\">\n      <soap:operation soapAction=\"\" style=\"rpc\"\
+        />\n      <wsdl:input name=\"addParams\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"addParamsResponse\">\n     \
+        \   <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"getOrderStatus\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"getOrderStatus\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"getOrderStatusResponse\">\n\
+        \        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"unBindCard\">\n      <soap:operation soapAction=\"\" style=\"rpc\"\
+        />\n      <wsdl:input name=\"unBindCard\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"unBindCardResponse\">\n    \
+        \    <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"getLastOrdersForMerchants\">\n      <soap:operation soapAction=\"\
+        \" style=\"rpc\"/>\n      <wsdl:input name=\"getLastOrdersForMerchants\">\n\
+        \        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output name=\"getLastOrdersForMerchantsResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"depositOrder\">\n      <soap:operation soapAction=\"\" style=\"rpc\"\
+        />\n      <wsdl:input name=\"depositOrder\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"depositOrderResponse\">\n  \
+        \      <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"registerOrderPreAuth\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"registerOrderPreAuth\">\n        <soap:body\
+        \ namespace=\"http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"\
+        />\n      </wsdl:input>\n      <wsdl:output name=\"registerOrderPreAuthResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"getOrderStatusExtended\">\n      <soap:operation soapAction=\"\"\
+        \ style=\"rpc\"/>\n      <wsdl:input name=\"getOrderStatusExtended\">\n  \
+        \      <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output name=\"getOrderStatusExtendedResponse\"\
+        >\n        <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"getBindings\">\n      <soap:operation soapAction=\"\" style=\"rpc\"\
+        />\n      <wsdl:input name=\"getBindings\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"getBindingsResponse\">\n   \
+        \     <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"refundOrder\">\n      <soap:operation soapAction=\"\" style=\"rpc\"\
+        />\n      <wsdl:input name=\"refundOrder\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"refundOrderResponse\">\n   \
+        \     <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"registerOrder\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"registerOrder\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"registerOrderResponse\">\n \
+        \       <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation\
+        \ name=\"finishThreeDs\">\n      <soap:operation soapAction=\"\" style=\"\
+        rpc\"/>\n      <wsdl:input name=\"finishThreeDs\">\n        <soap:body namespace=\"\
+        http://engine.paymentgate.ru/webservices/merchant\" use=\"literal\"/>\n  \
+        \    </wsdl:input>\n      <wsdl:output name=\"finishThreeDsResponse\">\n \
+        \       <soap:body namespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ use=\"literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n  </wsdl:binding>\n\
+        \  <wsdl:service name=\"MerchantServiceImplService\">\n    <wsdl:port binding=\"\
+        tns:MerchantServiceImplServiceSoapBinding\" name=\"MerchantServiceImplPort\"\
+        >\n      <soap:address location=\"https://test.paymentgate.ru/testpayment/webservices/merchant-ws\"\
+        />\n    </wsdl:port>\n  </wsdl:service>\n</wsdl:definitions>"}
+    headers:
+      Access-Control-Allow-Origin: ['https://playground.paymentgate.ru']
+      Connection: [close]
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 16:15:56 GMT']
+      Server: [nginx/1.6.2]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [test.paymentgate.ru]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://test.paymentgate.ru:443/testpayment/webservices/merchant-ws?wsdl=MerchantService.wsdl
+  response:
+    body: {string: "<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name=\"\
+        MerchantService\" targetNamespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ xmlns:ns1=\"http://engine.paymentgate.ru/webservices/merchant\" xmlns:wsdl=\"\
+        http://schemas.xmlsoap.org/wsdl/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
+        >\n  <wsdl:types>\n<xs:schema targetNamespace=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ version=\"1.0\" xmlns:tns=\"http://engine.paymentgate.ru/webservices/merchant\"\
+        \ xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n<xs:complexType name=\"\
+        orderInfo\">\n<xs:sequence>\n<xs:element maxOccurs=\"unbounded\" minOccurs=\"\
+        0\" name=\"params\" type=\"tns:serviceParam\"/>\n</xs:sequence>\n<xs:attribute\
+        \ name=\"ordernumber\" type=\"xs:string\"/>\n<xs:attribute name=\"amount\"\
+        \ type=\"xs:long\" use=\"required\"/>\n<xs:attribute name=\"approvedAmount\"\
+        \ type=\"xs:long\" use=\"required\"/>\n<xs:attribute name=\"depositedAmount\"\
+        \ type=\"xs:long\" use=\"required\"/>\n<xs:attribute name=\"currencyCode\"\
+        \ type=\"xs:short\" use=\"required\"/>\n<xs:attribute name=\"state\" type=\"\
+        tns:transactionState\"/>\n<xs:attribute name=\"fraudLevel\" type=\"xs:int\"\
+        \ use=\"required\"/>\n<xs:attribute name=\"cardholder\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"panMasked\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        ip\" type=\"xs:string\"/>\n<xs:attribute name=\"actionCode\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"date\" type=\"xs:dateTime\"/>\n<xs:attribute name=\"\
+        bankName\" type=\"xs:string\"/>\n<xs:attribute name=\"approvalCode\" type=\"\
+        xs:string\"/>\n</xs:complexType>\n<xs:complexType name=\"serviceParam\">\n\
+        <xs:sequence/>\n<xs:attribute name=\"name\" type=\"xs:string\" use=\"required\"\
+        />\n<xs:attribute name=\"value\" type=\"xs:string\" use=\"required\"/>\n</xs:complexType>\n\
+        <xs:complexType abstract=\"true\" name=\"abstractCollection\">\n<xs:sequence/>\n\
+        </xs:complexType>\n<xs:complexType abstract=\"true\" name=\"abstractList\"\
+        >\n<xs:complexContent>\n<xs:extension base=\"tns:abstractCollection\">\n<xs:sequence/>\n\
+        </xs:extension>\n</xs:complexContent>\n</xs:complexType>\n<xs:complexType\
+        \ name=\"arrayList\">\n<xs:complexContent>\n<xs:extension base=\"tns:abstractList\"\
+        >\n<xs:sequence/>\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n\
+        <xs:complexType name=\"orderAddendumList\">\n<xs:complexContent>\n<xs:extension\
+        \ base=\"tns:arrayList\">\n<xs:sequence/>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:complexType abstract=\"true\" name=\"abstractResponse\"\
+        >\n<xs:sequence>\n<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"\
+        operations\" nillable=\"true\" type=\"tns:loyaltyOperation\"/>\n</xs:sequence>\n\
+        <xs:attribute name=\"errorCode\" type=\"xs:int\" use=\"required\"/>\n<xs:attribute\
+        \ name=\"errorMessage\" type=\"xs:string\"/>\n</xs:complexType>\n<xs:complexType\
+        \ abstract=\"true\" name=\"loyaltyOperation\">\n<xs:sequence/>\n</xs:complexType>\n\
+        <xs:complexType name=\"basicLoyaltyOperation\">\n<xs:complexContent>\n<xs:extension\
+        \ base=\"tns:loyaltyOperation\">\n<xs:sequence>\n<xs:element name=\"amount\"\
+        \ type=\"xs:long\"/>\n<xs:element minOccurs=\"0\" name=\"errorCode\" type=\"\
+        xs:string\"/>\n<xs:element minOccurs=\"0\" name=\"errorDescription\" type=\"\
+        xs:string\"/>\n<xs:element minOccurs=\"0\" name=\"operation\" type=\"tns:operationType\"\
+        />\n<xs:element name=\"successful\" type=\"xs:boolean\"/>\n<xs:element minOccurs=\"\
+        0\" name=\"transactionId\" type=\"xs:string\"/>\n</xs:sequence>\n</xs:extension>\n\
+        </xs:complexContent>\n</xs:complexType>\n<xs:complexType name=\"sbrfSpasiboLoyaltyOperation\"\
+        >\n<xs:complexContent>\n<xs:extension base=\"tns:basicLoyaltyOperation\">\n\
+        <xs:sequence>\n<xs:element minOccurs=\"0\" name=\"pcId\" type=\"xs:long\"\
+        />\n</xs:sequence>\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n\
+        <xs:complexType name=\"verifyEnrollmentResponse\">\n<xs:complexContent>\n\
+        <xs:extension base=\"tns:abstractResponse\">\n<xs:sequence/>\n<xs:attribute\
+        \ name=\"isEnrolled\" type=\"xs:string\"/>\n<xs:attribute name=\"emitterName\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"emitterCountryCode\" type=\"\
+        xs:string\"/>\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n\
+        <xs:complexType name=\"paymentOrderBindingParams\">\n<xs:sequence>\n<xs:element\
+        \ maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"params\" type=\"tns:serviceParam\"\
+        />\n</xs:sequence>\n<xs:attribute name=\"mdOrder\" type=\"xs:string\"/>\n\
+        <xs:attribute name=\"bindingId\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        language\" type=\"xs:string\"/>\n<xs:attribute name=\"ip\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"cvc\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        email\" type=\"xs:string\"/>\n</xs:complexType>\n<xs:complexType name=\"paymentOrderResult\"\
+        >\n<xs:complexContent>\n<xs:extension base=\"tns:abstractResponse\">\n<xs:sequence/>\n\
+        <xs:attribute name=\"info\" type=\"xs:string\"/>\n<xs:attribute name=\"redirect\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"acsUrl\" type=\"xs:string\"/>\n\
+        <xs:attribute name=\"paReq\" type=\"xs:string\"/>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:complexType name=\"orderResult\">\n<xs:complexContent>\n\
+        <xs:extension base=\"tns:abstractResponse\">\n<xs:sequence/>\n</xs:extension>\n\
+        </xs:complexContent>\n</xs:complexType>\n<xs:complexType abstract=\"true\"\
+        \ name=\"abstractServiceRequest\">\n<xs:sequence/>\n<xs:attribute name=\"\
+        language\" type=\"xs:string\"/>\n</xs:complexType>\n<xs:complexType name=\"\
+        reversalOrderParams\">\n<xs:complexContent>\n<xs:extension base=\"tns:abstractServiceRequest\"\
+        >\n<xs:sequence>\n<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"\
+        params\" type=\"tns:serviceParam\"/>\n</xs:sequence>\n<xs:attribute name=\"\
+        orderId\" type=\"xs:string\"/>\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n\
+        <xs:complexType name=\"paymentOrderOtherWayParams\">\n<xs:complexContent>\n\
+        <xs:extension base=\"tns:abstractServiceRequest\">\n<xs:sequence/>\n<xs:attribute\
+        \ name=\"orderId\" type=\"xs:string\"/>\n<xs:attribute name=\"paymentWay\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"ip\" type=\"xs:string\"/>\n</xs:extension>\n\
+        </xs:complexContent>\n</xs:complexType>\n<xs:complexType name=\"paymentOrderOtherWayResult\"\
+        >\n<xs:complexContent>\n<xs:extension base=\"tns:abstractResponse\">\n<xs:sequence/>\n\
+        <xs:attribute name=\"info\" type=\"xs:string\"/>\n<xs:attribute name=\"redirect\"\
+        \ type=\"xs:string\"/>\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n\
+        <xs:complexType name=\"loginParams\">\n<xs:complexContent>\n<xs:extension\
+        \ base=\"tns:abstractServiceRequest\">\n<xs:sequence/>\n<xs:attribute name=\"\
+        login\" type=\"xs:string\"/>\n<xs:attribute name=\"password\" type=\"xs:string\"\
+        />\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n<xs:complexType\
+        \ name=\"extendBindingRequest\">\n<xs:complexContent>\n<xs:extension base=\"\
+        tns:abstractServiceRequest\">\n<xs:sequence/>\n<xs:attribute name=\"bindingId\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"newExpiry\" type=\"xs:string\"\
+        />\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n<xs:complexType\
+        \ abstract=\"true\" name=\"abstractServiceResponse\">\n<xs:sequence/>\n<xs:attribute\
+        \ name=\"errorCode\" type=\"xs:string\"/>\n<xs:attribute name=\"errorMessage\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"userMessage\" type=\"xs:string\"\
+        />\n</xs:complexType>\n<xs:complexType name=\"extendBindingResponse\">\n<xs:complexContent>\n\
+        <xs:extension base=\"tns:abstractServiceResponse\">\n<xs:sequence/>\n</xs:extension>\n\
+        </xs:complexContent>\n</xs:complexType>\n<xs:complexType name=\"paymentOrderParams\"\
+        >\n<xs:sequence>\n<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"\
+        params\" type=\"tns:serviceParam\"/>\n</xs:sequence>\n<xs:attribute name=\"\
+        orderId\" type=\"xs:string\"/>\n<xs:attribute name=\"year\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"month\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        pan\" type=\"xs:string\"/>\n<xs:attribute name=\"cvc\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"cardholderName\" type=\"xs:string\"/>\n<xs:attribute\
+        \ name=\"language\" type=\"xs:string\"/>\n<xs:attribute name=\"ip\" type=\"\
+        xs:string\"/>\n<xs:attribute name=\"email\" type=\"xs:string\"/>\n</xs:complexType>\n\
+        <xs:complexType name=\"addParamsRequest\">\n<xs:sequence>\n<xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"params\" type=\"tns:serviceParam\"/>\n\
+        </xs:sequence>\n<xs:attribute name=\"orderId\" type=\"xs:string\"/>\n</xs:complexType>\n\
+        <xs:complexType name=\"orderStatusRequest\">\n<xs:sequence/>\n<xs:attribute\
+        \ name=\"orderId\" type=\"xs:string\"/>\n<xs:attribute name=\"language\" type=\"\
+        xs:string\"/>\n</xs:complexType>\n<xs:complexType name=\"orderStatusResponse\"\
+        >\n<xs:complexContent>\n<xs:extension base=\"tns:abstractResponse\">\n<xs:sequence>\n\
+        <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"params\" type=\"\
+        tns:serviceParam\"/>\n<xs:element minOccurs=\"0\" name=\"orderBundle\" type=\"\
+        tns:orderBundle\"/>\n</xs:sequence>\n<xs:attribute name=\"orderStatus\" type=\"\
+        xs:int\" use=\"required\"/>\n<xs:attribute name=\"orderNumber\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"pan\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        expiration\" type=\"xs:string\"/>\n<xs:attribute name=\"cardholderName\" type=\"\
+        xs:string\"/>\n<xs:attribute name=\"amount\" type=\"xs:long\" use=\"required\"\
+        />\n<xs:attribute name=\"currency\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        approvalCode\" type=\"xs:string\"/>\n<xs:attribute name=\"authCode\" type=\"\
+        xs:int\" use=\"required\"/>\n<xs:attribute name=\"ip\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"date\" type=\"xs:dateTime\"/>\n<xs:attribute name=\"\
+        orderDescription\" type=\"xs:string\"/>\n<xs:attribute name=\"merchantLogin\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"actionCodeDescription\" type=\"\
+        xs:string\"/>\n<xs:attribute name=\"clientId\" type=\"xs:string\"/>\n<xs:attribute\
+        \ name=\"bindingId\" type=\"xs:string\"/>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:complexType name=\"orderBundle\">\n<xs:sequence>\n\
+        <xs:element minOccurs=\"0\" name=\"orderCreationDate\" type=\"xs:dateTime\"\
+        />\n<xs:element minOccurs=\"0\" name=\"customerDetails\" type=\"tns:customerDetails\"\
+        />\n<xs:element name=\"cartItems\" type=\"tns:cartItems\"/>\n<xs:element minOccurs=\"\
+        0\" name=\"loyalties\" type=\"tns:loyalties\"/>\n</xs:sequence>\n</xs:complexType>\n\
+        <xs:complexType name=\"customerDetails\">\n<xs:sequence>\n<xs:element minOccurs=\"\
+        0\" name=\"email\" type=\"xs:string\"/>\n<xs:element minOccurs=\"0\" name=\"\
+        phone\" type=\"xs:string\"/>\n<xs:element minOccurs=\"0\" name=\"contact\"\
+        \ type=\"xs:string\"/>\n<xs:element minOccurs=\"0\" name=\"deliveryInfo\"\
+        \ type=\"tns:deliveryInfo\"/>\n</xs:sequence>\n</xs:complexType>\n<xs:complexType\
+        \ name=\"deliveryInfo\">\n<xs:sequence>\n<xs:element minOccurs=\"0\" name=\"\
+        deliveryType\" type=\"xs:string\"/>\n<xs:element name=\"country\" type=\"\
+        xs:string\"/>\n<xs:element name=\"city\" type=\"xs:string\"/>\n<xs:element\
+        \ name=\"postAddress\" type=\"xs:string\"/>\n</xs:sequence>\n</xs:complexType>\n\
+        <xs:complexType name=\"cartItems\">\n<xs:sequence>\n<xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"items\" nillable=\"true\" type=\"tns:item\"\
+        />\n</xs:sequence>\n</xs:complexType>\n<xs:complexType name=\"item\">\n<xs:sequence>\n\
+        <xs:element name=\"name\" type=\"xs:string\"/>\n<xs:element minOccurs=\"0\"\
+        \ name=\"itemDetails\" type=\"tns:itemDetails\"/>\n<xs:element name=\"quantity\"\
+        \ type=\"tns:quantity\"/>\n<xs:element name=\"itemAmount\" type=\"xs:long\"\
+        />\n<xs:element minOccurs=\"0\" name=\"itemCurrency\" type=\"xs:int\"/>\n\
+        <xs:element name=\"itemCode\" type=\"xs:string\"/>\n<xs:element minOccurs=\"\
+        0\" name=\"discount\" type=\"tns:discount\"/>\n<xs:element minOccurs=\"0\"\
+        \ name=\"agentInterest\" type=\"tns:agentInterest\"/>\n</xs:sequence>\n<xs:attribute\
+        \ name=\"positionId\" type=\"xs:string\"/>\n</xs:complexType>\n<xs:complexType\
+        \ name=\"itemDetails\">\n<xs:sequence>\n<xs:element maxOccurs=\"unbounded\"\
+        \ minOccurs=\"0\" name=\"itemDetailsParams\" nillable=\"true\" type=\"tns:itemDetailsParam\"\
+        />\n</xs:sequence>\n</xs:complexType>\n<xs:complexType name=\"itemDetailsParam\"\
+        >\n<xs:simpleContent>\n<xs:extension base=\"xs:string\">\n<xs:attribute name=\"\
+        name\" type=\"xs:string\"/>\n</xs:extension>\n</xs:simpleContent>\n</xs:complexType>\n\
+        <xs:complexType name=\"quantity\">\n<xs:simpleContent>\n<xs:extension base=\"\
+        xs:float\">\n<xs:attribute name=\"measure\" type=\"xs:string\"/>\n</xs:extension>\n\
+        </xs:simpleContent>\n</xs:complexType>\n<xs:complexType name=\"discount\"\
+        >\n<xs:sequence>\n<xs:element minOccurs=\"0\" name=\"discountType\" type=\"\
+        xs:string\"/>\n<xs:element minOccurs=\"0\" name=\"discountValue\" type=\"\
+        xs:string\"/>\n</xs:sequence>\n</xs:complexType>\n<xs:complexType name=\"\
+        agentInterest\">\n<xs:sequence>\n<xs:element minOccurs=\"0\" name=\"interestType\"\
+        \ type=\"xs:string\"/>\n<xs:element minOccurs=\"0\" name=\"interestValue\"\
+        \ type=\"xs:string\"/>\n</xs:sequence>\n</xs:complexType>\n<xs:complexType\
+        \ name=\"loyalties\">\n<xs:sequence>\n<xs:element maxOccurs=\"unbounded\"\
+        \ minOccurs=\"0\" name=\"loyalties\" nillable=\"true\" type=\"tns:loyalty\"\
+        />\n</xs:sequence>\n</xs:complexType>\n<xs:complexType name=\"loyalty\">\n\
+        <xs:sequence>\n<xs:element name=\"bonusAmountForDebit\" type=\"xs:long\"/>\n\
+        <xs:element name=\"bonusAmountForCredit\" type=\"xs:long\"/>\n</xs:sequence>\n\
+        <xs:attribute name=\"loyaltyProgramName\" type=\"xs:string\"/>\n<xs:attribute\
+        \ name=\"positionId\" type=\"xs:string\"/>\n</xs:complexType>\n<xs:complexType\
+        \ name=\"getLastOrdersForMerchantsRequest\">\n<xs:complexContent>\n<xs:extension\
+        \ base=\"tns:abstractServiceRequest\">\n<xs:sequence>\n<xs:element name=\"\
+        page\" type=\"xs:int\"/>\n<xs:element name=\"size\" type=\"xs:int\"/>\n<xs:element\
+        \ minOccurs=\"0\" name=\"from\" type=\"xs:dateTime\"/>\n<xs:element minOccurs=\"\
+        0\" name=\"to\" type=\"xs:dateTime\"/>\n<xs:element minOccurs=\"0\" name=\"\
+        transactionStates\" type=\"tns:transactionStates\"/>\n<xs:element minOccurs=\"\
+        0\" name=\"merchants\" type=\"tns:merchants\"/>\n</xs:sequence>\n</xs:extension>\n\
+        </xs:complexContent>\n</xs:complexType>\n<xs:complexType name=\"transactionStates\"\
+        >\n<xs:sequence>\n<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"\
+        transactionStates\" type=\"xs:string\"/>\n</xs:sequence>\n</xs:complexType>\n\
+        <xs:complexType name=\"merchants\">\n<xs:sequence>\n<xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"merchants\" type=\"xs:string\"/>\n</xs:sequence>\n\
+        </xs:complexType>\n<xs:complexType name=\"getLastOrdersForMerchantsResponse\"\
+        >\n<xs:complexContent>\n<xs:extension base=\"tns:abstractResponse\">\n<xs:sequence>\n\
+        <xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"orderStatuses\"\
+        \ nillable=\"true\" type=\"tns:getOrderStatusExtendedResponse\"/>\n<xs:element\
+        \ minOccurs=\"0\" name=\"totalCount\" type=\"xs:long\"/>\n<xs:element minOccurs=\"\
+        0\" name=\"page\" type=\"xs:int\"/>\n<xs:element minOccurs=\"0\" name=\"pageSize\"\
+        \ type=\"xs:int\"/>\n</xs:sequence>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:complexType name=\"getOrderStatusExtendedResponse\"\
+        >\n<xs:complexContent>\n<xs:extension base=\"tns:abstractServiceResponse\"\
+        >\n<xs:sequence>\n<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"\
+        merchantOrderParams\" type=\"tns:serviceParam\"/>\n<xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"attributes\" type=\"tns:serviceParam\"\
+        />\n<xs:element minOccurs=\"0\" name=\"cardAuthInfo\" type=\"tns:cardAuthInfo\"\
+        />\n<xs:element minOccurs=\"0\" name=\"bindingInfo\" type=\"tns:cardBindingInfo\"\
+        />\n<xs:element minOccurs=\"0\" name=\"authDateTime\" type=\"xs:dateTime\"\
+        />\n<xs:element minOccurs=\"0\" name=\"terminalId\" type=\"xs:string\"/>\n\
+        <xs:element minOccurs=\"0\" name=\"authRefNum\" type=\"xs:string\"/>\n<xs:element\
+        \ minOccurs=\"0\" name=\"paymentAmountInfo\" type=\"tns:paymentAmountInfo\"\
+        />\n<xs:element minOccurs=\"0\" name=\"bankInfo\" type=\"tns:bankInfo\"/>\n\
+        <xs:element minOccurs=\"0\" name=\"orderBundle\" type=\"tns:orderBundle\"\
+        />\n<xs:element minOccurs=\"0\" name=\"loyaltyInfo\" type=\"tns:loyaltyInfo\"\
+        />\n<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"refunds\" type=\"\
+        tns:refund\"/>\n<xs:element minOccurs=\"0\" name=\"chargeback\" type=\"xs:boolean\"\
+        />\n</xs:sequence>\n<xs:attribute name=\"orderNumber\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"orderStatus\" type=\"xs:int\"/>\n<xs:attribute name=\"\
+        actionCode\" type=\"xs:int\"/>\n<xs:attribute name=\"actionCodeDescription\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"amount\" type=\"xs:long\"/>\n\
+        <xs:attribute name=\"currency\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        date\" type=\"xs:dateTime\"/>\n<xs:attribute name=\"orderDescription\" type=\"\
+        xs:string\"/>\n<xs:attribute name=\"ip\" type=\"xs:string\"/>\n</xs:extension>\n\
+        </xs:complexContent>\n</xs:complexType>\n<xs:complexType name=\"cardAuthInfo\"\
+        >\n<xs:sequence>\n<xs:element minOccurs=\"0\" name=\"secureAuthInfo\" type=\"\
+        tns:secureAuthInfo\"/>\n</xs:sequence>\n<xs:attribute name=\"maskedPan\" type=\"\
+        xs:string\"/>\n<xs:attribute name=\"expiration\" type=\"xs:string\"/>\n<xs:attribute\
+        \ name=\"cardholderName\" type=\"xs:string\"/>\n<xs:attribute name=\"approvalCode\"\
+        \ type=\"xs:string\"/>\n</xs:complexType>\n<xs:complexType name=\"secureAuthInfo\"\
+        >\n<xs:sequence>\n<xs:element name=\"eci\" type=\"xs:int\"/>\n<xs:element\
+        \ minOccurs=\"0\" name=\"threeDSInfo\" type=\"tns:threeDSInfo\"/>\n</xs:sequence>\n\
+        </xs:complexType>\n<xs:complexType name=\"threeDSInfo\">\n<xs:sequence>\n\
+        <xs:element minOccurs=\"0\" name=\"cavv\" type=\"xs:string\"/>\n<xs:element\
+        \ minOccurs=\"0\" name=\"xid\" type=\"xs:string\"/>\n</xs:sequence>\n</xs:complexType>\n\
+        <xs:complexType name=\"cardBindingInfo\">\n<xs:sequence/>\n<xs:attribute name=\"\
+        clientId\" type=\"xs:string\"/>\n<xs:attribute name=\"bindingId\" type=\"\
+        xs:string\"/>\n</xs:complexType>\n<xs:complexType name=\"paymentAmountInfo\"\
+        >\n<xs:sequence/>\n<xs:attribute name=\"paymentState\" type=\"tns:transactionState\"\
+        />\n<xs:attribute name=\"approvedAmount\" type=\"xs:long\" use=\"required\"\
+        />\n<xs:attribute name=\"depositedAmount\" type=\"xs:long\" use=\"required\"\
+        />\n<xs:attribute name=\"refundedAmount\" type=\"xs:long\" use=\"required\"\
+        />\n</xs:complexType>\n<xs:complexType name=\"bankInfo\">\n<xs:sequence/>\n\
+        <xs:attribute name=\"bankName\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        bankCountryCode\" type=\"xs:string\"/>\n<xs:attribute name=\"bankCountryName\"\
+        \ type=\"xs:string\"/>\n</xs:complexType>\n<xs:complexType name=\"loyaltyInfo\"\
+        >\n<xs:sequence>\n<xs:element minOccurs=\"0\" name=\"paymentBonus\" type=\"\
+        tns:paymentBonus\"/>\n<xs:element minOccurs=\"0\" name=\"awardBonus\" type=\"\
+        tns:awardBonus\"/>\n</xs:sequence>\n<xs:attribute name=\"loyaltyName\" type=\"\
+        xs:string\"/>\n</xs:complexType>\n<xs:complexType name=\"paymentBonus\">\n\
+        <xs:sequence/>\n<xs:attribute name=\"approvedAmountBonus\" type=\"xs:int\"\
+        />\n<xs:attribute name=\"depositedAmountBonus\" type=\"xs:int\"/>\n<xs:attribute\
+        \ name=\"refundedAmountBonus\" type=\"xs:int\"/>\n<xs:attribute name=\"pcId\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"successful\" type=\"xs:boolean\"\
+        />\n<xs:attribute name=\"paymentOperation\" type=\"tns:operation\"/>\n</xs:complexType>\n\
+        <xs:complexType name=\"awardBonus\">\n<xs:sequence/>\n<xs:attribute name=\"\
+        approvedAmountAward\" type=\"xs:int\"/>\n<xs:attribute name=\"depositedAmountAward\"\
+        \ type=\"xs:int\"/>\n<xs:attribute name=\"refundedAmountAward\" type=\"xs:int\"\
+        />\n<xs:attribute name=\"pcId\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        successful\" type=\"xs:boolean\"/>\n<xs:attribute name=\"paymentOperation\"\
+        \ type=\"tns:operation\"/>\n</xs:complexType>\n<xs:complexType name=\"refund\"\
+        >\n<xs:sequence/>\n<xs:attribute name=\"referenceNumber\" type=\"xs:string\"\
+        />\n<xs:attribute name=\"actionCode\" type=\"xs:string\"/>\n<xs:attribute\
+        \ name=\"amount\" type=\"xs:long\" use=\"required\"/>\n<xs:attribute name=\"\
+        approvalCode\" type=\"xs:string\"/>\n<xs:attribute name=\"date\" type=\"xs:string\"\
+        />\n</xs:complexType>\n<xs:complexType name=\"orderParams\">\n<xs:sequence>\n\
+        <xs:element minOccurs=\"0\" name=\"returnUrl\" type=\"xs:string\"/>\n<xs:element\
+        \ minOccurs=\"0\" name=\"failUrl\" type=\"xs:string\"/>\n<xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"params\" type=\"tns:serviceParam\"/>\n\
+        <xs:element minOccurs=\"0\" name=\"clientId\" type=\"xs:string\"/>\n<xs:element\
+        \ minOccurs=\"0\" name=\"orderBundle\" type=\"tns:orderBundle\"/>\n</xs:sequence>\n\
+        <xs:attribute name=\"merchantOrderNumber\" type=\"xs:string\"/>\n<xs:attribute\
+        \ name=\"description\" type=\"xs:string\"/>\n<xs:attribute name=\"amount\"\
+        \ type=\"xs:long\"/>\n<xs:attribute name=\"currency\" type=\"xs:string\"/>\n\
+        <xs:attribute name=\"language\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        pageView\" type=\"tns:pageViewEnum\"/>\n<xs:attribute name=\"sessionTimeoutSecs\"\
+        \ type=\"xs:int\"/>\n<xs:attribute name=\"bindingId\" type=\"xs:string\"/>\n\
+        <xs:attribute name=\"expirationDate\" type=\"xs:dateTime\"/>\n</xs:complexType>\n\
+        <xs:complexType name=\"registerOrderResponse\">\n<xs:complexContent>\n<xs:extension\
+        \ base=\"tns:abstractResponse\">\n<xs:sequence>\n<xs:element minOccurs=\"\
+        0\" name=\"formUrl\" type=\"xs:string\"/>\n</xs:sequence>\n<xs:attribute name=\"\
+        orderId\" type=\"xs:string\"/>\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n\
+        <xs:complexType name=\"depositOrderParams\">\n<xs:complexContent>\n<xs:extension\
+        \ base=\"tns:abstractServiceRequest\">\n<xs:sequence>\n<xs:element minOccurs=\"\
+        0\" name=\"depositItems\" type=\"tns:cartItems\"/>\n<xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"params\" type=\"tns:serviceParam\"/>\n\
+        </xs:sequence>\n<xs:attribute name=\"orderId\" type=\"xs:string\"/>\n<xs:attribute\
+        \ name=\"depositAmount\" type=\"xs:long\"/>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:complexType name=\"getOrderStatusExtendedRequest\"\
+        >\n<xs:complexContent>\n<xs:extension base=\"tns:orderStatusRequest\">\n<xs:sequence>\n\
+        <xs:element minOccurs=\"0\" name=\"merchantOrderNumber\" type=\"xs:string\"\
+        />\n</xs:sequence>\n</xs:extension>\n</xs:complexContent>\n</xs:complexType>\n\
+        <xs:complexType name=\"refundOrderParams\">\n<xs:complexContent>\n<xs:extension\
+        \ base=\"tns:abstractServiceRequest\">\n<xs:sequence>\n<xs:element minOccurs=\"\
+        0\" name=\"refundItems\" type=\"tns:cartItems\"/>\n<xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"params\" type=\"tns:serviceParam\"/>\n\
+        </xs:sequence>\n<xs:attribute name=\"orderId\" type=\"xs:string\"/>\n<xs:attribute\
+        \ name=\"refundAmount\" type=\"xs:long\"/>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:complexType name=\"getBindingsRequest\">\n<xs:sequence/>\n\
+        <xs:attribute name=\"clientId\" type=\"xs:string\"/>\n<xs:attribute name=\"\
+        bindingId\" type=\"xs:string\"/>\n<xs:attribute name=\"showExpired\" type=\"\
+        xs:boolean\" use=\"required\"/>\n<xs:attribute name=\"language\" type=\"xs:string\"\
+        />\n</xs:complexType>\n<xs:complexType name=\"getBindingsResponse\">\n<xs:complexContent>\n\
+        <xs:extension base=\"tns:abstractServiceResponse\">\n<xs:sequence>\n<xs:element\
+        \ name=\"bindings\">\n<xs:complexType>\n<xs:sequence>\n<xs:element maxOccurs=\"\
+        unbounded\" minOccurs=\"0\" name=\"binding\" type=\"tns:binding\"/>\n</xs:sequence>\n\
+        </xs:complexType>\n</xs:element>\n</xs:sequence>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:complexType name=\"binding\">\n<xs:sequence/>\n<xs:attribute\
+        \ name=\"bindingId\" type=\"xs:string\"/>\n<xs:attribute name=\"maskedPan\"\
+        \ type=\"xs:string\"/>\n<xs:attribute name=\"expiryDate\" type=\"xs:string\"\
+        />\n</xs:complexType>\n<xs:complexType name=\"finishThreeDSRequest\">\n<xs:complexContent>\n\
+        <xs:extension base=\"tns:abstractServiceRequest\">\n<xs:sequence/>\n<xs:attribute\
+        \ name=\"md\" type=\"xs:string\" use=\"required\"/>\n<xs:attribute name=\"\
+        paRes\" type=\"xs:string\" use=\"required\"/>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:complexType name=\"finishThreeDSResponse\">\n<xs:complexContent>\n\
+        <xs:extension base=\"tns:abstractResponse\">\n<xs:sequence/>\n<xs:attribute\
+        \ name=\"returnUrl\" type=\"xs:string\"/>\n</xs:extension>\n</xs:complexContent>\n\
+        </xs:complexType>\n<xs:simpleType name=\"transactionState\">\n<xs:restriction\
+        \ base=\"xs:string\">\n<xs:enumeration value=\"CREATED\"/>\n<xs:enumeration\
+        \ value=\"APPROVED\"/>\n<xs:enumeration value=\"DECLINED\"/>\n<xs:enumeration\
+        \ value=\"REVERSED\"/>\n<xs:enumeration value=\"DEPOSITED\"/>\n<xs:enumeration\
+        \ value=\"REFUNDED\"/>\n</xs:restriction>\n</xs:simpleType>\n<xs:simpleType\
+        \ name=\"operationType\">\n<xs:restriction base=\"xs:string\">\n<xs:enumeration\
+        \ value=\"PAYMENT\"/>\n<xs:enumeration value=\"AWARD\"/>\n<xs:enumeration\
+        \ value=\"REVERSE\"/>\n<xs:enumeration value=\"REFUND_PAYMENT\"/>\n<xs:enumeration\
+        \ value=\"REFUND_AWARD\"/>\n</xs:restriction>\n</xs:simpleType>\n<xs:simpleType\
+        \ name=\"operation\">\n<xs:restriction base=\"xs:string\">\n<xs:enumeration\
+        \ value=\"PAYMENT\"/>\n<xs:enumeration value=\"AWARD\"/>\n<xs:enumeration\
+        \ value=\"REVERSE\"/>\n<xs:enumeration value=\"REFUND_PAYMENT\"/>\n<xs:enumeration\
+        \ value=\"REFUND_AWARD\"/>\n</xs:restriction>\n</xs:simpleType>\n<xs:simpleType\
+        \ name=\"pageViewEnum\">\n<xs:restriction base=\"xs:string\">\n<xs:enumeration\
+        \ value=\"MOBILE\"/>\n<xs:enumeration value=\"DESKTOP\"/>\n</xs:restriction>\n\
+        </xs:simpleType>\n<xs:complexType final=\"#all\" name=\"orderInfoArray\">\n\
+        <xs:sequence>\n<xs:element maxOccurs=\"unbounded\" minOccurs=\"0\" name=\"\
+        item\" nillable=\"true\" type=\"tns:orderInfo\"/>\n</xs:sequence>\n</xs:complexType>\n\
+        </xs:schema>\n  </wsdl:types>\n  <wsdl:message name=\"getLastOrders\">\n \
+        \   <wsdl:part name=\"from\" type=\"xsd:dateTime\">\n    </wsdl:part>\n  \
+        \  <wsdl:part name=\"to\" type=\"xsd:dateTime\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"paymentOrderOtherWayResponse\">\n    <wsdl:part name=\"\
+        return\" type=\"ns1:paymentOrderOtherWayResult\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"depositOrder\">\n    <wsdl:part name=\"order\" type=\"\
+        ns1:depositOrderParams\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message\
+        \ name=\"getOrderStatusResponse\">\n    <wsdl:part name=\"return\" type=\"\
+        ns1:orderStatusResponse\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message\
+        \ name=\"reverseOrder\">\n    <wsdl:part name=\"order\" type=\"ns1:reversalOrderParams\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"verifyEnrollment\"\
+        >\n    <wsdl:part name=\"pan\" type=\"xsd:string\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"getLastOrdersResponse\">\n    <wsdl:part name=\"return\"\
+        \ type=\"ns1:orderInfoArray\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message\
+        \ name=\"unBindCardResponse\">\n    <wsdl:part name=\"return\" type=\"ns1:orderResult\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"refundOrder\"\
+        >\n    <wsdl:part name=\"order\" type=\"ns1:refundOrderParams\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"getOrderStatusExtendedResponse\"\
+        >\n    <wsdl:part name=\"return\" type=\"ns1:getOrderStatusExtendedResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"registerOrderPreAuthResponse\"\
+        >\n    <wsdl:part name=\"return\" type=\"ns1:registerOrderResponse\">\n  \
+        \  </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"getLastOrdersForMerchantsResponse\"\
+        >\n    <wsdl:part name=\"return\" type=\"ns1:getLastOrdersForMerchantsResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"getBindings\"\
+        >\n    <wsdl:part name=\"request\" type=\"ns1:getBindingsRequest\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"reverseOrderResponse\">\n    <wsdl:part\
+        \ name=\"return\" type=\"ns1:orderResult\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"registerOrderResponse\">\n    <wsdl:part name=\"return\"\
+        \ type=\"ns1:registerOrderResponse\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"unBindCard\">\n    <wsdl:part name=\"bindingId\" type=\"\
+        xsd:string\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"\
+        paymentOrderBindingResponse\">\n    <wsdl:part name=\"return\" type=\"ns1:paymentOrderResult\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"refundOrderResponse\"\
+        >\n    <wsdl:part name=\"return\" type=\"ns1:orderResult\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"getOrderStatusExtended\">\n   \
+        \ <wsdl:part name=\"order\" type=\"ns1:getOrderStatusExtendedRequest\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"getOrderStatus\"\
+        >\n    <wsdl:part name=\"order\" type=\"ns1:orderStatusRequest\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"bindCard\">\n    <wsdl:part name=\"\
+        bindingId\" type=\"xsd:string\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message\
+        \ name=\"paymentOrder\">\n    <wsdl:part name=\"order\" type=\"ns1:paymentOrderParams\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"finishThreeDsResponse\"\
+        >\n    <wsdl:part name=\"return\" type=\"ns1:finishThreeDSResponse\">\n  \
+        \  </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"getLastOrdersForMerchants\"\
+        >\n    <wsdl:part name=\"request\" type=\"ns1:getLastOrdersForMerchantsRequest\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"finishThreeDs\"\
+        >\n    <wsdl:part name=\"request\" type=\"ns1:finishThreeDSRequest\">\n  \
+        \  </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"updateWhiteCardListResponse\"\
+        >\n    <wsdl:part name=\"return\" type=\"ns1:orderResult\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"registerOrderPreAuth\">\n    <wsdl:part\
+        \ name=\"order\" type=\"ns1:orderParams\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"depositOrderResponse\">\n    <wsdl:part name=\"return\"\
+        \ type=\"ns1:orderResult\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message\
+        \ name=\"registerOrder\">\n    <wsdl:part name=\"order\" type=\"ns1:orderParams\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"checkAuthenticateResponse\"\
+        >\n    <wsdl:part name=\"return\" type=\"ns1:orderResult\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"bindCardResponse\">\n    <wsdl:part\
+        \ name=\"return\" type=\"ns1:orderResult\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"paymentOrderResponse\">\n    <wsdl:part name=\"return\"\
+        \ type=\"ns1:paymentOrderResult\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"extendBinding\">\n    <wsdl:part name=\"request\"\
+        \ type=\"ns1:extendBindingRequest\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"paymentOrderBinding\">\n    <wsdl:part name=\"order\"\
+        \ type=\"ns1:paymentOrderBindingParams\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"extendBindingResponse\">\n    <wsdl:part name=\"return\"\
+        \ type=\"ns1:extendBindingResponse\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"addParams\">\n    <wsdl:part name=\"request\" type=\"\
+        ns1:addParamsRequest\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message\
+        \ name=\"paymentOrderOtherWay\">\n    <wsdl:part name=\"order\" type=\"ns1:paymentOrderOtherWayParams\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"updateWhiteCardList\"\
+        >\n    <wsdl:part name=\"mdorder\" type=\"xsd:string\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"checkAuthenticate\">\n    <wsdl:part\
+        \ name=\"login\" type=\"ns1:loginParams\">\n    </wsdl:part>\n  </wsdl:message>\n\
+        \  <wsdl:message name=\"addParamsResponse\">\n    <wsdl:part name=\"return\"\
+        \ type=\"ns1:orderResult\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message\
+        \ name=\"getBindingsResponse\">\n    <wsdl:part name=\"return\" type=\"ns1:getBindingsResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"verifyEnrollmentResponse\"\
+        >\n    <wsdl:part name=\"return\" type=\"ns1:verifyEnrollmentResponse\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:portType name=\"MerchantService\"\
+        >\n    <wsdl:operation name=\"getLastOrders\">\n      <wsdl:input message=\"\
+        ns1:getLastOrders\" name=\"getLastOrders\">\n    </wsdl:input>\n      <wsdl:output\
+        \ message=\"ns1:getLastOrdersResponse\" name=\"getLastOrdersResponse\">\n\
+        \    </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"verifyEnrollment\"\
+        >\n      <wsdl:input message=\"ns1:verifyEnrollment\" name=\"verifyEnrollment\"\
+        >\n    </wsdl:input>\n      <wsdl:output message=\"ns1:verifyEnrollmentResponse\"\
+        \ name=\"verifyEnrollmentResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"paymentOrderBinding\">\n      <wsdl:input message=\"\
+        ns1:paymentOrderBinding\" name=\"paymentOrderBinding\">\n    </wsdl:input>\n\
+        \      <wsdl:output message=\"ns1:paymentOrderBindingResponse\" name=\"paymentOrderBindingResponse\"\
+        >\n    </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"\
+        bindCard\">\n      <wsdl:input message=\"ns1:bindCard\" name=\"bindCard\"\
+        >\n    </wsdl:input>\n      <wsdl:output message=\"ns1:bindCardResponse\"\
+        \ name=\"bindCardResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"reverseOrder\">\n      <wsdl:input message=\"\
+        ns1:reverseOrder\" name=\"reverseOrder\">\n    </wsdl:input>\n      <wsdl:output\
+        \ message=\"ns1:reverseOrderResponse\" name=\"reverseOrderResponse\">\n  \
+        \  </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"updateWhiteCardList\"\
+        >\n      <wsdl:input message=\"ns1:updateWhiteCardList\" name=\"updateWhiteCardList\"\
+        >\n    </wsdl:input>\n      <wsdl:output message=\"ns1:updateWhiteCardListResponse\"\
+        \ name=\"updateWhiteCardListResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"paymentOrderOtherWay\">\n      <wsdl:input message=\"\
+        ns1:paymentOrderOtherWay\" name=\"paymentOrderOtherWay\">\n    </wsdl:input>\n\
+        \      <wsdl:output message=\"ns1:paymentOrderOtherWayResponse\" name=\"paymentOrderOtherWayResponse\"\
+        >\n    </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"\
+        checkAuthenticate\">\n      <wsdl:input message=\"ns1:checkAuthenticate\"\
+        \ name=\"checkAuthenticate\">\n    </wsdl:input>\n      <wsdl:output message=\"\
+        ns1:checkAuthenticateResponse\" name=\"checkAuthenticateResponse\">\n    </wsdl:output>\n\
+        \    </wsdl:operation>\n    <wsdl:operation name=\"extendBinding\">\n    \
+        \  <wsdl:input message=\"ns1:extendBinding\" name=\"extendBinding\">\n   \
+        \ </wsdl:input>\n      <wsdl:output message=\"ns1:extendBindingResponse\"\
+        \ name=\"extendBindingResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"paymentOrder\">\n      <wsdl:input message=\"\
+        ns1:paymentOrder\" name=\"paymentOrder\">\n    </wsdl:input>\n      <wsdl:output\
+        \ message=\"ns1:paymentOrderResponse\" name=\"paymentOrderResponse\">\n  \
+        \  </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"addParams\"\
+        >\n      <wsdl:input message=\"ns1:addParams\" name=\"addParams\">\n    </wsdl:input>\n\
+        \      <wsdl:output message=\"ns1:addParamsResponse\" name=\"addParamsResponse\"\
+        >\n    </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"\
+        unBindCard\">\n      <wsdl:input message=\"ns1:unBindCard\" name=\"unBindCard\"\
+        >\n    </wsdl:input>\n      <wsdl:output message=\"ns1:unBindCardResponse\"\
+        \ name=\"unBindCardResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"getOrderStatus\">\n      <wsdl:input message=\"\
+        ns1:getOrderStatus\" name=\"getOrderStatus\">\n    </wsdl:input>\n      <wsdl:output\
+        \ message=\"ns1:getOrderStatusResponse\" name=\"getOrderStatusResponse\">\n\
+        \    </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"getLastOrdersForMerchants\"\
+        >\n      <wsdl:input message=\"ns1:getLastOrdersForMerchants\" name=\"getLastOrdersForMerchants\"\
+        >\n    </wsdl:input>\n      <wsdl:output message=\"ns1:getLastOrdersForMerchantsResponse\"\
+        \ name=\"getLastOrdersForMerchantsResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"registerOrderPreAuth\">\n      <wsdl:input message=\"\
+        ns1:registerOrderPreAuth\" name=\"registerOrderPreAuth\">\n    </wsdl:input>\n\
+        \      <wsdl:output message=\"ns1:registerOrderPreAuthResponse\" name=\"registerOrderPreAuthResponse\"\
+        >\n    </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"\
+        depositOrder\">\n      <wsdl:input message=\"ns1:depositOrder\" name=\"depositOrder\"\
+        >\n    </wsdl:input>\n      <wsdl:output message=\"ns1:depositOrderResponse\"\
+        \ name=\"depositOrderResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"getOrderStatusExtended\">\n      <wsdl:input message=\"\
+        ns1:getOrderStatusExtended\" name=\"getOrderStatusExtended\">\n    </wsdl:input>\n\
+        \      <wsdl:output message=\"ns1:getOrderStatusExtendedResponse\" name=\"\
+        getOrderStatusExtendedResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"refundOrder\">\n      <wsdl:input message=\"ns1:refundOrder\"\
+        \ name=\"refundOrder\">\n    </wsdl:input>\n      <wsdl:output message=\"\
+        ns1:refundOrderResponse\" name=\"refundOrderResponse\">\n    </wsdl:output>\n\
+        \    </wsdl:operation>\n    <wsdl:operation name=\"getBindings\">\n      <wsdl:input\
+        \ message=\"ns1:getBindings\" name=\"getBindings\">\n    </wsdl:input>\n \
+        \     <wsdl:output message=\"ns1:getBindingsResponse\" name=\"getBindingsResponse\"\
+        >\n    </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"\
+        registerOrder\">\n      <wsdl:input message=\"ns1:registerOrder\" name=\"\
+        registerOrder\">\n    </wsdl:input>\n      <wsdl:output message=\"ns1:registerOrderResponse\"\
+        \ name=\"registerOrderResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"finishThreeDs\">\n      <wsdl:input message=\"\
+        ns1:finishThreeDs\" name=\"finishThreeDs\">\n    </wsdl:input>\n      <wsdl:output\
+        \ message=\"ns1:finishThreeDsResponse\" name=\"finishThreeDsResponse\">\n\
+        \    </wsdl:output>\n    </wsdl:operation>\n  </wsdl:portType>\n</wsdl:definitions>"}
+    headers:
+      Access-Control-Allow-Origin: ['https://playground.paymentgate.ru']
+      Connection: [close]
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 16:15:56 GMT']
+      Server: [nginx/1.6.2]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8Z2V0T3JkZXJTdGF0dXNFeHRlbmRlZCB4bWxucz0iaHR0cDovL2VuZ2luZS5w
+      YXltZW50Z2F0ZS5ydS93ZWJzZXJ2aWNlcy9tZXJjaGFudCI+CiAgICA8b3JkZXIgeG1sbnM9Imh0
+      dHA6Ly9lbmdpbmUucGF5bWVudGdhdGUucnUvd2Vic2VydmljZXMvbWVyY2hhbnQiPjxtZXJjaGFu
+      dE9yZGVyTnVtYmVyIHhtbG5zPSJodHRwOi8vZW5naW5lLnBheW1lbnRnYXRlLnJ1L3dlYnNlcnZp
+      Y2VzL21lcmNoYW50Ij4xPC9tZXJjaGFudE9yZGVyTnVtYmVyPjwvb3JkZXI+PC9nZXRPcmRlclN0
+      YXR1c0V4dGVuZGVkPgo8L3NvYXA6Qm9keT4KPC9zb2FwOkVudmVsb3BlPg==
+    headers:
+      Connection: [close]
+      Content-Length: ['556']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [test.paymentgate.ru]
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://test.paymentgate.ru:443/testpayment/webservices/merchant-ws
+  response:
+    body: {string: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><soap:Fault><faultcode
+        xmlns:ns1="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">ns1:InvalidSecurity</faultcode><faultstring>An
+        error was discovered processing the &lt;wsse:Security> header</faultstring></soap:Fault></soap:Body></soap:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['361']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 16:15:57 GMT']
+      Server: [nginx/1.6.2]
+    status: {code: 500, message: Server Error}
+version: 1

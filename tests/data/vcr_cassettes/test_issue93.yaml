@@ -1,0 +1,1804 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [pysimplesoap.googlecode.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://pysimplesoap.googlecode.com:443/issues/attachment?aid=930004001&name=wsdl.txt&token=ABZ6GAehiT1eEIjb-u0yI_xTbfB1Kz6cww%3A1426859277085
+  response:
+    body: {string: "<wsdl:definitions xmlns:s=\"http://www.w3.org/2001/XMLSchema\"\
+        \ xmlns:soap12=\"http://schemas.xmlsoap.org/wsdl/soap12/\" xmlns:mime=\"http://schemas.xmlsoap.org/wsdl/mime/\"\
+        \ xmlns:tns=\"http://smbsaas/websitepanel/enterpriseserver\" xmlns:soap=\"\
+        http://schemas.xmlsoap.org/wsdl/soap/\" xmlns:tm=\"http://microsoft.com/wsdl/mime/textMatching/\"\
+        \ xmlns:http=\"http://schemas.xmlsoap.org/wsdl/http/\" xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\" targetNamespace=\"http://smbsaas/websitepanel/enterpriseserver\"\
+        >\r\n\t<wsdl:types>\r\n\t\t<s:schema elementFormDefault=\"qualified\" targetNamespace=\"\
+        http://smbsaas/websitepanel/enterpriseserver\">\r\n\t\t\t<s:element name=\"\
+        GetHostingPlans\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\
+        \t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t\
+        </s:element>\r\n\t\t\t<s:element name=\"GetHostingPlansResponse\">\r\n\t\t\
+        \t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"GetHostingPlansResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetHostingAddons\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t\
+        </s:element>\r\n\t\t\t<s:element name=\"GetHostingAddonsResponse\">\r\n\t\t\
+        \t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"GetHostingAddonsResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetHostingPlan\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\
+        \t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"planId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t\
+        </s:element>\r\n\t\t\t<s:element name=\"GetHostingPlanResponse\">\r\n\t\t\t\
+        \t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"GetHostingPlanResult\" type=\"tns:HostingPlanInfo\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:complexType name=\"HostingPlanInfo\">\r\n\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"PlanId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        PackageId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"PlanName\" type=\"s:string\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"PlanDescription\" type=\"s:string\"/>\r\n\t\t\t\
+        \t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Available\" type=\"\
+        s:boolean\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        ServerId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"IsAddon\" type=\"s:boolean\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"SetupPrice\" type=\"s:decimal\"/>\r\n\t\t\t\t\t\
+        <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"RecurringPrice\" type=\"\
+        s:decimal\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        RecurrenceUnit\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\"\
+        \ maxOccurs=\"1\" name=\"RecurrenceLength\" type=\"s:int\"/>\r\n\t\t\t\t\t\
+        <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Groups\" type=\"tns:ArrayOfHostingPlanGroupInfo\"\
+        />\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Quotas\"\
+        \ type=\"tns:ArrayOfHostingPlanQuotaInfo\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"UserId\" type=\"s:int\"/>\r\n\t\t\t\t</s:sequence>\r\
+        \n\t\t\t</s:complexType>\r\n\t\t\t<s:complexType name=\"ArrayOfHostingPlanGroupInfo\"\
+        >\r\n\t\t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        unbounded\" name=\"HostingPlanGroupInfo\" nillable=\"true\" type=\"tns:HostingPlanGroupInfo\"\
+        />\r\n\t\t\t\t</s:sequence>\r\n\t\t\t</s:complexType>\r\n\t\t\t<s:complexType\
+        \ name=\"HostingPlanGroupInfo\">\r\n\t\t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"GroupId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Enabled\" type=\"\
+        s:boolean\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        CalculateDiskSpace\" type=\"s:boolean\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"CalculateBandwidth\" type=\"s:boolean\"/>\r\n\t\
+        \t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"GroupName\" type=\"\
+        s:string\"/>\r\n\t\t\t\t</s:sequence>\r\n\t\t\t</s:complexType>\r\n\t\t\t\
+        <s:complexType name=\"ArrayOfHostingPlanQuotaInfo\">\r\n\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"HostingPlanQuotaInfo\"\
+        \ nillable=\"true\" type=\"tns:HostingPlanQuotaInfo\"/>\r\n\t\t\t\t</s:sequence>\r\
+        \n\t\t\t</s:complexType>\r\n\t\t\t<s:complexType name=\"HostingPlanQuotaInfo\"\
+        >\r\n\t\t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"QuotaId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"QuotaValue\" type=\"s:int\"/>\r\n\t\t\t\t</s:sequence>\r\
+        \n\t\t\t</s:complexType>\r\n\t\t\t<s:element name=\"GetHostingPlanQuotas\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"planId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        serverId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetHostingPlanQuotasResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetHostingPlanQuotasResult\">\r\n\
+        \t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\
+        \t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\
+        \t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t\
+        </s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\
+        \t</s:element>\r\n\t\t\t<s:element name=\"GetHostingPlanContext\">\r\n\t\t\
+        \t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"planId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetHostingPlanContextResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\
+        <s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"\
+        GetHostingPlanContextResult\" type=\"tns:HostingPlanContext\"/>\r\n\t\t\t\t\
+        \t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t\
+        <s:complexType name=\"HostingPlanContext\">\r\n\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"HostingPlan\" type=\"\
+        tns:HostingPlanInfo\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"GroupsArray\" type=\"tns:ArrayOfHostingPlanGroupInfo\"/>\r\n\t\t\
+        \t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"QuotasArray\" type=\"\
+        tns:ArrayOfQuotaValueInfo\"/>\r\n\t\t\t\t</s:sequence>\r\n\t\t\t</s:complexType>\r\
+        \n\t\t\t<s:complexType name=\"ArrayOfQuotaValueInfo\">\r\n\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"QuotaValueInfo\"\
+        \ nillable=\"true\" type=\"tns:QuotaValueInfo\"/>\r\n\t\t\t\t</s:sequence>\r\
+        \n\t\t\t</s:complexType>\r\n\t\t\t<s:complexType name=\"QuotaValueInfo\">\r\
+        \n\t\t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"QuotaAllocatedValue\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"QuotaUsedValue\" type=\"s:int\"/>\r\
+        \n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"QuotaExhausted\"\
+        \ type=\"s:boolean\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"QuotaName\" type=\"s:string\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"QuotaDescription\" type=\"s:string\"/>\r\n\t\t\t\
+        \t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"QuotaId\" type=\"s:int\"\
+        />\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"QuotaTypeId\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\"\
+        \ name=\"GroupId\" type=\"s:int\"/>\r\n\t\t\t\t</s:sequence>\r\n\t\t\t</s:complexType>\r\
+        \n\t\t\t<s:element name=\"GetUserAvailableHostingPlans\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\
+        </s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetUserAvailableHostingPlansResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetUserAvailableHostingPlansResult\"\
+        \ type=\"tns:ArrayOfHostingPlanInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\
+        \t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:complexType name=\"\
+        ArrayOfHostingPlanInfo\">\r\n\t\t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"HostingPlanInfo\" nillable=\"\
+        true\" type=\"tns:HostingPlanInfo\"/>\r\n\t\t\t\t</s:sequence>\r\n\t\t\t</s:complexType>\r\
+        \n\t\t\t<s:element name=\"GetUserAvailableHostingAddons\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\
+        </s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetUserAvailableHostingAddonsResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetUserAvailableHostingAddonsResult\"\
+        \ type=\"tns:ArrayOfHostingPlanInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\
+        \t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"AddHostingPlan\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"plan\" type=\"tns:HostingPlanInfo\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"AddHostingPlanResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"AddHostingPlanResult\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        UpdateHostingPlan\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"plan\" type=\"\
+        tns:HostingPlanInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"UpdateHostingPlanResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"UpdateHostingPlanResult\" type=\"\
+        tns:PackageResult\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:complexType name=\"PackageResult\">\r\n\t\
+        \t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\"\
+        \ name=\"Result\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"0\"\
+        \ maxOccurs=\"1\" name=\"ExceedingQuotas\">\r\n\t\t\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\
+        \t</s:complexType>\r\n\t\t\t\t\t</s:element>\r\n\t\t\t\t</s:sequence>\r\n\t\
+        \t\t</s:complexType>\r\n\t\t\t<s:element name=\"DeleteHostingPlan\">\r\n\t\
+        \t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"planId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\
+        \t\t<s:element name=\"DeleteHostingPlanResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"DeleteHostingPlanResult\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetPackages\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t\
+        </s:element>\r\n\t\t\t<s:element name=\"GetPackagesResponse\">\r\n\t\t\t\t\
+        <s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"GetPackagesResult\" type=\"tns:ArrayOfPackageInfo\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:complexType name=\"ArrayOfPackageInfo\">\r\n\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"PackageInfo\"\
+        \ nillable=\"true\" type=\"tns:PackageInfo\"/>\r\n\t\t\t\t</s:sequence>\r\n\
+        \t\t\t</s:complexType>\r\n\t\t\t<s:complexType name=\"PackageInfo\">\r\n\t\
+        \t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\"\
+        \ name=\"PackageId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"UserId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"ParentPackageId\" type=\"s:int\"\
+        />\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"StatusId\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\"\
+        \ name=\"PlanId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\"\
+        \ maxOccurs=\"1\" name=\"PurchaseDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t\
+        <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PackageName\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PackageComments\"\
+        \ type=\"s:string\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"ServerId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"DiskSpace\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"BandWidth\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"DiskSpaceQuota\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\"\
+        \ name=\"BandWidthQuota\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"Domains\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"DomainsQuota\" type=\"s:int\"/>\r\
+        \n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"OverrideQuotas\"\
+        \ type=\"s:boolean\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"Groups\" type=\"tns:ArrayOfHostingPlanGroupInfo\"/>\r\n\t\t\t\t\
+        \t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Quotas\" type=\"tns:ArrayOfHostingPlanQuotaInfo\"\
+        />\r\n\t\t\t\t</s:sequence>\r\n\t\t\t</s:complexType>\r\n\t\t\t<s:element\
+        \ name=\"GetNestedPackagesSummary\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\
+        \t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetNestedPackagesSummaryResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetNestedPackagesSummaryResult\"\
+        >\r\n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\
+        \n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\
+        \t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetRawPackages\">\r\n\t\t\t\
+        \t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetRawPackagesResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"GetRawPackagesResult\"\
+        >\r\n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\
+        \n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\
+        \t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"SearchServiceItemsPaged\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"itemTypeId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"\
+        filterValue\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\"\
+        \ maxOccurs=\"1\" name=\"sortColumn\" type=\"s:string\"/>\r\n\t\t\t\t\t\t\
+        <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"startRow\" type=\"s:int\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"maximumRows\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"SearchServiceItemsPagedResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"SearchServiceItemsPagedResult\">\r\
+        \n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\
+        \t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\
+        \t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\t\t\
+        \t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\
+        \t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackagesPaged\">\r\n\t\t\t\t\
+        <s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"filterColumn\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"filterValue\"\
+        \ type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"sortColumn\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"startRow\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"maximumRows\" type=\"s:int\"/>\r\n\
+        \t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"GetPackagesPagedResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"GetPackagesPagedResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\n\t\
+        \t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetNestedPackagesPaged\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"filterColumn\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"filterValue\" type=\"s:string\"/>\r\n\t\t\t\t\t\
+        \t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"statusId\" type=\"s:int\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"planId\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"serverId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"sortColumn\" type=\"s:string\"/>\r\n\t\t\t\t\t\t\
+        <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"startRow\" type=\"s:int\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"maximumRows\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetNestedPackagesPagedResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetNestedPackagesPagedResult\">\r\
+        \n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\
+        \t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\
+        \t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\t\t\
+        \t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\
+        \t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackagePackages\">\r\n\t\t\t\
+        \t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetPackagePackagesResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackagePackagesResult\"\
+        \ type=\"tns:ArrayOfPackageInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\
+        </s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetMyPackages\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\
+        \t\t<s:element name=\"GetMyPackagesResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"GetMyPackagesResult\" type=\"tns:ArrayOfPackageInfo\"/>\r\n\t\t\
+        \t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\
+        \t\t<s:element name=\"GetRawMyPackages\">\r\n\t\t\t\t<s:complexType>\r\n\t\
+        \t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\
+        </s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetRawMyPackagesResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetRawMyPackagesResult\">\r\n\t\t\
+        \t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\
+        \t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\
+        \t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\
+        \n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"GetPackage\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\
+        \t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\
+        \t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackageResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackageResult\" type=\"tns:PackageInfo\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"GetPackageContext\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\
+        \t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackageContextResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackageContextResult\" type=\"\
+        tns:PackageContext\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:complexType name=\"PackageContext\">\r\n\t\
+        \t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\"\
+        \ name=\"Package\" type=\"tns:PackageInfo\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"GroupsArray\" type=\"tns:ArrayOfHostingPlanGroupInfo\"\
+        />\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"QuotasArray\"\
+        \ type=\"tns:ArrayOfQuotaValueInfo\"/>\r\n\t\t\t\t</s:sequence>\r\n\t\t\t\
+        </s:complexType>\r\n\t\t\t<s:element name=\"GetPackageQuotas\">\r\n\t\t\t\t\
+        <s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetPackageQuotasResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackageQuotasResult\"\
+        >\r\n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\
+        \n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\
+        \t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackageQuotasForEdit\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\
+        \t\t\t<s:element name=\"GetPackageQuotasForEditResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"GetPackageQuotasForEditResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        AddPackage\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        planId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"packageName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"packageComments\" type=\"s:string\"/>\r\n\t\t\t\
+        \t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"statusId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        purchaseDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\
+        </s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"AddPackageResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"AddPackageResult\" type=\"tns:PackageResult\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"UpdatePackage\">\r\n\t\t\t\t<s:complexType>\r\n\t\
+        \t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"package\" type=\"tns:PackageInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        UpdatePackageResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"UpdatePackageResult\"\
+        \ type=\"tns:PackageResult\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"UpdatePackageLiteral\">\r\n\
+        \t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"statusId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        planId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"purchaseDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"packageName\" type=\"s:string\"/>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"packageComments\"\
+        \ type=\"s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"UpdatePackageLiteralResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"UpdatePackageLiteralResult\" type=\"\
+        tns:PackageResult\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"UpdatePackageName\">\r\n\t\
+        \t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"packageName\"\
+        \ type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"packageComments\" type=\"s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        UpdatePackageNameResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"UpdatePackageNameResult\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"DeletePackage\">\r\n\t\t\t\
+        \t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        DeletePackageResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"DeletePackageResult\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"ChangePackageStatus\">\r\n\
+        \t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"status\" type=\"\
+        tns:PackageStatus\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:simpleType name=\"PackageStatus\">\r\n\t\t\
+        \t\t<s:restriction base=\"s:string\">\r\n\t\t\t\t\t<s:enumeration value=\"\
+        Active\"/>\r\n\t\t\t\t\t<s:enumeration value=\"Suspended\"/>\r\n\t\t\t\t\t\
+        <s:enumeration value=\"Cancelled\"/>\r\n\t\t\t\t\t<s:enumeration value=\"\
+        New\"/>\r\n\t\t\t\t</s:restriction>\r\n\t\t\t</s:simpleType>\r\n\t\t\t<s:element\
+        \ name=\"ChangePackageStatusResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\
+        \t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"ChangePackageStatusResult\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        EvaluateUserPackageTempate\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"template\" type=\"s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\
+        \t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"EvaluateUserPackageTempateResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"EvaluateUserPackageTempateResult\"\
+        \ type=\"s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackageSettings\">\r\n\t\
+        \t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"settingsName\"\
+        \ type=\"s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackageSettingsResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackageSettingsResult\" type=\"\
+        tns:PackageSettings\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:complexType name=\"PackageSettings\">\r\n\
+        \t\t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"PackageId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"SettingsName\" type=\"s:string\"/>\r\n\t\t\t\t\t\
+        <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"SettingsArray\" type=\"\
+        tns:ArrayOfArrayOfString\"/>\r\n\t\t\t\t</s:sequence>\r\n\t\t\t</s:complexType>\r\
+        \n\t\t\t<s:complexType name=\"ArrayOfArrayOfString\">\r\n\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"unbounded\" name=\"ArrayOfString\"\
+        \ nillable=\"true\" type=\"tns:ArrayOfString\"/>\r\n\t\t\t\t</s:sequence>\r\
+        \n\t\t\t</s:complexType>\r\n\t\t\t<s:complexType name=\"ArrayOfString\">\r\
+        \n\t\t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        unbounded\" name=\"string\" nillable=\"true\" type=\"s:string\"/>\r\n\t\t\t\
+        \t</s:sequence>\r\n\t\t\t</s:complexType>\r\n\t\t\t<s:element name=\"UpdatePackageSettings\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"settings\" type=\"tns:PackageSettings\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"UpdatePackageSettingsResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"UpdatePackageSettingsResult\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetPackageAddons\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackageAddonsResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackageAddonsResult\">\r\n\t\t\
+        \t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\
+        \t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\
+        \t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\
+        \n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"GetPackageAddon\">\r\n\t\t\t\t<s:complexType>\r\n\
+        \t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"packageAddonId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\
+        \t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetPackageAddonResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackageAddonResult\"\
+        \ type=\"tns:PackageAddonInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:complexType name=\"PackageAddonInfo\">\r\n\
+        \t\t\t\t<s:sequence>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"PackageAddonId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"PackageId\" type=\"s:int\"/>\r\n\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"PlanId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"Quantity\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        PurchaseDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"Comments\" type=\"s:string\"/>\r\n\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"StatusId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"PlanName\" type=\"\
+        s:string\"/>\r\n\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"\
+        PlanDescription\" type=\"s:string\"/>\r\n\t\t\t\t</s:sequence>\r\n\t\t\t</s:complexType>\r\
+        \n\t\t\t<s:element name=\"AddPackageAddonById\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"addonPlanId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t\
+        <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"quantity\" type=\"s:int\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"AddPackageAddonByIdResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"AddPackageAddonByIdResult\" type=\"tns:PackageResult\"/>\r\n\t\t\
+        \t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\
+        \t\t<s:element name=\"AddPackageAddon\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\
+        \t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"addon\" type=\"tns:PackageAddonInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        AddPackageAddonResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"AddPackageAddonResult\"\
+        \ type=\"tns:PackageResult\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"AddPackageAddonLiteral\">\r\
+        \n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"planId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        quantity\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"statusId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"purchaseDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\
+        \t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"comments\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"AddPackageAddonLiteralResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"AddPackageAddonLiteralResult\" type=\"tns:PackageResult\"/>\r\n\
+        \t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"UpdatePackageAddon\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"addon\" type=\"tns:PackageAddonInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        UpdatePackageAddonResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"UpdatePackageAddonResult\"\
+        \ type=\"tns:PackageResult\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"UpdatePackageAddonLiteral\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageAddonId\" type=\"s:int\"/>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"planId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        quantity\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"statusId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"purchaseDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\
+        \t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"comments\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"UpdatePackageAddonLiteralResponse\">\r\n\t\t\t\t\
+        <s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"UpdatePackageAddonLiteralResult\" type=\"tns:PackageResult\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"DeletePackageAddon\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"packageAddonId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\
+        \t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        DeletePackageAddonResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"DeletePackageAddonResult\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetSearchableServiceItemTypes\"\
+        >\r\n\t\t\t\t<s:complexType/>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetSearchableServiceItemTypesResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\
+        \t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"GetSearchableServiceItemTypesResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetRawPackageItemsByType\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"itemTypeName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"recursive\" type=\"s:boolean\"/>\r\n\t\t\t\t\t\
+        </s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t\
+        <s:element name=\"GetRawPackageItemsByTypeResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"GetRawPackageItemsByTypeResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetRawPackageItemsPaged\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"groupName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"typeName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t\
+        <s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"serverId\" type=\"s:int\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"recursive\"\
+        \ type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"filterColumn\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"filterValue\" type=\"s:string\"/>\r\n\t\t\t\t\t\
+        \t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"sortColumn\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"startRow\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"maximumRows\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\
+        \t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetRawPackageItemsPagedResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetRawPackageItemsPagedResult\">\r\
+        \n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\
+        \t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\
+        \t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\t\t\
+        \t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\
+        \t\t</s:element>\r\n\t\t\t<s:element name=\"GetRawPackageItems\">\r\n\t\t\t\
+        \t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetRawPackageItemsResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"GetRawPackageItemsResult\"\
+        >\r\n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\
+        \n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\
+        \t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"DetachPackageItem\">\r\n\t\
+        \t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"itemId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\
+        \t\t<s:element name=\"DetachPackageItemResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"DetachPackageItemResult\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        MovePackageItem\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\
+        \t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"itemId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        destinationServiceId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\
+        \t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"MovePackageItemResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"MovePackageItemResult\" type=\"s:int\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"GetPackageQuota\">\r\n\t\t\t\t<s:complexType>\r\n\
+        \t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"quotaName\" type=\"s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetPackageQuotaResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackageQuotaResult\"\
+        \ type=\"tns:QuotaValueInfo\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"SendAccountSummaryLetter\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"to\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"cc\" type=\"\
+        s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\
+        \t</s:element>\r\n\t\t\t<s:element name=\"SendAccountSummaryLetterResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"SendAccountSummaryLetterResult\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"SendPackageSummaryLetter\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"to\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"cc\" type=\"\
+        s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\
+        \t</s:element>\r\n\t\t\t<s:element name=\"SendPackageSummaryLetterResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"SendPackageSummaryLetterResult\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetEvaluatedPackageTemplateBody\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\
+        \t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\
+        \t\t\t<s:element name=\"GetEvaluatedPackageTemplateBodyResponse\">\r\n\t\t\
+        \t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"GetEvaluatedPackageTemplateBodyResult\" type=\"\
+        s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\
+        \t</s:element>\r\n\t\t\t<s:element name=\"GetEvaluatedAccountTemplateBody\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\
+        \t\t<s:element name=\"GetEvaluatedAccountTemplateBodyResponse\">\r\n\t\t\t\
+        \t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"GetEvaluatedAccountTemplateBodyResult\" type=\"\
+        s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\
+        \t</s:element>\r\n\t\t\t<s:element name=\"AddPackageWithResources\">\r\n\t\
+        \t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"planId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"\
+        spaceName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\"\
+        \ maxOccurs=\"1\" name=\"statusId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"sendLetter\" type=\"s:boolean\"/>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"createResources\"\
+        \ type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"domainName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"tempDomain\" type=\"s:boolean\"/>\r\n\t\t\t\t\t\
+        \t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"createWebSite\" type=\"\
+        s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        createFtpAccount\" type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"ftpAccountName\" type=\"s:string\"/>\r\n\t\t\t\t\
+        \t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"createMailAccount\"\
+        \ type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"hostName\" type=\"s:string\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\
+        \t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"AddPackageWithResourcesResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"AddPackageWithResourcesResult\" type=\"\
+        tns:PackageResult\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"CreateUserWizard\">\r\n\t\t\
+        \t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"parentPackageId\" type=\"s:int\"/>\r\n\t\t\t\t\t\
+        \t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"username\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"password\"\
+        \ type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"roleId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"firstName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t\
+        <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"lastName\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"email\"\
+        \ type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"secondaryEmail\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"htmlMail\" type=\"s:boolean\"/>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"sendAccountLetter\"\
+        \ type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"createPackage\" type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"planId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"sendPackageLetter\"\
+        \ type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"domainName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"tempDomain\" type=\"s:boolean\"/>\r\n\t\t\t\t\t\
+        \t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"createWebSite\" type=\"\
+        s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        createFtpAccount\" type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"ftpAccountName\" type=\"s:string\"/>\r\n\t\t\t\t\
+        \t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"createMailAccount\"\
+        \ type=\"s:boolean\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"hostName\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"createZoneRecord\" type=\"s:boolean\"/>\r\n\t\t\
+        \t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\
+        \t\t<s:element name=\"CreateUserWizardResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"CreateUserWizardResult\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetPackagesBandwidthPaged\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"startDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"endDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t\t\
+        <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"sortColumn\" type=\"s:string\"\
+        />\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"startRow\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"maximumRows\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\
+        \t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackagesBandwidthPagedResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackagesBandwidthPagedResult\"\
+        >\r\n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\
+        \n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\
+        \t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackagesDiskspacePaged\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"\
+        sortColumn\" type=\"s:string\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\"\
+        \ maxOccurs=\"1\" name=\"startRow\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"maximumRows\" type=\"s:int\"/>\r\n\
+        \t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"GetPackagesDiskspacePagedResponse\">\r\n\t\t\t\t\
+        <s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"GetPackagesDiskspacePagedResult\">\r\n\t\t\t\t\t\
+        \t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t\
+        <s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\
+        \t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\
+        \n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"GetPackageBandwidth\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"startDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t\
+        \t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"endDate\" type=\"s:dateTime\"\
+        />\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\
+        \n\t\t\t<s:element name=\"GetPackageBandwidthResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"GetPackageBandwidthResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetPackageDiskspace\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\"\
+        \ type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetPackageDiskspaceResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetPackageDiskspaceResult\">\r\n\t\
+        \t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\
+        \t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\
+        \t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t\
+        </s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\n\t\t\
+        \t</s:element>\r\n\t\t\t<s:element name=\"GetOverusageSummaryReport\">\r\n\
+        \t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"userId\" type=\"s:int\"/>\r\n\t\t\
+        \t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"packageId\" type=\"\
+        s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"\
+        startDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\"\
+        \ maxOccurs=\"1\" name=\"endDate\" type=\"s:dateTime\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetOverusageSummaryReportResponse\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\
+        \t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"\
+        GetOverusageSummaryReportResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\
+        \t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetDiskspaceOverusageDetailsReport\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\
+        \t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\"\
+        \ name=\"userId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetDiskspaceOverusageDetailsReportResponse\">\r\n\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"GetDiskspaceOverusageDetailsReportResult\">\r\n\t\t\t\t\t\t\t<s:complexType>\r\
+        \n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t\t\t\t<s:element ref=\"s:schema\"\
+        />\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\
+        \t\t\t\t</s:complexType>\r\n\t\t\t\t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\
+        \n\t\t\t\t</s:complexType>\r\n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"\
+        GetBandwidthOverusageDetailsReport\">\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\
+        \t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\"\
+        \ name=\"userId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element minOccurs=\"\
+        1\" maxOccurs=\"1\" name=\"packageId\" type=\"s:int\"/>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"1\" maxOccurs=\"1\" name=\"startDate\" type=\"s:dateTime\"/>\r\
+        \n\t\t\t\t\t\t<s:element minOccurs=\"1\" maxOccurs=\"1\" name=\"endDate\"\
+        \ type=\"s:dateTime\"/>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t\t<s:element name=\"GetBandwidthOverusageDetailsReportResponse\"\
+        >\r\n\t\t\t\t<s:complexType>\r\n\t\t\t\t\t<s:sequence>\r\n\t\t\t\t\t\t<s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"GetBandwidthOverusageDetailsReportResult\"\
+        >\r\n\t\t\t\t\t\t\t<s:complexType>\r\n\t\t\t\t\t\t\t\t<s:sequence>\r\n\t\t\
+        \t\t\t\t\t\t\t<s:element ref=\"s:schema\"/>\r\n\t\t\t\t\t\t\t\t\t<s:any/>\r\
+        \n\t\t\t\t\t\t\t\t</s:sequence>\r\n\t\t\t\t\t\t\t</s:complexType>\r\n\t\t\t\
+        \t\t\t</s:element>\r\n\t\t\t\t\t</s:sequence>\r\n\t\t\t\t</s:complexType>\r\
+        \n\t\t\t</s:element>\r\n\t\t</s:schema>\r\n\t</wsdl:types>\r\n\t<wsdl:message\
+        \ name=\"GetHostingPlansSoapIn\">\r\n\t\t<wsdl:part name=\"parameters\" element=\"\
+        tns:GetHostingPlans\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetHostingPlansSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetHostingPlansResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetHostingAddonsSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetHostingAddons\"/>\r\
+        \n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetHostingAddonsSoapOut\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetHostingAddonsResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetHostingPlanSoapIn\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetHostingPlan\"/>\r\n\t\
+        </wsdl:message>\r\n\t<wsdl:message name=\"GetHostingPlanSoapOut\">\r\n\t\t\
+        <wsdl:part name=\"parameters\" element=\"tns:GetHostingPlanResponse\"/>\r\n\
+        \t</wsdl:message>\r\n\t<wsdl:message name=\"GetHostingPlanQuotasSoapIn\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetHostingPlanQuotas\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetHostingPlanQuotasSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetHostingPlanQuotasResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetHostingPlanContextSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetHostingPlanContext\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetHostingPlanContextSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetHostingPlanContextResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetUserAvailableHostingPlansSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetUserAvailableHostingPlans\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetUserAvailableHostingPlansSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetUserAvailableHostingPlansResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetUserAvailableHostingAddonsSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetUserAvailableHostingAddons\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetUserAvailableHostingAddonsSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetUserAvailableHostingAddonsResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddHostingPlanSoapIn\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:AddHostingPlan\"/>\r\n\t\
+        </wsdl:message>\r\n\t<wsdl:message name=\"AddHostingPlanSoapOut\">\r\n\t\t\
+        <wsdl:part name=\"parameters\" element=\"tns:AddHostingPlanResponse\"/>\r\n\
+        \t</wsdl:message>\r\n\t<wsdl:message name=\"UpdateHostingPlanSoapIn\">\r\n\
+        \t\t<wsdl:part name=\"parameters\" element=\"tns:UpdateHostingPlan\"/>\r\n\
+        \t</wsdl:message>\r\n\t<wsdl:message name=\"UpdateHostingPlanSoapOut\">\r\n\
+        \t\t<wsdl:part name=\"parameters\" element=\"tns:UpdateHostingPlanResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"DeleteHostingPlanSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:DeleteHostingPlan\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"DeleteHostingPlanSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:DeleteHostingPlanResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackagesSoapIn\">\r\n\
+        \t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackages\"/>\r\n\t</wsdl:message>\r\
+        \n\t<wsdl:message name=\"GetPackagesSoapOut\">\r\n\t\t<wsdl:part name=\"parameters\"\
+        \ element=\"tns:GetPackagesResponse\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message\
+        \ name=\"GetNestedPackagesSummarySoapIn\">\r\n\t\t<wsdl:part name=\"parameters\"\
+        \ element=\"tns:GetNestedPackagesSummary\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message\
+        \ name=\"GetNestedPackagesSummarySoapOut\">\r\n\t\t<wsdl:part name=\"parameters\"\
+        \ element=\"tns:GetNestedPackagesSummaryResponse\"/>\r\n\t</wsdl:message>\r\
+        \n\t<wsdl:message name=\"GetRawPackagesSoapIn\">\r\n\t\t<wsdl:part name=\"\
+        parameters\" element=\"tns:GetRawPackages\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message\
+        \ name=\"GetRawPackagesSoapOut\">\r\n\t\t<wsdl:part name=\"parameters\" element=\"\
+        tns:GetRawPackagesResponse\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"\
+        SearchServiceItemsPagedSoapIn\">\r\n\t\t<wsdl:part name=\"parameters\" element=\"\
+        tns:SearchServiceItemsPaged\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"\
+        SearchServiceItemsPagedSoapOut\">\r\n\t\t<wsdl:part name=\"parameters\" element=\"\
+        tns:SearchServiceItemsPagedResponse\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message\
+        \ name=\"GetPackagesPagedSoapIn\">\r\n\t\t<wsdl:part name=\"parameters\" element=\"\
+        tns:GetPackagesPaged\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackagesPagedSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackagesPagedResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetNestedPackagesPagedSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetNestedPackagesPaged\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetNestedPackagesPagedSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetNestedPackagesPagedResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackagePackagesSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackagePackages\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackagePackagesSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackagePackagesResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetMyPackagesSoapIn\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetMyPackages\"/>\r\n\t\
+        </wsdl:message>\r\n\t<wsdl:message name=\"GetMyPackagesSoapOut\">\r\n\t\t\
+        <wsdl:part name=\"parameters\" element=\"tns:GetMyPackagesResponse\"/>\r\n\
+        \t</wsdl:message>\r\n\t<wsdl:message name=\"GetRawMyPackagesSoapIn\">\r\n\t\
+        \t<wsdl:part name=\"parameters\" element=\"tns:GetRawMyPackages\"/>\r\n\t\
+        </wsdl:message>\r\n\t<wsdl:message name=\"GetRawMyPackagesSoapOut\">\r\n\t\
+        \t<wsdl:part name=\"parameters\" element=\"tns:GetRawMyPackagesResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageSoapIn\">\r\n\t\
+        \t<wsdl:part name=\"parameters\" element=\"tns:GetPackage\"/>\r\n\t</wsdl:message>\r\
+        \n\t<wsdl:message name=\"GetPackageSoapOut\">\r\n\t\t<wsdl:part name=\"parameters\"\
+        \ element=\"tns:GetPackageResponse\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message\
+        \ name=\"GetPackageContextSoapIn\">\r\n\t\t<wsdl:part name=\"parameters\"\
+        \ element=\"tns:GetPackageContext\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message\
+        \ name=\"GetPackageContextSoapOut\">\r\n\t\t<wsdl:part name=\"parameters\"\
+        \ element=\"tns:GetPackageContextResponse\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message\
+        \ name=\"GetPackageQuotasSoapIn\">\r\n\t\t<wsdl:part name=\"parameters\" element=\"\
+        tns:GetPackageQuotas\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageQuotasSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageQuotasResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageQuotasForEditSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageQuotasForEdit\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageQuotasForEditSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageQuotasForEditResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageSoapIn\">\r\n\t\
+        \t<wsdl:part name=\"parameters\" element=\"tns:AddPackage\"/>\r\n\t</wsdl:message>\r\
+        \n\t<wsdl:message name=\"AddPackageSoapOut\">\r\n\t\t<wsdl:part name=\"parameters\"\
+        \ element=\"tns:AddPackageResponse\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message\
+        \ name=\"UpdatePackageSoapIn\">\r\n\t\t<wsdl:part name=\"parameters\" element=\"\
+        tns:UpdatePackage\"/>\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageLiteralSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageLiteral\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageLiteralSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageLiteralResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageNameSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageName\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageNameSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageNameResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"DeletePackageSoapIn\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:DeletePackage\"/>\r\n\t\
+        </wsdl:message>\r\n\t<wsdl:message name=\"DeletePackageSoapOut\">\r\n\t\t\
+        <wsdl:part name=\"parameters\" element=\"tns:DeletePackageResponse\"/>\r\n\
+        \t</wsdl:message>\r\n\t<wsdl:message name=\"ChangePackageStatusSoapIn\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:ChangePackageStatus\"/>\r\
+        \n\t</wsdl:message>\r\n\t<wsdl:message name=\"ChangePackageStatusSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:ChangePackageStatusResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"EvaluateUserPackageTempateSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:EvaluateUserPackageTempate\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"EvaluateUserPackageTempateSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:EvaluateUserPackageTempateResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageSettingsSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageSettings\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageSettingsSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageSettingsResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageSettingsSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageSettings\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageSettingsSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageSettingsResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageAddonsSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageAddons\"/>\r\
+        \n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageAddonsSoapOut\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageAddonsResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageAddonSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageAddon\"/>\r\
+        \n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageAddonSoapOut\">\r\n\
+        \t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageAddonResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageAddonByIdSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:AddPackageAddonById\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageAddonByIdSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:AddPackageAddonByIdResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageAddonSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:AddPackageAddon\"/>\r\
+        \n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageAddonSoapOut\">\r\n\
+        \t\t<wsdl:part name=\"parameters\" element=\"tns:AddPackageAddonResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageAddonLiteralSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:AddPackageAddonLiteral\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageAddonLiteralSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:AddPackageAddonLiteralResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageAddonSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageAddon\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageAddonSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageAddonResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageAddonLiteralSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageAddonLiteral\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"UpdatePackageAddonLiteralSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:UpdatePackageAddonLiteralResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"DeletePackageAddonSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:DeletePackageAddon\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"DeletePackageAddonSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:DeletePackageAddonResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetSearchableServiceItemTypesSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetSearchableServiceItemTypes\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetSearchableServiceItemTypesSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetSearchableServiceItemTypesResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetRawPackageItemsByTypeSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetRawPackageItemsByType\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetRawPackageItemsByTypeSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetRawPackageItemsByTypeResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetRawPackageItemsPagedSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetRawPackageItemsPaged\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetRawPackageItemsPagedSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetRawPackageItemsPagedResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetRawPackageItemsSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetRawPackageItems\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetRawPackageItemsSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetRawPackageItemsResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"DetachPackageItemSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:DetachPackageItem\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"DetachPackageItemSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:DetachPackageItemResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"MovePackageItemSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:MovePackageItem\"/>\r\
+        \n\t</wsdl:message>\r\n\t<wsdl:message name=\"MovePackageItemSoapOut\">\r\n\
+        \t\t<wsdl:part name=\"parameters\" element=\"tns:MovePackageItemResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageQuotaSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageQuota\"/>\r\
+        \n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageQuotaSoapOut\">\r\n\
+        \t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageQuotaResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"SendAccountSummaryLetterSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:SendAccountSummaryLetter\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"SendAccountSummaryLetterSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:SendAccountSummaryLetterResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"SendPackageSummaryLetterSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:SendPackageSummaryLetter\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"SendPackageSummaryLetterSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:SendPackageSummaryLetterResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetEvaluatedPackageTemplateBodySoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetEvaluatedPackageTemplateBody\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetEvaluatedPackageTemplateBodySoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetEvaluatedPackageTemplateBodyResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetEvaluatedAccountTemplateBodySoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetEvaluatedAccountTemplateBody\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetEvaluatedAccountTemplateBodySoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetEvaluatedAccountTemplateBodyResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageWithResourcesSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:AddPackageWithResources\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"AddPackageWithResourcesSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:AddPackageWithResourcesResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"CreateUserWizardSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:CreateUserWizard\"/>\r\
+        \n\t</wsdl:message>\r\n\t<wsdl:message name=\"CreateUserWizardSoapOut\">\r\
+        \n\t\t<wsdl:part name=\"parameters\" element=\"tns:CreateUserWizardResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackagesBandwidthPagedSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackagesBandwidthPaged\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackagesBandwidthPagedSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackagesBandwidthPagedResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackagesDiskspacePagedSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackagesDiskspacePaged\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackagesDiskspacePagedSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackagesDiskspacePagedResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageBandwidthSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageBandwidth\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageBandwidthSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageBandwidthResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageDiskspaceSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageDiskspace\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetPackageDiskspaceSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetPackageDiskspaceResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetOverusageSummaryReportSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetOverusageSummaryReport\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetOverusageSummaryReportSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetOverusageSummaryReportResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetDiskspaceOverusageDetailsReportSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetDiskspaceOverusageDetailsReport\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetDiskspaceOverusageDetailsReportSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetDiskspaceOverusageDetailsReportResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetBandwidthOverusageDetailsReportSoapIn\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetBandwidthOverusageDetailsReport\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:message name=\"GetBandwidthOverusageDetailsReportSoapOut\"\
+        >\r\n\t\t<wsdl:part name=\"parameters\" element=\"tns:GetBandwidthOverusageDetailsReportResponse\"\
+        />\r\n\t</wsdl:message>\r\n\t<wsdl:portType name=\"esPackagesSoap\">\r\n\t\
+        \t<wsdl:operation name=\"GetHostingPlans\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:GetHostingPlansSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:GetHostingPlansSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetHostingAddons\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetHostingAddonsSoapIn\"/>\r\n\t\t\t\
+        <wsdl:output message=\"tns:GetHostingAddonsSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"GetHostingPlan\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:GetHostingPlanSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:GetHostingPlanSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetHostingPlanQuotas\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetHostingPlanQuotasSoapIn\"/>\r\n\t\t\
+        \t<wsdl:output message=\"tns:GetHostingPlanQuotasSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"GetHostingPlanContext\">\r\n\t\t\t<wsdl:input\
+        \ message=\"tns:GetHostingPlanContextSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"\
+        tns:GetHostingPlanContextSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetUserAvailableHostingPlans\">\r\n\t\t\t<wsdl:input message=\"tns:GetUserAvailableHostingPlansSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetUserAvailableHostingPlansSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetUserAvailableHostingAddons\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetUserAvailableHostingAddonsSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetUserAvailableHostingAddonsSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"AddHostingPlan\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:AddHostingPlanSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:AddHostingPlanSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t\
+        <wsdl:operation name=\"UpdateHostingPlan\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:UpdateHostingPlanSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:UpdateHostingPlanSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"DeleteHostingPlan\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:DeleteHostingPlanSoapIn\"/>\r\n\t\t\t\
+        <wsdl:output message=\"tns:DeleteHostingPlanSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"GetPackages\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:GetPackagesSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:GetPackagesSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetNestedPackagesSummary\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetNestedPackagesSummarySoapIn\"/>\r\n\
+        \t\t\t<wsdl:output message=\"tns:GetNestedPackagesSummarySoapOut\"/>\r\n\t\
+        \t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetRawPackages\">\r\n\t\t\
+        \t<wsdl:input message=\"tns:GetRawPackagesSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetRawPackagesSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t\
+        <wsdl:operation name=\"SearchServiceItemsPaged\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:SearchServiceItemsPagedSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:SearchServiceItemsPagedSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetPackagesPaged\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetPackagesPagedSoapIn\"/>\r\n\t\t\t\
+        <wsdl:output message=\"tns:GetPackagesPagedSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"GetNestedPackagesPaged\">\r\n\t\t\t<wsdl:input\
+        \ message=\"tns:GetNestedPackagesPagedSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"\
+        tns:GetNestedPackagesPagedSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackagePackages\">\r\n\t\t\t<wsdl:input message=\"tns:GetPackagePackagesSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetPackagePackagesSoapOut\"/>\r\n\t\
+        \t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetMyPackages\">\r\n\t\t\
+        \t<wsdl:input message=\"tns:GetMyPackagesSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetMyPackagesSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t\
+        <wsdl:operation name=\"GetRawMyPackages\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:GetRawMyPackagesSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:GetRawMyPackagesSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetPackage\">\r\n\
+        \t\t\t<wsdl:input message=\"tns:GetPackageSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetPackageSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageContext\">\r\n\t\t\t<wsdl:input message=\"tns:GetPackageContextSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetPackageContextSoapOut\"/>\r\n\t\t\
+        </wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetPackageQuotas\">\r\n\t\t\
+        \t<wsdl:input message=\"tns:GetPackageQuotasSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetPackageQuotasSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageQuotasForEdit\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:GetPackageQuotasForEditSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:GetPackageQuotasForEditSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"AddPackage\">\r\n\
+        \t\t\t<wsdl:input message=\"tns:AddPackageSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:AddPackageSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdatePackage\">\r\n\t\t\t<wsdl:input message=\"tns:UpdatePackageSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:UpdatePackageSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"UpdatePackageLiteral\">\r\n\t\t\t<wsdl:input\
+        \ message=\"tns:UpdatePackageLiteralSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"\
+        tns:UpdatePackageLiteralSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdatePackageName\">\r\n\t\t\t<wsdl:input message=\"tns:UpdatePackageNameSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:UpdatePackageNameSoapOut\"/>\r\n\t\t\
+        </wsdl:operation>\r\n\t\t<wsdl:operation name=\"DeletePackage\">\r\n\t\t\t\
+        <wsdl:input message=\"tns:DeletePackageSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"\
+        tns:DeletePackageSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"ChangePackageStatus\">\r\n\t\t\t<wsdl:input message=\"tns:ChangePackageStatusSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:ChangePackageStatusSoapOut\"/>\r\n\t\
+        \t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"EvaluateUserPackageTempate\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:EvaluateUserPackageTempateSoapIn\"/>\r\
+        \n\t\t\t<wsdl:output message=\"tns:EvaluateUserPackageTempateSoapOut\"/>\r\
+        \n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetPackageSettings\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetPackageSettingsSoapIn\"/>\r\n\t\t\t\
+        <wsdl:output message=\"tns:GetPackageSettingsSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"UpdatePackageSettings\">\r\n\t\t\t<wsdl:input\
+        \ message=\"tns:UpdatePackageSettingsSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"\
+        tns:UpdatePackageSettingsSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageAddons\">\r\n\t\t\t<wsdl:input message=\"tns:GetPackageAddonsSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetPackageAddonsSoapOut\"/>\r\n\t\t\
+        </wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetPackageAddon\">\r\n\t\t\
+        \t<wsdl:input message=\"tns:GetPackageAddonSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetPackageAddonSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t\
+        <wsdl:operation name=\"AddPackageAddonById\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:AddPackageAddonByIdSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:AddPackageAddonByIdSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"AddPackageAddon\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:AddPackageAddonSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:AddPackageAddonSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t\
+        <wsdl:operation name=\"AddPackageAddonLiteral\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:AddPackageAddonLiteralSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:AddPackageAddonLiteralSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"UpdatePackageAddon\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:UpdatePackageAddonSoapIn\"/>\r\n\t\t\t\
+        <wsdl:output message=\"tns:UpdatePackageAddonSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"UpdatePackageAddonLiteral\">\r\n\t\t\t<wsdl:input\
+        \ message=\"tns:UpdatePackageAddonLiteralSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:UpdatePackageAddonLiteralSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"DeletePackageAddon\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:DeletePackageAddonSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:DeletePackageAddonSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetSearchableServiceItemTypes\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetSearchableServiceItemTypesSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetSearchableServiceItemTypesSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetRawPackageItemsByType\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetRawPackageItemsByTypeSoapIn\"/>\r\n\
+        \t\t\t<wsdl:output message=\"tns:GetRawPackageItemsByTypeSoapOut\"/>\r\n\t\
+        \t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetRawPackageItemsPaged\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetRawPackageItemsPagedSoapIn\"/>\r\n\
+        \t\t\t<wsdl:output message=\"tns:GetRawPackageItemsPagedSoapOut\"/>\r\n\t\t\
+        </wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetRawPackageItems\">\r\n\t\
+        \t\t<wsdl:input message=\"tns:GetRawPackageItemsSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetRawPackageItemsSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\
+        \t\t<wsdl:operation name=\"DetachPackageItem\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:DetachPackageItemSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:DetachPackageItemSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"MovePackageItem\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:MovePackageItemSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:MovePackageItemSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\t\
+        <wsdl:operation name=\"GetPackageQuota\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:GetPackageQuotaSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:GetPackageQuotaSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"SendAccountSummaryLetter\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:SendAccountSummaryLetterSoapIn\"/>\r\n\
+        \t\t\t<wsdl:output message=\"tns:SendAccountSummaryLetterSoapOut\"/>\r\n\t\
+        \t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"SendPackageSummaryLetter\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:SendPackageSummaryLetterSoapIn\"/>\r\n\
+        \t\t\t<wsdl:output message=\"tns:SendPackageSummaryLetterSoapOut\"/>\r\n\t\
+        \t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetEvaluatedPackageTemplateBody\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetEvaluatedPackageTemplateBodySoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetEvaluatedPackageTemplateBodySoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetEvaluatedAccountTemplateBody\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetEvaluatedAccountTemplateBodySoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetEvaluatedAccountTemplateBodySoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"AddPackageWithResources\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:AddPackageWithResourcesSoapIn\"/>\r\n\
+        \t\t\t<wsdl:output message=\"tns:AddPackageWithResourcesSoapOut\"/>\r\n\t\t\
+        </wsdl:operation>\r\n\t\t<wsdl:operation name=\"CreateUserWizard\">\r\n\t\t\
+        \t<wsdl:input message=\"tns:CreateUserWizardSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:CreateUserWizardSoapOut\"/>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackagesBandwidthPaged\">\r\n\t\t\t<wsdl:input\
+        \ message=\"tns:GetPackagesBandwidthPagedSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetPackagesBandwidthPagedSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"GetPackagesDiskspacePaged\">\r\n\t\t\t<wsdl:input\
+        \ message=\"tns:GetPackagesDiskspacePagedSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetPackagesDiskspacePagedSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"GetPackageBandwidth\">\r\n\t\t\t<wsdl:input message=\"\
+        tns:GetPackageBandwidthSoapIn\"/>\r\n\t\t\t<wsdl:output message=\"tns:GetPackageBandwidthSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetPackageDiskspace\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetPackageDiskspaceSoapIn\"/>\r\n\t\t\
+        \t<wsdl:output message=\"tns:GetPackageDiskspaceSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"GetOverusageSummaryReport\">\r\n\t\t\t<wsdl:input\
+        \ message=\"tns:GetOverusageSummaryReportSoapIn\"/>\r\n\t\t\t<wsdl:output\
+        \ message=\"tns:GetOverusageSummaryReportSoapOut\"/>\r\n\t\t</wsdl:operation>\r\
+        \n\t\t<wsdl:operation name=\"GetDiskspaceOverusageDetailsReport\">\r\n\t\t\
+        \t<wsdl:input message=\"tns:GetDiskspaceOverusageDetailsReportSoapIn\"/>\r\
+        \n\t\t\t<wsdl:output message=\"tns:GetDiskspaceOverusageDetailsReportSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation name=\"GetBandwidthOverusageDetailsReport\"\
+        >\r\n\t\t\t<wsdl:input message=\"tns:GetBandwidthOverusageDetailsReportSoapIn\"\
+        />\r\n\t\t\t<wsdl:output message=\"tns:GetBandwidthOverusageDetailsReportSoapOut\"\
+        />\r\n\t\t</wsdl:operation>\r\n\t</wsdl:portType>\r\n\t<wsdl:binding name=\"\
+        esPackagesSoap\" type=\"tns:esPackagesSoap\">\r\n\t\t<soap:binding transport=\"\
+        http://schemas.xmlsoap.org/soap/http\"/>\r\n\t\t<wsdl:operation name=\"GetHostingPlans\"\
+        >\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetHostingPlans\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetHostingAddons\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetHostingAddons\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\n\t\t\t\
+        </wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetHostingPlan\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetHostingPlan\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetHostingPlanQuotas\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetHostingPlanQuotas\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetHostingPlanContext\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetHostingPlanContext\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetUserAvailableHostingPlans\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetUserAvailableHostingPlans\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetUserAvailableHostingAddons\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetUserAvailableHostingAddons\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddHostingPlan\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/AddHostingPlan\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\n\t\t\t\
+        </wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdateHostingPlan\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdateHostingPlan\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"DeleteHostingPlan\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/DeleteHostingPlan\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackages\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackages\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetNestedPackagesSummary\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetNestedPackagesSummary\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawPackages\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetRawPackages\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\n\t\t\t\
+        </wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"SearchServiceItemsPaged\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/SearchServiceItemsPaged\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackagesPaged\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackagesPaged\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetNestedPackagesPaged\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetNestedPackagesPaged\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackagePackages\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackagePackages\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetMyPackages\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetMyPackages\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawMyPackages\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetRawMyPackages\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\n\t\t\t\
+        </wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackage\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackage\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageContext\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackageContext\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageQuotas\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageQuotas\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageQuotasForEdit\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageQuotasForEdit\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddPackage\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/AddPackage\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\n\t\t\t\
+        </wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdatePackage\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdatePackage\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"UpdatePackageLiteral\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdatePackageLiteral\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"UpdatePackageName\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/UpdatePackageName\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"DeletePackage\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/DeletePackage\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"ChangePackageStatus\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/ChangePackageStatus\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"EvaluateUserPackageTempate\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/EvaluateUserPackageTempate\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageSettings\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackageSettings\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdatePackageSettings\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdatePackageSettings\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageAddons\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackageAddons\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\n\t\t\t\
+        </wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageAddon\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageAddon\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddPackageAddonById\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/AddPackageAddonById\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"AddPackageAddon\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/AddPackageAddon\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddPackageAddonLiteral\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/AddPackageAddonLiteral\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"UpdatePackageAddon\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/UpdatePackageAddon\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdatePackageAddonLiteral\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/UpdatePackageAddonLiteral\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"DeletePackageAddon\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/DeletePackageAddon\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetSearchableServiceItemTypes\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetSearchableServiceItemTypes\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawPackageItemsByType\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetRawPackageItemsByType\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawPackageItemsPaged\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetRawPackageItemsPaged\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawPackageItems\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetRawPackageItems\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"DetachPackageItem\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/DetachPackageItem\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"MovePackageItem\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/MovePackageItem\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\n\t\t\t\
+        </wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageQuota\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageQuota\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"SendAccountSummaryLetter\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/SendAccountSummaryLetter\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"SendPackageSummaryLetter\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/SendPackageSummaryLetter\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetEvaluatedPackageTemplateBody\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetEvaluatedPackageTemplateBody\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetEvaluatedAccountTemplateBody\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetEvaluatedAccountTemplateBody\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddPackageWithResources\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/AddPackageWithResources\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"CreateUserWizard\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/CreateUserWizard\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\n\t\t\t\
+        </wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackagesBandwidthPaged\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackagesBandwidthPaged\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackagesDiskspacePaged\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackagesDiskspacePaged\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageBandwidth\">\r\n\t\t\t<soap:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageBandwidth\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageDiskspace\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackageDiskspace\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetOverusageSummaryReport\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetOverusageSummaryReport\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"literal\"/>\r\
+        \n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetDiskspaceOverusageDetailsReport\">\r\n\t\t\t<soap:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetDiskspaceOverusageDetailsReport\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetBandwidthOverusageDetailsReport\">\r\n\t\t\t<soap:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetBandwidthOverusageDetailsReport\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        </wsdl:binding>\r\n\t<wsdl:binding name=\"esPackagesSoap12\" type=\"tns:esPackagesSoap\"\
+        >\r\n\t\t<soap12:binding transport=\"http://schemas.xmlsoap.org/soap/http\"\
+        />\r\n\t\t<wsdl:operation name=\"GetHostingPlans\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetHostingPlans\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetHostingAddons\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetHostingAddons\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetHostingPlan\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetHostingPlan\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetHostingPlanQuotas\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetHostingPlanQuotas\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetHostingPlanContext\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetHostingPlanContext\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetUserAvailableHostingPlans\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetUserAvailableHostingPlans\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetUserAvailableHostingAddons\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetUserAvailableHostingAddons\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddHostingPlan\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/AddHostingPlan\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdateHostingPlan\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdateHostingPlan\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"DeleteHostingPlan\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/DeleteHostingPlan\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackages\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackages\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetNestedPackagesSummary\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetNestedPackagesSummary\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawPackages\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetRawPackages\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"SearchServiceItemsPaged\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/SearchServiceItemsPaged\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackagesPaged\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackagesPaged\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetNestedPackagesPaged\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetNestedPackagesPaged\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackagePackages\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackagePackages\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetMyPackages\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetMyPackages\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetRawMyPackages\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetRawMyPackages\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackage\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackage\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageContext\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageContext\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageQuotas\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackageQuotas\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageQuotasForEdit\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackageQuotasForEdit\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"AddPackage\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/AddPackage\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"UpdatePackage\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/UpdatePackage\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdatePackageLiteral\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/UpdatePackageLiteral\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdatePackageName\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdatePackageName\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"DeletePackage\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/DeletePackage\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"ChangePackageStatus\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/ChangePackageStatus\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"EvaluateUserPackageTempate\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/EvaluateUserPackageTempate\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageSettings\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageSettings\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"UpdatePackageSettings\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdatePackageSettings\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageAddons\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackageAddons\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageAddon\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageAddon\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddPackageAddonById\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/AddPackageAddonById\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddPackageAddon\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/AddPackageAddon\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"AddPackageAddonLiteral\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/AddPackageAddonLiteral\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"UpdatePackageAddon\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdatePackageAddon\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"UpdatePackageAddonLiteral\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/UpdatePackageAddonLiteral\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"DeletePackageAddon\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/DeletePackageAddon\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetSearchableServiceItemTypes\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetSearchableServiceItemTypes\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawPackageItemsByType\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetRawPackageItemsByType\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawPackageItemsPaged\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetRawPackageItemsPaged\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetRawPackageItems\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetRawPackageItems\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"DetachPackageItem\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/DetachPackageItem\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"MovePackageItem\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/MovePackageItem\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageQuota\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackageQuota\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"SendAccountSummaryLetter\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/SendAccountSummaryLetter\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"SendPackageSummaryLetter\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/SendPackageSummaryLetter\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetEvaluatedPackageTemplateBody\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetEvaluatedPackageTemplateBody\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetEvaluatedAccountTemplateBody\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetEvaluatedAccountTemplateBody\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"AddPackageWithResources\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/AddPackageWithResources\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"CreateUserWizard\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/CreateUserWizard\" style=\"document\"\
+        />\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"/>\r\n\t\t\
+        \t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackagesBandwidthPaged\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackagesBandwidthPaged\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackagesDiskspacePaged\">\r\n\t\t\t<soap12:operation soapAction=\"\
+        http://smbsaas/websitepanel/enterpriseserver/GetPackagesDiskspacePaged\" style=\"\
+        document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"literal\"\
+        />\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\t<wsdl:operation\
+        \ name=\"GetPackageBandwidth\">\r\n\t\t\t<soap12:operation soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageBandwidth\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetPackageDiskspace\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetPackageDiskspace\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetOverusageSummaryReport\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetOverusageSummaryReport\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetDiskspaceOverusageDetailsReport\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetDiskspaceOverusageDetailsReport\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        \t<wsdl:operation name=\"GetBandwidthOverusageDetailsReport\">\r\n\t\t\t<soap12:operation\
+        \ soapAction=\"http://smbsaas/websitepanel/enterpriseserver/GetBandwidthOverusageDetailsReport\"\
+        \ style=\"document\"/>\r\n\t\t\t<wsdl:input>\r\n\t\t\t\t<soap12:body use=\"\
+        literal\"/>\r\n\t\t\t</wsdl:input>\r\n\t\t\t<wsdl:output>\r\n\t\t\t\t<soap12:body\
+        \ use=\"literal\"/>\r\n\t\t\t</wsdl:output>\r\n\t\t</wsdl:operation>\r\n\t\
+        </wsdl:binding>\r\n\t<wsdl:service name=\"esPackages\">\r\n\t\t<wsdl:port\
+        \ name=\"esPackagesSoap\" binding=\"tns:esPackagesSoap\">\r\n\t\t\t<soap:address\
+        \ location=\"http://srv001.busymouse.de:9002/esPackages.asmx\"/>\r\n\t\t</wsdl:port>\r\
+        \n\t\t<wsdl:port name=\"esPackagesSoap12\" binding=\"tns:esPackagesSoap12\"\
+        >\r\n\t\t\t<soap12:address location=\"http://srv001.busymouse.de:9002/esPackages.asmx\"\
+        />\r\n\t\t</wsdl:port>\r\n\t</wsdl:service>\r\n</wsdl:definitions>"}
+    headers:
+      Alternate-Protocol: ['443:quic,p=0.5']
+      Cache-Control: ['max-age=31536000, private']
+      Connection: [close]
+      Content-Disposition: [attachment; filename="wsdl.txt"]
+      Content-Length: ['118702']
+      Content-Type: [application/octet-stream]
+      Date: ['Fri, 20 Mar 2015 14:41:19 GMT']
+      Expires: ['Fri, 20 Mar 2015 14:41:19 GMT']
+      Last-Modified: ['Fri, 20 Mar 2015 14:41:19 GMT']
+      Server: [codesite]
+      Set-Cookie: ['PREF=ID=ba0fbf5ade630381:TM=1426862479:LM=1426862479:S=Q7U12xZX7aFq0cJP;
+          expires=Sun, 19-Mar-2017 14:41:19 GMT; path=/; domain=pysimplesoap.googlecode.com']
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
