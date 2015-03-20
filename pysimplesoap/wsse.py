@@ -75,9 +75,10 @@ class UsernameToken:
         pass
 
 class UsernameDigestToken(UsernameToken):
-    "WebService Security extension to add a http digest credentials to xml request
-
-    drift -> time difference from the server in seconds, needed for 'Created' header"""
+    """
+    WebService Security extension to add a http digest credentials to xml request
+    drift -> time difference from the server in seconds, needed for 'Created' header
+    """
 
     def __init__(self, username="", password="", drift=0):
         self.username = username
