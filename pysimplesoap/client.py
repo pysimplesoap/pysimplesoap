@@ -27,7 +27,6 @@ import logging
 import os
 import tempfile
 import warnings
-import six
 
 from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, Struct
@@ -762,7 +761,7 @@ class SoapClient(object):
 
                 if 'fault_msgs' in op:
                     faults = op['faults'] = {}
-                    for name, msg in six.iteritems(op['fault_msgs']):
+                    for name, msg in op['fault_msgs'].items():
                         msg_obj = get_message(messages, msg, parts_output_body)
                         tag_name = next(iter(msg_obj))
                         faults[tag_name] = msg_obj
