@@ -577,6 +577,8 @@ class Struct(dict):
         self.qualified = None
 
     def __setitem__(self, key, value):
+        if not hasattr(self, '__keys'):
+            self.__keys = []
         if key not in self.__keys:
             self.__keys.append(key)
         dict.__setitem__(self, key, value)
