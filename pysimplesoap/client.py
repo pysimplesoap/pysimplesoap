@@ -71,6 +71,18 @@ soap_namespaces = dict(
     soap12env="http://www.w3.org/2003/05/soap-envelope",
 )
 
+class SoapContext(object):
+    def __init__(self, client, envelope, headers, method, soap_uri, *args, **kwargs):
+        self.client = client
+        self.envelope = envelope
+        self.headers = headers
+        self.method = method
+        self.soap_uri = soap_uri
+        self.args = args
+        self.kwargs = kwargs
+
+    def succeded(self, reply):
+        return self.client.succeded(reply, self.method, self.soap_uri, self.args, self.kwargs)
 
 class SoapClient(object):
     """Simple SOAP Client (simil PHP)"""
@@ -81,6 +93,7 @@ class SoapClient(object):
                  http_headers=None, trace=False,
                  username=None, password=None,
                  key_file=None, plugins=None,
+                 nosend=False
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -94,6 +107,7 @@ class SoapClient(object):
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers or {}
         self.plugins = plugins or []
+        self.nosend = nosend
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
             # parse the wsdl url, strip the scheme and filename
@@ -257,35 +271,6 @@ class SoapClient(object):
                                     self.__headers, soap_uri)
 
         self.xml_request = request.as_xml()
-        self.xml_response = self.send(method, self.xml_request)
-        response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
-                                    jetty=self.__soap_server in ('jetty',))
-        if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
-            detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
-            detail = None
-
-            if detailXml and detailXml.children():
-                operation = self.get_operation(method)
-                fault = operation['faults'][detailXml.children()[0].get_name()]
-                detail = detailXml.children()[0].unmarshall(fault, strict=False)
-
-            raise SoapFault(unicode(response.faultcode),
-                            unicode(response.faultstring),
-                            detail)
-
-        # do post-processing using plugins (i.e. WSSE signature verification)
-        for plugin in self.plugins:
-            plugin.postprocess(self, response, method, args, kwargs,
-                                     self.__headers, soap_uri)
-
-        return response
-
-    def send(self, method, xml):
-        """Send SOAP request using HTTP"""
-        if self.location == 'test': return
-        # location = '%s' % self.location #?op=%s" % (self.location, method)
-        http_method = str('POST')
-        location = str(self.location)
 
         if self.services:
             soap_action = str(self.action)
@@ -294,13 +279,10 @@ class SoapClient(object):
 
         headers = {
             'Content-type': 'text/xml; charset="UTF-8"',
-            'Content-length': str(len(xml)),
+            'Content-length': str(len(self.xml_request)),
             'SOAPAction': '"%s"' % soap_action
         }
         headers.update(self.http_headers)
-        log.info("POST %s" % location)
-        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
-        log.debug(xml)
 
         if sys.version < '3':
             # Ensure http_method, location and all headers are binary to prevent
@@ -308,6 +290,68 @@ class SoapClient(object):
 
             # httplib in python3 do the same inside itself, don't need to convert it here
             headers = dict((str(k), str(v)) for k, v in headers.items())
+
+        if self.nosend:
+            return SoapContext(self, self.xml_request, headers, method, soap_uri, args, kwargs)
+
+        self.xml_response = self.send(headers, self.xml_request)
+        return self.succeded(self.xml_response, method, soap_uri, args, kwargs)
+
+    def succeded(self, xml_response, method, soap_uri, *args, **kwargs):
+        response = SimpleXMLElement(xml_response, namespace=self.namespace,
+                                    jetty=self.__soap_server in ('jetty',))
+
+        if self.exceptions:
+            soap12env = soap_namespaces['soap12env']
+            fault12 = response("Fault", ns=soap12env, error=False)
+
+            # it's a soap 1.2 fault: http://www.w3.org/TR/soap12-part1/#soapfault
+            if fault12 is not None:
+                # Code > Value is mandatory
+                faultcode = unicode(fault12("Code", ns=soap12env)("Value", ns=soap12env))
+
+                # Reason > Text is mandatory, we ignore mandatory attribute lang
+                faultstring = unicode(fault12("Reason", ns=soap12env)("Text", ns=soap12env))
+
+                # Detail is optional
+                detail = fault12("Detail", ns=soap12env, error=False)
+                if detail is not None:
+                    # Text is optional
+                    detail = detail("Text", ns=soap12env, error=False)
+                detail = unicode(detail or '')
+                raise SoapFault(unicode(faultcode), unicode(faultstring), detail)
+
+            # soap 1.1 fault
+            elif response("Fault", ns=list(soap_namespaces.values()), error=False):
+                detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
+                detail = None
+
+                if detailXml and detailXml.children():
+                    operation = self.get_operation(method)
+                    fault = operation['faults'][detailXml.children()[0].get_name()]
+                    detail = detailXml.children()[0].unmarshall(fault, strict=False)
+
+                faultcode = response.faultcode
+                faultstring = response.faultstring
+                raise SoapFault(unicode(faultcode), unicode(faultstring), detail)
+
+        # do post-processing using plugins (i.e. WSSE signature verification)
+        for plugin in self.plugins:
+            plugin.postprocess(self, response, method, args, kwargs,
+                                     self.__headers, soap_uri)
+
+        return response
+
+    def send(self, headers, xml):
+        """Send SOAP request using HTTP"""
+        if self.location == 'test': return
+        # location = '%s' % self.location #?op=%s" % (self.location, method)
+        http_method = str('POST')
+        location = str(self.location)
+
+        log.info("POST %s" % location)
+        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
+        log.debug(xml)
 
         response, content = self.http.request(
             location, http_method, body=xml, headers=headers)
