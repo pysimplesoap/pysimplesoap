@@ -16,6 +16,9 @@ from __future__ import unicode_literals
 import sys
 if sys.version > '3':
     unicode = str
+    iteritems = dict.items
+else:
+    iteritems = dict.iteritems
 
 try:
     import cPickle as pickle
@@ -750,7 +753,7 @@ class SoapClient(object):
 
                 if 'fault_msgs' in op:
                     faults = op['faults'] = {}
-                    for name, msg in op['fault_msgs'].iteritems():
+                    for name, msg in iteritems(op['fault_msgs']):
                         msg_obj = get_message(messages, msg, parts_output_body)
                         tag_name = msg_obj.keys()[0]
                         faults[tag_name] = msg_obj
