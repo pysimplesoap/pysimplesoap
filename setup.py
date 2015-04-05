@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import setuptools
 from distutils.core import setup
 try:
     import py2exe
@@ -23,4 +22,15 @@ for name in ('soap2py', 'PySimpleSOAP'):
         license=__license__,
     #    console=['client.py'],
         cmdclass={"py2exe": build_installer},
+        classifiers=[
+            "Development Status :: 3 - Alpha",
+            "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+            "Operating System :: OS Independent",
+            "Programming Language :: Python :: 2",
+            "Programming Language :: Python :: 2.7",
+            "Programming Language :: Python :: 3",
+            "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+            "Topic :: Communications",
+            "Topic :: Software Development :: Libraries :: Python Modules",
+        ],
     )
