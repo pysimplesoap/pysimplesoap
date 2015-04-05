@@ -82,7 +82,10 @@ else:
         _wrapper_version = "httplib2 %s" % httplib2.__version__
         _wrapper_name = 'httplib2'
 
-        def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
+        def __init__(self, timeout=None, proxy=None, cacert=None, 
+                     sessions=None, num_pools=None, maxsize=None, retries=None,
+                     cert_file=None, ca_certs=None, key_file=None, 
+                     cert_reqs=None):
 #            httplib2.debuglevel=4 
             kwargs = {}
             if proxy:
@@ -114,7 +117,9 @@ class urllib2Transport(TransportBase):
     _wrapper_version = "urllib2 %s" % urllib2.__version__
     _wrapper_name = 'urllib2'
 
-    def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
+    def __init__(self, timeout=None, proxy=None, cacert=None, sessions=None, 
+                 num_pools=None, maxsize=None, retries=None, cert_file=None, 
+                 ca_certs=None, key_file=None, cert_reqs=None):
         if (timeout is not None) and not self.supports_feature('timeout'):
             raise RuntimeError('timeout is not supported with urllib2 transport')
         if proxy:
@@ -138,6 +143,127 @@ class urllib2Transport(TransportBase):
             if f.code != 500:
                 raise
             return f.info(), f.read()
+
+#
+# urllib3 support with connection pooling
+#
+try:
+    from urllib3 import PoolManager, __version__
+    from urllib3.exceptions import HTTPError
+    from urllib3.util import make_headers
+except ImportError:
+    pass
+else:
+
+    class urllib3Transport(TransportBase):
+
+        """ Provides methods for sending http requests (specifically SOAP requests)
+        with connection pooling
+
+        Attributes:
+            num_pools (int): The maximum number of connections in the pool (default: 10)
+            timeout (float): Set the http request timeout in seconds
+            headers (dict): (optional) Headers to include with all requests
+            maxsize (int): The maximum number of connection in the pool
+            retries (int): The number of retries if the http request fails
+        """
+
+        _wrapper_version = "urllib3 %s" % __version__
+
+        _wrapper_name = 'urllib3'
+
+        def __init__(self, timeout=None, proxy=None, cacert=None, 
+                     sessions=None, num_pools=None, maxsize=None, retries=None,
+                     cert_file=None, ca_certs=None, key_file=None, 
+                     cert_reqs=None, headers=None):
+            if num_pools:
+                try:
+                    num_pools = int(num_pools)
+                except ValueError:
+                    raise ValueError("num_pools parameter must be an integer")
+
+            if timeout:
+                try:
+                    timeout = float(timeout)
+                except ValueError:
+                    raise ValueError("timeout parameter must be a float")
+
+            if maxsize:
+                try:
+                    maxsize = int(maxsize)
+                except ValueError:
+                    raise ValueError("maxsize parameter must be an integer")
+
+            if retries:
+                try:
+                    retries = int(retries)
+                except ValueError:
+                    raise ValueError("retries parameter must be an integer")
+
+            self.http_headers = {}
+
+            self.manager = PoolManager(
+                timeout=timeout,
+                num_pools=num_pools,
+                maxsize=maxsize,
+                retries=retries,
+                headers=headers)
+
+        def request(self, url, method="GET", body=None, headers={}):
+            """ Makes an HTTP request from the connection pool
+
+            Params:
+                url (str): The url requested
+                method (str): The method for request (e.g. GET, POST, etc)
+                body (dict): Data being sent
+                headers (dict): Headers
+
+            Returns:
+                tuple: A tuple containing the headers (dict) and the return data (str)
+
+            Raises:
+                urllib3.exceptions.HTTPError
+            """
+            headers.update(self.http_headers)
+            try:
+                r = self.manager.urlopen(method, url, headers=headers,
+                                         body=body)
+            except HTTPError:
+                raise
+
+            return r.headers, r.data.decode('UTF-8')
+
+        def close(self):
+            """ Empty the store of connection pools and direct them all to close. 
+            This does not affect in-flight connections, but they will not be 
+            reused after completion
+
+            Params:
+                None
+            """
+            self.manager.clear()
+
+        def add_credentials(self, username, password):
+            """ Add basic authentication to http headers
+
+            Params:
+                username (str): username
+                password (str): password
+
+            Raises:
+                ValueError: If username or password are not strings
+            """
+            if not isinstance(username, str):
+                raise ValueError("username must be a string")
+            if not isinstance(password, str):
+                raise ValueError("password must be a string")
+
+            auth_string = "{0}:{1}".format(username, password)
+            auth_header = make_headers(basic_auth=auth_string)
+            self.manager.headers.update(auth_header)
+
+    _http_connectors['urllib3'] = urllib3Transport
+    _http_facilities.setdefault('sessions', []).append('urllib3')
 
 _http_connectors['urllib2'] = urllib2Transport
 _http_facilities.setdefault('sessions', []).append('urllib2')
@@ -168,7 +294,10 @@ else:
         _wrapper_version = pycurl.version
         _wrapper_name = 'pycurl'
 
-        def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
+        def __init__(self, timeout=None, proxy=None, cacert=None, 
+                     sessions=None, num_pools=None, maxsize=None, retries=None,
+                     cert_file=None, ca_certs=None, key_file=None, 
+                     cert_reqs=None):
             self.timeout = timeout
             self.proxy = proxy or {}
             self.cacert = cacert
