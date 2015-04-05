@@ -81,6 +81,5 @@ Support
 For community support, please fell free to fill an [issue](https://github.com/pysimplesoap/pysimplesoap/issues/new) or send a email to [soap@python.org](https://mail.python.org/mailman/listinfo/soap).
 Please do not add comment to wiki pages if you have technical questions.
 
-For priority technical support, you can contact [mailto:reingart@gmail.com Mariano Reingart] (project creator and main maintainter, see [https://code.google.com/p/pysimplesoap/source/browse/AUTHORS.md AUTHORS] for more info).
-Online payments accepted through !PayPal. 
+For priority commercial technical support, you can contact [Mariano Reingart](mailto:reingart@gmail.com) (project creator and main maintainter, see [AUTHORS](AUTHORS.md) for more info).
 
