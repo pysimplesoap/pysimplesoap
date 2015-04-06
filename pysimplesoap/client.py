@@ -164,11 +164,7 @@ class SoapClient(object):
             self.__xml = """<?xml version="1.0" encoding="UTF-8"?>
 <%(soap_ns)s:Envelope xmlns:%(soap_ns)s="%(soap_uri)s" xmlns:%(ns)s="%(namespace)s">
 <%(soap_ns)s:Header/>
-<%(soap_ns)s:Body>
-    <%(ns)s:%(method)s>
-    </%(ns)s:%(method)s>
-</%(soap_ns)s:Body>
-</%(soap_ns)s:Envelope>"""
+<%(soap_ns)s:Body><%(ns)s:%(method)s></%(ns)s:%(method)s></%(soap_ns)s:Body></%(soap_ns)s:Envelope>"""
 
         # parse wsdl url
         self.services = wsdl and self.wsdl_parse(wsdl, cache=cache)
@@ -762,7 +758,7 @@ class SoapClient(object):
 
                 if 'fault_msgs' in op:
                     faults = op['faults'] = {}
-                    for name, msg in op['fault_msgs'].items():
+                    for msg in op['fault_msgs'].values():
                         msg_obj = get_message(messages, msg, parts_output_body)
                         tag_name = next(iter(msg_obj))
                         faults[tag_name] = msg_obj
