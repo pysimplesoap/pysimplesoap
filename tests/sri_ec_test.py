@@ -37,7 +37,8 @@ class TestSRI(unittest.TestCase):
         # https://cel.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantes?wsdl
         client = SoapClient(wsdl=WSDL, ns="ec")
         ret = client.validarComprobante(xml="cid:1346723263619")
-        self.assertDictEqual(ret, {'RespuestaRecepcionComprobante': {'comprobantes': {'comprobante': {'mensajes': {'mensaje': {'informacionAdicional': 'Content is not allowed in prolog.', 'identificador': '35', 'tipo': 'ERROR', 'mensaje': 'ARCHIVO NO CUMPLE ESTRUCTURA XML'}}, 'claveAcceso': 'N/A'}}, 'estado': 'DEVUELTA'}})
+        print(ret)
+        self.assertDictEqual(ret, {'RespuestaRecepcionComprobante': {'comprobantes': [{'comprobante': {'mensajes': [{'mensaje': {'tipo': 'ERROR', 'informacionAdicional': 'Content is not allowed in prolog.', 'mensaje': 'ARCHIVO NO CUMPLE ESTRUCTURA XML', 'identificador': '35'}}], 'claveAcceso': 'N/A'}}], 'estado': 'DEVUELTA'}})
             
 #    No longer works, so could not record valid response.
 #    @vcr.use_cassette('tests/data/vcr_cassettes/test_autorizar.yaml')
