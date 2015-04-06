@@ -372,7 +372,8 @@ class SoapClient(object):
         response = self.call(method, *params)
         # parse results:
         resp = response('Body', ns=soap_uri).children().unmarshall(output)
-        return resp and list(resp.values())[0]  # pass Response tag children
+        responsetag = list(output.keys())[0]
+        return resp and resp.get(responsetag, None)  # pass Response tag children
 
     def wsdl_call_get_params(self, method, input, args, kwargs):
         """Build params from input and args/kwargs"""
