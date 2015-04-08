@@ -181,13 +181,13 @@ class BinaryTokenSignature:
         self.__check(body['xmlns:wsu'], WSU_URI)
         ref_uri = body['wsu:Id']
         signature = wsse("Signature", ns=XMLDSIG_URI)
-        signed_info = signature("SignedInfo")
-        signature_value = signature("SignatureValue")
+        signed_info = signature("SignedInfo", ns=XMLDSIG_URI)
+        signature_value = signature("SignatureValue", ns=XMLDSIG_URI)
         # TODO: these sanity checks should be moved to xmlsec?
-        self.__check(signed_info("Reference")['URI'], "#" + ref_uri)
-        self.__check(signed_info("SignatureMethod")['Algorithm'], 
+        self.__check(signed_info("Reference", ns=XMLDSIG_URI)['URI'], "#" + ref_uri)
+        self.__check(signed_info("SignatureMethod", ns=XMLDSIG_URI)['Algorithm'], 
                      XMLDSIG_URI + "rsa-sha1")
-        self.__check(signed_info("Reference")("DigestMethod")['Algorithm'], 
+        self.__check(signed_info("Reference", ns=XMLDSIG_URI)("DigestMethod", ns=XMLDSIG_URI)['Algorithm'], 
                      XMLDSIG_URI + "sha1")
         # TODO: check KeyInfo uses the correct SecurityTokenReference
         # workaround: copy namespaces so lxml can parse the xml to be signed
@@ -198,7 +198,7 @@ class BinaryTokenSignature:
         ref_xml = xmlsec.canonicalize(repr(body))
         # verify the signed hash
         computed_hash =  xmlsec.sha1_hash_digest(ref_xml)
-        digest_value = str(signed_info("Reference")("DigestValue"))
+        digest_value = str(signed_info("Reference", ns=XMLDSIG_URI)("DigestValue", ns=XMLDSIG_URI))
         if computed_hash != digest_value:
             raise RuntimeError("WSSE SHA1 hash digests mismatch")
         # workaround: prepare the signed info (assure the parent ns is present)
