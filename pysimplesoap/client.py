@@ -514,6 +514,7 @@ class SoapClient(object):
     xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
 
     def _url_to_xml_tree(self, url, cache, force_download):
+        """Unmarshall the WSDL at the given url into a tree of SimpleXMLElement nodes"""
         # Open uri and read xml:
         xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
         # Parse WSDL XML:
@@ -548,6 +549,7 @@ class SoapClient(object):
         return wsdl
 
     def _xml_tree_to_services(self, wsdl, cache, force_download):
+        """Convert SimpleXMLElement tree representation of the WSDL into pythonic objects"""
         # detect soap prefix and uri (xmlns attributes of <definitions>)
         xsd_ns = None
         soap_uris = {}
@@ -577,6 +579,18 @@ class SoapClient(object):
         global_namespaces = {None: self.namespace}
 
         # process current wsdl schema (if any, or many if imported):
+        # <wsdl:definitions>
+        #     <wsdl:types>
+        #         <xs:schema>
+        #             <xs:element>
+        #                 <xs:complexType>...</xs:complexType>
+        #                 or
+        #                 <xs:.../>
+        #             </xs:element>
+        #         </xs:schema>
+        #     </wsdl:types>
+        # </wsdl:definitions>
+
         for types in wsdl('types', error=False) or []:
             # avoid issue if schema is not given in the main WSDL file
             schemas = types('schema', ns=self.xsd_uri, error=False)
