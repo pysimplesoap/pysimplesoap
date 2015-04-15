@@ -28,6 +28,13 @@ import warnings
 from . import __author__, __copyright__, __license__, __version__
 from .simplexml import SimpleXMLElement
 
+import random
+import string
+from hashlib import sha1
+
+def randombytes(N):
+    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(N))
+
 # Namespaces:
 
 WSSE_URI = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
@@ -35,6 +42,7 @@ WSU_URI = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-ut
 XMLDSIG_URI = "http://www.w3.org/2000/09/xmldsig#"
 X509v3_URI = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"
 Base64Binary_URI = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"
+PasswordDigest_URI = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest"
 
 
 class UsernameToken:
@@ -65,6 +73,39 @@ class UsernameToken:
         "Analyze incoming credentials"
         # TODO: add some password validation callback?
         pass
+
+class UsernameDigestToken(UsernameToken):
+    """
+    WebService Security extension to add a http digest credentials to xml request
+    drift -> time difference from the server in seconds, needed for 'Created' header
+    """
+
+    def __init__(self, username="", password="", drift=0):
+        self.username = username
+        self.password = password
+        self.drift = datetime.timedelta(seconds=drift)
+
+    def preprocess(self, client, request, method, args, kwargs, headers, soap_uri):
+        header = request('Header', ns=soap_uri, )
+        wsse = header.add_child('wsse:Security', ns=False)
+        wsse['xmlns:wsse'] = WSSE_URI
+        wsse['xmlns:wsu'] = WSU_URI
+
+        usertoken = wsse.add_child('wsse:UsernameToken', ns=False)
+        usertoken.add_child('wsse:Username', self.username, ns=False)
+
+        created = (datetime.datetime.utcnow() + self.drift).isoformat() + 'Z'
+        usertoken.add_child('wsu:Created', created, ns=False)
+
+        nonce = randombytes(16)
+        wssenonce = usertoken.add_child('wsse:Nonce', nonce.encode('base64')[:-1], ns=False)
+        wssenonce['EncodingType'] = Base64Binary_URI
+
+        sha1obj = sha1()
+        sha1obj.update(nonce + created + self.password)
+        digest = sha1obj.digest()
+        password = usertoken.add_child('wsse:Password', digest.encode('base64')[:-1], ns=False)
+        password['Type'] = PasswordDigest_URI
 
 
 BIN_TOKEN_TMPL = """<?xml version="1.0" encoding="UTF-8"?>
@@ -140,13 +181,13 @@ class BinaryTokenSignature:
         self.__check(body['xmlns:wsu'], WSU_URI)
         ref_uri = body['wsu:Id']
         signature = wsse("Signature", ns=XMLDSIG_URI)
-        signed_info = signature("SignedInfo")
-        signature_value = signature("SignatureValue")
+        signed_info = signature("SignedInfo", ns=XMLDSIG_URI)
+        signature_value = signature("SignatureValue", ns=XMLDSIG_URI)
         # TODO: these sanity checks should be moved to xmlsec?
-        self.__check(signed_info("Reference")['URI'], "#" + ref_uri)
-        self.__check(signed_info("SignatureMethod")['Algorithm'], 
+        self.__check(signed_info("Reference", ns=XMLDSIG_URI)['URI'], "#" + ref_uri)
+        self.__check(signed_info("SignatureMethod", ns=XMLDSIG_URI)['Algorithm'], 
                      XMLDSIG_URI + "rsa-sha1")
-        self.__check(signed_info("Reference")("DigestMethod")['Algorithm'], 
+        self.__check(signed_info("Reference", ns=XMLDSIG_URI)("DigestMethod", ns=XMLDSIG_URI)['Algorithm'], 
                      XMLDSIG_URI + "sha1")
         # TODO: check KeyInfo uses the correct SecurityTokenReference
         # workaround: copy namespaces so lxml can parse the xml to be signed
@@ -157,7 +198,7 @@ class BinaryTokenSignature:
         ref_xml = xmlsec.canonicalize(repr(body))
         # verify the signed hash
         computed_hash =  xmlsec.sha1_hash_digest(ref_xml)
-        digest_value = str(signed_info("Reference")("DigestValue"))
+        digest_value = str(signed_info("Reference", ns=XMLDSIG_URI)("DigestValue", ns=XMLDSIG_URI))
         if computed_hash != digest_value:
             raise RuntimeError("WSSE SHA1 hash digests mismatch")
         # workaround: prepare the signed info (assure the parent ns is present)
