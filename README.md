@@ -9,9 +9,9 @@ Initially it was inspired by [PHP Soap Extension](http://php.net/manual/en/book.
 Goals
 -----
 
- * Simple: originally less than 200LOC client/server concrete implementation for easy maintainability and enhancements. 
- * Flexible: adapted to several SOAP dialects/servers (Java Axis, .Net, WCF, JBoss, "jetty"), with the posibility of fine-tuning XML request and responses 
- * Pythonic: no artifacts, no class generation, no special types, RPC calls parameters and return values are simple python structures (dicts, list, etc.) 
+ * Simple: originally less than 200LOC client/server concrete implementation for easy maintainability and enhancements.
+ * Flexible: adapted to several SOAP dialects/servers (Java Axis, .Net, WCF, JBoss, "jetty"), with the posibility of fine-tuning XML request and responses
+ * Pythonic: no artifacts, no class generation, no special types, RPC calls parameters and return values are simple python structures (dicts, list, etc.)
  * Dynamic: no definition (WSDL) required, dynamic generation and parsing supported (cached in a pickle file for performance, supporting fixing broken WSDL)
  * Easy: simple xml manipulation, including basic serialization and raw object-like access to SOAP messages
  * Extensible: supports several HTTP wrappers (httplib2, pycurl, urllib2) for special transport needs over SSL and proxy (ISA)
@@ -36,17 +36,18 @@ Changelog
 Recent changes (2014/2015):
 
 * Plug-in system to support for WSSE (Web-Services Security extensions)
-* WSSE UsernameToken, UsernameDigestToken and BinaryTokenSignature support 
+* WSSE UsernameToken, UsernameDigestToken and BinaryTokenSignature support
 * Pythonic XML Security Library basic implementation (canonicalization, SHA1 hashing and RSA signing / verification using X509 digital certificates)
 * Improved SOAP Fault details
 * Several fixes (basic python3 support, CDATA, )
 
 Ongoing efforts:
 
-* Unit Tests update & clean up (removing old tests, better framework, fixing non-deterministic results, etc.) 
+* Unit Tests update & clean up (removing old tests, better framework, fixing non-deterministic results, etc.)
 * WSDL advanced support (unifying nested elements structure dialects)
 * Python3 support for WSSE XMLSec (M2Crypto alternatives?)
 * Source code refactory to improve readability and maintainability
+* Improving interop with .NET WCF services
 
 Previous contributed features (circa 2013, forked and merged back):
 
@@ -66,12 +67,12 @@ Using Python 2.7+:
 Using older Python versions:
 
     python -m unittest tests/suite.py
-  
+
 Code coverage:
 
     sudo pip install coverage
     coverage run tests/suite.py
-    coverage report -m 
+    coverage report -m
     coverage html
 
 
@@ -82,4 +83,3 @@ For community support, please fell free to fill an [issue](https://github.com/py
 Please do not add comment to wiki pages if you have technical questions.
 
 For priority commercial technical support, you can contact [Mariano Reingart](mailto:reingart@gmail.com) (project creator and main maintainter, see [AUTHORS](AUTHORS.md) for more info).
-
