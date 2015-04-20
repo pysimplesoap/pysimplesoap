@@ -1,0 +1,107 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [celcer.sri.gob.ec]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://celcer.sri.gob.ec:443/comprobantes-electronicos-ws/RecepcionComprobantes?wsdl
+  response:
+    body: {string: "<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd=\"\
+        http://www.w3.org/2001/XMLSchema\" xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\"\
+        \ xmlns:tns=\"http://ec.gob.sri.ws.recepcion\" xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"\
+        \ xmlns:ns1=\"http://schemas.xmlsoap.org/soap/http\" name=\"RecepcionComprobantesService\"\
+        \ targetNamespace=\"http://ec.gob.sri.ws.recepcion\">\n  <wsdl:types>\n<xs:schema\
+        \ xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:tns=\"http://ec.gob.sri.ws.recepcion\"\
+        \ elementFormDefault=\"unqualified\" targetNamespace=\"http://ec.gob.sri.ws.recepcion\"\
+        \ version=\"1.0\">\n\n  <xs:element name=\"RespuestaSolicitud\" type=\"tns:respuestaSolicitud\"\
+        />\n\n  <xs:element name=\"comprobante\" type=\"tns:comprobante\"/>\n\n  <xs:element\
+        \ name=\"mensaje\" type=\"tns:mensaje\"/>\n\n  <xs:element name=\"validarComprobante\"\
+        \ type=\"tns:validarComprobante\"/>\n\n  <xs:element name=\"validarComprobanteResponse\"\
+        \ type=\"tns:validarComprobanteResponse\"/>\n\n  <xs:complexType name=\"validarComprobante\"\
+        >\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"xml\" type=\"\
+        xs:base64Binary\"/>\n    </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType\
+        \ name=\"validarComprobanteResponse\">\n    <xs:sequence>\n      <xs:element\
+        \ minOccurs=\"0\" name=\"RespuestaRecepcionComprobante\" type=\"tns:respuestaSolicitud\"\
+        />\n    </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType name=\"respuestaSolicitud\"\
+        >\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"estado\" type=\"\
+        xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"comprobantes\">\n\
+        \        <xs:complexType>\n          <xs:sequence>\n            <xs:element\
+        \ maxOccurs=\"unbounded\" minOccurs=\"0\" ref=\"tns:comprobante\"/>\n    \
+        \      </xs:sequence>\n        </xs:complexType>\n      </xs:element>\n  \
+        \  </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType name=\"comprobante\"\
+        >\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"claveAcceso\"\
+        \ type=\"xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"mensajes\"\
+        >\n        <xs:complexType>\n          <xs:sequence>\n            <xs:element\
+        \ maxOccurs=\"unbounded\" minOccurs=\"0\" ref=\"tns:mensaje\"/>\n        \
+        \  </xs:sequence>\n        </xs:complexType>\n      </xs:element>\n    </xs:sequence>\n\
+        \  </xs:complexType>\n\n  <xs:complexType name=\"mensaje\">\n    <xs:sequence>\n\
+        \      <xs:element minOccurs=\"0\" name=\"identificador\" type=\"xs:string\"\
+        />\n      <xs:element minOccurs=\"0\" name=\"mensaje\" type=\"xs:string\"\
+        />\n      <xs:element minOccurs=\"0\" name=\"informacionAdicional\" type=\"\
+        xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"tipo\" type=\"xs:string\"\
+        />\n    </xs:sequence>\n  </xs:complexType>\n\n</xs:schema>\n  </wsdl:types>\n\
+        \  <wsdl:message name=\"validarComprobanteResponse\">\n    <wsdl:part element=\"\
+        tns:validarComprobanteResponse\" name=\"parameters\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"validarComprobante\">\n    <wsdl:part\
+        \ element=\"tns:validarComprobante\" name=\"parameters\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:portType name=\"RecepcionComprobantes\">\n   \
+        \ <wsdl:operation name=\"validarComprobante\">\n      <wsdl:input message=\"\
+        tns:validarComprobante\" name=\"validarComprobante\">\n    </wsdl:input>\n\
+        \      <wsdl:output message=\"tns:validarComprobanteResponse\" name=\"validarComprobanteResponse\"\
+        >\n    </wsdl:output>\n    </wsdl:operation>\n  </wsdl:portType>\n  <wsdl:binding\
+        \ name=\"RecepcionComprobantesServiceSoapBinding\" type=\"tns:RecepcionComprobantes\"\
+        >\n    <soap:binding style=\"document\" transport=\"http://schemas.xmlsoap.org/soap/http\"\
+        />\n    <wsdl:operation name=\"validarComprobante\">\n      <soap:operation\
+        \ soapAction=\"\" style=\"document\"/>\n      <wsdl:input name=\"validarComprobante\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output\
+        \ name=\"validarComprobanteResponse\">\n        <soap:body use=\"literal\"\
+        />\n      </wsdl:output>\n    </wsdl:operation>\n  </wsdl:binding>\n  <wsdl:service\
+        \ name=\"RecepcionComprobantesService\">\n    <wsdl:port binding=\"tns:RecepcionComprobantesServiceSoapBinding\"\
+        \ name=\"RecepcionComprobantesPort\">\n      <soap:address location=\"https://celcer.sri.gob.ec/comprobantes-electronicos-ws/RecepcionComprobantes\"\
+        />\n    </wsdl:port>\n  </wsdl:service>\n</wsdl:definitions>"}
+    headers:
+      Cache-Control: [max-age=315360000]
+      Connection: [close]
+      Content-Length: ['4062']
+      Content-Type: [text/xml;charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 10:40:55 GMT']
+      Expires: ['Mon, 17 Mar 2025 10:40:55 GMT']
+      Server: [Apache]
+      Set-Cookie: [bbbbbbbbbbbbbbb=FGDNOIICDNFEEHIKNJDPMLEGBPHAKEPIOHFOJIBCBEBDBHPLAKMGMDGOPLOAAOAMNIODFACHJGDNHFCAMPNIMFACBGIIBEFFHPHNAEHLAFPBFDPMDOHCLGGKBKDPNCEJ;
+          HttpOnly; secure]
+      Vary: [Accept-Encoding]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcGVudjpFbnZlbG9wZSB4
+      bWxuczplYz0iaHR0cDovL2VjLmdvYi5zcmkud3MucmVjZXBjaW9uIiB4bWxuczpzb2FwZW52PSJo
+      dHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyI+Cjxzb2FwZW52OkhlYWRl
+      ci8+Cjxzb2FwZW52OkJvZHk+CiAgICA8ZWM6dmFsaWRhckNvbXByb2JhbnRlPgogICAgPHhtbD5j
+      aWQ6MTM0NjcyMzI2MzYxOTwveG1sPjwvZWM6dmFsaWRhckNvbXByb2JhbnRlPgo8L3NvYXBlbnY6
+      Qm9keT4KPC9zb2FwZW52OkVudmVsb3BlPg==
+    headers:
+      Connection: [close]
+      Content-Length: ['310']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [celcer.sri.gob.ec]
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://celcer.sri.gob.ec:443/comprobantes-electronicos-ws/RecepcionComprobantes
+  response:
+    body: {string: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">   <soap:Body>      <ns2:validarComprobanteResponse xmlns:ns2="http://ec.gob.sri.ws.recepcion">         <RespuestaRecepcionComprobante>            <estado>DEVUELTA</estado>            <comprobantes>               <comprobante>                  <claveAcceso>N/A</claveAcceso>                  <mensajes>                     <mensaje>                        <identificador>35</identificador>                        <mensaje>ARCHIVO NO CUMPLE ESTRUCTURA XML</mensaje>                        <informacionAdicional>Content is not allowed in prolog.</informacionAdicional>                        <tipo>ERROR</tipo>                     </mensaje>                  </mensajes>               </comprobante>            </comprobantes>         </RespuestaRecepcionComprobante>      </ns2:validarComprobanteResponse>   </soap:Body></soap:Envelope>'}
+    headers:
+      Cache-Control: [max-age=315360000]
+      Connection: [close]
+      Content-Length: ['249']
+      Content-Type: [text/xml;charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 10:40:56 GMT']
+      Expires: ['Mon, 17 Mar 2025 10:40:56 GMT']
+      Server: [Apache]
+      Set-Cookie: [bbbbbbbbbbbbbbb=DIEBLNOBCDNPDHMFFIIBEHLEKKGGAKDOMHLNCJLCFCCDELGKHGPMMIMMPBPADNNJOIGPJPIOPJOFKJGOMPLPCKEKLAJKBBPLIJMEKENJLJEBEDOFLPCGADEIJBNIKCMG;
+          HttpOnly; secure]
+      Vary: [Accept-Encoding]
+    status: {code: 500, message: Internal Server Error}
+version: 1

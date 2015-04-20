@@ -1,0 +1,188 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [peopleask.ooz.ie]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://peopleask.ooz.ie/soap.wsdl
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?>
+
+        <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://peopleask.ooz.ie/soap"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+        targetNamespace="http://peopleask.ooz.ie/soap">
+
+        <types>
+
+        <s:schema elementFormDefault="qualified" targetNamespace="http://peopleask.ooz.ie/soap">
+
+        <s:element name="GetQuestionsAbout">
+
+        <s:complexType>
+
+        <s:sequence>
+
+        <s:element minOccurs="1" maxOccurs="1" name="query" type="s:string" />
+
+        </s:sequence>
+
+        </s:complexType>
+
+        </s:element>
+
+        <s:element name="GetQuestionsAboutResponse">
+
+        <s:complexType>
+
+        <s:sequence>
+
+        <s:element minOccurs="1" maxOccurs="1" name="GetQuestionsAbout" type="tns:ArrayOfstring"
+        />
+
+        </s:sequence>
+
+        </s:complexType>
+
+        </s:element>
+
+        <s:complexType name="ArrayOfstring">
+
+        <s:sequence>
+
+        <s:element minOccurs="0" maxOccurs="unbounded" name="string" type="s:string"
+        />
+
+        </s:sequence>
+
+        </s:complexType>
+
+        </s:schema></types><message name="GetQuestionsAboutSoapIn">
+
+        <part name="parameters" element="tns:GetQuestionsAbout" />
+
+        </message>
+
+        <message name="GetQuestionsAboutSoapOut">
+
+        <part name="parameters" element="tns:GetQuestionsAboutResponse" />
+
+        </message>
+
+        <portType name="PeopleAskServiceSoap">
+
+        <operation name="GetQuestionsAbout">
+
+        <input message="tns:GetQuestionsAboutSoapIn" />
+
+        <output message="tns:GetQuestionsAboutSoapOut" />
+
+        </operation>
+
+        </portType>
+
+        <binding name="PeopleAskServiceSoap" type="tns:PeopleAskServiceSoap">
+
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"
+        />
+
+        <operation name="GetQuestionsAbout">
+
+        <soap:operation soapAction="http://peopleask.ooz.ie/soap/GetQuestionsAbout"
+        style="document" />
+
+        <input>
+
+        <soap:body use="literal" />
+
+        </input>
+
+        <output>
+
+        <soap:body use="literal" />
+
+        </output>
+
+        </operation>
+
+        </binding>
+
+        <service name="PeopleAskService">
+
+        <port name="PeopleAskServiceSoap" binding="tns:PeopleAskServiceSoap">
+
+        <soap:address location="http://peopleask.ooz.ie/soap" />
+
+        </port>
+
+        </service>
+
+        </definitions>
+
+        '}
+    headers:
+      Accept-Ranges: [none]
+      Alternate-Protocol: ['80:quic,p=0.5,80:quic,p=0.5']
+      Cache-Control: [no-cache]
+      Connection: [close]
+      Content-Type: [text/xml; charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 13:33:54 GMT']
+      Expires: ['Fri, 01 Jan 1990 00:00:00 GMT']
+      Server: [Google Frontend]
+      Vary: [Accept-Encoding]
+    status: {code: 202, message: Accepted}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8R2V0UXVlc3Rpb25zQWJvdXQgeG1sbnM9Imh0dHA6Ly9wZW9wbGVhc2sub296
+      LmllL3NvYXAiPgogICAgPHF1ZXJ5Pm1vbmV5PC9xdWVyeT48L0dldFF1ZXN0aW9uc0Fib3V0Pgo8
+      L3NvYXA6Qm9keT4KPC9zb2FwOkVudmVsb3BlPg==
+    headers:
+      Connection: [close]
+      Content-Length: ['370']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [peopleask.ooz.ie]
+      Soapaction: ['"http://peopleask.ooz.ie/soap/GetQuestionsAbout"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: http://peopleask.ooz.ie/soap
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope\n\
+        \  SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\n\
+        \  xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\"\n  xmlns:xsi=\"\
+        http://www.w3.org/1999/XMLSchema-instance\"\n  xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"\
+        \n  xmlns:xsd=\"http://www.w3.org/1999/XMLSchema\"\n>\n<SOAP-ENV:Body>\n<Questions\
+        \ SOAP-ENC:arrayType=\"xsd:string[26]\" xsi:type=\"SOAP-ENC:Array\" SOAP-ENC:root=\"\
+        1\">\n<item>how to do a moneygram</item>\n<item>who\\u0027s money do i have</item>\n\
+        <item>who do i owe money to</item>\n<item>money inthe bank 2013</item>\n<item>when\
+        \ is money in the bank 2012</item>\n<item>when is money in the bank</item>\n\
+        <item>why can\\u0027t money buy happiness</item>\n<item>why can\\u0027t money\
+        \ be printed</item>\n<item>why can\\u0027t money buy love</item>\n<item>who\
+        \ do countries borrow money from</item>\n<item>who much money do i need to\
+        \ retire</item>\n<item>when is money printed</item>\n<item>when is money created</item>\n\
+        <item>why can\\u0027t money buy happiness essay</item>\n<item>why can\\u0027t\
+        \ money buy you happiness</item>\n<item>who much money do you get in monopoly</item>\n\
+        <item>who much money do youtubers make</item>\n<item>who do i invest money\
+        \ with</item>\n<item>when is money available after depositing</item>\n<item>when\
+        \ is money destroyed</item>\n<item>money inthe bank 2014</item>\n<item>when\
+        \ is money from strangers on</item>\n<item>when is money available with direct\
+        \ deposit</item>\n<item>why can\\u0027t money just be printed</item>\n<item>why\
+        \ can\\u0027t money grow on trees</item>\n<item>why can\\u0027t money buy\
+        \ happiness yahoo</item>\n</Questions>\n</SOAP-ENV:Body>\n</SOAP-ENV:Envelope>\n"}
+    headers:
+      Accept-Ranges: [none]
+      Alternate-Protocol: ['80:quic,p=0.5,80:quic,p=0.5']
+      Cache-Control: [no-cache]
+      Connection: [close]
+      Content-Type: [text/html; charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 13:33:54 GMT']
+      Expires: ['Fri, 01 Jan 1990 00:00:00 GMT']
+      Server: [Google Frontend]
+      Vary: [Accept-Encoding]
+    status: {code: 200, message: OK}
+version: 1

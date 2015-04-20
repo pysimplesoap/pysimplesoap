@@ -34,7 +34,8 @@ from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from .helpers import fetch, sort_dict, make_key, process_element, \
                      postprocess_element, get_message, preprocess_schema, \
-                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit
+                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit,\
+                     Alias
 from .wsse import UsernameToken
 
 
@@ -221,7 +222,8 @@ class SoapClient(object):
             delattr(request("Body", ns=list(soap_namespaces.values()),), method)
 
         # construct header and parameters (if not wsdl given) except wsse
-        if self.__headers and not self.services:
+        # the "and not self.services" prevents the documented client['someheader'] = ... from working
+        if self.__headers:# and not self.services:
             self.__call_headers = dict([(k, v) for k, v in self.__headers.items()
                                         if not k.startswith('wsse:')])
         # always extract WS Security header and send it (backward compatible)
@@ -366,7 +368,8 @@ class SoapClient(object):
         response = self.call(method, *params)
         # parse results:
         resp = response('Body', ns=soap_uri).children().unmarshall(output)
-        return resp and list(resp.values())[0]  # pass Response tag children
+        responsetag = list(output.keys())[0]
+        return resp and resp.get(responsetag, list(resp.values())[0] )  # pass Response tag children
 
     def wsdl_call_get_params(self, method, input, args, kwargs):
         """Build params from input and args/kwargs"""
@@ -430,10 +433,15 @@ class SoapClient(object):
         # Determine parameter type
         if type(struct) == type(value):
             typematch = True
+        # TODO: Previous if-statement is superfluous, should it have done something?
         if not isinstance(struct, dict) and isinstance(value, dict):
             typematch = True    # struct can be a dict or derived (Struct)
         else:
             typematch = False
+
+        # Check for if struct is an Alias
+        if isinstance(struct, Alias):
+            struct = struct.py_type
 
         if struct == str:
             struct = unicode        # fix for py2 vs py3 string handling
@@ -766,7 +774,7 @@ class SoapClient(object):
                     faults = op['faults'] = {}
                     for msg in op['fault_msgs'].values():
                         msg_obj = get_message(messages, msg, parts_output_body)
-                        tag_name = msg_obj.keys()[0]
+                        tag_name = next(iter(msg_obj))
                         faults[tag_name] = msg_obj
 
                 # useless? never used

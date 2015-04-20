@@ -1,0 +1,1077 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [apiapac.lumesse-talenthub.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://apiapac.lumesse-talenthub.com:443/HRIS/SOAP/Candidate?WSDL
+  response:
+    body: {string: "<?xml version='1.0' encoding='UTF-8'?>\n<definitions name='CandidateWebService'\
+        \ targetNamespace='http://ws.mrted.com/' xmlns='http://schemas.xmlsoap.org/wsdl/'\
+        \ xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ws.mrted.com/'\
+        \ xmlns:xsd='http://www.w3.org/2001/XMLSchema'>\n <types>\n  <xs:schema targetNamespace='http://ws.mrted.com/'\
+        \ version='1.0' xmlns:tns='http://ws.mrted.com/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>\n\
+        \   <xs:element name='WebServiceException' nillable='true' type='tns:faultDetails'/>\n\
+        \   <xs:element name='addTag' type='tns:addTag'/>\n   <xs:element name='addTagResponse'\
+        \ type='tns:addTagResponse'/>\n   <xs:element name='address' type='tns:addressFDto'/>\n\
+        \   <xs:element name='answer' nillable='true' type='xs:anyType'/>\n   <xs:element\
+        \ name='answerValidation' type='tns:answerValidationDto'/>\n   <xs:element\
+        \ name='answered-question' type='tns:questionAnsweredDto'/>\n   <xs:element\
+        \ name='application' type='tns:applicationDto'/>\n   <xs:element name='applicationFollowup'\
+        \ type='tns:applicationFollowup'/>\n   <xs:element name='assignedOption' nillable='true'\
+        \ type='xs:anyType'/>\n   <xs:element name='assignedQuestion' nillable='true'\
+        \ type='xs:anyType'/>\n   <xs:element name='attachedFile' type='tns:attachedFileDto'/>\n\
+        \   <xs:element name='candidate' type='tns:profile'/>\n   <xs:element name='candidateprofile'\
+        \ type='tns:candidateProfile'/>\n   <xs:element name='complex-question' type='tns:complex-assigned-question'/>\n\
+        \   <xs:element name='contract' type='tns:contractDto'/>\n   <xs:element name='contractor'\
+        \ type='tns:contractor'/>\n   <xs:element name='contractorContract' type='tns:contractorContract'/>\n\
+        \   <xs:element name='createCandidateViaFolder' type='tns:createCandidateViaFolder'/>\n\
+        \   <xs:element name='createCandidateViaFolderResponse' type='tns:createCandidateViaFolderResponse'/>\n\
+        \   <xs:element name='createCandidateViaOpening' type='tns:createCandidateViaOpening'/>\n\
+        \   <xs:element name='createCandidateViaOpeningResponse' type='tns:createCandidateViaOpeningResponse'/>\n\
+        \   <xs:element name='document' nillable='true' type='xs:anyType'/>\n   <xs:element\
+        \ name='downloadAttachedFile' type='tns:downloadAttachedFile'/>\n   <xs:element\
+        \ name='downloadAttachedFileResponse' type='tns:downloadAttachedFileResponse'/>\n\
+        \   <xs:element name='editTag' type='tns:editTagByCandidateID'/>\n   <xs:element\
+        \ name='editTagResponse' type='tns:editTagByCandidateIDResponse'/>\n   <xs:element\
+        \ name='errorInfo' type='tns:errorInfo'/>\n   <xs:element name='faultDetails'\
+        \ type='tns:faultDetails'/>\n   <xs:element name='form' type='tns:formDto'/>\n\
+        \   <xs:element name='form-answered' type='tns:formAnsweredDto'/>\n   <xs:element\
+        \ name='freeFormField' type='tns:freeFormFieldContract'/>\n   <xs:element\
+        \ name='getApplicationById' type='tns:getApplicationById'/>\n   <xs:element\
+        \ name='getApplicationByIdResponse' type='tns:getApplicationByIdResponse'/>\n\
+        \   <xs:element name='getApplications' type='tns:getApplications'/>\n   <xs:element\
+        \ name='getApplicationsByCandidateId' type='tns:getApplicationsByCandidateId'/>\n\
+        \   <xs:element name='getApplicationsByCandidateIdResponse' type='tns:getApplicationsByCandidateIdResponse'/>\n\
+        \   <xs:element name='getApplicationsByStatus' type='tns:getApplicationsByStatus'/>\n\
+        \   <xs:element name='getApplicationsByStatusResponse' type='tns:getApplicationsByStatusResponse'/>\n\
+        \   <xs:element name='getApplicationsResponse' type='tns:getApplicationsResponse'/>\n\
+        \   <xs:element name='getCandidateById' type='tns:getCandidateById'/>\n  \
+        \ <xs:element name='getCandidateByIdResponse' type='tns:getCandidateByIdResponse'/>\n\
+        \   <xs:element name='getCandidateStructuredDocumentById' type='tns:getCandidateStructuredDocumentById'/>\n\
+        \   <xs:element name='getCandidateStructuredDocumentByIdResponse' type='tns:getCandidateStructuredDocumentByIdResponse'/>\n\
+        \   <xs:element name='getContracts' type='tns:getContracts'/>\n   <xs:element\
+        \ name='getContractsByApplicationId' type='tns:getContractsByApplicationId'/>\n\
+        \   <xs:element name='getContractsByApplicationIdResponse' type='tns:getContractsByApplicationIdResponse'/>\n\
+        \   <xs:element name='getContractsResponse' type='tns:getContractsResponse'/>\n\
+        \   <xs:element name='getCurrentBoCpTemplateByType' type='tns:getCurrentBoCpTemplateByType'/>\n\
+        \   <xs:element name='getCurrentBoCpTemplateByTypeResponse' type='tns:getCurrentBoCpTemplateByTypeResponse'/>\n\
+        \   <xs:element name='getGfCandidateProfile' type='tns:getGfCandidateProfile'/>\n\
+        \   <xs:element name='getGfCandidateProfileResponse' type='tns:getGfCandidateProfileResponse'/>\n\
+        \   <xs:element name='getStructuredDocumentById' type='tns:getStructuredDocumentById'/>\n\
+        \   <xs:element name='getStructuredDocumentByIdResponse' type='tns:getStructuredDocumentByIdResponse'/>\n\
+        \   <xs:element name='getTagTypes' type='tns:getTagTypes'/>\n   <xs:element\
+        \ name='getTagTypesResponse' type='tns:getTagTypesResponse'/>\n   <xs:element\
+        \ name='getTaggedProfiles' type='tns:getTaggedProfiles'/>\n   <xs:element\
+        \ name='getTaggedProfilesResponse' type='tns:getTaggedProfilesResponse'/>\n\
+        \   <xs:element name='getTagsForType' type='tns:getTagsForType'/>\n   <xs:element\
+        \ name='getTagsForTypeResponse' type='tns:getTagsForTypeResponse'/>\n   <xs:element\
+        \ name='gf_document' type='tns:gfDocument'/>\n   <xs:element name='keyname'\
+        \ type='tns:keyNameDto'/>\n   <xs:element name='listOfValues' type='tns:listOfValuesDto'/>\n\
+        \   <xs:element name='lov' nillable='true' type='xs:anyType'/>\n   <xs:element\
+        \ name='lovValue' nillable='true' type='xs:anyType'/>\n   <xs:element name='option'\
+        \ type='tns:optionDto'/>\n   <xs:element name='permanentContract' type='tns:permanentContract'/>\n\
+        \   <xs:element name='personalData' type='tns:personalDataDto'/>\n   <xs:element\
+        \ name='profile' type='tns:profileDto'/>\n   <xs:element name='question' type='tns:simple-assigned-question'/>\n\
+        \   <xs:element name='questionCompetencyCategory' type='tns:questionCompetencyCategoryDto'/>\n\
+        \   <xs:element name='questionLayout' type='tns:questionLayoutDto'/>\n   <xs:element\
+        \ name='questionsAnswered' type='tns:questionsAnsweredDto'/>\n   <xs:element\
+        \ name='rate' type='tns:rate'/>\n   <xs:element name='rateUnit' type='tns:rateUnit'/>\n\
+        \   <xs:element name='removeTag' type='tns:removeTagByCandidateID'/>\n   <xs:element\
+        \ name='removeTagResponse' type='tns:removeTagByCandidateIDResponse'/>\n \
+        \  <xs:element name='schedule' type='tns:schedule'/>\n   <xs:element name='selectedOption'\
+        \ type='tns:selectedOption'/>\n   <xs:element name='structuredDocument' type='tns:structuredDocument'/>\n\
+        \   <xs:element name='tag' type='tns:tag'/>\n   <xs:element name='tagType'\
+        \ type='tns:tagType'/>\n   <xs:element name='updateCandidatePif' type='tns:updateCandidatePif'/>\n\
+        \   <xs:element name='updateCandidatePifResponse' type='tns:updateCandidatePifResponse'/>\n\
+        \   <xs:element name='uploadAttachedFile' type='tns:uploadAttachedFile'/>\n\
+        \   <xs:element name='uploadAttachedFileResponse' type='tns:uploadAttachedFileResponse'/>\n\
+        \   <xs:element name='user' type='tns:userDto'/>\n   <xs:complexType name='getCandidateById'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='candidateId'\
+        \ type='xs:long'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='getCandidateByIdResponse'>\n    <xs:sequence>\n     <xs:element minOccurs='0'\
+        \ ref='tns:candidate'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='profile'>\n    <xs:complexContent>\n     <xs:extension base='tns:baseEntity'>\n\
+        \      <xs:sequence>\n       <xs:element minOccurs='0' name='academicTitle'\
+        \ type='xs:string'/>\n       <xs:element minOccurs='0' name='address' type='tns:address'/>\n\
+        \       <xs:element name='anonymous' type='xs:boolean'/>\n       <xs:element\
+        \ minOccurs='0' name='creation' type='xs:dateTime'/>\n       <xs:element minOccurs='0'\
+        \ name='dataPrivacy' type='tns:dataPrivacy'/>\n       <xs:element minOccurs='0'\
+        \ name='email' type='xs:string'/>\n       <xs:element minOccurs='0' name='firstname'\
+        \ type='xs:string'/>\n       <xs:element maxOccurs='unbounded' minOccurs='0'\
+        \ name='foldersName' type='xs:string'/>\n       <xs:element minOccurs='0'\
+        \ name='id' type='xs:long'/>\n       <xs:element minOccurs='0' name='initialType'\
+        \ type='xs:string'/>\n       <xs:element minOccurs='0' name='lastname' type='xs:string'/>\n\
+        \       <xs:element minOccurs='0' name='legacyId' type='xs:string'/>\n   \
+        \    <xs:element minOccurs='0' name='linkedInId' type='xs:string'/>\n    \
+        \   <xs:element minOccurs='0' name='memo' type='xs:string'/>\n       <xs:element\
+        \ minOccurs='0' name='middlename' type='xs:string'/>\n       <xs:element minOccurs='0'\
+        \ name='personalData' type='tns:personalData'/>\n       <xs:element minOccurs='0'\
+        \ name='position' type='tns:position'/>\n       <xs:element minOccurs='0'\
+        \ name='reference' type='tns:reference'/>\n       <xs:element minOccurs='0'\
+        \ name='socialSecurityNumber' type='xs:string'/>\n       <xs:element minOccurs='0'\
+        \ name='sourcingMedium' type='tns:sourcingMedium'/>\n       <xs:element minOccurs='0'\
+        \ name='srcChannelName' type='xs:string'/>\n       <xs:element minOccurs='0'\
+        \ name='srcChannelType' type='tns:applicationSrcType'/>\n       <xs:element\
+        \ minOccurs='0' name='status' type='tns:candidateStatus'/>\n       <xs:element\
+        \ minOccurs='0' name='tags'>\n        <xs:complexType>\n         <xs:sequence>\n\
+        \          <xs:element maxOccurs='unbounded' minOccurs='0' name='tag' type='tns:tag'/>\n\
+        \         </xs:sequence>\n        </xs:complexType>\n       </xs:element>\n\
+        \       <xs:element minOccurs='0' name='type' type='xs:string'/>\n       <xs:element\
+        \ minOccurs='0' name='uiLanguage' type='tns:language'/>\n       <xs:element\
+        \ minOccurs='0' name='update' type='xs:dateTime'/>\n      </xs:sequence>\n\
+        \     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n  \
+        \ <xs:complexType abstract='true' name='baseEntity'>\n    <xs:sequence/>\n\
+        \   </xs:complexType>\n   <xs:complexType name='address'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='address1' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='address2' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='alternateEmail' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='city' type='xs:string'/>\n     <xs:element minOccurs='0' name='country'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='fax' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='homePhone' type='xs:string'/>\n    \
+        \ <xs:element minOccurs='0' name='latCoordinate' type='xs:double'/>\n    \
+        \ <xs:element minOccurs='0' name='lngCoordinate' type='xs:double'/>\n    \
+        \ <xs:element minOccurs='0' name='mobilePhone' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='personalWebSite' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='preferredComChannel' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='regionName' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='workPhone' type='xs:string'/>\n     <xs:element minOccurs='0' name='zip'\
+        \ type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='dataPrivacy'>\n    <xs:complexContent>\n     <xs:extension base='tns:regularLov'>\n\
+        \      <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n  \
+        \ </xs:complexType>\n   <xs:complexType abstract='true' name='regularLov'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:reflectiveLov'>\n \
+        \     <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType abstract='true' name='reflectiveLov'>\n    <xs:complexContent>\n\
+        \     <xs:extension base='tns:lov'>\n      <xs:sequence/>\n     </xs:extension>\n\
+        \    </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType abstract='true'\
+        \ name='lov'>\n    <xs:sequence/>\n    <xs:attribute name='value' type='xs:string'/>\n\
+        \   </xs:complexType>\n   <xs:complexType name='personalData'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='citizenship' type='tns:citizenship'/>\n\
+        \     <xs:element minOccurs='0' name='dateOfBirth' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='dateOfBirthString' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='language' type='tns:language'/>\n  \
+        \   <xs:element minOccurs='0' name='maritalStatus' type='tns:maritalStatus'/>\n\
+        \     <xs:element minOccurs='0' name='numberOfChildren' type='xs:int'/>\n\
+        \     <xs:element minOccurs='0' name='sex' type='tns:sex'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='citizenship'>\n    <xs:complexContent>\n\
+        \     <xs:extension base='tns:regularLov'>\n      <xs:sequence/>\n     </xs:extension>\n\
+        \    </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType name='language'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:reflectiveLov'>\n \
+        \     <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='maritalStatus'>\n    <xs:complexContent>\n     <xs:extension\
+        \ base='tns:regularLov'>\n      <xs:sequence/>\n     </xs:extension>\n   \
+        \ </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType name='sex'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:regularLov'>\n    \
+        \  <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='position'>\n    <xs:sequence>\n     <xs:element\
+        \ minOccurs='0' name='company' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='companyStartDate' type='xs:dateTime'/>\n     <xs:element minOccurs='0'\
+        \ name='compensation' type='xs:string'/>\n     <xs:element minOccurs='0' name='employeeCode'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='location' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='managerName' type='xs:string'/>\n  \
+        \   <xs:element minOccurs='0' name='position' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='positionEndDate' type='xs:dateTime'/>\n     <xs:element\
+        \ minOccurs='0' name='positionStartDate' type='xs:dateTime'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='reference'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='company' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='email' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='employeeCode' type='xs:string'/>\n     <xs:element minOccurs='0' name='referredFrom'\
+        \ type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='sourcingMedium'>\n    <xs:complexContent>\n     <xs:extension base='tns:regularLov'>\n\
+        \      <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n  \
+        \ </xs:complexType>\n   <xs:complexType name='applicationSrcType'>\n    <xs:complexContent>\n\
+        \     <xs:extension base='tns:regularLov'>\n      <xs:sequence/>\n     </xs:extension>\n\
+        \    </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType name='candidateStatus'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:regularLov'>\n    \
+        \  <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='tag'>\n    <xs:complexContent>\n     <xs:extension\
+        \ base='tns:baseEntity'>\n      <xs:sequence>\n       <xs:element minOccurs='0'\
+        \ name='labeKey' type='xs:string'/>\n       <xs:element minOccurs='0' name='name'\
+        \ type='xs:string'/>\n       <xs:element minOccurs='0' name='type' type='tns:tagType'/>\n\
+        \      </xs:sequence>\n     </xs:extension>\n    </xs:complexContent>\n  \
+        \ </xs:complexType>\n   <xs:complexType name='tagType'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='labeKey' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='name' type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='getApplicationById'>\n    <xs:sequence>\n     <xs:element\
+        \ form='qualified' minOccurs='0' name='applicationId' type='xs:long'/>\n \
+        \   </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getApplicationByIdResponse'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' ref='tns:application'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='applicationDto'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='activeApplication'\
+        \ type='xs:boolean'/>\n     <xs:element minOccurs='0' name='applicationDate'\
+        \ type='xs:dateTime'/>\n     <xs:element minOccurs='0' name='applicationHistory'>\n\
+        \      <xs:complexType>\n       <xs:sequence>\n        <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' name='applicationFollowup' type='tns:applicationFollowup'/>\n\
+        \       </xs:sequence>\n      </xs:complexType>\n     </xs:element>\n    \
+        \ <xs:element minOccurs='0' name='archived' type='xs:boolean'/>\n     <xs:element\
+        \ minOccurs='0' name='candidateId' type='xs:long'/>\n     <xs:element minOccurs='0'\
+        \ name='completionReason' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='creation' type='xs:dateTime'/>\n     <xs:element minOccurs='0' name='documents'>\n\
+        \      <xs:complexType>\n       <xs:sequence>\n        <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' name='document' type='tns:documentBaseDto'/>\n       </xs:sequence>\n\
+        \      </xs:complexType>\n     </xs:element>\n     <xs:element minOccurs='0'\
+        \ name='hasContracts' type='xs:boolean'/>\n     <xs:element minOccurs='0'\
+        \ name='id' type='xs:long'/>\n     <xs:element minOccurs='0' name='memo' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='positionId' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='shortListed' type='xs:boolean'/>\n     <xs:element minOccurs='0'\
+        \ name='srcChannelName' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='srcChannelType' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='srcMedium' type='xs:string'/>\n     <xs:element minOccurs='0' name='status'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='statusComment'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='update' type='xs:dateTime'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='applicationFollowup'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='applicationStatus'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='id' type='xs:long'/>\n\
+        \     <xs:element minOccurs='0' name='updateDate' type='xs:dateTime'/>\n \
+        \   </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='documentBaseDto'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='applicationId' type='xs:long'/>\n\
+        \     <xs:element minOccurs='0' name='author' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='creationDate' type='xs:dateTime'/>\n     <xs:element\
+        \ minOccurs='0' name='description' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='documentType' type='xs:string'/>\n     <xs:element minOccurs='0' name='id'\
+        \ type='xs:long'/>\n     <xs:element minOccurs='0' name='lastUpdateDate' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='name' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='objectType' type='xs:string'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='getApplicationsByCandidateId'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='candidateId'\
+        \ type='xs:long'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='getApplicationsByCandidateIdResponse'>\n    <xs:sequence>\n     <xs:element\
+        \ maxOccurs='unbounded' minOccurs='0' ref='tns:application'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='getApplications'>\n    <xs:sequence>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='page' type='xs:int'/>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='filter' type='xs:string'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getApplicationsResponse'>\n\
+        \    <xs:sequence>\n     <xs:element maxOccurs='unbounded' minOccurs='0' ref='tns:application'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getApplicationsByStatus'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='page'\
+        \ type='xs:int'/>\n     <xs:element form='qualified' minOccurs='0' name='status'\
+        \ type='xs:string'/>\n     <xs:element form='qualified' minOccurs='0' name='updatedAt'\
+        \ type='xs:dateTime'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='getApplicationsByStatusResponse'>\n    <xs:sequence>\n     <xs:element\
+        \ maxOccurs='unbounded' minOccurs='0' ref='tns:application'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='getContracts'>\n    <xs:sequence>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='page' type='xs:int'/>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='filter' type='xs:string'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getContractsResponse'>\n\
+        \    <xs:sequence>\n     <xs:element maxOccurs='unbounded' minOccurs='0' ref='tns:contract'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='contractDto'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='accepted' type='xs:boolean'/>\n\
+        \     <xs:element minOccurs='0' name='acceptedDate' type='xs:dateTime'/>\n\
+        \     <xs:element maxOccurs='unbounded' minOccurs='0' name='alternativeApprovers'\
+        \ nillable='true' type='tns:userDto'/>\n     <xs:element minOccurs='0' name='applicationId'\
+        \ type='xs:long'/>\n     <xs:element minOccurs='0' name='approval' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='approved' type='xs:boolean'/>\n    \
+        \ <xs:element minOccurs='0' name='approverUser' type='tns:userDto'/>\n   \
+        \  <xs:element minOccurs='0' name='bonusCondition' type='xs:string'/>\n  \
+        \   <xs:element minOccurs='0' name='candidate' type='tns:profileDto'/>\n \
+        \    <xs:element minOccurs='0' name='comments' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='communicationLang' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='contractComment' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='contractSentOn' type='xs:dateTime'/>\n     <xs:element\
+        \ minOccurs='0' name='contractSignedOn' type='xs:dateTime'/>\n     <xs:element\
+        \ minOccurs='0' name='contractor' type='tns:contractor'/>\n     <xs:element\
+        \ minOccurs='0' name='contractorContract' type='tns:contractorContract'/>\n\
+        \     <xs:element minOccurs='0' name='contractorRates'>\n      <xs:complexType>\n\
+        \       <xs:sequence>\n        <xs:element maxOccurs='unbounded' minOccurs='0'\
+        \ name='rate' type='tns:rate'/>\n       </xs:sequence>\n      </xs:complexType>\n\
+        \     </xs:element>\n     <xs:element minOccurs='0' name='creation' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='creationUser' type='tns:userDto'/>\n\
+        \     <xs:element minOccurs='0' name='current' type='xs:boolean'/>\n     <xs:element\
+        \ minOccurs='0' name='dueDate' type='xs:dateTime'/>\n     <xs:element minOccurs='0'\
+        \ name='expenseReimbursed' type='xs:boolean'/>\n     <xs:element minOccurs='0'\
+        \ name='exportReason' type='xs:string'/>\n     <xs:element minOccurs='0' name='extension'\
+        \ type='xs:int'/>\n     <xs:element minOccurs='0' name='freeFormFields'>\n\
+        \      <xs:complexType>\n       <xs:sequence>\n        <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' name='freeFormField' type='tns:freeFormFieldContract'/>\n\
+        \       </xs:sequence>\n      </xs:complexType>\n     </xs:element>\n    \
+        \ <xs:element minOccurs='0' name='id' type='xs:long'/>\n     <xs:element minOccurs='0'\
+        \ name='length' type='xs:float'/>\n     <xs:element minOccurs='0' name='lengthUnit'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='lovs'>\n      <xs:complexType>\n\
+        \       <xs:sequence>\n        <xs:element maxOccurs='unbounded' minOccurs='0'\
+        \ name='lov' type='tns:genericLov'/>\n       </xs:sequence>\n      </xs:complexType>\n\
+        \     </xs:element>\n     <xs:element minOccurs='0' name='offerSentOn' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='permanentContract' type='tns:permanentContract'/>\n\
+        \     <xs:element minOccurs='0' name='plannedEndDate' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='plannedStartDate' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='probationaryPeriod' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='reason' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='reassignTasks' type='xs:boolean'/>\n     <xs:element\
+        \ minOccurs='0' name='reminderDate' type='xs:dateTime'/>\n     <xs:element\
+        \ minOccurs='0' name='revision' type='xs:boolean'/>\n     <xs:element minOccurs='0'\
+        \ name='schedule' type='tns:schedule'/>\n     <xs:element minOccurs='0' name='status'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='submitted' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='taskNotification' type='xs:boolean'/>\n\
+        \     <xs:element minOccurs='0' name='taskOverdue' type='xs:long'/>\n    \
+        \ <xs:element minOccurs='0' name='timeZoneInfo' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='type' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='typeOfUser' type='xs:string'/>\n     <xs:element minOccurs='0' name='update'\
+        \ type='xs:dateTime'/>\n     <xs:element minOccurs='0' name='updateUser' type='tns:userDto'/>\n\
+        \     <xs:element minOccurs='0' name='vendorDetails' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='vendorName' type='xs:string'/>\n   \
+        \  <xs:element minOccurs='0' name='version' type='xs:int'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='userDto'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='cellphone' type='xs:string'/>\n    \
+        \ <xs:element minOccurs='0' name='email' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='firstName' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='id' type='xs:long'/>\n     <xs:element minOccurs='0' name='lastName'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='login' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='type' type='xs:string'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='profileDto'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='address' type='tns:addressFDto'/>\n\
+        \     <xs:element minOccurs='0' name='email' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='firstname' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='id' type='xs:long'/>\n     <xs:element minOccurs='0' name='lastname'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='legacyId' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='middlename' type='xs:string'/>\n   \
+        \  <xs:element minOccurs='0' name='personalData' type='tns:personalDataDto'/>\n\
+        \     <xs:element minOccurs='0' name='tags'>\n      <xs:complexType>\n   \
+        \    <xs:sequence>\n        <xs:element maxOccurs='unbounded' minOccurs='0'\
+        \ name='tag' type='tns:tag'/>\n       </xs:sequence>\n      </xs:complexType>\n\
+        \     </xs:element>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='addressFDto'>\n    <xs:sequence>\n     <xs:element minOccurs='0' name='address1'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='address2' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='alternateEmail' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='city' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='country' type='tns:simpleLovValueDto'/>\n     <xs:element\
+        \ minOccurs='0' name='fax' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='homePhone' type='xs:string'/>\n     <xs:element minOccurs='0' name='mobilePhone'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='personalWebSite'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='region' type='tns:simpleLovValueDto'/>\n\
+        \     <xs:element minOccurs='0' name='workPhone' type='xs:string'/>\n    \
+        \ <xs:element minOccurs='0' name='zip' type='xs:string'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='simpleLovValueDto'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='value' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='localizedValue' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='parentLovName' type='xs:string'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='personalDataDto'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='academicTitle' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='citizenship' type='tns:simpleLovValueDto'/>\n\
+        \     <xs:element minOccurs='0' name='dateOfBirth' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='language' type='tns:simpleLovValueDto'/>\n\
+        \     <xs:element minOccurs='0' name='maritalStatus' type='tns:simpleLovValueDto'/>\n\
+        \     <xs:element minOccurs='0' name='numberOfChildren' type='xs:int'/>\n\
+        \     <xs:element minOccurs='0' name='sex' type='tns:simpleLovValueDto'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='contractor'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='address1' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='address2' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='address3' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='address4' type='xs:string'/>\n     <xs:element minOccurs='0' name='bankAccountName'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='bankAccountNumber'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='bankCityName' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='bankContactName' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='bankContactPhone' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='bankName' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='bankShortCode' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='city' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='contactName' type='xs:string'/>\n     <xs:element minOccurs='0' name='country'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='groupName' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='iban' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='id' type='xs:int'/>\n     <xs:element minOccurs='0'\
+        \ name='legalId' type='xs:string'/>\n     <xs:element minOccurs='0' name='name'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='paymentTerms' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='phone' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='swiftCode' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='taxId' type='xs:string'/>\n     <xs:element minOccurs='0' name='zipCode'\
+        \ type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='contractorContract'>\n    <xs:sequence>\n     <xs:element minOccurs='0'\
+        \ name='additionalInfo' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='benchmarkRate' type='xs:decimal'/>\n     <xs:element minOccurs='0'\
+        \ name='contractorType' type='tns:contractorType'/>\n     <xs:element minOccurs='0'\
+        \ name='flexibilityMaxDate' type='xs:dateTime'/>\n     <xs:element minOccurs='0'\
+        \ name='flexibilityMinDate' type='xs:dateTime'/>\n     <xs:element minOccurs='0'\
+        \ name='gainShareRate' type='xs:decimal'/>\n     <xs:element minOccurs='0'\
+        \ name='standardCurrency' type='tns:currency'/>\n     <xs:element minOccurs='0'\
+        \ name='standardPeriod' type='tns:compensationPeriod'/>\n     <xs:element\
+        \ minOccurs='0' name='totalClientRate' type='xs:decimal'/>\n     <xs:element\
+        \ minOccurs='0' name='totalCost' type='xs:decimal'/>\n     <xs:element minOccurs='0'\
+        \ name='totalCostCurrency' type='tns:currency'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='contractorType'>\n    <xs:complexContent>\n    \
+        \ <xs:extension base='tns:regularLov'>\n      <xs:sequence/>\n     </xs:extension>\n\
+        \    </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType name='currency'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:regularLov'>\n    \
+        \  <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='compensationPeriod'>\n    <xs:complexContent>\n\
+        \     <xs:extension base='tns:regularLov'>\n      <xs:sequence/>\n     </xs:extension>\n\
+        \    </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType name='rate'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='chargeRate' type='xs:decimal'/>\n\
+        \     <xs:element minOccurs='0' name='defCondFrom' type='tns:defCondFrom'/>\n\
+        \     <xs:element minOccurs='0' name='id' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='overAll' type='xs:decimal'/>\n     <xs:element minOccurs='0'\
+        \ name='payRate' type='xs:decimal'/>\n     <xs:element minOccurs='0' name='paySupplier'\
+        \ type='xs:decimal'/>\n     <xs:element minOccurs='0' name='rateType' type='tns:rateType'/>\n\
+        \     <xs:element minOccurs='0' name='rateUnit' type='tns:rateUnit'/>\n  \
+        \   <xs:element minOccurs='0' name='supplierCharge' type='xs:decimal'/>\n\
+        \     <xs:element minOccurs='0' name='supplierRate' type='xs:decimal'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='defCondFrom'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:regularLov'>\n    \
+        \  <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='rateType'>\n    <xs:complexContent>\n     <xs:extension\
+        \ base='tns:regularLov'>\n      <xs:sequence/>\n     </xs:extension>\n   \
+        \ </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType name='rateUnit'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='id' type='xs:long'/>\n\
+        \     <xs:element minOccurs='0' name='name' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='type' type='tns:rateUnitType'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='rateUnitType'>\n    <xs:complexContent>\n\
+        \     <xs:extension base='tns:regularLov'>\n      <xs:sequence/>\n     </xs:extension>\n\
+        \    </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType name='freeFormFieldContract'>\n\
+        \    <xs:simpleContent>\n     <xs:extension base='xs:string'>\n      <xs:attribute\
+        \ name='name' type='xs:string'/>\n      <xs:attribute name='value' type='xs:string'/>\n\
+        \     </xs:extension>\n    </xs:simpleContent>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='genericLov'>\n    <xs:complexContent>\n     <xs:extension base='tns:lov'>\n\
+        \      <xs:sequence/>\n      <xs:attribute name='name' type='xs:string'/>\n\
+        \     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n  \
+        \ <xs:complexType name='permanentContract'>\n    <xs:sequence>\n     <xs:element\
+        \ minOccurs='0' name='fixedSalary' type='xs:decimal'/>\n     <xs:element minOccurs='0'\
+        \ name='fixedSalaryCurrency' type='tns:currency'/>\n     <xs:element minOccurs='0'\
+        \ name='fixedSalaryPeriod' type='tns:compensationPeriod'/>\n     <xs:element\
+        \ minOccurs='0' name='memo' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='probationaryPeriod' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='relocation' type='xs:decimal'/>\n     <xs:element minOccurs='0' name='relocationCurrency'\
+        \ type='tns:currency'/>\n     <xs:element minOccurs='0' name='variableSalary'\
+        \ type='xs:decimal'/>\n     <xs:element minOccurs='0' name='variableSalaryCurrency'\
+        \ type='tns:currency'/>\n     <xs:element minOccurs='0' name='variableSalaryPeriod'\
+        \ type='tns:compensationPeriod'/>\n     <xs:element minOccurs='0' name='carAllowance'\
+        \ type='xs:boolean'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='schedule'>\n    <xs:sequence>\n     <xs:element minOccurs='0' name='type'\
+        \ type='tns:scheduleType'/>\n     <xs:element minOccurs='0' name='workAmount'\
+        \ type='xs:float'/>\n     <xs:element minOccurs='0' name='workPeriod' type='tns:workPeriod'/>\n\
+        \     <xs:element minOccurs='0' name='workUnit' type='tns:workUnit'/>\n  \
+        \  </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='scheduleType'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:regularLov'>\n    \
+        \  <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='workPeriod'>\n    <xs:complexContent>\n     <xs:extension\
+        \ base='tns:regularLov'>\n      <xs:sequence/>\n     </xs:extension>\n   \
+        \ </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType name='workUnit'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:regularLov'>\n    \
+        \  <xs:sequence/>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='getContractsByApplicationId'>\n    <xs:sequence>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='applicationId' type='xs:long'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getContractsByApplicationIdResponse'>\n\
+        \    <xs:sequence>\n     <xs:element maxOccurs='unbounded' minOccurs='0' ref='tns:contract'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='addTag'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='candidateId'\
+        \ type='xs:long'/>\n     <xs:element form='qualified' minOccurs='0' name='tagName'\
+        \ type='xs:string'/>\n     <xs:element form='qualified' minOccurs='0' name='tagTypeName'\
+        \ type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='addTagResponse'>\n    <xs:sequence/>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='removeTagByCandidateID'>\n    <xs:sequence>\n     <xs:element form='qualified'\
+        \ minOccurs='0' name='candidateId' type='xs:long'/>\n     <xs:element form='qualified'\
+        \ minOccurs='0' name='tagName' type='xs:string'/>\n     <xs:element form='qualified'\
+        \ minOccurs='0' name='tagTypeName' type='xs:string'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='removeTagByCandidateIDResponse'>\n\
+        \    <xs:sequence/>\n   </xs:complexType>\n   <xs:complexType name='editTagByCandidateID'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='candidateId'\
+        \ type='xs:long'/>\n     <xs:element form='qualified' minOccurs='0' name='tagName'\
+        \ type='xs:string'/>\n     <xs:element form='qualified' minOccurs='0' name='tagTypeName'\
+        \ type='xs:string'/>\n     <xs:element form='qualified' minOccurs='0' name='newTagName'\
+        \ type='xs:string'/>\n     <xs:element form='qualified' minOccurs='0' name='newTagTypeName'\
+        \ type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='editTagByCandidateIDResponse'>\n    <xs:sequence/>\n   </xs:complexType>\n\
+        \   <xs:complexType name='getTagTypes'>\n    <xs:sequence/>\n   </xs:complexType>\n\
+        \   <xs:complexType name='getTagTypesResponse'>\n    <xs:sequence>\n     <xs:element\
+        \ form='qualified' maxOccurs='unbounded' minOccurs='0' name='type' type='tns:tagType'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getTaggedProfiles'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='tagName'\
+        \ type='xs:string'/>\n     <xs:element form='qualified' minOccurs='0' name='tagTypeName'\
+        \ type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='getTaggedProfilesResponse'>\n    <xs:sequence>\n     <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' ref='tns:candidate'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='getTagsForType'>\n    <xs:sequence>\n     <xs:element\
+        \ form='qualified' minOccurs='0' name='tagTypeName' type='xs:string'/>\n \
+        \   </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getTagsForTypeResponse'>\n\
+        \    <xs:sequence>\n     <xs:element maxOccurs='unbounded' minOccurs='0' ref='tns:tag'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='createCandidateViaOpening'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' ref='tns:candidate'/>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='openingId' type='xs:long'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='createCandidateViaOpeningResponse'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' ref='tns:candidate'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='createCandidateViaFolder'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' ref='tns:candidate'/>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='folderId' type='xs:long'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='createCandidateViaFolderResponse'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' ref='tns:candidate'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='uploadAttachedFile'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' ref='tns:attachedFile'/>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='candidateId' type='xs:long'/>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='applicationId' type='xs:long'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='attachedFileDto'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='author' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='binaryData' ns1:expectedContentTypes='application/octet-stream'\
+        \ type='xs:base64Binary' xmlns:ns1='http://www.w3.org/2005/05/xmlmime'/>\n\
+        \     <xs:element minOccurs='0' name='creationDate' type='xs:dateTime'/>\n\
+        \     <xs:element minOccurs='0' name='description' type='xs:string'/>\n  \
+        \   <xs:element minOccurs='0' name='docId' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='docLanguage' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='docType' type='tns:documentType'/>\n     <xs:element minOccurs='0'\
+        \ name='fileName' type='xs:string'/>\n     <xs:element minOccurs='0' name='id'\
+        \ type='xs:long'/>\n     <xs:element name='publishable' type='xs:boolean'/>\n\
+        \     <xs:element minOccurs='0' name='size' type='xs:long'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='uploadAttachedFileResponse'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='attachedFileId'\
+        \ type='xs:long'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='downloadAttachedFile'>\n    <xs:sequence>\n     <xs:element form='qualified'\
+        \ minOccurs='0' name='documentId' type='xs:long'/>\n    </xs:sequence>\n \
+        \  </xs:complexType>\n   <xs:complexType name='downloadAttachedFileResponse'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' ref='tns:attachedFile'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getStructuredDocumentById'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='candidateId'\
+        \ type='xs:long'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='getStructuredDocumentByIdResponse'>\n    <xs:sequence>\n     <xs:element\
+        \ form='qualified' minOccurs='0' name='type' type='tns:structuredDocument'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='structuredDocument'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:document'>\n      <xs:sequence>\n\
+        \       <xs:element minOccurs='0' name='answers' type='tns:gfDocument'/>\n\
+        \       <xs:element minOccurs='0' name='formCreationDate' type='xs:dateTime'/>\n\
+        \       <xs:element minOccurs='0' name='lastModified' type='xs:dateTime'/>\n\
+        \       <xs:element name='readOnly' type='xs:boolean'/>\n      </xs:sequence>\n\
+        \     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n  \
+        \ <xs:complexType abstract='true' name='document'>\n    <xs:complexContent>\n\
+        \     <xs:extension base='tns:baseEntity'>\n      <xs:sequence>\n       <xs:element\
+        \ minOccurs='0' name='applicationId' type='xs:long'/>\n       <xs:element\
+        \ minOccurs='0' name='author' type='xs:string'/>\n       <xs:element minOccurs='0'\
+        \ name='candidateId' type='xs:long'/>\n       <xs:element minOccurs='0' name='creationDate'\
+        \ type='xs:dateTime'/>\n       <xs:element minOccurs='0' name='departmentId'\
+        \ type='xs:long'/>\n       <xs:element minOccurs='0' name='description' type='xs:string'/>\n\
+        \       <xs:element name='hidden' type='xs:boolean'/>\n       <xs:element\
+        \ minOccurs='0' name='name' type='xs:string'/>\n       <xs:element minOccurs='0'\
+        \ name='objectType' type='xs:string'/>\n       <xs:element minOccurs='0' name='openingId'\
+        \ type='xs:long'/>\n       <xs:element minOccurs='0' name='origin' type='xs:string'/>\n\
+        \       <xs:element name='publishable' type='xs:boolean'/>\n       <xs:element\
+        \ minOccurs='0' name='score' type='xs:long'/>\n       <xs:element minOccurs='0'\
+        \ name='type' type='xs:string'/>\n       <xs:element minOccurs='0' name='updateDate'\
+        \ type='xs:dateTime'/>\n       <xs:element minOccurs='0' name='versionDate'\
+        \ type='xs:dateTime'/>\n      </xs:sequence>\n     </xs:extension>\n    </xs:complexContent>\n\
+        \   </xs:complexType>\n   <xs:complexType name='gfDocument'>\n    <xs:sequence>\n\
+        \     <xs:element maxOccurs='unbounded' minOccurs='0' name='answer' type='tns:answer'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='answer'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:baseEntity'>\n    \
+        \  <xs:sequence>\n       <xs:element minOccurs='0' name='assignedQuestion'\
+        \ type='tns:assignedQuestion'/>\n       <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' name='children' nillable='true' type='tns:answer'/>\n    \
+        \   <xs:element minOccurs='0' name='creationDate' type='xs:dateTime'/>\n \
+        \      <xs:element minOccurs='0' name='creatorType' type='xs:string'/>\n \
+        \      <xs:element minOccurs='0' name='dateAnswer' type='xs:dateTime'/>\n\
+        \       <xs:element minOccurs='0' name='freeText' type='xs:string'/>\n   \
+        \    <xs:element name='isCandidateAnswer' type='xs:boolean'/>\n       <xs:element\
+        \ minOccurs='0' name='order' type='xs:long'/>\n       <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' name='selectedOptions' type='tns:selectedOption'/>\n     \
+        \ </xs:sequence>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='assignedQuestion'>\n    <xs:sequence>\n     <xs:element\
+        \ name='hasChildren' type='xs:boolean'/>\n     <xs:element minOccurs='0' name='id'\
+        \ type='xs:long'/>\n     <xs:element minOccurs='0' name='order' type='xs:long'/>\n\
+        \     <xs:element name='privateQuestion' type='xs:boolean'/>\n     <xs:element\
+        \ name='repeatable' type='xs:boolean'/>\n     <xs:element minOccurs='0' name='scoreMultiplier'\
+        \ type='xs:long'/>\n     <xs:element minOccurs='0' name='type' type='tns:questionType'/>\n\
+        \     <xs:element minOccurs='0' name='unlocalValue' type='xs:string'/>\n \
+        \   </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='selectedOption'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='assignedOption' type='tns:assignedOption'/>\n\
+        \     <xs:element minOccurs='0' name='id' type='xs:long'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='assignedOption'>\n    <xs:sequence>\n\
+        \     <xs:element name='default' type='xs:boolean'/>\n     <xs:element name='hasScore'\
+        \ type='xs:boolean'/>\n     <xs:element minOccurs='0' name='id' type='xs:long'/>\n\
+        \     <xs:element minOccurs='0' name='optionScore' type='xs:long'/>\n    \
+        \ <xs:element minOccurs='0' name='order' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='unlocalValue' type='xs:string'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='getCandidateStructuredDocumentById'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='candidateId'\
+        \ type='xs:long'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='getCandidateStructuredDocumentByIdResponse'>\n    <xs:sequence>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='type' type='tns:structuredDocumentDto'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='structuredDocumentDto'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='id' type='xs:long'/>\n\
+        \     <xs:element minOccurs='0' name='questions'>\n      <xs:complexType>\n\
+        \       <xs:sequence>\n        <xs:choice maxOccurs='unbounded' minOccurs='0'>\n\
+        \         <xs:element ref='tns:question'/>\n         <xs:element ref='tns:complex-question'/>\n\
+        \        </xs:choice>\n       </xs:sequence>\n      </xs:complexType>\n  \
+        \   </xs:element>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='simple-assigned-question'>\n    <xs:complexContent>\n     <xs:extension\
+        \ base='tns:assigned-question'>\n      <xs:sequence>\n       <xs:element minOccurs='0'\
+        \ name='answer' type='tns:answerDto'/>\n      </xs:sequence>\n     </xs:extension>\n\
+        \    </xs:complexContent>\n   </xs:complexType>\n   <xs:complexType abstract='true'\
+        \ name='assigned-question'>\n    <xs:sequence>\n     <xs:element minOccurs='0'\
+        \ name='id' type='xs:long'/>\n     <xs:element minOccurs='0' name='index'\
+        \ type='xs:int'/>\n     <xs:element name='label' type='xs:string'/>\n    \
+        \ <xs:element minOccurs='0' name='localizedLabel' type='xs:string'/>\n   \
+        \  <xs:element minOccurs='0' name='order' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='questionId' type='xs:long'/>\n     <xs:element minOccurs='0'\
+        \ name='type' type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='answerDto'>\n    <xs:sequence>\n     <xs:element\
+        \ name='values'>\n      <xs:complexType>\n       <xs:sequence>\n        <xs:element\
+        \ maxOccurs='unbounded' minOccurs='0' name='value' type='xs:string'/>\n  \
+        \     </xs:sequence>\n      </xs:complexType>\n     </xs:element>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='complex-assigned-question'>\n\
+        \    <xs:complexContent>\n     <xs:extension base='tns:assigned-question'>\n\
+        \      <xs:sequence>\n       <xs:element minOccurs='0' name='children'>\n\
+        \        <xs:complexType>\n         <xs:sequence>\n          <xs:choice maxOccurs='unbounded'\
+        \ minOccurs='0'>\n           <xs:element ref='tns:question'/>\n          \
+        \ <xs:element ref='tns:complex-question'/>\n          </xs:choice>\n     \
+        \    </xs:sequence>\n        </xs:complexType>\n       </xs:element>\n   \
+        \   </xs:sequence>\n     </xs:extension>\n    </xs:complexContent>\n   </xs:complexType>\n\
+        \   <xs:complexType name='getGfCandidateProfile'>\n    <xs:sequence>\n   \
+        \  <xs:element form='qualified' minOccurs='0' name='candidateId' type='xs:long'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='getGfCandidateProfileResponse'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='type'\
+        \ type='tns:candidateProfile'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='candidateProfile'>\n    <xs:sequence>\n     <xs:element\
+        \ minOccurs='0' name='creationDate' type='xs:dateTime'/>\n     <xs:element\
+        \ minOccurs='0' name='lastModified' type='xs:dateTime'/>\n     <xs:element\
+        \ minOccurs='0' name='profile' type='tns:profile'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='getCurrentBoCpTemplateByType'>\n\
+        \    <xs:sequence>\n     <xs:element form='qualified' minOccurs='0' name='templateType'\
+        \ type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='getCurrentBoCpTemplateByTypeResponse'>\n    <xs:sequence>\n     <xs:element\
+        \ form='qualified' minOccurs='0' name='type' type='tns:formDto'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='formDto'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='formId' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='name' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='description' type='xs:string'/>\n     <xs:element minOccurs='0' name='comment'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='masterLanguage'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='displayType' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='formCategory' type='tns:formCategoryDto'/>\n\
+        \     <xs:element maxOccurs='unbounded' minOccurs='0' name='formContexts'\
+        \ type='tns:formContextDto'/>\n     <xs:element minOccurs='0' name='competencyCategories'>\n\
+        \      <xs:complexType>\n       <xs:sequence>\n        <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' name='competencyCategory' type='tns:questionCompetencyCategoryDto'/>\n\
+        \       </xs:sequence>\n      </xs:complexType>\n     </xs:element>\n    \
+        \ <xs:element minOccurs='0' name='assignedQuestions'>\n      <xs:complexType>\n\
+        \       <xs:sequence>\n        <xs:element maxOccurs='unbounded' minOccurs='0'\
+        \ ref='tns:assignedQuestion'/>\n       </xs:sequence>\n      </xs:complexType>\n\
+        \     </xs:element>\n     <xs:element minOccurs='0' name='lovs'>\n      <xs:complexType>\n\
+        \       <xs:sequence>\n        <xs:element maxOccurs='unbounded' minOccurs='0'\
+        \ ref='tns:listOfValues'/>\n       </xs:sequence>\n      </xs:complexType>\n\
+        \     </xs:element>\n     <xs:element minOccurs='0' name='departmentId' type='xs:long'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='formCategoryDto'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='description' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='id' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='localDescription' type='tns:keyNameDto'/>\n     <xs:element\
+        \ minOccurs='0' name='localName' type='tns:keyNameDto'/>\n     <xs:element\
+        \ minOccurs='0' name='name' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='templateType' type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='keyNameDto'>\n    <xs:sequence>\n     <xs:element\
+        \ minOccurs='0' name='id' type='xs:long'/>\n     <xs:element name='labels'>\n\
+        \      <xs:complexType>\n       <xs:sequence>\n        <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' name='entry'>\n         <xs:complexType>\n          <xs:sequence>\n\
+        \           <xs:element minOccurs='0' name='key' type='xs:string'/>\n    \
+        \       <xs:element minOccurs='0' name='value' type='xs:string'/>\n      \
+        \    </xs:sequence>\n         </xs:complexType>\n        </xs:element>\n \
+        \      </xs:sequence>\n      </xs:complexType>\n     </xs:element>\n     <xs:element\
+        \ minOccurs='0' name='name' type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='formContextDto'>\n    <xs:sequence>\n     <xs:element\
+        \ minOccurs='0' name='contextType' type='tns:formContextType'/>\n     <xs:element\
+        \ minOccurs='0' name='id' type='xs:long'/>\n     <xs:element minOccurs='0'\
+        \ name='linkedId' type='xs:long'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='questionCompetencyCategoryDto'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='id' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='name' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='nameLabel' type='xs:string'/>\n     <xs:element minOccurs='0' name='description'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='descriptionLabel'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='options'>\n   \
+        \   <xs:complexType>\n       <xs:sequence>\n        <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' name='option' type='tns:questionCompetencyCategoryDto'/>\n\
+        \       </xs:sequence>\n      </xs:complexType>\n     </xs:element>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='assignedQuestionDto'>\n  \
+        \  <xs:complexContent>\n     <xs:extension base='tns:questionBaseDto'>\n \
+        \     <xs:sequence>\n       <xs:element minOccurs='0' name='assignedOptions'>\n\
+        \        <xs:complexType>\n         <xs:sequence>\n          <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' ref='tns:assignedOption'/>\n         </xs:sequence>\n    \
+        \    </xs:complexType>\n       </xs:element>\n       <xs:element minOccurs='0'\
+        \ name='assignedQuestionId' type='xs:long'/>\n       <xs:element minOccurs='0'\
+        \ name='children'>\n        <xs:complexType>\n         <xs:sequence>\n   \
+        \       <xs:element maxOccurs='unbounded' minOccurs='0' ref='tns:assignedQuestion'/>\n\
+        \         </xs:sequence>\n        </xs:complexType>\n       </xs:element>\n\
+        \       <xs:element minOccurs='0' name='documentType' type='xs:string'/>\n\
+        \       <xs:element minOccurs='0' name='scoreMultiplier' type='xs:long'/>\n\
+        \       <xs:element minOccurs='0' name='tempImagePath' type='xs:string'/>\n\
+        \      </xs:sequence>\n     </xs:extension>\n    </xs:complexContent>\n  \
+        \ </xs:complexType>\n   <xs:complexType name='questionBaseDto'>\n    <xs:sequence>\n\
+        \     <xs:element minOccurs='0' name='answerValidation' type='tns:answerValidationDto'/>\n\
+        \     <xs:element minOccurs='0' name='competencyCategoryName' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='label' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='localizedLabel' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='lovName' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='order' type='xs:long'/>\n     <xs:element minOccurs='0' name='questionId'\
+        \ type='xs:long'/>\n     <xs:element minOccurs='0' name='questionLayout' type='tns:questionLayoutDto'/>\n\
+        \     <xs:element name='repeatable' type='xs:boolean'/>\n     <xs:element\
+        \ minOccurs='0' name='type' type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='assignedOptionDto'>\n    <xs:complexContent>\n \
+        \    <xs:extension base='tns:optionDto'>\n      <xs:sequence>\n       <xs:element\
+        \ minOccurs='0' name='assignedOptionId' type='xs:long'/>\n       <xs:element\
+        \ name='dependingQuestionIds'>\n        <xs:complexType>\n         <xs:sequence>\n\
+        \          <xs:element maxOccurs='unbounded' minOccurs='0' name='assignedQuestionId'\
+        \ type='xs:long'/>\n         </xs:sequence>\n        </xs:complexType>\n \
+        \      </xs:element>\n      </xs:sequence>\n     </xs:extension>\n    </xs:complexContent>\n\
+        \   </xs:complexType>\n   <xs:complexType name='optionDto'>\n    <xs:sequence>\n\
+        \     <xs:element name='default' type='xs:boolean'/>\n     <xs:element name='hasScore'\
+        \ type='xs:boolean'/>\n     <xs:element minOccurs='0' name='localizedLabel'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='optionId' type='xs:long'/>\n\
+        \     <xs:element minOccurs='0' name='optionScore' type='xs:long'/>\n    \
+        \ <xs:element minOccurs='0' name='order' type='xs:long'/>\n     <xs:element\
+        \ minOccurs='0' name='unlocalValue' type='xs:string'/>\n    </xs:sequence>\n\
+        \   </xs:complexType>\n   <xs:complexType name='answerValidationDto'>\n  \
+        \  <xs:sequence>\n     <xs:element minOccurs='0' name='answerType' type='tns:answerType'/>\n\
+        \     <xs:element minOccurs='0' name='atLeast' type='xs:int'/>\n     <xs:element\
+        \ minOccurs='0' name='atMost' type='xs:int'/>\n     <xs:element minOccurs='0'\
+        \ name='dateFormat' type='xs:string'/>\n     <xs:element minOccurs='0' name='earlierThanDate'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='laterThanDate'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='maximumLength'\
+        \ type='xs:int'/>\n     <xs:element minOccurs='0' name='maximumValue' type='xs:double'/>\n\
+        \     <xs:element minOccurs='0' name='minimumLength' type='xs:int'/>\n   \
+        \  <xs:element minOccurs='0' name='minimumValue' type='xs:double'/>\n    \
+        \ <xs:element name='otherAvailable' type='xs:boolean'/>\n     <xs:element\
+        \ name='required' type='xs:boolean'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='questionLayoutDto'>\n    <xs:sequence>\n     <xs:element\
+        \ minOccurs='0' name='answerInline' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='answerSize' type='xs:int'/>\n     <xs:element minOccurs='0' name='cssLayout'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='description' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='fontColor' type='xs:string'/>\n    \
+        \ <xs:element minOccurs='0' name='fontFamily' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='fontSize' type='xs:string'/>\n     <xs:element minOccurs='0'\
+        \ name='fontStyle' type='xs:string'/>\n     <xs:element minOccurs='0' name='fontWeight'\
+        \ type='xs:string'/>\n     <xs:element name='hasTitle' type='xs:boolean'/>\n\
+        \     <xs:element minOccurs='0' name='imageHeight' type='xs:int'/>\n     <xs:element\
+        \ minOccurs='0' name='imageWidth' type='xs:int'/>\n     <xs:element minOccurs='0'\
+        \ name='indentation' type='xs:string'/>\n     <xs:element name='pleaseSelect'\
+        \ type='xs:boolean'/>\n     <xs:element minOccurs='0' name='presentation'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='questionInline'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='textDecoration'\
+        \ type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='listOfValuesDto'>\n    <xs:sequence>\n     <xs:element minOccurs='0'\
+        \ name='lovName' type='xs:string'/>\n     <xs:element minOccurs='0' name='values'>\n\
+        \      <xs:complexType>\n       <xs:sequence>\n        <xs:element maxOccurs='unbounded'\
+        \ minOccurs='0' ref='tns:lovValue'/>\n       </xs:sequence>\n      </xs:complexType>\n\
+        \     </xs:element>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='lovValueDto'>\n    <xs:sequence>\n     <xs:element minOccurs='0' name='id'\
+        \ type='xs:long'/>\n     <xs:element minOccurs='0' name='localizedLabel' type='xs:string'/>\n\
+        \     <xs:element minOccurs='0' name='order' type='xs:int'/>\n     <xs:element\
+        \ minOccurs='0' name='value' type='xs:string'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='updateCandidatePif'>\n    <xs:sequence>\n     <xs:element\
+        \ form='qualified' minOccurs='0' name='formAnsweredDto' type='tns:formAnsweredDto'/>\n\
+        \     <xs:element form='qualified' minOccurs='0' name='candidateId' type='xs:long'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='formAnsweredDto'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='questionsAnswered'\
+        \ type='tns:questionsAnsweredDto'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='questionsAnsweredDto'>\n    <xs:sequence>\n    \
+        \ <xs:element maxOccurs='unbounded' minOccurs='0' name='questionAnswered'\
+        \ type='tns:questionAnsweredDto'/>\n    </xs:sequence>\n   </xs:complexType>\n\
+        \   <xs:complexType name='questionAnsweredDto'>\n    <xs:sequence>\n     <xs:element\
+        \ minOccurs='0' name='answerTextValue' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='children'>\n      <xs:complexType>\n       <xs:sequence>\n\
+        \        <xs:element maxOccurs='unbounded' minOccurs='0' name='childQuestionAnswered'\
+        \ type='tns:questionAnsweredDto'/>\n       </xs:sequence>\n      </xs:complexType>\n\
+        \     </xs:element>\n     <xs:element minOccurs='0' name='competencyOption'\
+        \ type='xs:long'/>\n     <xs:element minOccurs='0' name='index' type='xs:int'/>\n\
+        \     <xs:element minOccurs='0' name='lovValue' type='xs:string'/>\n     <xs:element\
+        \ minOccurs='0' name='questionId' type='xs:long'/>\n     <xs:element minOccurs='0'\
+        \ name='selectedAssignedOptionIds'>\n      <xs:complexType>\n       <xs:sequence>\n\
+        \        <xs:element maxOccurs='unbounded' minOccurs='0' name='assignedOptionId'\
+        \ type='xs:long'/>\n       </xs:sequence>\n      </xs:complexType>\n     </xs:element>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType name='updateCandidatePifResponse'>\n\
+        \    <xs:sequence/>\n   </xs:complexType>\n   <xs:complexType name='faultDetails'>\n\
+        \    <xs:sequence>\n     <xs:element minOccurs='0' name='errors'>\n      <xs:complexType>\n\
+        \       <xs:sequence>\n        <xs:element maxOccurs='unbounded' minOccurs='0'\
+        \ name='error' type='tns:errorInfo'/>\n       </xs:sequence>\n      </xs:complexType>\n\
+        \     </xs:element>\n    </xs:sequence>\n   </xs:complexType>\n   <xs:complexType\
+        \ name='errorInfo'>\n    <xs:sequence>\n     <xs:element minOccurs='0' name='code'\
+        \ type='xs:string'/>\n     <xs:element minOccurs='0' name='message' type='xs:string'/>\n\
+        \    </xs:sequence>\n   </xs:complexType>\n   <xs:simpleType name='documentType'>\n\
+        \    <xs:restriction base='xs:string'>\n     <xs:enumeration value='BO_CP'/>\n\
+        \     <xs:enumeration value='BO_CPE'/>\n     <xs:enumeration value='BO_CPI'/>\n\
+        \     <xs:enumeration value='BO_CPEC'/>\n     <xs:enumeration value='BO_CPIC'/>\n\
+        \     <xs:enumeration value='FO_CP'/>\n     <xs:enumeration value='FO_PIF'/>\n\
+        \     <xs:enumeration value='FO_RPM'/>\n     <xs:enumeration value='FO_CNT'/>\n\
+        \     <xs:enumeration value='BEST_PIF'/>\n     <xs:enumeration value='PROFILE'/>\n\
+        \     <xs:enumeration value='R'/>\n     <xs:enumeration value='RESUME'/>\n\
+        \     <xs:enumeration value='CL'/>\n     <xs:enumeration value='COVER_LETTER'/>\n\
+        \     <xs:enumeration value='COVERLETTER'/>\n     <xs:enumeration value='DQ'/>\n\
+        \     <xs:enumeration value='I'/>\n     <xs:enumeration value='Q'/>\n    \
+        \ <xs:enumeration value='MAIL'/>\n     <xs:enumeration value='SEARCH'/>\n\
+        \     <xs:enumeration value='AGENCY_CONTRACT'/>\n     <xs:enumeration value='DOCUMENT_PACK'/>\n\
+        \     <xs:enumeration value='EXPENSE'/>\n     <xs:enumeration value='EXTSYSATTACHMENT'/>\n\
+        \     <xs:enumeration value='PHOTO'/>\n     <xs:enumeration value='PORTRAIT'/>\n\
+        \     <xs:enumeration value='THUMBNAIL'/>\n     <xs:enumeration value='OFFER_LETTER'/>\n\
+        \     <xs:enumeration value='OTHER'/>\n     <xs:enumeration value='BGCK_REP'/>\n\
+        \    </xs:restriction>\n   </xs:simpleType>\n   <xs:simpleType name='questionType'>\n\
+        \    <xs:restriction base='xs:string'>\n     <xs:enumeration value='category_language_question'/>\n\
+        \     <xs:enumeration value='complex_assessment_results'/>\n     <xs:enumeration\
+        \ value='complex_education'/>\n     <xs:enumeration value='complex_employment'/>\n\
+        \     <xs:enumeration value='complex_language'/>\n     <xs:enumeration value='complex_social_networking'/>\n\
+        \     <xs:enumeration value='complex_workday_accomplishments'/>\n     <xs:enumeration\
+        \ value='complex_workday_awards'/>\n     <xs:enumeration value='complex_workday_certifications'/>\n\
+        \     <xs:enumeration value='complex_workday_competency'/>\n     <xs:enumeration\
+        \ value='complex_workday_education'/>\n     <xs:enumeration value='complex_workday_external_job_history'/>\n\
+        \     <xs:enumeration value='complex_workday_language'/>\n     <xs:enumeration\
+        \ value='complex_workday_memberships'/>\n     <xs:enumeration value='complex_workday_responsibilities'/>\n\
+        \     <xs:enumeration value='complex_workday_training'/>\n     <xs:enumeration\
+        \ value='complex_workday_work_experience'/>\n     <xs:enumeration value='complex_workday_reference'/>\n\
+        \     <xs:enumeration value='dedicated'/>\n     <xs:enumeration value='file'/>\n\
+        \     <xs:enumeration value='free_text'/>\n     <xs:enumeration value='image'/>\n\
+        \     <xs:enumeration value='lov'/>\n     <xs:enumeration value='multiple_choice'/>\n\
+        \     <xs:enumeration value='non_answer'/>\n     <xs:enumeration value='section'/>\n\
+        \     <xs:enumeration value='single_choice'/>\n    </xs:restriction>\n   </xs:simpleType>\n\
+        \   <xs:simpleType name='formContextType'>\n    <xs:restriction base='xs:string'>\n\
+        \     <xs:enumeration value='User'/>\n     <xs:enumeration value='Opening'/>\n\
+        \    </xs:restriction>\n   </xs:simpleType>\n   <xs:simpleType name='answerType'>\n\
+        \    <xs:restriction base='xs:string'>\n     <xs:enumeration value='free_text'/>\n\
+        \     <xs:enumeration value='email'/>\n     <xs:enumeration value='url'/>\n\
+        \     <xs:enumeration value='integer'/>\n     <xs:enumeration value='number'/>\n\
+        \     <xs:enumeration value='date'/>\n     <xs:enumeration value='date_time'/>\n\
+        \     <xs:enumeration value='phone'/>\n    </xs:restriction>\n   </xs:simpleType>\n\
+        \  </xs:schema>\n </types>\n <message name='CandidateWebService_createCandidateViaOpening'>\n\
+        \  <part element='tns:createCandidateViaOpening' name='createCandidateViaOpening'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getTagsForTypeResponse'>\n\
+        \  <part element='tns:getTagsForTypeResponse' name='getTagsForTypeResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getCandidateStructuredDocumentById'>\n\
+        \  <part element='tns:getCandidateStructuredDocumentById' name='getCandidateStructuredDocumentById'></part>\n\
+        \ </message>\n <message name='CandidateWebService_createCandidateViaOpeningResponse'>\n\
+        \  <part element='tns:createCandidateViaOpeningResponse' name='createCandidateViaOpeningResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_createCandidateViaFolder'>\n\
+        \  <part element='tns:createCandidateViaFolder' name='createCandidateViaFolder'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getApplicationsByCandidateId'>\n\
+        \  <part element='tns:getApplicationsByCandidateId' name='getApplicationsByCandidateId'></part>\n\
+        \ </message>\n <message name='CandidateWebService_downloadAttachedFileResponse'>\n\
+        \  <part element='tns:downloadAttachedFileResponse' name='downloadAttachedFileResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getGfCandidateProfileResponse'>\n\
+        \  <part element='tns:getGfCandidateProfileResponse' name='getGfCandidateProfileResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_removeTagByCandidateID'>\n\
+        \  <part element='tns:removeTag' name='removeTag'></part>\n </message>\n <message\
+        \ name='CandidateWebService_uploadAttachedFileResponse'>\n  <part element='tns:uploadAttachedFileResponse'\
+        \ name='uploadAttachedFileResponse'></part>\n </message>\n <message name='CandidateWebService_getCurrentBoCpTemplateByType'>\n\
+        \  <part element='tns:getCurrentBoCpTemplateByType' name='getCurrentBoCpTemplateByType'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getCurrentBoCpTemplateByTypeResponse'>\n\
+        \  <part element='tns:getCurrentBoCpTemplateByTypeResponse' name='getCurrentBoCpTemplateByTypeResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_addTag'>\n  <part element='tns:addTag'\
+        \ name='addTag'></part>\n </message>\n <message name='CandidateWebService_getContracts'>\n\
+        \  <part element='tns:getContracts' name='getContracts'></part>\n </message>\n\
+        \ <message name='CandidateWebService_getContractsByApplicationId'>\n  <part\
+        \ element='tns:getContractsByApplicationId' name='getContractsByApplicationId'></part>\n\
+        \ </message>\n <message name='CandidateWebService_updateCandidatePif'>\n \
+        \ <part element='tns:updateCandidatePif' name='updateCandidatePif'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getTagTypesResponse'>\n\
+        \  <part element='tns:getTagTypesResponse' name='getTagTypesResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getApplicationsByCandidateIdResponse'>\n\
+        \  <part element='tns:getApplicationsByCandidateIdResponse' name='getApplicationsByCandidateIdResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_uploadAttachedFile'>\n \
+        \ <part element='tns:uploadAttachedFile' name='uploadAttachedFile'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getTagsForType'>\n  <part\
+        \ element='tns:getTagsForType' name='getTagsForType'></part>\n </message>\n\
+        \ <message name='CandidateWebService_getTagTypes'>\n  <part element='tns:getTagTypes'\
+        \ name='getTagTypes'></part>\n </message>\n <message name='CandidateWebService_getStructuredDocumentByIdResponse'>\n\
+        \  <part element='tns:getStructuredDocumentByIdResponse' name='getStructuredDocumentByIdResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_editTagByCandidateID'>\n\
+        \  <part element='tns:editTag' name='editTag'></part>\n </message>\n <message\
+        \ name='CandidateWebService_getCandidateByIdResponse'>\n  <part element='tns:getCandidateByIdResponse'\
+        \ name='getCandidateByIdResponse'></part>\n </message>\n <message name='CandidateWebService_getApplicationByIdResponse'>\n\
+        \  <part element='tns:getApplicationByIdResponse' name='getApplicationByIdResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getApplicationsByStatusResponse'>\n\
+        \  <part element='tns:getApplicationsByStatusResponse' name='getApplicationsByStatusResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_removeTagByCandidateIDResponse'>\n\
+        \  <part element='tns:removeTagResponse' name='removeTagResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getContractsByApplicationIdResponse'>\n\
+        \  <part element='tns:getContractsByApplicationIdResponse' name='getContractsByApplicationIdResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getApplicationsResponse'>\n\
+        \  <part element='tns:getApplicationsResponse' name='getApplicationsResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getGfCandidateProfile'>\n\
+        \  <part element='tns:getGfCandidateProfile' name='getGfCandidateProfile'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getContractsResponse'>\n\
+        \  <part element='tns:getContractsResponse' name='getContractsResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_updateCandidatePifResponse'>\n\
+        \  <part element='tns:updateCandidatePifResponse' name='updateCandidatePifResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getApplications'>\n  <part\
+        \ element='tns:getApplications' name='getApplications'></part>\n </message>\n\
+        \ <message name='CandidateWebService_downloadAttachedFile'>\n  <part element='tns:downloadAttachedFile'\
+        \ name='downloadAttachedFile'></part>\n </message>\n <message name='CandidateWebService_getStructuredDocumentById'>\n\
+        \  <part element='tns:getStructuredDocumentById' name='getStructuredDocumentById'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getApplicationsByStatus'>\n\
+        \  <part element='tns:getApplicationsByStatus' name='getApplicationsByStatus'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getTaggedProfiles'>\n  <part\
+        \ element='tns:getTaggedProfiles' name='getTaggedProfiles'></part>\n </message>\n\
+        \ <message name='CandidateWebService_getApplicationById'>\n  <part element='tns:getApplicationById'\
+        \ name='getApplicationById'></part>\n </message>\n <message name='CandidateWebService_getCandidateById'>\n\
+        \  <part element='tns:getCandidateById' name='getCandidateById'></part>\n\
+        \ </message>\n <message name='CandidateWebService_getTaggedProfilesResponse'>\n\
+        \  <part element='tns:getTaggedProfilesResponse' name='getTaggedProfilesResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_editTagByCandidateIDResponse'>\n\
+        \  <part element='tns:editTagResponse' name='editTagResponse'></part>\n </message>\n\
+        \ <message name='CandidateWebService_getCandidateStructuredDocumentByIdResponse'>\n\
+        \  <part element='tns:getCandidateStructuredDocumentByIdResponse' name='getCandidateStructuredDocumentByIdResponse'></part>\n\
+        \ </message>\n <message name='CandidateWebService_addTagResponse'>\n  <part\
+        \ element='tns:addTagResponse' name='addTagResponse'></part>\n </message>\n\
+        \ <message name='WebServiceException'>\n  <part element='tns:WebServiceException'\
+        \ name='WebServiceException'></part>\n </message>\n <message name='CandidateWebService_createCandidateViaFolderResponse'>\n\
+        \  <part element='tns:createCandidateViaFolderResponse' name='createCandidateViaFolderResponse'></part>\n\
+        \ </message>\n <portType name='CandidateWebService'>\n  <operation name='addTag'\
+        \ parameterOrder='addTag'>\n   <input message='tns:CandidateWebService_addTag'></input>\n\
+        \   <output message='tns:CandidateWebService_addTagResponse'></output>\n \
+        \ </operation>\n  <operation name='createCandidateViaFolder' parameterOrder='createCandidateViaFolder'>\n\
+        \   <input message='tns:CandidateWebService_createCandidateViaFolder'></input>\n\
+        \   <output message='tns:CandidateWebService_createCandidateViaFolderResponse'></output>\n\
+        \  </operation>\n  <operation name='createCandidateViaOpening' parameterOrder='createCandidateViaOpening'>\n\
+        \   <input message='tns:CandidateWebService_createCandidateViaOpening'></input>\n\
+        \   <output message='tns:CandidateWebService_createCandidateViaOpeningResponse'></output>\n\
+        \  </operation>\n  <operation name='downloadAttachedFile' parameterOrder='downloadAttachedFile'>\n\
+        \   <input message='tns:CandidateWebService_downloadAttachedFile'></input>\n\
+        \   <output message='tns:CandidateWebService_downloadAttachedFileResponse'></output>\n\
+        \  </operation>\n  <operation name='editTagByCandidateID' parameterOrder='editTag'>\n\
+        \   <input message='tns:CandidateWebService_editTagByCandidateID'></input>\n\
+        \   <output message='tns:CandidateWebService_editTagByCandidateIDResponse'></output>\n\
+        \  </operation>\n  <operation name='getApplicationById' parameterOrder='getApplicationById'>\n\
+        \   <input message='tns:CandidateWebService_getApplicationById'></input>\n\
+        \   <output message='tns:CandidateWebService_getApplicationByIdResponse'></output>\n\
+        \  </operation>\n  <operation name='getApplications' parameterOrder='getApplications'>\n\
+        \   <input message='tns:CandidateWebService_getApplications'></input>\n  \
+        \ <output message='tns:CandidateWebService_getApplicationsResponse'></output>\n\
+        \  </operation>\n  <operation name='getApplicationsByCandidateId' parameterOrder='getApplicationsByCandidateId'>\n\
+        \   <input message='tns:CandidateWebService_getApplicationsByCandidateId'></input>\n\
+        \   <output message='tns:CandidateWebService_getApplicationsByCandidateIdResponse'></output>\n\
+        \  </operation>\n  <operation name='getApplicationsByStatus' parameterOrder='getApplicationsByStatus'>\n\
+        \   <input message='tns:CandidateWebService_getApplicationsByStatus'></input>\n\
+        \   <output message='tns:CandidateWebService_getApplicationsByStatusResponse'></output>\n\
+        \  </operation>\n  <operation name='getCandidateById' parameterOrder='getCandidateById'>\n\
+        \   <input message='tns:CandidateWebService_getCandidateById'></input>\n \
+        \  <output message='tns:CandidateWebService_getCandidateByIdResponse'></output>\n\
+        \  </operation>\n  <operation name='getCandidateStructuredDocumentById' parameterOrder='getCandidateStructuredDocumentById'>\n\
+        \   <input message='tns:CandidateWebService_getCandidateStructuredDocumentById'></input>\n\
+        \   <output message='tns:CandidateWebService_getCandidateStructuredDocumentByIdResponse'></output>\n\
+        \  </operation>\n  <operation name='getContracts' parameterOrder='getContracts'>\n\
+        \   <input message='tns:CandidateWebService_getContracts'></input>\n   <output\
+        \ message='tns:CandidateWebService_getContractsResponse'></output>\n  </operation>\n\
+        \  <operation name='getContractsByApplicationId' parameterOrder='getContractsByApplicationId'>\n\
+        \   <input message='tns:CandidateWebService_getContractsByApplicationId'></input>\n\
+        \   <output message='tns:CandidateWebService_getContractsByApplicationIdResponse'></output>\n\
+        \  </operation>\n  <operation name='getCurrentBoCpTemplateByType' parameterOrder='getCurrentBoCpTemplateByType'>\n\
+        \   <input message='tns:CandidateWebService_getCurrentBoCpTemplateByType'></input>\n\
+        \   <output message='tns:CandidateWebService_getCurrentBoCpTemplateByTypeResponse'></output>\n\
+        \  </operation>\n  <operation name='getGfCandidateProfile' parameterOrder='getGfCandidateProfile'>\n\
+        \   <input message='tns:CandidateWebService_getGfCandidateProfile'></input>\n\
+        \   <output message='tns:CandidateWebService_getGfCandidateProfileResponse'></output>\n\
+        \  </operation>\n  <operation name='getStructuredDocumentById' parameterOrder='getStructuredDocumentById'>\n\
+        \   <input message='tns:CandidateWebService_getStructuredDocumentById'></input>\n\
+        \   <output message='tns:CandidateWebService_getStructuredDocumentByIdResponse'></output>\n\
+        \  </operation>\n  <operation name='getTagTypes' parameterOrder='getTagTypes'>\n\
+        \   <input message='tns:CandidateWebService_getTagTypes'></input>\n   <output\
+        \ message='tns:CandidateWebService_getTagTypesResponse'></output>\n  </operation>\n\
+        \  <operation name='getTaggedProfiles' parameterOrder='getTaggedProfiles'>\n\
+        \   <input message='tns:CandidateWebService_getTaggedProfiles'></input>\n\
+        \   <output message='tns:CandidateWebService_getTaggedProfilesResponse'></output>\n\
+        \  </operation>\n  <operation name='getTagsForType' parameterOrder='getTagsForType'>\n\
+        \   <input message='tns:CandidateWebService_getTagsForType'></input>\n   <output\
+        \ message='tns:CandidateWebService_getTagsForTypeResponse'></output>\n  </operation>\n\
+        \  <operation name='removeTagByCandidateID' parameterOrder='removeTag'>\n\
+        \   <input message='tns:CandidateWebService_removeTagByCandidateID'></input>\n\
+        \   <output message='tns:CandidateWebService_removeTagByCandidateIDResponse'></output>\n\
+        \  </operation>\n  <operation name='updateCandidatePif' parameterOrder='updateCandidatePif'>\n\
+        \   <input message='tns:CandidateWebService_updateCandidatePif'></input>\n\
+        \   <output message='tns:CandidateWebService_updateCandidatePifResponse'></output>\n\
+        \   <fault message='tns:WebServiceException' name='WebServiceException'></fault>\n\
+        \  </operation>\n  <operation name='uploadAttachedFile' parameterOrder='uploadAttachedFile'>\n\
+        \   <input message='tns:CandidateWebService_uploadAttachedFile'></input>\n\
+        \   <output message='tns:CandidateWebService_uploadAttachedFileResponse'></output>\n\
+        \  </operation>\n </portType>\n <binding name='CandidateWebServiceBinding'\
+        \ type='tns:CandidateWebService'>\n  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>\n\
+        \  <operation name='addTag'>\n   <soap:operation soapAction=''/>\n   <input>\n\
+        \    <soap:body use='literal'/>\n   </input>\n   <output>\n    <soap:body\
+        \ use='literal'/>\n   </output>\n  </operation>\n  <operation name='createCandidateViaFolder'>\n\
+        \   <soap:operation soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n\
+        \   </input>\n   <output>\n    <soap:body use='literal'/>\n   </output>\n\
+        \  </operation>\n  <operation name='createCandidateViaOpening'>\n   <soap:operation\
+        \ soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n   </input>\n\
+        \   <output>\n    <soap:body use='literal'/>\n   </output>\n  </operation>\n\
+        \  <operation name='downloadAttachedFile'>\n   <soap:operation soapAction=''/>\n\
+        \   <input>\n    <soap:body use='literal'/>\n   </input>\n   <output>\n  \
+        \  <soap:body use='literal'/>\n   </output>\n  </operation>\n  <operation\
+        \ name='editTagByCandidateID'>\n   <soap:operation soapAction=''/>\n   <input>\n\
+        \    <soap:body use='literal'/>\n   </input>\n   <output>\n    <soap:body\
+        \ use='literal'/>\n   </output>\n  </operation>\n  <operation name='getApplicationById'>\n\
+        \   <soap:operation soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n\
+        \   </input>\n   <output>\n    <soap:body use='literal'/>\n   </output>\n\
+        \  </operation>\n  <operation name='getApplications'>\n   <soap:operation\
+        \ soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n   </input>\n\
+        \   <output>\n    <soap:body use='literal'/>\n   </output>\n  </operation>\n\
+        \  <operation name='getApplicationsByCandidateId'>\n   <soap:operation soapAction=''/>\n\
+        \   <input>\n    <soap:body use='literal'/>\n   </input>\n   <output>\n  \
+        \  <soap:body use='literal'/>\n   </output>\n  </operation>\n  <operation\
+        \ name='getApplicationsByStatus'>\n   <soap:operation soapAction=''/>\n  \
+        \ <input>\n    <soap:body use='literal'/>\n   </input>\n   <output>\n    <soap:body\
+        \ use='literal'/>\n   </output>\n  </operation>\n  <operation name='getCandidateById'>\n\
+        \   <soap:operation soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n\
+        \   </input>\n   <output>\n    <soap:body use='literal'/>\n   </output>\n\
+        \  </operation>\n  <operation name='getCandidateStructuredDocumentById'>\n\
+        \   <soap:operation soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n\
+        \   </input>\n   <output>\n    <soap:body use='literal'/>\n   </output>\n\
+        \  </operation>\n  <operation name='getContracts'>\n   <soap:operation soapAction=''/>\n\
+        \   <input>\n    <soap:body use='literal'/>\n   </input>\n   <output>\n  \
+        \  <soap:body use='literal'/>\n   </output>\n  </operation>\n  <operation\
+        \ name='getContractsByApplicationId'>\n   <soap:operation soapAction=''/>\n\
+        \   <input>\n    <soap:body use='literal'/>\n   </input>\n   <output>\n  \
+        \  <soap:body use='literal'/>\n   </output>\n  </operation>\n  <operation\
+        \ name='getCurrentBoCpTemplateByType'>\n   <soap:operation soapAction=''/>\n\
+        \   <input>\n    <soap:body use='literal'/>\n   </input>\n   <output>\n  \
+        \  <soap:body use='literal'/>\n   </output>\n  </operation>\n  <operation\
+        \ name='getGfCandidateProfile'>\n   <soap:operation soapAction=''/>\n   <input>\n\
+        \    <soap:body use='literal'/>\n   </input>\n   <output>\n    <soap:body\
+        \ use='literal'/>\n   </output>\n  </operation>\n  <operation name='getStructuredDocumentById'>\n\
+        \   <soap:operation soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n\
+        \   </input>\n   <output>\n    <soap:body use='literal'/>\n   </output>\n\
+        \  </operation>\n  <operation name='getTagTypes'>\n   <soap:operation soapAction=''/>\n\
+        \   <input>\n    <soap:body use='literal'/>\n   </input>\n   <output>\n  \
+        \  <soap:body use='literal'/>\n   </output>\n  </operation>\n  <operation\
+        \ name='getTaggedProfiles'>\n   <soap:operation soapAction=''/>\n   <input>\n\
+        \    <soap:body use='literal'/>\n   </input>\n   <output>\n    <soap:body\
+        \ use='literal'/>\n   </output>\n  </operation>\n  <operation name='getTagsForType'>\n\
+        \   <soap:operation soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n\
+        \   </input>\n   <output>\n    <soap:body use='literal'/>\n   </output>\n\
+        \  </operation>\n  <operation name='removeTagByCandidateID'>\n   <soap:operation\
+        \ soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n   </input>\n\
+        \   <output>\n    <soap:body use='literal'/>\n   </output>\n  </operation>\n\
+        \  <operation name='updateCandidatePif'>\n   <soap:operation soapAction=''/>\n\
+        \   <input>\n    <soap:body use='literal'/>\n   </input>\n   <output>\n  \
+        \  <soap:body use='literal'/>\n   </output>\n   <fault name='WebServiceException'>\n\
+        \    <soap:fault name='WebServiceException' use='literal'/>\n   </fault>\n\
+        \  </operation>\n  <operation name='uploadAttachedFile'>\n   <soap:operation\
+        \ soapAction=''/>\n   <input>\n    <soap:body use='literal'/>\n   </input>\n\
+        \   <output>\n    <soap:body use='literal'/>\n   </output>\n  </operation>\n\
+        \ </binding>\n <service name='CandidateWebService'>\n  <port binding='tns:CandidateWebServiceBinding'\
+        \ name='CandidateWebServicePort'>\n   <soap:address location='https://apiapac.lumesse-talenthub.com:443/talenthub/CandidateWebService'/>\n\
+        \  </port>\n </service>\n</definitions>"}
+    headers:
+      Connection: [Close]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 16:11:13 GMT']
+      Server: [Lumesse]
+      Vary: [Accept-Encoding]
+      X-Mashery-Responder: [prod-j-worker-eu-west-1b-25.mashery.com]
+      transfer-encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcGVudjpFbnZlbG9wZSB4
+      bWxuczpzb2FwZW52PSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIg
+      eG1sbnM6d3M9Imh0dHA6Ly93cy5tcnRlZC5jb20vIj4KPHNvYXBlbnY6SGVhZGVyLz4KPHNvYXBl
+      bnY6Qm9keT4KICAgIDx3czpnZXRDb250cmFjdHM+CiAgICA8L3dzOmdldENvbnRyYWN0cz4KPC9z
+      b2FwZW52OkJvZHk+Cjwvc29hcGVudjpFbnZlbG9wZT4=
+    headers:
+      Connection: [close]
+      Content-Length: ['260']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [apiapac.lumesse-talenthub.com]
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://apiapac.lumesse-talenthub.com:443/HRIS/SOAP/Candidate?api_key=azhmc6m8sq2gf2jqwywa37g4
+  response:
+    body: {string: '<env:Envelope xmlns:env=''http://schemas.xmlsoap.org/soap/envelope/''><env:Header></env:Header><env:Body><env:Fault
+        xmlns:env=''http://schemas.xmlsoap.org/soap/envelope/''><faultcode xmlns:wsse=''http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd''>wsse:InvalidSecurity</faultcode><faultstring>This
+        service requires &lt;wsse:Security&gt;, which is missing.</faultstring></env:Fault></env:Body></env:Envelope>'}
+    headers:
+      Connection: [Close]
+      Content-Length: ['433']
+      Content-Type: [text/xml;charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 16:11:16 GMT']
+      Server: [Lumesse]
+      Vary: [Accept-Encoding]
+      X-Mashery-Responder: [prod-j-worker-eu-west-1a-24.mashery.com]
+    status: {code: 500, message: Server Error}
+version: 1

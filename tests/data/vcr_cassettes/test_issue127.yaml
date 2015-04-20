@@ -1,0 +1,1827 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/wsdl/IrmInboundMediation_MTPLPolicyWSExport.wsdl
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<wsdl:definitions\
+        \ name=\"MTPLPolicyWSExport_MTPLPolicyServiceHttp_Service\" targetNamespace=\"\
+        http://guaranteefund.org/irm/wsdl/MTPLPolicyService/Binding\" xmlns:Port_0=\"\
+        http://guaranteefund.org/irm/wsdl/MTPLPolicyService\" xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\"\
+        \ xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\" xmlns:this=\"http://guaranteefund.org/irm/wsdl/MTPLPolicyService/Binding\"\
+        \ xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\">\n  <wsdl:import\
+        \ namespace=\"http://guaranteefund.org/irm/wsdl/MTPLPolicyService\" location=\"\
+        MTPLPolicyService.wsdl\">\n    </wsdl:import>\n  <wsdl:binding name=\"MTPLPolicyWSExport_MTPLPolicyServiceHttpBinding\"\
+        \ type=\"Port_0:MTPLPolicyService\">\n    <soap:binding style=\"document\"\
+        \ transport=\"http://schemas.xmlsoap.org/soap/http\"/>\n    <wsdl:operation\
+        \ name=\"getBMCoefficient\">\n      <soap:operation soapAction=\"\"/>\n  \
+        \    <wsdl:input name=\"getBMCoefficientRequest\">\n        <soap:body use=\"\
+        literal\"/>\n      </wsdl:input>\n      <wsdl:output name=\"getBMCoefficientResponse\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:output>\n      <wsdl:fault\
+        \ name=\"fault\">\n        <soap:fault name=\"fault\" use=\"literal\"/>\n\
+        \      </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"validateMTPLPolicy\"\
+        >\n      <soap:operation soapAction=\"\"/>\n      <wsdl:input name=\"validateMTPLPolicyRequest\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output\
+        \ name=\"validateMTPLPolicyResponse\">\n        <soap:body use=\"literal\"\
+        />\n      </wsdl:output>\n      <wsdl:fault name=\"fault\">\n        <soap:fault\
+        \ name=\"fault\" use=\"literal\"/>\n      </wsdl:fault>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"issueMTPLPolicy\">\n      <soap:operation soapAction=\"\
+        \"/>\n      <wsdl:input name=\"issueMTPLPolicyRequest\">\n        <soap:body\
+        \ use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output name=\"issueMTPLPolicyResponse\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:output>\n      <wsdl:fault\
+        \ name=\"fault\">\n        <soap:fault name=\"fault\" use=\"literal\"/>\n\
+        \      </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"correctMTPLPolicy\"\
+        >\n      <soap:operation soapAction=\"\"/>\n      <wsdl:input name=\"correctMTPLPolicyRequest\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output\
+        \ name=\"correctMTPLPolicyResponse\">\n        <soap:body use=\"literal\"\
+        />\n      </wsdl:output>\n      <wsdl:fault name=\"fault\">\n        <soap:fault\
+        \ name=\"fault\" use=\"literal\"/>\n      </wsdl:fault>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"updateMTPLPolicy\">\n      <soap:operation soapAction=\"\
+        \"/>\n      <wsdl:input name=\"updateMTPLPolicyRequest\">\n        <soap:body\
+        \ use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output name=\"updateMTPLPolicyResponse\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:output>\n      <wsdl:fault\
+        \ name=\"fault\">\n        <soap:fault name=\"fault\" use=\"literal\"/>\n\
+        \      </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"voidMTPLPolicy\"\
+        >\n      <soap:operation soapAction=\"\"/>\n      <wsdl:input name=\"voidMTPLPolicyRequest\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output\
+        \ name=\"voidMTPLPolicyResponse\">\n        <soap:body use=\"literal\"/>\n\
+        \      </wsdl:output>\n      <wsdl:fault name=\"fault\">\n        <soap:fault\
+        \ name=\"fault\" use=\"literal\"/>\n      </wsdl:fault>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"cancelMTPLPolicy\">\n      <soap:operation soapAction=\"\
+        \"/>\n      <wsdl:input name=\"cancelMTPLPolicyRequest\">\n        <soap:body\
+        \ use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output name=\"cancelMTPLPolicyResponse\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:output>\n      <wsdl:fault\
+        \ name=\"fault\">\n        <soap:fault name=\"fault\" use=\"literal\"/>\n\
+        \      </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"registerSticker\"\
+        >\n      <soap:operation soapAction=\"\"/>\n      <wsdl:input name=\"registerStickerRequest\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output\
+        \ name=\"registerStickerResponse\">\n        <soap:body use=\"literal\"/>\n\
+        \      </wsdl:output>\n      <wsdl:fault name=\"fault\">\n        <soap:fault\
+        \ name=\"fault\" use=\"literal\"/>\n      </wsdl:fault>\n    </wsdl:operation>\n\
+        \  </wsdl:binding>\n  <wsdl:service name=\"MTPLPolicyWSExport_MTPLPolicyServiceHttpService\"\
+        >\n    <wsdl:port name=\"MTPLPolicyWSExport_MTPLPolicyServiceHttpPort\" binding=\"\
+        this:MTPLPolicyWSExport_MTPLPolicyServiceHttpBinding\">\n      <soap:address\
+        \ location=\"https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport\"\
+        />\n    </wsdl:port>\n  </wsdl:service>\n</wsdl:definitions>\n"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:51:54 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/wsdl/MTPLPolicyService.wsdl
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<wsdl:definitions\
+        \ name=\"MTPLPolicyServiceNew\" targetNamespace=\"http://guaranteefund.org/irm/wsdl/MTPLPolicyService\"\
+        \ xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
+        \ xmlns:tns=\"http://guaranteefund.org/irm/wsdl/MTPLPolicyService\" xmlns:bons1=\"\
+        http://guaranteefund.org/irm/bo/wsdl\">\n  <wsdl:types>\n    <xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/wsdl/MTPLPolicyService\">\n            <xsd:import\
+        \ namespace=\"http://guaranteefund.org/irm/bo/wsdl\" schemaLocation=\"../bo/wsdl/UpdateMTPLPolicyRequest.xsd\"\
+        />\n            <xsd:import namespace=\"http://guaranteefund.org/irm/bo/wsdl\"\
+        \ schemaLocation=\"../bo/wsdl/VoidMTPLPolicyRequest.xsd\"/>\n            <xsd:import\
+        \ namespace=\"http://guaranteefund.org/irm/bo/wsdl\" schemaLocation=\"../bo/wsdl/RegisterStickerRequest.xsd\"\
+        />\n            <xsd:import namespace=\"http://guaranteefund.org/irm/bo/wsdl\"\
+        \ schemaLocation=\"../bo/wsdl/CorrectMTPLPolicyRequest.xsd\"/>\n         \
+        \   <xsd:import namespace=\"http://guaranteefund.org/irm/bo/wsdl\" schemaLocation=\"\
+        ../bo/wsdl/ValidateMTPLPolicyRequest.xsd\"/>\n            <xsd:import namespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\" schemaLocation=\"../bo/wsdl/CancelMTPLPolicyRequest.xsd\"\
+        />\n            <xsd:import namespace=\"http://guaranteefund.org/irm/bo/wsdl\"\
+        \ schemaLocation=\"../bo/wsdl/GetBMCoefficientRequest.xsd\"/>\n          \
+        \  <xsd:import namespace=\"http://guaranteefund.org/irm/bo/wsdl\" schemaLocation=\"\
+        ../bo/wsdl/RequestConfirmationResponse.xsd\"/>\n            <xsd:import namespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\" schemaLocation=\"../bo/wsdl/IssueMTPLPolicyRequest.xsd\"\
+        />\n      <xsd:element name=\"getBMCoefficient\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n            <xsd:element name=\"getBMCoefficientIn\"\
+        \ nillable=\"true\" type=\"bons1:GetBMCoefficientRequest\">\n            \
+        \  <xsd:annotation>\n                \n              </xsd:annotation>\n \
+        \           </xsd:element>\n          </xsd:sequence>\n        </xsd:complexType>\n\
+        \      </xsd:element>\n      <xsd:element name=\"getBMCoefficientResponse\"\
+        >\n        <xsd:complexType>\n          <xsd:sequence>\n            <xsd:element\
+        \ name=\"requestConfirmationOut\" nillable=\"true\" type=\"bons1:RequestConfirmationResponse\"\
+        />\n          </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"operation1Fault1_fault\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n      <xsd:element name=\"validateMTPLPolicy\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n            <xsd:element name=\"validateMTPLPolicyIn\"\
+        \ nillable=\"true\" type=\"bons1:ValidateMTPLPolicyRequest\">\n          \
+        \    <xsd:annotation>\n                \n              </xsd:annotation>\n\
+        \            </xsd:element>\n          </xsd:sequence>\n        </xsd:complexType>\n\
+        \      </xsd:element>\n      <xsd:element name=\"validateMTPLPolicyResponse\"\
+        >\n        <xsd:complexType>\n          <xsd:sequence>\n            <xsd:element\
+        \ name=\"requestConfirmationOut\" nillable=\"true\" type=\"bons1:RequestConfirmationResponse\"\
+        />\n          </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"operation2Fault1_fault\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n      <xsd:element name=\"issueMTPLPolicy\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n                        <xsd:element name=\"issueMTPLPolicyIn\"\
+        \ nillable=\"true\" type=\"bons1:IssueMTPLPolicyRequest\"/>\n            \
+        \        </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"issueMTPLPolicyResponse\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n                        <xsd:element name=\"requestConfirmationOut\"\
+        \ nillable=\"true\" type=\"bons1:RequestConfirmationResponse\"/>\n       \
+        \             </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"operation3Fault1_fault\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n      <xsd:element name=\"correctMTPLPolicy\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n            <xsd:element name=\"correctMTPLPolicyIn\"\
+        \ nillable=\"true\" type=\"bons1:CorrectMTPLPolicyRequest\">\n           \
+        \   <xsd:annotation>\n                \n              </xsd:annotation>\n\
+        \            </xsd:element>\n          </xsd:sequence>\n        </xsd:complexType>\n\
+        \      </xsd:element>\n      <xsd:element name=\"correctMTPLPolicyResponse\"\
+        >\n        <xsd:complexType>\n          <xsd:sequence>\n            <xsd:element\
+        \ name=\"requestConfirmationOut\" nillable=\"true\" type=\"bons1:RequestConfirmationResponse\"\
+        />\n          </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"operation4Fault1_fault\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n      <xsd:element name=\"updateMTPLPolicy\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n            <xsd:element name=\"updateMTPLPolicyIn\"\
+        \ nillable=\"true\" type=\"bons1:UpdateMTPLPolicyRequest\">\n            \
+        \  <xsd:annotation>\n                \n              </xsd:annotation>\n \
+        \           </xsd:element>\n          </xsd:sequence>\n        </xsd:complexType>\n\
+        \      </xsd:element>\n      <xsd:element name=\"updateMTPLPolicyResponse\"\
+        >\n        <xsd:complexType>\n          <xsd:sequence>\n            <xsd:element\
+        \ name=\"requestConfirmationOut\" nillable=\"true\" type=\"bons1:RequestConfirmationResponse\"\
+        />\n          </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"operation5Fault1_fault\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n      <xsd:element name=\"voidMTPLPolicy\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n            <xsd:element name=\"voidMTPLPolicyIn\"\
+        \ nillable=\"true\" type=\"bons1:VoidMTPLPolicyRequest\">\n              <xsd:annotation>\n\
+        \                \n              </xsd:annotation>\n            </xsd:element>\n\
+        \          </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"voidMTPLPolicyResponse\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n            <xsd:element name=\"requestConfirmationOut\"\
+        \ nillable=\"true\" type=\"bons1:RequestConfirmationResponse\"/>\n       \
+        \   </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n  \
+        \    <xsd:element name=\"operation6Fault1_fault\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n      <xsd:element name=\"cancelMTPLPolicy\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n            <xsd:element name=\"cancelMTPLPolicyIn\"\
+        \ nillable=\"true\" type=\"bons1:CancelMTPLPolicyRequest\">\n            \
+        \  <xsd:annotation>\n                \n              </xsd:annotation>\n \
+        \           </xsd:element>\n          </xsd:sequence>\n        </xsd:complexType>\n\
+        \      </xsd:element>\n      <xsd:element name=\"cancelMTPLPolicyResponse\"\
+        >\n        <xsd:complexType>\n          <xsd:sequence>\n            <xsd:element\
+        \ name=\"requestConfirmationOut\" nillable=\"true\" type=\"bons1:RequestConfirmationResponse\"\
+        />\n          </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"operation7Fault1_fault\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n      <xsd:element name=\"registerSticker\">\n        <xsd:complexType>\n\
+        \          <xsd:sequence>\n            <xsd:element name=\"registerStickerIn\"\
+        \ nillable=\"true\" type=\"bons1:RegisterStickerRequest\">\n             \
+        \ <xsd:annotation>\n                \n              </xsd:annotation>\n  \
+        \          </xsd:element>\n          </xsd:sequence>\n        </xsd:complexType>\n\
+        \      </xsd:element>\n      <xsd:element name=\"registerStickerResponse\"\
+        >\n        <xsd:complexType>\n          <xsd:sequence>\n            <xsd:element\
+        \ name=\"requestConfirmationOut\" nillable=\"true\" type=\"bons1:RequestConfirmationResponse\"\
+        />\n          </xsd:sequence>\n        </xsd:complexType>\n      </xsd:element>\n\
+        \      <xsd:element name=\"operation8Fault1_fault\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n    </xsd:schema>\n  </wsdl:types>\n  <wsdl:message name=\"\
+        correctMTPLPolicy_faultMsg\">\n    <wsdl:part name=\"fault\" element=\"tns:operation4Fault1_fault\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"validateMTPLPolicyRequestMsg\"\
+        >\n    <wsdl:part name=\"validateMTPLPolicyParameters\" element=\"tns:validateMTPLPolicy\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"voidMTPLPolicyRequestMsg\"\
+        >\n    <wsdl:part name=\"voidMTPLPolicyParameters\" element=\"tns:voidMTPLPolicy\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"voidMTPLPolicyResponseMsg\"\
+        >\n    <wsdl:part name=\"voidMTPLPolicyResult\" element=\"tns:voidMTPLPolicyResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"voidMTPLPolicy_faultMsg\"\
+        >\n    <wsdl:part name=\"fault\" element=\"tns:operation6Fault1_fault\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"validateMTPLPolicyResponseMsg\"\
+        >\n    <wsdl:part name=\"validateMTPLPolicyResult\" element=\"tns:validateMTPLPolicyResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"issueMTPLPolicyResponseMsg\"\
+        >\n    <wsdl:part name=\"issueMTPLPolicyResult\" element=\"tns:issueMTPLPolicyResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"validateMTPLPolicy_faultMsg\"\
+        >\n    <wsdl:part name=\"fault\" element=\"tns:operation2Fault1_fault\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"issueMTPLPolicy_faultMsg\"\
+        >\n    <wsdl:part name=\"fault\" element=\"tns:operation3Fault1_fault\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"updateMTPLPolicyRequestMsg\"\
+        >\n    <wsdl:part name=\"updateMTPLPolicyParameters\" element=\"tns:updateMTPLPolicy\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"cancelMTPLPolicyResponseMsg\"\
+        >\n    <wsdl:part name=\"cancelMTPLPolicyResult\" element=\"tns:cancelMTPLPolicyResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"correctMTPLPolicyRequestMsg\"\
+        >\n    <wsdl:part name=\"correctMTPLPolicyParameters\" element=\"tns:correctMTPLPolicy\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"cancelMTPLPolicy_faultMsg\"\
+        >\n    <wsdl:part name=\"fault\" element=\"tns:operation7Fault1_fault\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"registerStickerRequestMsg\"\
+        >\n    <wsdl:part name=\"registerStickerParameters\" element=\"tns:registerSticker\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"getBMCoefficientResponseMsg\"\
+        >\n    <wsdl:part name=\"getBMCoefficientResult\" element=\"tns:getBMCoefficientResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"getBMCoefficient_faultMsg\"\
+        >\n    <wsdl:part name=\"fault\" element=\"tns:operation1Fault1_fault\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"registerStickerResponseMsg\"\
+        >\n    <wsdl:part name=\"registerStickerResult\" element=\"tns:registerStickerResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"getBMCoefficientRequestMsg\"\
+        >\n    <wsdl:part name=\"getBMCoefficientParameters\" element=\"tns:getBMCoefficient\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"registerSticker_faultMsg\"\
+        >\n    <wsdl:part name=\"fault\" element=\"tns:operation8Fault1_fault\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"updateMTPLPolicyResponseMsg\"\
+        >\n    <wsdl:part name=\"updateMTPLPolicyResult\" element=\"tns:updateMTPLPolicyResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"updateMTPLPolicy_faultMsg\"\
+        >\n    <wsdl:part name=\"fault\" element=\"tns:operation5Fault1_fault\">\n\
+        \    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"issueMTPLPolicyRequestMsg\"\
+        >\n    <wsdl:part name=\"issueMTPLPolicyParameters\" element=\"tns:issueMTPLPolicy\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"cancelMTPLPolicyRequestMsg\"\
+        >\n    <wsdl:part name=\"cancelMTPLPolicyParameters\" element=\"tns:cancelMTPLPolicy\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"correctMTPLPolicyResponseMsg\"\
+        >\n    <wsdl:part name=\"correctMTPLPolicyResult\" element=\"tns:correctMTPLPolicyResponse\"\
+        >\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:portType name=\"MTPLPolicyService\"\
+        >\n    <wsdl:operation name=\"getBMCoefficient\">\n<wsdl:documentation>\u041E\
+        \u043F\u0435\u0440\u0430\u0446\u0438\u044F \u0438\u0437\u0447\u0438\u0441\u043B\
+        \u044F\u0432\u0430\u043D\u0435 \u043D\u0430 \u0431\u043E\u043D\u0443\u0441\
+        -\u043C\u0430\u043B\u0443\u0441 \u043A\u043E\u0435\u0444\u0438\u0446\u0438\
+        \u0435\u043D\u0442.</wsdl:documentation>\n      <wsdl:input name=\"getBMCoefficientRequest\"\
+        \ message=\"tns:getBMCoefficientRequestMsg\">\n    </wsdl:input>\n      <wsdl:output\
+        \ name=\"getBMCoefficientResponse\" message=\"tns:getBMCoefficientResponseMsg\"\
+        >\n    </wsdl:output>\n      <wsdl:fault name=\"fault\" message=\"tns:getBMCoefficient_faultMsg\"\
+        >\n    </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"validateMTPLPolicy\"\
+        >\n<wsdl:documentation>\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F \u0432\
+        \u0430\u043B\u0438\u0434\u0438\u0440\u0430\u043D\u0435 \u043D\u0430 \u0434\
+        \u0430\u043D\u043D\u0438\u0442\u0435 \u0437\u0430 \u043F\u043E\u043B\u0438\
+        \u0446\u0430 \u0413\u041E.</wsdl:documentation>\n      <wsdl:input name=\"\
+        validateMTPLPolicyRequest\" message=\"tns:validateMTPLPolicyRequestMsg\">\n\
+        \    </wsdl:input>\n      <wsdl:output name=\"validateMTPLPolicyResponse\"\
+        \ message=\"tns:validateMTPLPolicyResponseMsg\">\n    </wsdl:output>\n   \
+        \   <wsdl:fault name=\"fault\" message=\"tns:validateMTPLPolicy_faultMsg\"\
+        >\n    </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"issueMTPLPolicy\"\
+        >\n<wsdl:documentation>\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F \u0438\
+        \u0437\u0434\u0430\u0432\u0430\u043D\u0435 \u043D\u0430 \u043F\u043E\u043B\
+        \u0438\u0446\u0430 \u0413\u041E.</wsdl:documentation>\n      <wsdl:input name=\"\
+        issueMTPLPolicyRequest\" message=\"tns:issueMTPLPolicyRequestMsg\">\n    </wsdl:input>\n\
+        \      <wsdl:output name=\"issueMTPLPolicyResponse\" message=\"tns:issueMTPLPolicyResponseMsg\"\
+        >\n    </wsdl:output>\n      <wsdl:fault name=\"fault\" message=\"tns:issueMTPLPolicy_faultMsg\"\
+        >\n    </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"correctMTPLPolicy\"\
+        >\n<wsdl:documentation>\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F \u043A\
+        \u043E\u0440\u0435\u043A\u0446\u0438\u044F \u043D\u0430 \u043F\u043E\u043B\
+        \u0438\u0446\u0430 \u0413\u041E.</wsdl:documentation>\n      <wsdl:input name=\"\
+        correctMTPLPolicyRequest\" message=\"tns:correctMTPLPolicyRequestMsg\">\n\
+        \    </wsdl:input>\n      <wsdl:output name=\"correctMTPLPolicyResponse\"\
+        \ message=\"tns:correctMTPLPolicyResponseMsg\">\n    </wsdl:output>\n    \
+        \  <wsdl:fault name=\"fault\" message=\"tns:correctMTPLPolicy_faultMsg\">\n\
+        \    </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"updateMTPLPolicy\"\
+        >\n<wsdl:documentation>\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F \u043F\
+        \u0440\u043E\u043C\u044F\u043D\u0430 \u043D\u0430 \u043F\u043E\u043B\u0438\
+        \u0446\u0430 \u0413\u041E.</wsdl:documentation>\n      <wsdl:input name=\"\
+        updateMTPLPolicyRequest\" message=\"tns:updateMTPLPolicyRequestMsg\">\n  \
+        \  </wsdl:input>\n      <wsdl:output name=\"updateMTPLPolicyResponse\" message=\"\
+        tns:updateMTPLPolicyResponseMsg\">\n    </wsdl:output>\n      <wsdl:fault\
+        \ name=\"fault\" message=\"tns:updateMTPLPolicy_faultMsg\">\n    </wsdl:fault>\n\
+        \    </wsdl:operation>\n    <wsdl:operation name=\"voidMTPLPolicy\">\n<wsdl:documentation>\u041E\
+        \u043F\u0435\u0440\u0430\u0446\u0438\u044F \u0430\u043D\u0443\u043B\u0438\u0440\
+        \u0430\u043D\u0435 \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430 \u0413\
+        \u041E.</wsdl:documentation>\n      <wsdl:input name=\"voidMTPLPolicyRequest\"\
+        \ message=\"tns:voidMTPLPolicyRequestMsg\">\n    </wsdl:input>\n      <wsdl:output\
+        \ name=\"voidMTPLPolicyResponse\" message=\"tns:voidMTPLPolicyResponseMsg\"\
+        >\n    </wsdl:output>\n      <wsdl:fault name=\"fault\" message=\"tns:voidMTPLPolicy_faultMsg\"\
+        >\n    </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"cancelMTPLPolicy\"\
+        >\n<wsdl:documentation>\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F \u043F\
+        \u0440\u0435\u043A\u0440\u0430\u0442\u044F\u0432\u0430\u043D\u0435 \u043D\u0430\
+        \ \u043F\u043E\u043B\u0438\u0446\u0430 \u0413\u041E.</wsdl:documentation>\n\
+        \      <wsdl:input name=\"cancelMTPLPolicyRequest\" message=\"tns:cancelMTPLPolicyRequestMsg\"\
+        >\n    </wsdl:input>\n      <wsdl:output name=\"cancelMTPLPolicyResponse\"\
+        \ message=\"tns:cancelMTPLPolicyResponseMsg\">\n    </wsdl:output>\n     \
+        \ <wsdl:fault name=\"fault\" message=\"tns:cancelMTPLPolicy_faultMsg\">\n\
+        \    </wsdl:fault>\n    </wsdl:operation>\n    <wsdl:operation name=\"registerSticker\"\
+        >\n<wsdl:documentation>\u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F \u0440\
+        \u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u0430\u043D\u0435 \u043D\u0430\
+        \ \u0441\u0442\u0438\u043A\u0435\u0440 \u043A\u044A\u043C \u043F\u043E\u043B\
+        \u0438\u0446\u0430 \u0413\u041E.</wsdl:documentation>\n      <wsdl:input name=\"\
+        registerStickerRequest\" message=\"tns:registerStickerRequestMsg\">\n    </wsdl:input>\n\
+        \      <wsdl:output name=\"registerStickerResponse\" message=\"tns:registerStickerResponseMsg\"\
+        >\n    </wsdl:output>\n      <wsdl:fault name=\"fault\" message=\"tns:registerSticker_faultMsg\"\
+        >\n    </wsdl:fault>\n    </wsdl:operation>\n  </wsdl:portType>\n</wsdl:definitions>\n"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:51:54 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/UpdateMTPLPolicyRequest.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\"\r\n\txmlns:bons0=\"http://guaranteefund.org/irm/bo/common\"\
+        \r\n\txmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n\t<xsd:import schemaLocation=\"\
+        ../common/BussinessObjects.xsd\"\r\n\t\tnamespace=\"http://guaranteefund.org/irm/bo/common\"\
+        >\r\n\t</xsd:import>\r\n\r\n\t<xsd:complexType name=\"UpdateMTPLPolicyRequest\"\
+        >\r\n\t\t<xsd:sequence>\r\n\t\t\t<xsd:element minOccurs=\"1\" name=\"upn\"\
+        \ type=\"xsd:string\">\r\n\t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u041D\
+        \u043E\u043C\u0435\u0440 \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430\
+        .</xsd:documentation>\r\n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\
+        \n\t\t\t<xsd:element minOccurs=\"0\" name=\"holder\"\r\n\t\t\t\ttype=\"bons0:Person\"\
+        >\r\n\t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u041E\u0431\
+        \u0438\u0447\u0430\u0435\u043D \u0432\u043E\u0434\u0430\u0447/\u0434\u044A\
+        \u0440\u0436\u0430\u0442\u0435\u043B.</xsd:documentation>\r\n        </xsd:annotation>\r\
+        \n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"0\" name=\"vehicle\"\
+        \r\n\t\t\t\ttype=\"bons0:Vehicle\">\r\n\t\t\t\t<xsd:annotation>\r\n      \
+        \    <xsd:documentation>\u041C\u041F\u0421.</xsd:documentation>\r\n      \
+        \  </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"\
+        1\" name=\"updateReason\"\r\n\t\t\t\ttype=\"xsd:int\">\r\n\t\t\t\t<xsd:annotation>\r\
+        \n          <xsd:documentation>\u041E\u0441\u043D\u043E\u0432\u0430\u043D\u0438\
+        \u0435 \u0437\u0430 \u043F\u0440\u043E\u043C\u044F\u043D\u0430:\r\n1. \u041F\
+        \u0440\u043E\u043C\u044F\u043D\u0430 \u043D\u0430 \u043E\u0431\u0435\u043A\
+        \u0442\u0430 \u043D\u0430 \u0437\u0430\u0441\u0442\u0440\u0430\u0445\u043E\
+        \u0432\u0430\u043D\u0435 (\u043F\u0440\u043E\u043C\u044F\u043D\u0430 \u043D\
+        \u0430 \u043D\u043E\u043C\u0435\u0440 \u043D\u0430 \u0440\u0430\u043C\u0430\
+        ) \u2013 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u044F\u0442\u0430 \u0435\
+        \ \u0434\u043E\u0441\u0442\u044A\u043F\u043D\u0430 \u0441\u0430\u043C\u043E\
+        \ \u043E\u0442 \u0417\u041A \u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\
+        \u0440\u0430\u0442\u043E\u0440. \r\n2. \u041F\u0440\u043E\u043C\u044F\u043D\
+        \u0430 \u043D\u0430 \u0441\u043E\u0431\u0441\u0442\u0432\u0435\u043D\u043E\
+        \u0441\u0442 \u043D\u0430 \u041C\u041F\u0421 \r\n3. \u041F\u0440\u043E\u043C\
+        \u044F\u043D\u0430 \u043D\u0430 \u0434\u0430\u043D\u043D\u0438 \u043D\u0430\
+        \ \u041C\u041F\u0421 \r\n4. \u041F\u0440\u043E\u043C\u044F\u043D\u0430 \u043D\
+        \u0430 \u0434\u0430\u043D\u043D\u0438 \u043D\u0430 \u0441\u043E\u0431\u0441\
+        \u0442\u0432\u0435\u043D\u0438\u043A 5. \u0414\u0440\u0443\u0433\u043E</xsd:documentation>\r\
+        \n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element\
+        \ minOccurs=\"1\" name=\"updateDate\"\r\n\t\t\t\ttype=\"xsd:date\">\r\n\t\t\
+        \t\t<xsd:annotation>\r\n          <xsd:documentation>\u0414\u0430\u0442\u0430\
+        \ \u043D\u0430 \u043F\u0440\u043E\u043C\u044F\u043D\u0430\u0442\u0430.</xsd:documentation>\r\
+        \n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element\
+        \ minOccurs=\"0\" name=\"updateTime\"\r\n\t\t\t\ttype=\"xsd:time\">\r\n\t\t\
+        \t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"0\" name=\"writtenPremium\"\
+        \r\n\t\t\t\ttype=\"xsd:decimal\">\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element\
+        \ minOccurs=\"0\" name=\"premiumUpdateReason\"\r\n\t\t\t\ttype=\"xsd:int\"\
+        >\r\n\t\t\t</xsd:element>\r\n\t\t</xsd:sequence>\r\n\t</xsd:complexType>\r\
+        \n</xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:51:56 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/common/BussinessObjects.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/common\"\r\n\txmlns=\"http://www.w3.org/2001/XMLSchema\"\
+        \r\n\txmlns:bons=\"http://guaranteefund.org/irm/bo/common\">\r\n\t<complexType\
+        \ name=\"MTPLPolicy\">\r\n\t\t<sequence>\r\n\t\t\t<element name=\"insuranceType\"\
+        \ type=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\r\n\
+        \t\t\t\t\t\t\u041A\u043E\u0434 \u043D\u0430 \u0432\u0438\u0434 \u0437\u0430\
+        \u0441\u0442\u0440\u0430\u0445\u043E\u0432\u043A\u0430 - \u043F\u043E \u043D\
+        \u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430.\r\n\t\t\
+        \t\t\t\t\u0412\u0430\u043B\u0438\u0434\u043D\u0438\r\n\t\t\t\t\t\t\u0441\u0442\
+        \u043E\u0439\u043D\u043E\u0441\u0442\u0438 \u0441\u0430 1 - \u0413\u041E \u0438\
+        \ 5 - \u0437\u0430 \u0413\u041E \u0441 \u0434\u043E\u043F\u044A\u043B\u043D\
+        \u0438\u0442\u0435\u043B\u043D\u0438 \u0434\u043E\u0431\u0440\u043E\u0432\u043E\
+        \u043B\u043D\u0438\r\n\t\t\t\t\t\t\u0437\u0430\u0441\u0442\u0440\u0430\u0445\
+        \u043E\u0432\u043A\u0438.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element name=\"company\" type=\"string\">\r\n\
+        \t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u043E\u0434 \u043D\
+        \u0430 \u0417\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\u0430\u0442\u0435\
+        \u043B\u043D\u0430 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044F - \u043F\
+        \u043E\r\n\t\t\t\t\t\t\u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\
+        \u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u043D\u0430\
+        \ \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442: \u043A\u043E\u0434 \u043D\
+        \u0430 \u0417\u041A \u043D\u0430\u043F\u0440\u0430\u0432\u0438\u043B\u0430\
+        \ \u0437\u0430\u044F\u0432\u043A\u0430\u0442\u0430.\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"contractDate\"\
+        \ type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0414\
+        \u0430\u0442\u0430 \u043D\u0430 \u0441\u043A\u043B\u044E\u0447\u0432\u0430\
+        \u043D\u0435 \u043D\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430\
+        .\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\u0446\u0438\u044F: \u0442\
+        \u0435\u043A\u0443\u0449\u0430\r\n\t\t\t\t\t\t\u0434\u0430\u0442\u0430 \u0438\
+        \u043B\u0438 \u0434\u0430\u0442\u0430 \u0432 \u043C\u0438\u043D\u0430\u043B\
+        \u043E\u0442\u043E.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\r\n\t\t\t<element minOccurs=\"0\" name=\"contractTime\" type=\"time\"></element>\r\
+        \n\t\t\t<element name=\"commencingDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u041D\u0430\u0447\u0430\u043B\u043D\u0430 \u0434\
+        \u0430\u0442\u0430 \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\u0442\u0438\
+        \u0435.\r\n\t\t\t\t\t\t\u0412 \u0441\u043B\u0443\u0447\u0430\u0438\u0442\u0435\
+        \ \u043D\u0430\r\n\t\t\t\t\t\t\u0434\u043E\u0431\u0430\u0432\u044F\u043D\u0435\
+        \ \u043D\u0430 \u041C\u041F\u0421 \u043A\u044A\u043C \u0433\u0440\u0443\u043F\
+        \u043E\u0432\u0430 \u043F\u043E\u043B\u0438\u0446\u0430 (groupPolicyUPN e\
+        \ \u043F\u043E\u043F\u044A\u043B\u043D\u0435\u043D\u043E),\r\n\t\t\t\t\t\t\
+        \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u0435 \u043F\
+        \u0435\u0440\u0438\u043E\u0434\u044A\u0442 \u043D\u0430 \u043F\u043E\u043A\
+        \u0440\u0438\u0442\u0438\u0435 \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\
+        \u0430\u0442\u0430 \u0434\u0430 \u0435 \u0432 \u0440\u0430\u043C\u043A\u0438\
+        \u0442\u0435 \u043D\u0430\r\n\t\t\t\t\t\t\u043F\u0435\u0440\u0438\u043E\u0434\
+        \u0430 \u043D\u0430 \u0432\u0430\u043B\u0438\u0434\u043D\u043E\u0441\u0442\
+        \ \u043D\u0430 \u0433\u0440\u0443\u043F\u043E\u0432\u0430\u0442\u0430 \u043F\
+        \u043E\u043B\u0438\u0446\u0430 - ERROR (P011).\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        0\" name=\"commencingTime\" type=\"time\">\r\n\t\t\t</element>\r\n\t\t\t<element\
+        \ name=\"expiringDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\
+        \t<documentation>\u041A\u0440\u0430\u0439\u043D\u0430 \u0434\u0430\u0442\u0430\
+        \ \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\u0442\u0438\u0435.\r\n\t\t\t\
+        \t\t\t\u0412 \u0441\u043B\u0443\u0447\u0430\u0438\u0442\u0435 \u043D\u0430\
+        \ \u0434\u043E\u0431\u0430\u0432\u044F\u043D\u0435\r\n\t\t\t\t\t\t\u043D\u0430\
+        \ \u041C\u041F\u0421 \u043A\u044A\u043C \u0433\u0440\u0443\u043F\u043E\u0432\
+        \u0430 \u043F\u043E\u043B\u0438\u0446\u0430 (groupPolicyUPN e \u043F\u043E\
+        \u043F\u044A\u043B\u043D\u0435\u043D\u043E), \u043D\u0435\u043E\u0431\u0445\
+        \u043E\u0434\u0438\u043C\u043E\r\n\t\t\t\t\t\t\u0435 \u043F\u0435\u0440\u0438\
+        \u043E\u0434\u044A\u0442 \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\u0442\
+        \u0438\u0435 \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430\u0442\u0430\
+        \ \u0434\u0430 \u0435 \u0432 \u0440\u0430\u043C\u043A\u0438\u0442\u0435 \u043D\
+        \u0430 \u043F\u0435\u0440\u0438\u043E\u0434\u0430 \u043D\u0430\r\n\t\t\t\t\
+        \t\t\u0432\u0430\u043B\u0438\u0434\u043D\u043E\u0441\u0442 \u043D\u0430 \u0433\
+        \u0440\u0443\u043F\u043E\u0432\u0430\u0442\u0430 \u043F\u043E\u043B\u0438\u0446\
+        \u0430 - ERROR (P011).</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t\
+        </element>\r\n\t\t\t<element minOccurs=\"0\" name=\"expiringTime\" type=\"\
+        time\">\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"insuranceObjectType\"\
+        \r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0412\
+        \u0438\u0434 \u043E\u0431\u0435\u043A\u0442 \u043D\u0430 \u0437\u0430\u0441\
+        \u0442\u0440\u0430\u0445\u043E\u0432\u0430\u043D\u0435 - \u043F\u043E \u043D\
+        \u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 (\u041C\
+        \u041F\u0421\r\n\t\t\t\t\t\t\u0438\u043B\u0438 \u0424\u041B).\r\n\t\t\t\t\t\
+        \t\u041D\u0435 \u0441\u0435 \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u043E\
+        \u0442 \u0417\u041A. \u0417\u0430\u043F\u0438\u0441\u0432\u0430 \u0441\u0435\
+        \ \u041C\u041F\u0421 \u043F\u043E \u043F\u043E\u0434\u0440\u0430\u0437\u0431\
+        \u0438\u0440\u0430\u043D\u0435.\r\n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\
+        \u043E \u0435 \u0440\u0435\u0437\u0435\u0440\u0432\u0438\u0440\u0430\u043D\
+        \u043E \u0437\u0430 \u043F\u0440\u043E\u043C\u0435\u043D\u0438 \u0432 \u0431\
+        \u044A\u0434\u0435\u0449\u0435\u0442\u043E, \u0441\u0432\u044A\u0440\u0437\
+        \u0430\u043D\u0438 \u0441 \u043F\u0440\u043E\u043C\u044F\u043D\u0430 \u043D\
+        \u0430\r\n\t\t\t\t\t\t\u043D\u043E\u0440\u043C\u0430\u0442\u0438\u0432\u043D\
+        \u0430\u0442\u0430 \u0443\u0440\u0435\u0434\u0431\u0430.</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        1\" name=\"vehicle\" type=\"bons:Vehicle\">\r\n\t\t\t\t<annotation>\r\n\t\t\
+        \t\t\t<documentation>\u041C\u041F\u0421.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"holder\" type=\"\
+        bons:Person\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041E\
+        \u0431\u0438\u0447\u0430\u0435\u043D \u0432\u043E\u0434\u0430\u0447/\u0434\
+        \u044A\u0440\u0436\u0430\u0442\u0435\u043B.\r\n\t\t\t\t\t\t\u0412\u044A\u0432\
+        \u0435\u0436\u0434\u0430 \u0441\u0435 \u043B\u0438\u0446\u0435\u0442\u043E\
+        ,\r\n\t\t\t\t\t\t\u043A\u043E\u0435\u0442\u043E \u0435 \u0442\u0438\u0442\u0443\
+        \u043B\u044F\u0440 \u043F\u043E \u043F\u043E\u043B\u0438\u0446\u0430\u0442\
+        \u0430. \u041F\u043E\u043F\u044A\u043B\u0432\u0430 \u0441\u0435 \u0441\u0430\
+        \u043C\u043E, \u043A\u043E\u0433\u0430\u0442\u043E \u0442\u043E \u0435 \u0440\
+        \u0430\u0437\u043B\u0438\u0447\u043D\u043E\r\n\t\t\t\t\t\t\u043E\u0442 \u043B\
+        \u0438\u0446\u0435\u0442\u043E, \u0441\u043E\u0431\u0441\u0442\u0432\u0435\
+        \u043D\u0438\u043A \u043D\u0430 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\
+        \u0438\u043B\u0430 \u043F\u043E \u0442\u0430\u043B\u043E\u043D.\r\n\t\t\t\t\
+        \t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t\
+        <element name=\"teritorialValidity\" type=\"string\">\r\n\t\t\t\t<annotation>\r\
+        \n\r\n\t\t\t\t\t<documentation>\u0422\u0435\u0440\u0438\u0442\u043E\u0440\u0438\
+        \u0430\u043B\u0435\u043D \u043E\u0431\u0445\u0432\u0430\u0442 - \u043F\u043E\
+        \ \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430\
+        .\r\n\t\t\t\t\t\t\u0417\u0430 \u0413\u041E \u0437\u0430\u0434\u044A\u043B\u0436\
+        \u0438\u0442\u0435\u043B\u043D\u043E \u0441\u0435 \u0432\u044A\u0432\u0435\
+        \u0436\u0434\u0430 \u043A\u043E\u0434 1 (\u0411\u044A\u043B\u0433\u0430\u0440\
+        \u0438\u044F + E\u0421 + \u0415\u0418\u041F).\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"writtenPremium\"\
+        \ type=\"double\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t\r\n\t\t\t\t<documentation>\u041D\
+        \u0430\u0447\u0438\u0441\u043B\u0435\u043D\u0430 \u043F\u0440\u0435\u043C\u0438\
+        \u044F (\u0413\u041E) - \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u0441\u0435\
+        \ \u0434\u043E \u0432\u0442\u043E\u0440\u0438\u044F \u0437\u043D\u0430\u043A\
+        \ \u043E\u0442 \u0434\u0435\u0441\u0435\u0442\u0438\u0447\u043D\u0430\u0442\
+        \u0430 \u0437\u0430\u043F\u0435\u0442\u0430\u044F.</documentation></annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element name=\"numberOfInstallments\" type=\"\
+        int\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0411\u0440\u043E\
+        \u0439 \u0432\u043D\u043E\u0441\u043A\u0438.\r\n\t\t\t\t\t\t\u0412\u044A\u0437\
+        \u043C\u043E\u0436\u043D\u0438 \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442\
+        \u0438: \u043E\u0442 1 \u0434\u043E 12.\r\n\t\t\t\t\t</documentation>\r\n\t\
+        \t\t\t</annotation>\r\n\t\t\t</element>\r\n\r\n\t\t\t<element minOccurs=\"\
+        0\" name=\"groupPolicyUPN\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\
+        \n\r\n\t\t\t\t\t<documentation>\u041D\u043E\u043C\u0435\u0440 \u043D\u0430\
+        \ \u0433\u0440\u0443\u043F\u043E\u0432\u0430 \u043F\u043E\u043B\u0438\u0446\
+        \u0430 - \u043F\u043E\u0434\u0430\u0432\u0430 \u0441\u0435 \u0441\u0430\u043C\
+        \u043E \u043A\u043E\u0433\u0430\u0442\u043E\r\n\t\t\t\t\t\t\u0438\u0437\u0434\
+        \u0430\u0432\u0430\u043D\u0430\u0442\u0430 \u043F\u043E\u043B\u0438\u0446\u0430\
+        \ \u0435 \u0447\u0430\u0441\u0442 \u043E\u0442 \u0433\u0440\u0443\u043F\u043E\
+        \u0432\u0430 \u043F\u043E\u043B\u0438\u0446\u0430.</documentation>\r\n\t\t\
+        \t\t</annotation>\r\n\t\t\t</element>\r\n\r\n\t\t\t<element minOccurs=\"0\"\
+        \ name=\"mtplLimit\" type=\"double\"></element>\r\n\t\t</sequence>\r\n\t</complexType>\r\
+        \n\r\n\t<complexType name=\"AccidentPolicy\">\r\n\t\t<sequence>\r\n\r\n\t\t\
+        \t<element name=\"insuranceType\" type=\"string\">\r\n\t\t\t\t<annotation>\r\
+        \n\r\n\t\t\t\t\t<documentation>\u041A\u043E\u0434 \u043D\u0430 \u0432\u0438\
+        \u0434 \u0437\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\u043A\u0430\
+        \ - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\
+        \u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u043D\u0438\r\n\
+        \t\t\t\t\t\t\u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442\u0438 \u0441\u0430\
+        \ 2 - \u0417\u041F \u0438 5 - \u0437\u0430 \u0417\u041F \u0441 \u0434\u043E\
+        \u043F\u044A\u043B\u043D\u0438\u0442\u0435\u043B\u043D\u0438 \u0434\u043E\u0431\
+        \u0440\u043E\u0432\u043E\u043B\u043D\u0438\r\n\t\t\t\t\t\t\u0437\u0430\u0441\
+        \u0442\u0440\u0430\u0445\u043E\u0432\u043A\u0438.</documentation>\r\n\t\t\t\
+        \t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"company\" type=\"\
+        string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u043E\
+        \u0434 \u043D\u0430 \u0417\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\
+        \u0430\u0442\u0435\u043B\u043D\u0430 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\
+        \u044F - \u043F\u043E\r\n\t\t\t\t\t\t\u043D\u043E\u043C\u0435\u043D\u043A\u043B\
+        \u0430\u0442\u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\
+        \u043D\u0430 \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442: \u043A\u043E\
+        \u0434 \u043D\u0430 \u0417\u041A \u043D\u0430\u043F\u0440\u0430\u0432\u0438\
+        \u043B\u0430 \u0437\u0430\u044F\u0432\u043A\u0430\u0442\u0430.\r\n\t\t\t\t\
+        \t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t\
+        <element name=\"contractDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\
+        \t\t\t\t<documentation>\u0414\u0430\u0442\u0430 \u043D\u0430 \u0441\u043A\u043B\
+        \u044E\u0447\u0432\u0430\u043D\u0435 \u043D\u0430 \u0434\u043E\u0433\u043E\
+        \u0432\u043E\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\
+        \u0446\u0438\u044F: \u0442\u0435\u043A\u0443\u0449\u0430\r\n\t\t\t\t\t\t\u0434\
+        \u0430\u0442\u0430 \u0438\u043B\u0438 \u0434\u0430\u0442\u0430 \u0432 \u043C\
+        \u0438\u043D\u0430\u043B\u043E\u0442\u043E.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\r\n\t\t\t<element minOccurs=\"0\" name=\"contractTime\"\
+        \ type=\"time\"></element>\r\n\t\t\t<element name=\"commencingDate\" type=\"\
+        date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041D\u0430\u0447\
+        \u0430\u043B\u043D\u0430 \u0434\u0430\u0442\u0430 \u043D\u0430 \u043F\u043E\
+        \u043A\u0440\u0438\u0442\u0438\u0435.\r\n\t\t\t\t\t\t\u0412 \u0441\u043B\u0443\
+        \u0447\u0430\u0438\u0442\u0435 \u043D\u0430\r\n\t\t\t\t\t\t\u0434\u043E\u0431\
+        \u0430\u0432\u044F\u043D\u0435 \u043D\u0430 \u041C\u041F\u0421 \u043A\u044A\
+        \u043C \u0433\u0440\u0443\u043F\u043E\u0432\u0430 \u043F\u043E\u043B\u0438\
+        \u0446\u0430 (groupPolicyUPN e\r\n\t\t\t\t\t\t\u043F\u043E\u043F\u044A\u043B\
+        \u043D\u0435\u043D\u043E),\r\n\t\t\t\t\t\t\u043D\u0435\u043E\u0431\u0445\u043E\
+        \u0434\u0438\u043C\u043E \u0435 \u043F\u0435\u0440\u0438\u043E\u0434\u044A\
+        \u0442 \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\u0442\u0438\u0435 \u043D\
+        \u0430 \u043F\u043E\u043B\u0438\u0446\u0430\u0442\u0430 \u0434\u0430 \u0435\
+        \ \u0432\r\n\t\t\t\t\t\t\u0440\u0430\u043C\u043A\u0438\u0442\u0435 \u043D\u0430\
+        \r\n\t\t\t\t\t\t\u043F\u0435\u0440\u0438\u043E\u0434\u0430 \u043D\u0430 \u0432\
+        \u0430\u043B\u0438\u0434\u043D\u043E\u0441\u0442 \u043D\u0430 \u0433\u0440\
+        \u0443\u043F\u043E\u0432\u0430\u0442\u0430 \u043F\u043E\u043B\u0438\u0446\u0430\
+        \ - ERROR\r\n\t\t\t\t\t\t(P011).\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t\
+        </annotation>\r\n\t\t\t</element>\r\n\r\n\t\t\t<element minOccurs=\"0\" name=\"\
+        commencingTime\" type=\"time\"></element>\r\n\t\t\t<element name=\"expiringDate\"\
+        \ type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\
+        \u0440\u0430\u0439\u043D\u0430 \u0434\u0430\u0442\u0430 \u043D\u0430 \u043F\
+        \u043E\u043A\u0440\u0438\u0442\u0438\u0435.\r\n\t\t\t\t\t\t\u0412 \u0441\u043B\
+        \u0443\u0447\u0430\u0438\u0442\u0435 \u043D\u0430 \u0434\u043E\u0431\u0430\
+        \u0432\u044F\u043D\u0435\r\n\t\t\t\t\t\t\u043D\u0430 \u041C\u041F\u0421 \u043A\
+        \u044A\u043C \u0433\u0440\u0443\u043F\u043E\u0432\u0430 \u043F\u043E\u043B\
+        \u0438\u0446\u0430 (groupPolicyUPN e\r\n\t\t\t\t\t\t\u043F\u043E\u043F\u044A\
+        \u043B\u043D\u0435\u043D\u043E), \u043D\u0435\u043E\u0431\u0445\u043E\u0434\
+        \u0438\u043C\u043E\r\n\t\t\t\t\t\t\u0435 \u043F\u0435\u0440\u0438\u043E\u0434\
+        \u044A\u0442 \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\u0442\u0438\u0435\
+        \ \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430\u0442\u0430 \u0434\u0430\
+        \ \u0435 \u0432\r\n\t\t\t\t\t\t\u0440\u0430\u043C\u043A\u0438\u0442\u0435\
+        \ \u043D\u0430 \u043F\u0435\u0440\u0438\u043E\u0434\u0430 \u043D\u0430\r\n\
+        \t\t\t\t\t\t\u0432\u0430\u043B\u0438\u0434\u043D\u043E\u0441\u0442 \u043D\u0430\
+        \ \u0433\u0440\u0443\u043F\u043E\u0432\u0430\u0442\u0430 \u043F\u043E\u043B\
+        \u0438\u0446\u0430 - ERROR\r\n\t\t\t\t\t\t(P011).</documentation>\r\n\t\t\t\
+        \t</annotation>\r\n\t\t\t</element>\r\n\r\n\t\t\t<element minOccurs=\"0\"\
+        \ name=\"expiringTime\" type=\"time\"></element>\r\n\t\t\t<element minOccurs=\"\
+        0\" name=\"insuranceObjectType\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\
+        \n\r\n\t\t\t\t\t<documentation>\u0412\u0438\u0434 \u043E\u0431\u0435\u043A\
+        \u0442 \u043D\u0430 \u0437\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\
+        \u0430\u043D\u0435 - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\
+        \u0430\u0442\u0443\u0440\u0430 (\u041C\u041F\u0421\r\n\t\t\t\t\t\t\u0438\u043B\
+        \u0438 \u0424\u041B).\r\n\t\t\t\t\t\t\u041D\u0435 \u0441\u0435 \u0432\u044A\
+        \u0432\u0435\u0436\u0434\u0430 \u043E\u0442 \u0417\u041A. \u0417\u0430\u043F\
+        \u0438\u0441\u0432\u0430 \u0441\u0435 \u041C\u041F\u0421 \u043F\u043E \u043F\
+        \u043E\u0434\u0440\u0430\u0437\u0431\u0438\u0440\u0430\u043D\u0435.\r\n\t\t\
+        \t\t\t\t\u041F\u043E\u043B\u0435\u0442\u043E \u0435\r\n\t\t\t\t\t\t\u0440\u0435\
+        \u0437\u0435\u0440\u0432\u0438\u0440\u0430\u043D\u043E \u0437\u0430 \u043F\
+        \u0440\u043E\u043C\u0435\u043D\u0438 \u0432 \u0431\u044A\u0434\u0435\u0449\
+        \u0435\u0442\u043E, \u0441\u0432\u044A\u0440\u0437\u0430\u043D\u0438 \u0441\
+        \ \u043F\u0440\u043E\u043C\u044F\u043D\u0430 \u043D\u0430\r\n\t\t\t\t\t\t\u043D\
+        \u043E\u0440\u043C\u0430\u0442\u0438\u0432\u043D\u0430\u0442\u0430 \u0443\u0440\
+        \u0435\u0434\u0431\u0430.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\
+        \t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"vehicle\" type=\"bons:Vehicle\"\
+        >\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041C\u041F\u0421.\r\
+        \n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\u043E \u0435 \u0437\u0430\u0434\
+        \u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E, \u043A\u043E\u0433\
+        \u0430\u0442\u043E \u0442\u0438\u043F \u043D\u0430\r\n\t\t\t\t\t\t\u043F\u0440\
+        \u0435\u043C\u0438\u044F\u0442\u0430 (premiumType) \u0435 \u0441 \u043A\u043E\
+        \u0434 1\r\n\t\t\t\t\t\t(\u041D\u0430 \u0431\u0430\u0437\u0430 \u0432\u0438\
+        \u0434 \u041F\u041F\u0421).\r\n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\u043E\
+        \ \u041D\u0415 \u0435\r\n\t\t\t\t\t\t\u0437\u0430\u0434\u044A\u043B\u0436\u0438\
+        \u0442\u0435\u043B\u043D\u043E, \u043A\u043E\u0433\u0430\u0442\u043E \u0442\
+        \u0438\u043F \u043D\u0430 \u043F\u0440\u0435\u043C\u0438\u044F\u0442\u0430\
+        \ (premiumType) \u0435 \u0441 \u043A\u043E\u0434 2\r\n\t\t\t\t\t\t(\u041D\u0430\
+        \r\n\t\t\t\t\t\t\u0431\u0430\u0437\u0430 \u043D\u0430 \u0440\u0435\u0430\u043B\
+        \u0438\u0437\u0438\u0440\u0430\u043D\u0438 \u043E\u0442 \u043F\u0440\u0435\
+        \u0432\u043E\u0437\u0432\u0430\u0447\u0430 \u043F\u0440\u0438\u0445\u043E\u0434\
+        \u0438).</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\
+        \t\t<element minOccurs=\"0\" name=\"holder\" type=\"bons:Person\">\r\n\t\t\
+        \t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041E\u0431\u0438\u0447\u0430\
+        \u0435\u043D \u0432\u043E\u0434\u0430\u0447/\u0434\u044A\u0440\u0436\u0430\
+        \u0442\u0435\u043B.\r\n\t\t\t\t\t\t\u0412\u044A\u0432\u0435\u0436\u0434\u0430\
+        \ \u0441\u0435 \u043B\u0438\u0446\u0435\u0442\u043E,\r\n\t\t\t\t\t\t\u043A\
+        \u043E\u0435\u0442\u043E \u0435 \u0442\u0438\u0442\u0443\u043B\u044F\u0440\
+        \ \u043F\u043E \u043F\u043E\u043B\u0438\u0446\u0430\u0442\u0430. \u041F\u043E\
+        \u043F\u044A\u043B\u0432\u0430 \u0441\u0435 \u0441\u0430\u043C\u043E, \u043A\
+        \u043E\u0433\u0430\u0442\u043E\r\n\t\t\t\t\t\t\u0442\u043E \u0435 \u0440\u0430\
+        \u0437\u043B\u0438\u0447\u043D\u043E\r\n\t\t\t\t\t\t\u043E\u0442 \u043B\u0438\
+        \u0446\u0435\u0442\u043E, \u0441\u043E\u0431\u0441\u0442\u0432\u0435\u043D\
+        \u0438\u043A \u043D\u0430 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\
+        \u043B\u0430 \u043F\u043E \u0442\u0430\u043B\u043E\u043D.\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"teritorialValidity\"\
+        \ type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0422\
+        \u0435\u0440\u0438\u0442\u043E\u0440\u0438\u0430\u043B\u0435\u043D \u043E\u0431\
+        \u0445\u0432\u0430\u0442 - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\
+        \u043B\u0430\u0442\u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0417\u0430 \u0417\u041F\
+        \ \u0437\u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E\
+        \ \u0441\u0435 \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u043A\u043E\u0434\
+        \ 1 (\u0411\u044A\u043B\u0433\u0430\u0440\u0438\u044F + E\u0421 + \u0415\u0418\
+        \u041F).\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t\
+        </element>\r\n\t\t\t<element name=\"writtenPremiumAcc\" type=\"double\">\r\
+        \n\t\t\t\t<annotation>\r\n\t\t\t\t\t\r\n\t\t\t\t<documentation>\u041D\u0430\
+        \u0447\u0438\u0441\u043B\u0435\u043D\u0430 \u043F\u0440\u0435\u043C\u0438\u044F\
+        \ (\u0417\u041F) - \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u0441\u0435\
+        \ \u0434\u043E \u0432\u0442\u043E\u0440\u0438\u044F \u0437\u043D\u0430\u043A\
+        \ \u043E\u0442 \u0434\u0435\u0441\u0435\u0442\u0438\u0447\u043D\u0430\u0442\
+        \u0430 \u0437\u0430\u043F\u0435\u0442\u0430\u044F.</documentation></annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element name=\"numberOfInstallments\" type=\"\
+        int\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0411\u0440\u043E\
+        \u0439 \u0432\u043D\u043E\u0441\u043A\u0438.\r\n\t\t\t\t\t\t\u0412\u044A\u0437\
+        \u043C\u043E\u0436\u043D\u0438 \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442\
+        \u0438: \u043E\u0442 1 \u0434\u043E 12.\r\n\t\t\t\t\t</documentation>\r\n\t\
+        \t\t\t</annotation>\r\n\t\t\t</element>\r\n\r\n\t\t\t<element name=\"premiumType\"\
+        \ type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0422\
+        \u0438\u043F \u043D\u0430 \u043F\u0440\u0435\u043C\u0438\u044F\u0442\u0430\
+        \ - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\
+        \u0440\u0430:\r\n\t\t\t\t\t\t1 - \u043D\u0430 \u0431\u0430\u0437\u0430 \u043D\
+        \u0430\r\n\t\t\t\t\t\t\u0432\u0438\u0434 \u041F\u041F\u0421 \u0438\r\n\t\t\
+        \t\t\t\t2 - \u043D\u0430 \u0431\u0430\u0437\u0430 \u043D\u0430 \u0440\u0435\
+        \u0430\u043B\u0438\u0437\u0438\u0440\u0430\u043D\u0438 \u043E\u0442 \u043F\
+        \u0440\u0435\u0432\u043E\u0437\u0432\u0430\u0447\u0430 \u043F\u0440\u0438\u0445\
+        \u043E\u0434\u0438\r\n\t\t\t\t\t\t(\u041E\u0431\u043E\u0440\u043E\u0442).\r\
+        \n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element minOccurs=\"0\" name=\"insuredVehiclesCount\"\r\n\t\t\t\t\
+        type=\"int\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0411\
+        \u0440\u043E\u0439 \u0437\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\u0430\
+        \u043D\u0438 \u041C\u041F\u0421.\r\n\t\t\t\t\t\t\u0417\u0430\u0434\u044A\u043B\
+        \u0436\u0438\u0442\u0435\u043B\u043D\u043E \u043F\u043E\u043B\u0435, \u043A\
+        \u043E\u0433\u0430\u0442\u043E\r\n\t\t\t\t\t\t\u0432\u0438\u0434 \u043D\u0430\
+        \ \u043F\u0440\u0435\u043C\u0438\u044F\u0442\u0430 \u0435 \u0441 \u043A\u043E\
+        \u0434 2 (\u043D\u0430 \u0431\u0430\u0437\u0430 \u043D\u0430 \u0440\u0435\u0430\
+        \u043B\u0438\u0437\u0438\u0440\u0430\u043D\u0438 \u043E\u0442\r\n\t\t\t\t\t\
+        \t\u043F\u0440\u0435\u0432\u043E\u0437\u0432\u0430\u0447\u0430\r\n\t\t\t\t\
+        \t\t\u043F\u0440\u0438\u0445\u043E\u0434\u0438).\r\n\t\t\t\t\t\t\u041D\u0435\
+        \ \u0441\u0435 \u043F\u043E\u043F\u044A\u043B\u0432\u0430, \u043A\u043E\u0433\
+        \u0430\u0442\u043E \u0432\u0438\u0434 \u043D\u0430 \u043F\u0440\u0435\u043C\
+        \u044F\u0442\u0430 \u0435 \u0441 \u043A\u043E\u0434 1 (\u043D\u0430 \u0431\
+        \u0430\u0437\u0430\r\n\t\t\t\t\t\t\u0432\u0438\u0434 \u041F\u041F\u0421).\r\
+        \n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element name=\"insuredSeatsCount\" type=\"int\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u0411\u0440\u043E\u0439 \u0437\u0430\u0441\u0442\
+        \u0440\u0430\u0445\u043E\u0432\u0430\u043D\u0438 \u043C\u0435\u0441\u0442\u0430\
+        \ \u0432 \u041C\u041F\u0421.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\
+        \t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"groupPolicyUPN\"\r\
+        \n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041D\
+        \u043E\u043C\u0435\u0440 \u043D\u0430 \u0433\u0440\u0443\u043F\u043E\u0432\
+        \u0430 \u043F\u043E\u043B\u0438\u0446\u0430 - \u043F\u043E\u0434\u0430\u0432\
+        \u0430 \u0441\u0435 \u0441\u0430\u043C\u043E \u043A\u043E\u0433\u0430\u0442\
+        \u043E\r\n\t\t\t\t\t\t\u0438\u0437\u0434\u0430\u0432\u0430\u043D\u0430\u0442\
+        \u0430 \u043F\u043E\u043B\u0438\u0446\u0430 \u0435 \u0447\u0430\u0441\u0442\
+        \ \u043E\u0442 \u0433\u0440\u0443\u043F\u043E\u0432\u0430 \u043F\u043E\u043B\
+        \u0438\u0446\u0430 \u0417\u041F.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\r\n\t\t\t<element minOccurs=\"0\" name=\"accidentLimit\"\
+        \ type=\"double\"></element>\r\n\t\t</sequence>\r\n\t</complexType>\r\n\r\n\
+        \t<complexType name=\"CombinedPolicy\">\r\n\t\t<sequence>\r\n\r\n\t\t\t<element\
+        \ name=\"insuranceType\" type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\
+        \t\t\t\t<documentation>\u041A\u043E\u0434 \u043D\u0430 \u0432\u0438\u0434\
+        \ \u0437\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\u043A\u0430 - \u043F\
+        \u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430\
+        .\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u043D\u0438\r\n\t\t\t\t\t\t\
+        \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442\u0438 \u0441\u0430 3 - \u043A\
+        \u043E\u043C\u0431\u0438\u043D\u0438\u0440\u0430\u043D\u0430 \u0438 5 - \u0437\
+        \u0430 \u0413\u041E + \u0417\u041F \u0441 \u0434\u043E\u043F\u044A\u043B\u043D\
+        \u0438\u0442\u0435\u043B\u043D\u0438\r\n\t\t\t\t\t\t\u0434\u043E\u0431\u0440\
+        \u043E\u0432\u043E\u043B\u043D\u0438 \u0437\u0430\u0441\u0442\u0440\u0430\u0445\
+        \u043E\u0432\u043A\u0438.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\
+        \t</element>\r\n\t\t\t<element name=\"company\" type=\"string\">\r\n\t\t\t\
+        \t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u043E\u0434 \u043D\u0430\
+        \ \u0417\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\u0430\u0442\u0435\
+        \u043B\u043D\u0430 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044F - \u043F\
+        \u043E\r\n\t\t\t\t\t\t\u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\
+        \u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u043D\u0430\
+        \ \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442: \u043A\u043E\u0434 \u043D\
+        \u0430 \u0417\u041A \u043D\u0430\u043F\u0440\u0430\u0432\u0438\u043B\u0430\
+        \ \u0437\u0430\u044F\u0432\u043A\u0430\u0442\u0430.\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"contractDate\"\
+        \ type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0414\
+        \u0430\u0442\u0430 \u043D\u0430 \u0441\u043A\u043B\u044E\u0447\u0432\u0430\
+        \u043D\u0435 \u043D\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430\
+        .\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\u0446\u0438\u044F: \u0442\
+        \u0435\u043A\u0443\u0449\u0430\r\n\t\t\t\t\t\t\u0434\u0430\u0442\u0430 \u0438\
+        \u043B\u0438 \u0434\u0430\u0442\u0430 \u0432 \u043C\u0438\u043D\u0430\u043B\
+        \u043E\u0442\u043E.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\r\n\t\t\t<element minOccurs=\"0\" name=\"contractTime\" type=\"time\"></element>\r\
+        \n\t\t\t<element name=\"commencingDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u041D\u0430\u0447\u0430\u043B\u043D\u0430 \u0434\
+        \u0430\u0442\u0430 \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\u0442\u0438\
+        \u0435.\r\n\t\t\t\t\t\t\u0412 \u0441\u043B\u0443\u0447\u0430\u0438\u0442\u0435\
+        \ \u043D\u0430\r\n\t\t\t\t\t\t\u0434\u043E\u0431\u0430\u0432\u044F\u043D\u0435\
+        \ \u043D\u0430 \u041C\u041F\u0421 \u043A\u044A\u043C \u0433\u0440\u0443\u043F\
+        \u043E\u0432\u0430 \u043F\u043E\u043B\u0438\u0446\u0430 (groupPolicyUPN e\r\
+        \n\t\t\t\t\t\t\u043F\u043E\u043F\u044A\u043B\u043D\u0435\u043D\u043E),\r\n\
+        \t\t\t\t\t\t\u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u0435\
+        \ \u043F\u0435\u0440\u0438\u043E\u0434\u044A\u0442 \u043D\u0430 \u043F\u043E\
+        \u043A\u0440\u0438\u0442\u0438\u0435 \u043D\u0430 \u043F\u043E\u043B\u0438\
+        \u0446\u0430\u0442\u0430 \u0434\u0430 \u0435 \u0432\r\n\t\t\t\t\t\t\u0440\u0430\
+        \u043C\u043A\u0438\u0442\u0435 \u043D\u0430\r\n\t\t\t\t\t\t\u043F\u0435\u0440\
+        \u0438\u043E\u0434\u0430 \u043D\u0430 \u0432\u0430\u043B\u0438\u0434\u043D\
+        \u043E\u0441\u0442 \u043D\u0430 \u0433\u0440\u0443\u043F\u043E\u0432\u0430\
+        \u0442\u0430 \u043F\u043E\u043B\u0438\u0446\u0430 - ERROR\r\n\t\t\t\t\t\t\
+        (P011).\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element minOccurs=\"0\" name=\"commencingTime\" type=\"time\">\r\n\
+        \t\t\t</element>\r\n\t\t\t<element name=\"expiringDate\" type=\"date\">\r\n\
+        \t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u0440\u0430\u0439\u043D\
+        \u0430 \u0434\u0430\u0442\u0430 \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\
+        \u0442\u0438\u0435.\r\n\t\t\t\t\t\t\u0412 \u0441\u043B\u0443\u0447\u0430\u0438\
+        \u0442\u0435 \u043D\u0430 \u0434\u043E\u0431\u0430\u0432\u044F\u043D\u0435\
+        \r\n\t\t\t\t\t\t\u043D\u0430 \u041C\u041F\u0421 \u043A\u044A\u043C \u0433\u0440\
+        \u0443\u043F\u043E\u0432\u0430 \u043F\u043E\u043B\u0438\u0446\u0430 (groupPolicyUPN\
+        \ e\r\n\t\t\t\t\t\t\u043F\u043E\u043F\u044A\u043B\u043D\u0435\u043D\u043E\
+        ), \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E\r\n\t\t\t\t\
+        \t\t\u0435 \u043F\u0435\u0440\u0438\u043E\u0434\u044A\u0442 \u043D\u0430 \u043F\
+        \u043E\u043A\u0440\u0438\u0442\u0438\u0435 \u043D\u0430 \u043F\u043E\u043B\
+        \u0438\u0446\u0430\u0442\u0430 \u0434\u0430 \u0435 \u0432\r\n\t\t\t\t\t\t\u0440\
+        \u0430\u043C\u043A\u0438\u0442\u0435 \u043D\u0430 \u043F\u0435\u0440\u0438\
+        \u043E\u0434\u0430 \u043D\u0430\r\n\t\t\t\t\t\t\u0432\u0430\u043B\u0438\u0434\
+        \u043D\u043E\u0441\u0442 \u043D\u0430 \u0433\u0440\u0443\u043F\u043E\u0432\
+        \u0430\u0442\u0430 \u043F\u043E\u043B\u0438\u0446\u0430 - ERROR\r\n\t\t\t\t\
+        \t\t(P011).</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element minOccurs=\"0\" name=\"expiringTime\" type=\"time\">\r\n\t\
+        \t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"insuranceObjectType\"\
+        \r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0412\
+        \u0438\u0434 \u043E\u0431\u0435\u043A\u0442 \u043D\u0430 \u0437\u0430\u0441\
+        \u0442\u0440\u0430\u0445\u043E\u0432\u0430\u043D\u0435 - \u043F\u043E \u043D\
+        \u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 (\u041C\
+        \u041F\u0421\r\n\t\t\t\t\t\t\u0438\u043B\u0438 \u0424\u041B).\r\n\t\t\t\t\t\
+        \t\u041D\u0435 \u0441\u0435 \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u043E\
+        \u0442 \u0417\u041A. \u0417\u0430\u043F\u0438\u0441\u0432\u0430 \u0441\u0435\
+        \ \u041C\u041F\u0421 \u043F\u043E \u043F\u043E\u0434\u0440\u0430\u0437\u0431\
+        \u0438\u0440\u0430\u043D\u0435.\r\n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\
+        \u043E \u0435\r\n\t\t\t\t\t\t\u0440\u0435\u0437\u0435\u0440\u0432\u0438\u0440\
+        \u0430\u043D\u043E \u0437\u0430 \u043F\u0440\u043E\u043C\u0435\u043D\u0438\
+        \ \u0432 \u0431\u044A\u0434\u0435\u0449\u0435\u0442\u043E, \u0441\u0432\u044A\
+        \u0440\u0437\u0430\u043D\u0438 \u0441 \u043F\u0440\u043E\u043C\u044F\u043D\
+        \u0430 \u043D\u0430\r\n\t\t\t\t\t\t\u043D\u043E\u0440\u043C\u0430\u0442\u0438\
+        \u0432\u043D\u0430\u0442\u0430 \u0443\u0440\u0435\u0434\u0431\u0430.\r\n</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        1\" name=\"vehicle\" type=\"bons:Vehicle\">\r\n\t\t\t\t<annotation>\r\n\t\t\
+        \t\t\t<documentation>\u041C\u041F\u0421.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"holder\" type=\"\
+        bons:Person\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041E\
+        \u0431\u0438\u0447\u0430\u0435\u043D \u0432\u043E\u0434\u0430\u0447/\u0434\
+        \u044A\u0440\u0436\u0430\u0442\u0435\u043B.\r\n\t\t\t\t\t\t\u0412\u044A\u0432\
+        \u0435\u0436\u0434\u0430 \u0441\u0435 \u043B\u0438\u0446\u0435\u0442\u043E\
+        ,\r\n\t\t\t\t\t\t\u043A\u043E\u0435\u0442\u043E \u0435 \u0442\u0438\u0442\u0443\
+        \u043B\u044F\u0440 \u043F\u043E \u043F\u043E\u043B\u0438\u0446\u0430\u0442\
+        \u0430. \u041F\u043E\u043F\u044A\u043B\u0432\u0430 \u0441\u0435 \u0441\u0430\
+        \u043C\u043E, \u043A\u043E\u0433\u0430\u0442\u043E\r\n\t\t\t\t\t\t\u0442\u043E\
+        \ \u0435 \u0440\u0430\u0437\u043B\u0438\u0447\u043D\u043E\r\n\t\t\t\t\t\t\u043E\
+        \u0442 \u043B\u0438\u0446\u0435\u0442\u043E, \u0441\u043E\u0431\u0441\u0442\
+        \u0432\u0435\u043D\u0438\u043A \u043D\u0430 \u0430\u0432\u0442\u043E\u043C\
+        \u043E\u0431\u0438\u043B\u0430 \u043F\u043E \u0442\u0430\u043B\u043E\u043D\
+        .\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element name=\"teritorialValidity\" type=\"string\">\r\n\t\t\t\t\
+        <annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0422\u0435\u0440\u0438\u0442\
+        \u043E\u0440\u0438\u0430\u043B\u0435\u043D \u043E\u0431\u0445\u0432\u0430\u0442\
+        \ - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\
+        \u0440\u0430.\r\n\t\t\t\t\t\t\u0417\u0430 \u0413\u041E \u0438 \u0417\u041F\
+        \ \u0437\u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E\
+        \ \u0441\u0435 \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u043A\u043E\u0434\
+        \ 1 (\u0411\u044A\u043B\u0433\u0430\u0440\u0438\u044F + E\u0421 + \u0415\u0418\
+        \u041F).\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t\
+        </element>\r\n\t\t\t<element name=\"writtenPremium\" type=\"double\">\r\n\t\
+        \t\t\t<annotation>\r\n\t\t\t\t\t\r\n\t\t\t\t<documentation>\u041D\u0430\u0447\
+        \u0438\u0441\u043B\u0435\u043D\u0430 \u043F\u0440\u0435\u043C\u0438\u044F\
+        \ (\u0413\u041E) - \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u0441\u0435\
+        \ \u0434\u043E \u0432\u0442\u043E\u0440\u0438\u044F \u0437\u043D\u0430\u043A\
+        \ \u043E\u0442 \u0434\u0435\u0441\u0435\u0442\u0438\u0447\u043D\u0430\u0442\
+        \u0430 \u0437\u0430\u043F\u0435\u0442\u0430\u044F.</documentation></annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element name=\"writtenPremiumAcc\" type=\"double\"\
+        ><annotation><documentation>\u041D\u0430\u0447\u0438\u0441\u043B\u0435\u043D\
+        \u0430 \u043F\u0440\u0435\u043C\u0438\u044F (\u0417\u041F) - \u0432\u044A\u0432\
+        \u0435\u0436\u0434\u0430 \u0441\u0435 \u0434\u043E \u0432\u0442\u043E\u0440\
+        \u0438\u044F \u0437\u043D\u0430\u043A \u043E\u0442 \u0434\u0435\u0441\u0435\
+        \u0442\u0438\u0447\u043D\u0430\u0442\u0430 \u0437\u0430\u043F\u0435\u0442\u0430\
+        \u044F.</documentation></annotation>\r\n\t\t\t</element>\r\n\t\t\t<element\
+        \ name=\"numberOfInstallments\" type=\"int\">\r\n\t\t\t\t<annotation>\r\n\t\
+        \t\t\t\t<documentation>\u0411\u0440\u043E\u0439 \u0432\u043D\u043E\u0441\u043A\
+        \u0438.\r\n\t\t\t\t\t\t\u0412\u044A\u0437\u043C\u043E\u0436\u043D\u0438 \u0441\
+        \u0442\u043E\u0439\u043D\u043E\u0441\u0442\u0438: \u043E\u0442 1 \u0434\u043E\
+        \ 12.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\r\n\t\t\t<element name=\"premiumType\" type=\"string\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u0422\u0438\u043F \u043D\u0430 \u043F\u0440\u0435\
+        \u043C\u0438\u044F\u0442\u0430 - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\
+        \u043A\u043B\u0430\u0442\u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0417\u0430 \u043A\
+        \u043E\u043C\u0431\u0438\u043D\u0438\u0440\u0430\u043D\u0438\r\n\t\t\t\t\t\
+        \t\u043F\u043E\u043B\u0438\u0446\u0438 \u0437\u0430\u0434\u044A\u043B\u0436\
+        \u0438\u0442\u0435\u043B\u043D\u043E \u0441\u0435 \u0432\u044A\u0432\u0435\
+        \u0436\u0434\u0430 \u043A\u043E\u0434 1 (\u043D\u0430 \u0431\u0430\u0437\u0430\
+        \ \u043D\u0430 \u0432\u0438\u0434\r\n\t\t\t\t\t\t\u041F\u041F\u0421).\r\n\t\
+        \t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\r\
+        \n\t\t\t<element name=\"insuredSeatsCount\" type=\"int\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u0411\u0440\u043E\u0439 \u0437\u0430\u0441\u0442\
+        \u0440\u0430\u0445\u043E\u0432\u0430\u043D\u0438 \u043C\u0435\u0441\u0442\u0430\
+        \ \u0432 \u041C\u041F\u0421.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\
+        \t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"groupPolicyUPN\"\r\
+        \n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041D\
+        \u043E\u043C\u0435\u0440 \u043D\u0430 \u0433\u0440\u0443\u043F\u043E\u0432\
+        \u0430 \u043F\u043E\u043B\u0438\u0446\u0430 - \u043F\u043E\u0434\u0430\u0432\
+        \u0430 \u0441\u0435 \u0441\u0430\u043C\u043E \u043A\u043E\u0433\u0430\u0442\
+        \u043E\r\n\t\t\t\t\t\t\u0438\u0437\u0434\u0430\u0432\u0430\u043D\u0430\u0442\
+        \u0430 \u043F\u043E\u043B\u0438\u0446\u0430 \u0435 \u0447\u0430\u0441\u0442\
+        \ \u043E\u0442 \u0433\u0440\u0443\u043F\u043E\u0432\u0430 \u043F\u043E\u043B\
+        \u0438\u0446\u0430.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element name=\"mtplLimit\" type=\"double\" minOccurs=\"0\"></element>\r\
+        \n\t\t\t<element name=\"accidentLimit\" type=\"double\" minOccurs=\"0\"></element>\r\
+        \n\t\t</sequence>\r\n\t</complexType>\r\n\r\n\t<complexType name=\"FIPolicy\"\
+        >\r\n\t\t<annotation>\r\n\t\t\t<documentation>\u0423\u043D\u0438\u043A\u0430\
+        \u043B\u0435\u043D \u043D\u043E\u043C\u0435\u0440 \u043D\u0430 \u043F\u043E\
+        \u043B\u0438\u0446\u0430 - \u0417\u0430\u0434\u044A\u043B\u0436\u0438\u0442\
+        \u0435\u043B\u043D\u043E \u043F\u043E\u043B\u0435\r\n\t\t\t\t\u0437\u0430\
+        \ \u0413\u0413\u041E \u0438 \u0421\u0417\u041A</documentation>\r\n\t\t</annotation>\r\
+        \n\t\t<sequence>\r\n\t\t\t<element name=\"upn\" type=\"string\">\r\n\t\t\t\
+        \t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041D\u043E\u043C\u0435\u0440\
+        \ \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430. \u0412\u044A\u0432\u0435\
+        \u0436\u0434\u0430 \u0441\u0435 \u043E\u0442 \u0417\u041A.\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"insuranceType\"\
+        \ type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041A\
+        \u043E\u0434 \u043D\u0430 \u0432\u0438\u0434 \u0437\u0430\u0441\u0442\u0440\
+        \u0430\u0445\u043E\u0432\u043A\u0430 - \u043F\u043E \u043D\u043E\u043C\u0435\
+        \u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\
+        \u043B\u0438\u0434\u043D\u0430\r\n\t\t\t\t\t\t\u0441\u0442\u043E\u0439\u043D\
+        \u043E\u0441\u0442 \u0435 4 - \u0413\u0413\u041E.</documentation>\r\n\t\t\t\
+        \t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"company\" type=\"\
+        string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u043E\
+        \u0434 \u043D\u0430 \u0417\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\
+        \u0430\u0442\u0435\u043B\u043D\u0430 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\
+        \u044F - \u043F\u043E\r\n\t\t\t\t\t\t\u043D\u043E\u043C\u0435\u043D\u043A\u043B\
+        \u0430\u0442\u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\
+        \u043D\u0430 \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442: \u043A\u043E\
+        \u0434 \u043D\u0430 \u0417\u041A \u043D\u0430\u043F\u0440\u0430\u0432\u0438\
+        \u043B\u0430 \u0437\u0430\u044F\u0432\u043A\u0430\u0442\u0430.\r\n\t\t\t\t\
+        \t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t\
+        <element name=\"contractDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\
+        \t\t\t\t<documentation>\u0414\u0430\u0442\u0430 \u043D\u0430 \u0441\u043A\u043B\
+        \u044E\u0447\u0432\u0430\u043D\u0435 \u043D\u0430 \u0434\u043E\u0433\u043E\
+        \u0432\u043E\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\
+        \u0446\u0438\u044F: \u0442\u0435\u043A\u0443\u0449\u0430\r\n\t\t\t\t\t\t\u0434\
+        \u0430\u0442\u0430 \u0438\u043B\u0438 \u0434\u0430\u0442\u0430 \u0432 \u043C\
+        \u0438\u043D\u0430\u043B\u043E\u0442\u043E.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\r\n\t\t\t<element minOccurs=\"0\" name=\"contractTime\"\
+        \ type=\"time\"></element>\r\n\t\t\t<element name=\"commencingDate\" type=\"\
+        date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041D\u0430\u0447\
+        \u0430\u043B\u043D\u0430 \u0434\u0430\u0442\u0430 \u043D\u0430 \u043F\u043E\
+        \u043A\u0440\u0438\u0442\u0438\u0435.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"commencingTime\"\
+        \ type=\"time\"></element>\r\n\t\t\t<element name=\"expiringDate\" type=\"\
+        date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u0440\u0430\
+        \u0439\u043D\u0430 \u0434\u0430\u0442\u0430 \u043D\u0430 \u043F\u043E\u043A\
+        \u0440\u0438\u0442\u0438\u0435.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"expiringTime\"\
+        \ type=\"time\"></element>\r\n\t\t\t<element minOccurs=\"0\" name=\"insuranceObjectType\"\
+        \r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0412\
+        \u0438\u0434 \u043E\u0431\u0435\u043A\u0442 \u043D\u0430 \u0437\u0430\u0441\
+        \u0442\u0440\u0430\u0445\u043E\u0432\u0430\u043D\u0435 - \u043F\u043E \u043D\
+        \u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 (\u041C\
+        \u041F\u0421\r\n\t\t\t\t\t\t\u0438\u043B\u0438 \u0424\u041B).\r\n\t\t\t\t\t\
+        \t\u041D\u0435 \u0441\u0435 \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u043E\
+        \u0442 \u0417\u041A. \u0417\u0430\u043F\u0438\u0441\u0432\u0430 \u0441\u0435\
+        \ \u041C\u041F\u0421 \u043F\u043E \u043F\u043E\u0434\u0440\u0430\u0437\u0431\
+        \u0438\u0440\u0430\u043D\u0435.\r\n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\
+        \u043E \u0435\r\n\t\t\t\t\t\t\u0440\u0435\u0437\u0435\u0440\u0432\u0438\u0440\
+        \u0430\u043D\u043E \u0437\u0430 \u043F\u0440\u043E\u043C\u0435\u043D\u0438\
+        \ \u0432 \u0431\u044A\u0434\u0435\u0449\u0435\u0442\u043E, \u0441\u0432\u044A\
+        \u0440\u0437\u0430\u043D\u0438 \u0441 \u043F\u0440\u043E\u043C\u044F\u043D\
+        \u0430 \u043D\u0430\r\n\t\t\t\t\t\t\u043D\u043E\u0440\u043C\u0430\u0442\u0438\
+        \u0432\u043D\u0430\u0442\u0430 \u0443\u0440\u0435\u0434\u0431\u0430.\r\n</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        1\" name=\"vehicle\" type=\"bons:Vehicle\">\r\n\t\t\t\t<annotation>\r\n\t\t\
+        \t\t\t<documentation>\u041C\u041F\u0421.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"holder\" type=\"\
+        bons:Person\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041E\
+        \u0431\u0438\u0447\u0430\u0435\u043D \u0432\u043E\u0434\u0430\u0447/\u0434\
+        \u044A\u0440\u0436\u0430\u0442\u0435\u043B.\r\n\t\t\t\t\t\t\u0412\u044A\u0432\
+        \u0435\u0436\u0434\u0430 \u0441\u0435 \u043B\u0438\u0446\u0435\u0442\u043E\
+        ,\r\n\t\t\t\t\t\t\u043A\u043E\u0435\u0442\u043E \u0435 \u0442\u0438\u0442\u0443\
+        \u043B\u044F\u0440 \u043F\u043E \u043F\u043E\u043B\u0438\u0446\u0430\u0442\
+        \u0430. \u041F\u043E\u043F\u044A\u043B\u0432\u0430 \u0441\u0435 \u0441\u0430\
+        \u043C\u043E, \u043A\u043E\u0433\u0430\u0442\u043E\r\n\t\t\t\t\t\t\u0442\u043E\
+        \ \u0435 \u0440\u0430\u0437\u043B\u0438\u0447\u043D\u043E\r\n\t\t\t\t\t\t\u043E\
+        \u0442 \u043B\u0438\u0446\u0435\u0442\u043E, \u0441\u043E\u0431\u0441\u0442\
+        \u0432\u0435\u043D\u0438\u043A \u043D\u0430 \u0430\u0432\u0442\u043E\u043C\
+        \u043E\u0431\u0438\u043B\u0430 \u043F\u043E \u0442\u0430\u043B\u043E\u043D\
+        .\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element name=\"teritorialValidity\" type=\"string\">\r\n\t\t\t\t\
+        <annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0422\u0435\u0440\u0438\u0442\
+        \u043E\u0440\u0438\u0430\u043B\u0435\u043D \u043E\u0431\u0445\u0432\u0430\u0442\
+        \ - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\
+        \u0440\u0430.\r\n\t\t\t\t\t\t\u0417\u0430 \u0413\u0413\u041E \u0437\u0430\u0434\
+        \u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E \u0441\u0435 \u0432\
+        \u044A\u0432\u0435\u0436\u0434\u0430 \u043A\u043E\u0434 1 (\u0411\u044A\u043B\
+        \u0433\u0430\u0440\u0438\u044F + E\u0421 + \u0415\u0418\u041F).\r\n\t\t\t\t\
+        \t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t\
+        <element name=\"writtenPremium\" type=\"double\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u041D\u0430\u0447\u0438\u0441\u043B\u0435\u043D\
+        \u0430 \u043F\u0440\u0435\u043C\u0438\u044F - \u0432\u044A\u0432\u0435\u0436\
+        \u0434\u0430 \u0441\u0435 \u0434\u043E \u0432\u0442\u043E\u0440\u0438\u044F\
+        \r\n\t\t\t\t\t\t\u0437\u043D\u0430\u043A \u043E\u0442 \u0434\u0435\u0441\u0435\
+        \u0442\u0438\u0447\u043D\u0430\u0442\u0430 \u0437\u0430\u043F\u0435\u0442\u0430\
+        \u044F.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\
+        \t\t<element name=\"numberOfInstallments\" type=\"int\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u0411\u0440\u043E\u0439 \u0432\u043D\u043E\u0441\
+        \u043A\u0438.\r\n\t\t\t\t\t\t\u0412\u044A\u0437\u043C\u043E\u0436\u043D\u0438\
+        \ \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442\u0438: \u043E\u0442 1 \u0434\
+        \u043E 12.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t\
+        </element>\r\n\r\n\t\t\t<element name=\"countryCode\" type=\"string\">\r\n\
+        \t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0414\u044A\u0440\u0436\
+        \u0430\u0432\u0430 - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\
+        \u0430\u0442\u0443\u0440\u0430 (ISO 3166-1).\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t</sequence>\r\n\t</complexType>\r\
+        \n\r\n\t<complexType name=\"GreenCard\">\r\n\t\t<sequence>\r\n\t\t\t<element\
+        \ name=\"upn\" type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t\
+        <documentation>\u041D\u043E\u043C\u0435\u0440 \u043D\u0430 \u0441\u0435\u0440\
+        \u0442\u0438\u0444\u0438\u043A\u0430\u0442.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\r\n\t\t\t<element name=\"company\" type=\"string\"\
+        >\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u043E\u0434 \u043D\
+        \u0430 \u0417\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\u0430\u0442\u0435\
+        \u043B\u043D\u0430 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044F - \u043F\
+        \u043E\r\n\t\t\t\t\t\t\u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\
+        \u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u043D\u0430\
+        \ \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442: \u043A\u043E\u0434 \u043D\
+        \u0430 \u0417\u041A \u043D\u0430\u043F\u0440\u0430\u0432\u0438\u043B\u0430\
+        \ \u0437\u0430\u044F\u0432\u043A\u0430\u0442\u0430.\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"contractDate\"\
+        \ type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0414\
+        \u0430\u0442\u0430 \u043D\u0430 \u0441\u043A\u043B\u044E\u0447\u0432\u0430\
+        \u043D\u0435 \u043D\u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430\
+        .\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\u0446\u0438\u044F: \u0442\
+        \u0435\u043A\u0443\u0449\u0430\r\n\t\t\t\t\t\t\u0434\u0430\u0442\u0430 \u0438\
+        \u043B\u0438 \u0434\u0430\u0442\u0430 \u0432 \u043C\u0438\u043D\u0430\u043B\
+        \u043E\u0442\u043E.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\r\n\t\t\t<element minOccurs=\"0\" name=\"contractTime\" type=\"time\"></element>\r\
+        \n\t\t\t<element name=\"commencingDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u041D\u0430\u0447\u0430\u043B\u043D\u0430 \u0434\
+        \u0430\u0442\u0430 \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\u0442\u0438\
+        \u0435.\r\n\t\t\t\t\t\t\u041A\u043E\u0433\u0430\u0442\u043E \u0441\u0435\u0440\
+        \u0442\u0438\u0444\u0438\u043A\u0430\u0442\u0430 \u0435\r\n\t\t\t\t\t\t\u043F\
+        \u0440\u0438\u043B\u0435\u0436\u0430\u0449 \u043A\u044A\u043C \u0413\u041E\
+        \ - \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u0435 \u043F\
+        \u0435\u0440\u0438\u043E\u0434\u0430 \u043D\u0430\r\n\t\t\t\t\t\t\u0441\u0435\
+        \u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u0430 \u0434\u0430 \u0435\
+        \ \u0432\r\n\t\t\t\t\t\t\u0440\u0430\u043C\u043A\u0438\u0442\u0435 \u043D\u0430\
+        \ \u043F\u0435\u0440\u0438\u043E\u0434\u0430 \u043D\u0430 \u0413\u041E - WARNING\
+        \ (\u041A\u043E\u0434 P010).\r\n\t\t\t\t\t\t\u041A\u043E\u0433\u0430\u0442\
+        \u043E \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u0430\r\
+        \n\t\t\t\t\t\t\u0441\u0435 \u0438\u0437\u0434\u0430\u0432\u0430 \u0437\u0430\
+        \u0435\u0434\u043D\u043E \u0441 \u0413\u041E - \u043D\u0435\u043E\u0431\u0445\
+        \u043E\u0434\u0438\u043C\u043E \u0435 \u043F\u0435\u0440\u0438\u043E\u0434\
+        \u0430 \u043D\u0430\r\n\t\t\t\t\t\t\u0441\u0435\u0440\u0442\u0438\u0444\u0438\
+        \u043A\u0430\u0442\u0430 \u0434\u0430\r\n\t\t\t\t\t\t\u0441\u044A\u0432\u043F\
+        \u0430\u0434\u0430 \u0441 \u043F\u0435\u0440\u0438\u043E\u0434\u0430 \u043D\
+        \u0430 \u0413\u041E - WARNING (\u041A\u043E\u0434 P003).\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        0\" name=\"commencingTime\" type=\"time\"></element>\r\n\t\t\t<element name=\"\
+        expiringDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\
+        \u0440\u0430\u0439\u043D\u0430 \u0434\u0430\u0442\u0430 \u043D\u0430 \u043F\
+        \u043E\u043A\u0440\u0438\u0442\u0438\u0435.\r\n\t\t\t\t\t\t\u041A\u043E\u0433\
+        \u0430\u0442\u043E \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0442\
+        \u0430 \u0435\r\n\t\t\t\t\t\t\u043F\u0440\u0438\u043B\u0435\u0436\u0430\u0449\
+        \ \u043A\u044A\u043C \u0413\u041E - \u043D\u0435\u043E\u0431\u0445\u043E\u0434\
+        \u0438\u043C\u043E \u0435 \u043F\u0435\u0440\u0438\u043E\u0434\u0430 \u043D\
+        \u0430\r\n\t\t\t\t\t\t\u0441\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\
+        \u0442\u0430 \u0434\u0430 \u0435 \u0432\r\n\t\t\t\t\t\t\u0440\u0430\u043C\u043A\
+        \u0438\u0442\u0435 \u043D\u0430 \u043F\u0435\u0440\u0438\u043E\u0434\u0430\
+        \ \u043D\u0430 \u0413\u041E - WARNING (\u041A\u043E\u0434 P010).\r\n\t\t\t\
+        \t\t\t\u041A\u043E\u0433\u0430\u0442\u043E \u0441\u0435\u0440\u0442\u0438\u0444\
+        \u0438\u043A\u0430\u0442\u0430\r\n\t\t\t\t\t\t\u0441\u0435 \u0438\u0437\u0434\
+        \u0430\u0432\u0430 \u0437\u0430\u0435\u0434\u043D\u043E \u0441 \u0413\u041E\
+        \ - \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u0435 \u043F\
+        \u0435\u0440\u0438\u043E\u0434\u0430 \u043D\u0430\r\n\t\t\t\t\t\t\u0441\u0435\
+        \u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u0430 \u0434\u0430\r\n\t\t\
+        \t\t\t\t\u0441\u044A\u0432\u043F\u0430\u0434\u0430 \u0441 \u043F\u0435\u0440\
+        \u0438\u043E\u0434\u0430 \u043D\u0430 \u0413\u041E - WARNING (\u041A\u043E\
+        \u0434 P003).\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\
+        \t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"expiringTime\" type=\"\
+        time\"></element>\r\n\t\t\t<element minOccurs=\"0\" name=\"insuranceObjectType\"\
+        \r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0412\
+        \u0438\u0434 \u043E\u0431\u0435\u043A\u0442 \u043D\u0430 \u0437\u0430\u0441\
+        \u0442\u0440\u0430\u0445\u043E\u0432\u0430\u043D\u0435 - \u043F\u043E \u043D\
+        \u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 (\u041C\
+        \u041F\u0421\r\n\t\t\t\t\t\t\u0438\u043B\u0438 \u0424\u041B).\r\n\t\t\t\t\t\
+        \t\u041D\u0435 \u0441\u0435 \u0432\u044A\u0432\u0435\u0436\u0434\u0430 \u043E\
+        \u0442 \u0417\u041A. \u0417\u0430\u043F\u0438\u0441\u0432\u0430 \u0441\u0435\
+        \ \u041C\u041F\u0421 \u043F\u043E \u043F\u043E\u0434\u0440\u0430\u0437\u0431\
+        \u0438\u0440\u0430\u043D\u0435.\r\n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\
+        \u043E \u0435\r\n\t\t\t\t\t\t\u0440\u0435\u0437\u0435\u0440\u0432\u0438\u0440\
+        \u0430\u043D\u043E \u0437\u0430 \u043F\u0440\u043E\u043C\u0435\u043D\u0438\
+        \ \u0432 \u0431\u044A\u0434\u0435\u0449\u0435\u0442\u043E, \u0441\u0432\u044A\
+        \u0440\u0437\u0430\u043D\u0438 \u0441 \u043F\u0440\u043E\u043C\u044F\u043D\
+        \u0430 \u043D\u0430\r\n\t\t\t\t\t\t\u043D\u043E\u0440\u043C\u0430\u0442\u0438\
+        \u0432\u043D\u0430\u0442\u0430 \u0443\u0440\u0435\u0434\u0431\u0430.</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        1\" name=\"vehicle\" type=\"bons:Vehicle\">\r\n\t\t\t\t<annotation>\r\n\t\t\
+        \t\t\t<documentation>\u041C\u041F\u0421.\r\n\t\t\t\t\t\t\u041A\u043E\u0433\
+        \u0430\u0442\u043E \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0442\
+        \u0430 \u0435 \u043F\u0440\u0438\u043B\u0435\u0436\u0430\u0449 \u043A\u044A\
+        \u043C \u0413\u041E -\r\n\t\t\t\t\t\t\u043D\u0435\u043E\u0431\u0445\u043E\u0434\
+        \u0438\u043C\u043E \u0435 \u0434\u0430\u043D\u043D\u0438\u0442\u0435 \u0437\
+        \u0430 \u041C\u041F\u0421-\u0442\u043E \u0434\u0430\r\n\t\t\t\t\t\t\u0441\u044A\
+        \u0432\u043F\u0430\u0434\u0430\u0442 \u0441 \u0434\u0430\u043D\u043D\u0438\
+        \u0442\u0435 \u043E\u0442 \u0413\u041E -\r\n\t\t\t\t\t\tWARNING (\u041A\u043E\
+        \u0434 V006).</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element minOccurs=\"0\" name=\"holder\" type=\"bons:Person\">\r\n\
+        \t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u041E\u0431\u0438\u0447\
+        \u0430\u0435\u043D \u0432\u043E\u0434\u0430\u0447/\u0434\u044A\u0440\u0436\
+        \u0430\u0442\u0435\u043B.\r\n\t\t\t\t\t\t\u0412\u044A\u0432\u0435\u0436\u0434\
+        \u0430 \u0441\u0435 \u043B\u0438\u0446\u0435\u0442\u043E,\r\n\t\t\t\t\t\t\u043A\
+        \u043E\u0435\u0442\u043E \u0435 \u0442\u0438\u0442\u0443\u043B\u044F\u0440\
+        \ \u043F\u043E \u043F\u043E\u043B\u0438\u0446\u0430\u0442\u0430. \u041F\u043E\
+        \u043F\u044A\u043B\u0432\u0430 \u0441\u0435 \u0441\u0430\u043C\u043E, \u043A\
+        \u043E\u0433\u0430\u0442\u043E\r\n\t\t\t\t\t\t\u0442\u043E \u0435 \u0440\u0430\
+        \u0437\u043B\u0438\u0447\u043D\u043E\r\n\t\t\t\t\t\t\u043E\u0442 \u043B\u0438\
+        \u0446\u0435\u0442\u043E, \u0441\u043E\u0431\u0441\u0442\u0432\u0435\u043D\
+        \u0438\u043A \u043D\u0430 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\
+        \u043B\u0430 \u043F\u043E \u0442\u0430\u043B\u043E\u043D.\r\n\t\t\t\t\t\t\u041A\
+        \u043E\u0433\u0430\u0442\u043E \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u043A\
+        \u0430\u0442\u0430 \u0435\r\n\t\t\t\t\t\t\u043F\u0440\u0438\u043B\u0435\u0436\
+        \u0430\u0449 \u043A\u044A\u043C \u0413\u041E - \u043D\u0435\u043E\u0431\u0445\
+        \u043E\u0434\u0438\u043C\u043E \u0435 \u0434\u0430\u043D\u043D\u0438\u0442\
+        \u0435 \u0437\u0430 \u043B\u0438\u0446\u0435\u0442\u043E \u0434\u0430\r\n\t\
+        \t\t\t\t\t\u0441\u044A\u0432\u043F\u0430\u0434\u0430\u0442 \u0441\r\n\t\t\t\
+        \t\t\t\u0434\u0430\u043D\u043D\u0438\u0442\u0435 \u043E\u0442 \u0413\u041E\
+        \ - WARNING (\u041A\u043E\u0434 PR002).</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element name=\"teritorialValidity\" type=\"string\"\
+        >\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0422\u0435\u0440\
+        \u0438\u0442\u043E\u0440\u0438\u0430\u043B\u0435\u043D \u043E\u0431\u0445\u0432\
+        \u0430\u0442 - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\
+        \u0442\u0443\u0440\u0430:\r\n\t\t\t\t\t\t1. \u0411\u044A\u043B\u0433\u0430\
+        \u0440\u0438\u044F + E\u0421 + \u0415\u0418\u041F.\r\n\t\t\t\t\t\t2. \u0411\
+        \u044A\u043B\u0433\u0430\u0440\u0438\u044F + E\u0421 + \u0415\u0418\u041F\
+        \ + \u0422\u0440\u0435\u0442\u0438 \u0441\u0442\u0440\u0430\u043D\u0438.\r\
+        \n\t\t\t\t\t\t3.\r\n\t\t\t\t\t\t\u0422\u0440\u0435\u0442\u0438 \u0441\u0442\
+        \u0440\u0430\u043D\u0438.\r\n\r\n\t\t\t\t\t\t\u0417\u0430 \u0441\u0430\u043C\
+        \u043E\u0441\u0442\u043E\u044F\u0442\u0435\u043B\u043D\u0438 \u0441\u0435\u0440\
+        \u0442\u0438\u0444\u0438\u043A\u0430\u0442\u0438 \"\u0417\u0435\u043B\u0435\
+        \u043D\u0430 \u043A\u0430\u0440\u0442\u0430\" (\u0431\u0435\u0437\r\n\t\t\t\
+        \t\t\t\u0432\u044A\u0432\u0435\u0434\u0435\u043D \u043D\u043E\u043C\u0435\u0440\
+        \ \u043D\u0430\r\n\t\t\t\t\t\t\u0441\u0432\u044A\u0440\u0437\u0430\u043D\u0430\
+        \ \u0441\u044A\u0441 \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\
+        \u0442\u0430 \u043F\u043E\u043B\u0438\u0446\u0430 \u0413\u041E - mtplUPN),\r\
+        \n\t\t\t\t\t\t\u0437\u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\
+        \u043D\u043E \u0441\u0435\r\n\t\t\t\t\t\t\u0432\u044A\u0432\u0435\u0436\u0434\
+        \u0430 \u043A\u043E\u0434 3 (\u0442\u0440\u0435\u0442\u0438 \u0441\u0442\u0440\
+        \u0430\u043D\u0438).</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element name=\"writtenPremium\" type=\"double\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u041D\u0430\u0447\u0438\u0441\u043B\u0435\u043D\
+        \u0430 \u043F\u0440\u0435\u043C\u0438\u044F - \u0432\u044A\u0432\u0435\u0436\
+        \u0434\u0430 \u0441\u0435 \u0434\u043E \u0432\u0442\u043E\u0440\u0438\u044F\
+        \r\n\t\t\t\t\t\t\u0437\u043D\u0430\u043A \u043E\u0442 \u0434\u0435\u0441\u0435\
+        \u0442\u0438\u0447\u043D\u0430\u0442\u0430 \u0437\u0430\u043F\u0435\u0442\u0430\
+        \u044F.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\
+        \t\t<element name=\"numberOfInstallments\" type=\"int\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u0411\u0440\u043E\u0439 \u0432\u043D\u043E\u0441\
+        \u043A\u0438.\r\n\t\t\t\t\t\t\u0412\u044A\u0437\u043C\u043E\u0436\u043D\u0438\
+        \ \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442\u0438: \u043E\u0442 1 \u0434\
+        \u043E 12.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t\
+        </element>\r\n\r\n\t\t\t<element minOccurs=\"0\" name=\"mtplUPN\" type=\"\
+        string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0415\u0434\
+        \u0438\u043D\u0435\u043D \u043D\u043E\u043C\u0435\u0440 \u043D\u0430 \u0441\
+        \u0432\u044A\u0440\u0437\u0430\u043D\u0430\u0442\u0430 \u0441\u044A\u0441\
+        \ \u0441\u0435\u0440\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u0430\r\n\t\
+        \t\t\t\t\t\u043F\u043E\u043B\u0438\u0446\u0430 \u0413\u041E.\r\n\t\t\t\t\t\
+        \t\u041F\u043E\u043B\u0435\u0442\u043E \u043D\u0435 \u0441\u0435 \u043F\u043E\
+        \u043F\u044A\u043B\u0432\u0430 \u0437\u0430 \u0441\u0430\u043C\u043E\u0441\
+        \u0442\u043E\u044F\u0442\u0435\u043B\u043D\u0438 \u0441\u0435\u0440\u0442\u0438\
+        \u0444\u0438\u043A\u0430\u0442\u0438\r\n\t\t\t\t\t\t\"\u0417\u0435\u043B\u0435\
+        \u043D\u0430 \u043A\u0430\u0440\u0442\u0430\".\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t</sequence>\r\n\t</complexType>\r\
+        \n\r\n\t<complexType name=\"GroupPolicy\">\r\n\t\t<sequence>\r\n\r\n\t\t\t\
+        <element name=\"company\" type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\
+        \t\t\t\t\t<documentation>\u041A\u043E\u0434 \u043D\u0430 \u0417\u0430\u0441\
+        \u0442\u0440\u0430\u0445\u043E\u0432\u0430\u0442\u0435\u043B\u043D\u0430 \u043A\
+        \u043E\u043C\u043F\u0430\u043D\u0438\u044F - \u043F\u043E\r\n\t\t\t\t\t\t\u043D\
+        \u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430.\r\n\t\t\
+        \t\t\t\t\u0412\u0430\u043B\u0438\u0434\u043D\u0430 \u0441\u0442\u043E\u0439\
+        \u043D\u043E\u0441\u0442: \u043A\u043E\u0434 \u043D\u0430 \u0417\u041A \u043D\
+        \u0430\u043F\u0440\u0430\u0432\u0438\u043B\u0430 \u0437\u0430\u044F\u0432\u043A\
+        \u0430\u0442\u0430.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element name=\"contractDate\" type=\"date\">\r\
+        \n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0414\u0430\u0442\u0430\
+        \ \u043D\u0430 \u0441\u043A\u043B\u044E\u0447\u0432\u0430\u043D\u0435 \u043D\
+        \u0430 \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430.\r\n\t\t\t\t\t\t\u0412\
+        \u0430\u043B\u0438\u0434\u0430\u0446\u0438\u044F: \u0442\u0435\u043A\u0443\
+        \u0449\u0430\r\n\t\t\t\t\t\t\u0434\u0430\u0442\u0430 \u0438\u043B\u0438 \u0434\
+        \u0430\u0442\u0430 \u0432 \u043C\u0438\u043D\u0430\u043B\u043E\u0442\u043E\
+        .</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element\
+        \ minOccurs=\"0\" name=\"contractTime\" type=\"time\"></element>\r\n\t\t\t\
+        <element name=\"commencingDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\n\
+        \t\t\t\t\t<documentation>\u041D\u0430\u0447\u0430\u043B\u043D\u0430 \u0434\
+        \u0430\u0442\u0430 \u043D\u0430 \u043F\u043E\u043A\u0440\u0438\u0442\u0438\
+        \u0435 \u043D\u0430 \u0433\u0440\u0443\u043F\u043E\u0432\u0430\u0442\u0430\
+        \ \u043F\u043E\u043B\u0438\u0446\u0430.\r\n\t\t\t\t\t</documentation>\r\n\t\
+        \t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\"\
+        \ name=\"commencingTime\" type=\"time\"></element>\r\n\t\t\t<element name=\"\
+        expiringDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\
+        \u0440\u0430\u0439\u043D\u0430 \u0434\u0430\u0442\u0430 \u043D\u0430 \u043F\
+        \u043E\u043A\u0440\u0438\u0442\u0438\u0435 \u043D\u0430 \u0433\u0440\u0443\
+        \u043F\u043E\u0432\u0430\u0442\u0430 \u043F\u043E\u043B\u0438\u0446\u0430\
+        .\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element minOccurs=\"0\" name=\"expiringTime\" type=\"time\"></element>\r\
+        \n\t\t\t<element name=\"holder\" type=\"bons:Person\">\r\n\t\t\t\t<annotation>\r\
+        \n\r\n\t\t\t\t\t<documentation>\u042E\u0440\u0438\u0434\u0438\u0447\u0435\u0441\
+        \u043A\u043E \u043B\u0438\u0446\u0435, \u0441\u043A\u043B\u044E\u0447\u0438\
+        \u043B\u043E \u0434\u043E\u0433\u043E\u0432\u043E\u0440\u0430.\r\n\t\t\t\t\
+        \t\t\u041F\u0440\u0438\r\n\t\t\t\t\t\t\u0434\u043E\u0431\u0430\u0432\u044F\
+        \u043D\u0435 \u043D\u0430 \u041C\u041F\u0421 \u043A\u044A\u043C \u0433\u0440\
+        \u0443\u043F\u043E\u0432\u0430 \u043F\u043E\u043B\u0438\u0446\u0430 \u0435\
+        \ \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E \u0441\u043E\
+        \u0431\u0441\u0442\u0432\u0435\u043D\u0438\u043A\u044A\u0442 \u043D\u0430\r\
+        \n\t\t\t\t\t\t\u041C\u041F\u0421-\u0442\u043E \u0434\u0430 \u0441\u044A\u0432\
+        \u043F\u0430\u0434\u0430 \u0441 \u044E\u0440\u0438\u0434\u0438\u0447\u0435\
+        \u0441\u043A\u043E\u0442\u043E \u043B\u0438\u0446\u0435, \u0441\u043A\u043B\
+        \u044E\u0447\u0438\u043B\u043E \u0434\u043E\u0433\u043E\u0432\u0430\u0440\u0430\
+        .\r\n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\u043E\r\n\t\t\t\t\t\tPerson-&gt;type\
+        \ \u0442\u0440\u044F\u0431\u0432\u0430 \u0434\u0430 \u0435 \u0441 \u043A\u043E\
+        \u0434 2 (\u042E\u041B).\r\n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\u043E\
+        \ Person-&gt;pinType\r\n\t\t\t\t\t\t\u0442\u0440\u044F\u0431\u0432\u0430 \u0434\
+        \u0430 \u0435 \u0441 \u043A\u043E\u0434 3 (\u0411\u0443\u043B\u0441\u0442\u0430\
+        \u0442).\r\n</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t</sequence>\r\n\t</complexType>\r\n\r\n\t<complexType name=\"BMCoefficient\"\
+        >\r\n\t\t<sequence>\r\n\t\t\t<element minOccurs=\"1\" name=\"coefficient\"\
+        >\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u043E\u0440\u0438\
+        \u0433\u0438\u0440\u0430\u0449 \u043A\u043E\u0435\u0444\u0438\u0446\u0438\u0435\
+        \u043D\u0442 (\u0431\u043E\u043D\u0443\u0441-\u043C\u0430\u043B\u0443\u0441\
+        )\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t\t<simpleType>\r\
+        \n\t\t\t\t\t<restriction base=\"decimal\">\r\n\t\t\t\t\t\t<totalDigits value=\"\
+        8\" />\r\n\t\t\t\t\t\t<fractionDigits value=\"5\" />\r\n\t\t\t\t\t</restriction>\r\
+        \n\t\t\t\t</simpleType>\r\n\t\t\t</element>\r\n\t\t</sequence>\r\n\t</complexType>\r\
+        \n\r\n\t<complexType name=\"Person\">\r\n\t\t<all>\r\n\t\t\t<element maxOccurs=\"\
+        1\" minOccurs=\"1\" name=\"type\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t\
+        <annotation>\r\n\t\t\t\t\t<documentation>\u0422\u0438\u043F \u043D\u0430 \u043B\
+        \u0438\u0446\u0435\u0442\u043E - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\
+        \u043A\u043B\u0430\u0442\u0443\u0440\u0430:\r\n\t\t\t\t\t\t1 - \u0424\u0438\
+        \u0437\u0438\u0447\u0435\u0441\u043A\u043E\r\n\t\t\t\t\t\t\u043B\u0438\u0446\
+        \u0435 (\u0424\u041B),\r\n\t\t\t\t\t\t2 - \u042E\u0440\u0438\u0434\u0438\u0447\
+        \u0435\u0441\u043A\u043E \u043B\u0438\u0446\u0435 (\u042E\u041B).\r\n\r\n\t\
+        \t\t\t\t\t\u041F\u0440\u0438 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438\
+        \ \u0441\u0432\u044A\u0440\u0437\u0430\u043D\u0438 \u0441\u044A\u0441 \u0417\
+        \u041F \u0438\r\n\t\t\t\t\t\t\u041A\u043E\u043C\u0431\u0438\u043D\u0438\u0440\
+        \u0430\u043D\u0430 \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442\u0442\u0430\
+        \ \u0442\u0440\u044F\u0431\u0432\u0430 \u0434\u0430 \u0435 2 - \u042E\u041B\
+        .\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element maxOccurs=\"1\" minOccurs=\"1\" name=\"name\"\r\n\t\t\t\t\
+        type=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0418\
+        \u043C\u0435 - \u0441\u0432\u043E\u0431\u043E\u0434\u0435\u043D \u0442\u0435\
+        \u043A\u0441\u0442:\r\n\t\t\t\t\t\t\u0417\u0430 \u0424\u041B \u2013 \u0442\
+        \u0440\u0438\u0442\u0435 \u0438\u043C\u0435\u043D\u0430,\r\n\t\t\t\t\t\t\u0417\
+        \u0430 \u042E\u041B \u2013\r\n\t\t\t\t\t\t\u0438\u043C\u0435\u0442\u043E \u043D\
+        \u0430 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044F\u0442\u0430.</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element maxOccurs=\"\
+        1\" minOccurs=\"0\" name=\"pinType\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\
+        \t<annotation>\r\n\t\t\t\t\t<documentation>\u0422\u0438\u043F \u043D\u0430\
+        \ \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\
+        \u0440\u0430 - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\
+        \u0442\u0443\u0440\u0430:\r\n\t\t\t\t\t\t1 - E\u0413\u041D,\r\n\t\t\t\t\t\t\
+        2 - \u041B\u041D\u0427,\r\n\t\t\t\t\t\t3 - \u0411\u0443\u043B\u0441\u0442\u0430\
+        \u0442,\r\n\t\t\t\t\t\t4 - \u0414\u0440\u0443\u0433\u043E (\u043D\u0435 \u0441\
+        \u0435 \u0438\u0437\u043F\u043E\u043B\u0437\u0432\u0430 \u0437\u0430 \u0441\
+        \u0435\u0433\u0430).\r\n\r\n\t\t\t\t\t\t\u0417\u0430\u0434\u044A\u043B\u0436\
+        \u0438\u0442\u0435\u043B\u043D\u043E \u043F\u043E\u043B\u0435 \u043F\u0440\
+        \u0438 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u0432\u044A\
+        \u0440\u0437\u0430\u043D\u0438 \u0441 \u0413\u041E, \u0417\u041F, \u041A\u043E\
+        \u043C\u0431\u0438\u043D\u0438\u0440\u0430\u043D\u0430 \u0438\r\n\t\t\t\t\t\
+        \t\u0421\u0417\u041A.\r\n\t\t\t\t\t\t\u041F\u0440\u0438 \u043E\u043F\u0435\
+        \u0440\u0430\u0446\u0438\u0438 \u0441\u0432\u044A\u0440\u0437\u0430\u043D\u0438\
+        \ \u0441\u044A\u0441 \u0417\u041F \u0438 \u041A\u043E\u043C\u0431\u0438\u043D\
+        \u0438\u0440\u0430\u043D\u0430 \u0441\u0442\u043E\u0439\u043D\u043E\u0441\u0442\
+        \u0442\u0430 \u0442\u0440\u044F\u0431\u0432\u0430\r\n\t\t\t\t\t\t\u0434\u0430\
+        \ \u0435 3 - \u0411\u0443\u043B\u0441\u0442\u0430\u0442.\r\n\t\t\t\t\t\t\u041F\
+        \u0440\u0438 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u0432\
+        \u044A\u0440\u0437\u0430\u043D\u0438 \u0441 \u0413\u0413\u041E \u043F\u043E\
+        \u043B\u0435\u0442\u043E \u043D\u0435 \u0435\r\n\t\t\t\t\t\t\u0437\u0430\u0434\
+        \u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E.\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element maxOccurs=\"\
+        1\" minOccurs=\"0\" name=\"pin\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u0418\u0434\u0435\u043D\u0442\u0438\u0444\u0438\
+        \u043A\u0430\u0442\u043E\u0440 (E\u0413\u041D/\u041B\u041D\u0427/\u0415\u0418\
+        \u041A).\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\u0446\u0438\u044F\
+        :\r\n\t\t\t\t\t\t\u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\
+        \u0442 \u043E\u0442 \u0442\u0438\u043F\u0430 \u043D\u0430 \u0438\u0434\u0435\
+        \u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u0430:\r\n\t\t\
+        \t\t\t\t- \u0411\u0443\u043B\u0441\u0442\u0430\u0442 - 9, 10 \u0438\u043B\u0438\
+        \ 13\r\n\t\t\t\t\t\t\u0441\u0438\u043C\u0432\u043E\u043B\u0430; \u0446\u0438\
+        \u0444\u0440\u0438 0-9.\r\n\t\t\t\t\t\t- \u0415\u0413\u041D - 10 \u0441\u0438\
+        \u043C\u0432\u043E\u043B\u0430. \u0412\u0430\u043B\u0438\u0434\u0430\u0446\
+        \u0438\u044F \u043D\u0430 \u0415\u0413\u041D.\r\n\t\t\t\t\t\t- \u041B\u041D\
+        \u0427 - 10\r\n\t\t\t\t\t\t\u0441\u0438\u043C\u0432\u043E\u043B\u0430. \u0412\
+        \u0430\u043B\u0438\u0434\u0430\u0446\u0438\u044F \u043D\u0430 \u041B\u041D\
+        \u0427.\r\n\r\n\t\t\t\t\t\t\u0417\u0430\u0434\u044A\u043B\u0436\u0438\u0442\
+        \u0435\u043B\u043D\u043E \u043F\u043E\u043B\u0435 \u043F\u0440\u0438 \u043E\
+        \u043F\u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u0432\u044A\u0440\u0437\u0430\
+        \u043D\u0438\r\n\t\t\t\t\t\t\u0441 \u0413\u041E, \u0417\u041F, \u041A\u043E\
+        \u043C\u0431\u0438\u043D\u0438\u0440\u0430\u043D\u0430 \u0438 \u0421\u0417\
+        \u041A.\r\n\t\t\t\t\t\t\u041F\u0440\u0438 \u043E\u043F\u0435\u0440\u0430\u0446\
+        \u0438\u0438 \u0441\u0432\u044A\u0440\u0437\u0430\u043D\u0438 \u0441 \u0413\
+        \u0413\u041E \u043F\u043E\u043B\u0435\u0442\u043E \u043D\u0435\r\n\t\t\t\t\
+        \t\t\u0435 \u0437\u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\
+        \u043E.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element maxOccurs=\"1\" minOccurs=\"0\" name=\"address\"\r\n\t\t\t\
+        \ttype=\"bons:Address\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0410\
+        \u0434\u0440\u0435\u0441.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\
+        \t</element>\r\n\t\t</all>\r\n\t</complexType>\r\n\r\n\t<complexType name=\"\
+        Address\">\r\n\t\t<all>\r\n\t\t\t<element maxOccurs=\"1\" minOccurs=\"1\"\
+        \ name=\"country\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\
+        \t\t\t\t\t<documentation>\u041A\u043E\u0434 \u043D\u0430 \u0434\u044A\u0440\
+        \u0436\u0430\u0432\u0430\u0442\u0430 - \u043F\u043E \u043D\u043E\u043C\u0435\
+        \u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 (ISO 3166-1).\r\n\t\t\t\t\
+        \t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t\
+        <element maxOccurs=\"1\" minOccurs=\"1\" name=\"location\"\r\n\t\t\t\ttype=\"\
+        string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u043E\
+        \u0434 \u043D\u0430 \u043D\u0430\u0441\u0435\u043B\u0435\u043D\u043E\u0442\
+        \u043E \u043C\u044F\u0441\u0442\u043E - \u043F\u043E \u043D\u043E\u043C\u0435\
+        \u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 (\u0415\u041A\u041D\u041C\
+        \ -\r\n\t\t\t\t\t\t\u0432\u043A\u043B\u044E\u0447\u0432\u0430, \u043F\u043E\
+        \u0449\u0435\u043D\u0441\u043A\u0438 \u043A\u043E\u0434, \u043E\u0431\u043B\
+        \u0430\u0441\u0442 \u0438 \u043E\u0431\u0449\u0438\u043D\u0430).</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element maxOccurs=\"\
+        1\" minOccurs=\"1\" name=\"address\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\
+        \t<annotation>\r\n\t\t\t\t\t<documentation>\u0410\u0434\u0440\u0435\u0441\
+        \ - \u0441\u0432\u043E\u0431\u043E\u0434\u0435\u043D \u0442\u0435\u043A\u0441\
+        \u0442 (\u0443\u043B\u0438\u0446\u0430/\u0431\u0443\u043B\u0435\u0432\u0430\
+        \u0440\u0434/\u043A\u0432\u0430\u0440\u0442\u0430\u043B,\r\n\t\t\t\t\t\t\u043D\
+        \u043E\u043C\u0435\u0440, \u0431\u043B\u043E\u043A, , \u0432\u0445\u043E\u0434\
+        \ \u0438 \u0442.\u043D)</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t\
+        </element>\r\n\t\t\t<element minOccurs=\"0\" name=\"comment\" type=\"string\"\
+        >\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0417\u0430\u0431\u0435\
+        \u043B\u0435\u0436\u043A\u0430</documentation>\r\n\t\t\t\t</annotation>\r\n\
+        \t\t\t</element>\r\n\t\t</all>\r\n\t</complexType>\r\n\t<complexType name=\"\
+        Vehicle\">\r\n\t\t<sequence>\r\n\t\t\t<element name=\"vin\" type=\"string\"\
+        \ minOccurs=\"0\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041D\
+        \u043E\u043C\u0435\u0440 \u043D\u0430 \u0440\u0430\u043C\u0430 (\u0448\u0430\
+        \u0441\u0438).\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\u0446\u0438\
+        \u044F:\r\n\t\t\t\t\t\t- \u0411\u0440\u043E\u0439 \u0441\u0438\u043C\u0432\
+        \u043E\u043B\u0438 -\r\n\t\t\t\t\t\t\u043E\u0442 1 \u0434\u043E 17.\r\n\t\t\
+        \t\t\t\t- \u0412\u044A\u0437\u043C\u043E\u0436\u043D\u0438 \u0441\u0438\u043C\
+        \u0432\u043E\u043B\u0438:\r\n\t\t\t\t\t\t- \u0446\u0438\u0444\u0440\u0438\
+        \ \u043E\u0442 0 \u0434\u043E 9;\r\n\t\t\t\t\t\t- \u043B\u0430\u0442\u0438\
+        \u043D\u0441\u043A\u0438 \u0431\u0443\u043A\u0432\u0438,\r\n\t\t\t\t\t\t\u0431\
+        \u0435\u0437 \"I\", \"O\" \u0438 \"Q\".\r\n\t\t\t\t\t</documentation>\r\n\t\
+        \t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\"\
+        \ name=\"regNo\" type=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0420\
+        \u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u043E\u043D\u0435\u043D\
+        \ \u043D\u043E\u043C\u0435\u0440 \u043D\u0430 \u041C\u041F\u0421 (\u0414\u041A\
+        \u041D).\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\u0446\u0438\u044F\
+        \ \u043D\u0430 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\
+        \u043E\u043D\u043D\u0438\u044F \u043D\u043E\u043C\u0435\u0440 \u0437\u0430\
+        \ \u041C\u041F\u0421, \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\
+        \u0430\u043D\u0438 \u0432 \u0411\u044A\u043B\u0433\u0430\u0440\u0438\u044F\
+        \r\n\t\t\t\t\t\t(registrationType \u0435 \u043A\u043E\u0434 1 - \u0411\u044A\
+        \u043B\u0433\u0430\u0440\u0441\u043A\u0430):\r\n\t\t\t\t\t\t- \u0411\u0440\
+        \u043E\u0439 \u0441\u0438\u043C\u0432\u043E\u043B\u0438 - \u043E\u0442 1 \u0434\
+        \u043E 8.\r\n\t\t\t\t\t\t- \u0412\u044A\u0437\u043C\u043E\u0436\u043D\u0438\
+        \ \u0441\u0438\u043C\u0432\u043E\u043B\u0438:\r\n\t\t\t\t\t\t- \u0446\u0438\
+        \u0444\u0440\u0438 \u043E\u0442 0 \u0434\u043E 9;\r\n\t\t\t\t\t\t- \u043B\u0430\
+        \u0442\u0438\u043D\u0441\u043A\u0438 \u0431\u0443\u043A\u0432\u0438.\r\n\r\
+        \n\t\t\t\t\t\t\u041D\u0435 \u0441\u0435\r\n\t\t\t\t\t\t\u0432\u044A\u0432\u0435\
+        \u0436\u0434\u0430 \u0437\u0430 \u043D\u043E\u0432\u0438 \u0430\u0432\u0442\
+        \u043E\u043C\u043E\u0431\u0438\u043B\u0438.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n            <element name=\"regNoValidityStart\" type=\"\
+        date\" minOccurs=\"0\">\r\n\t\t\t</element>\n            <element name=\"\
+        regNoValidityEnd\" type=\"date\" minOccurs=\"0\"></element>\n            <element\
+        \ minOccurs=\"0\" name=\"firstRegDate\" type=\"date\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u0414\u0430\u0442\u0430 \u043D\u0430 \u043F\u044A\
+        \u0440\u0432\u0430 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\
+        \u044F.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\u0446\u0438\u044F\
+        : \u0434\u0430\u0442\u0430 \u0432\r\n\t\t\t\t\t\t\u043C\u0438\u043D\u0430\u043B\
+        \u043E\u0442\u043E \u0438\u043B\u0438 \u0442\u0435\u043A\u0443\u0449\u0430\
+        \ \u0434\u0430\u0442\u0430.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\
+        \t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"manufactureYear\"\
+        \ type=\"int\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0413\
+        \u043E\u0434\u0438\u043D\u0430 \u043D\u0430 \u043F\u0440\u043E\u0438\u0437\
+        \u0432\u043E\u0434\u0441\u0442\u0432\u043E.\r\n\t\t\t\t\t\t\u0412\u0430\u043B\
+        \u0438\u0434\u0430\u0446\u0438\u044F: \u0422\u0435\u043A\u0443\u0449\u0430\
+        \r\n\t\t\t\t\t\t\u0433\u043E\u0434\u0438\u043D\u0430 \u0438\u043B\u0438 \u0433\
+        \u043E\u0434\u0438\u043D\u0430 \u0432 \u043C\u0438\u043D\u0430\u043B\u043E\
+        \u0442\u043E. \u0427\u0435\u0442\u0438\u0440\u0438 \u0441\u0438\u043C\u0432\
+        \u043E\u043B\u0430.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"vehicleType\"\
+        \ type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0412\
+        \u0438\u0434 \u043D\u0430 \u041C\u041F\u0421 - \u043F\u043E \u043D\u043E\u043C\
+        \u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430.\r\n\t\t\t\t\t\t\u0417\
+        \u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E \u043F\u043E\
+        \u043B\u0435 \u0437\u0430\r\n\t\t\t\t\t\t\u043E\u043F\u0435\u0440\u0430\u0446\
+        \u0438\u0438 \u0441\u0432\u044A\u0440\u0437\u0430\u043D\u0438 \u0441 \u0413\
+        \u041E, \u043A\u043E\u043C\u0431\u0438\u043D\u0438\u0440\u0430\u043D\u0430\
+        \ \u043F\u043E\u043B\u0438\u0446\u0430.\r\n\t\t\t\t\t</documentation>\r\n\t\
+        \t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\"\
+        \ name=\"vehicleTypeInternational\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t\
+        <annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0412\u0438\u0434 \u043D\u0430\
+        \ \u041C\u041F\u0421 \u0437\u0430 \u0421\u0417\u041A \u0438 \u0413\u0413\u041E\
+        \ - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\
+        \u0440\u0430.\r\n\t\t\t\t\t\t\u0417\u0430\u0434\u044A\u043B\u0436\u0438\u0442\
+        \u0435\u043B\u043D\u043E \u043F\u043E\u043B\u0435 \u0437\u0430 \u043E\u043F\
+        \u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u0432\u044A\u0440\u0437\u0430\u043D\
+        \u0438 \u0441\u044A\u0441 \u0421\u0417\u041A \u0438 \u0413\u0413\u041E.\r\n\
+        \t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\
+        \t\t\t<element minOccurs=\"0\" name=\"vehicleTypePublic\"\r\n\t\t\t\ttype=\"\
+        string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0412\u0438\
+        \u0434 \u043D\u0430 \u041C\u041F\u0421 \u0437\u0430 \u043E\u0431\u0449\u0435\
+        \u0441\u0442\u0432\u0435\u043D \u043F\u0440\u0435\u0432\u043E\u0437 \u043D\
+        \u0430 \u043F\u044A\u0442\u043D\u0438\u0446\u0438 - \u043F\u043E\r\n\t\t\t\
+        \t\t\t\u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430\
+        .\r\n\t\t\t\t\t\t\u0417\u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\
+        \u043D\u043E \u0437\u0430 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438\
+        \ \u0441\u0432\u044A\u0440\u0437\u0430\u043D\u0438 \u0441\u044A\u0441 \u0417\
+        \u041F \u0438\r\n\t\t\t\t\t\t\u043A\u043E\u043C\u0431\u0438\u043D\u0438\u0440\
+        \u0430\u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430.</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        0\" name=\"vehiclePurpose\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u041F\u0440\u0435\u0434\u043D\u0430\u0437\u043D\
+        \u0430\u0447\u0435\u043D\u0438\u0435 \u043D\u0430 \u041C\u041F\u0421 - \u043F\
+        \u043E\r\n\t\t\t\t\t\t\u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\
+        \u0443\u0440\u0430.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element name=\"brand\" type=\"string\" minOccurs=\"0\">\r\n\t\t\t\
+        \t<annotation>\r\n\t\t\t\t\t<documentation>\u041C\u0430\u0440\u043A\u0430\
+        \ \u043D\u0430 \u041C\u041F\u0421 - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\
+        \u043A\u043B\u0430\u0442\u0443\u0440\u0430 \u043D\u0430 \u043C\u0430\u0440\
+        \u043A\u0438\u0442\u0435 \u0438\r\n\t\t\t\t\t\t\u043C\u043E\u0434\u0435\u043B\
+        \u0438\u0442\u0435.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element minOccurs=\"0\" name=\"brandOtherName\"\r\n\t\t\t\ttype=\"\
+        string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041C\u0430\
+        \u0440\u043A\u0430 \u043D\u0430 \u041C\u041F\u0421 - \u0441\u0432\u043E\u0431\
+        \u043E\u0434\u0435\u043D \u0442\u0435\u043A\u0441\u0442.\r\n\t\t\t\t\t\t\u0417\
+        \u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E,\r\n\t\t\
+        \t\t\t\t\u043A\u043E\u0433\u0430\u0442\u043E \u043C\u0430\u0440\u043A\u0430\
+        \u0442\u0430 \u0435 \u043E\u0442 \u0442\u0438\u043F \u201E\u0414\u0440\u0443\
+        \u0433\u0430 \u043C\u0430\u0440\u043A\u0430\u201C.</documentation>\r\n\t\t\
+        \t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"\
+        model\" type=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041C\
+        \u0430\u0440\u043A\u0430 \u043D\u0430 \u041C\u041F\u0421 - \u043F\u043E \u043D\
+        \u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 \u043D\u0430\
+        \ \u043C\u0430\u0440\u043A\u0438\u0442\u0435 \u0438\r\n\t\t\t\t\t\t\u043C\u043E\
+        \u0434\u0435\u043B\u0438\u0442\u0435.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"modelOtherName\"\
+        \r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041C\
+        \u043E\u0434\u0435\u043B \u043D\u0430 \u041C\u041F\u0421 - \u0441\u0432\u043E\
+        \u0431\u043E\u0434\u0435\u043D \u0442\u0435\u043A\u0441\u0442.\r\n\t\t\t\t\
+        \t\t\u0417\u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E\
+        ,\r\n\t\t\t\t\t\t\u043A\u043E\u0433\u0430\u0442\u043E \u043C\u043E\u0434\u0435\
+        \u043B\u044A\u0442 \u0435 \u043E\u0442 \u0442\u0438\u043F \u201E\u0414\u0440\
+        \u0443\u0433 \u043C\u043E\u0434\u0435\u043B\".</documentation>\r\n\t\t\t\t\
+        </annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"registrationType\"\
+        \ type=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0412\
+        \u0438\u0434 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F\
+        \u0442\u0430 - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\
+        \u0442\u0443\u0440\u0430:\r\n\t\t\t\t\t\t1. \u0411\u044A\u043B\u0433\u0430\
+        \u0440\u0441\u043A\u0430,\r\n\t\t\t\t\t\t2. \u0414\u0440\u0443\u0433\u0430\
+        .\r\n\r\n\t\t\t\t\t\t\u0412\u044A\u0432\u0435\u0436\u0434\u0430 \u0441\u0435\
+        \ \u043A\u043E\u0434 1 (\u0411\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0430\
+        ), \u043A\u043E\u0433\u0430\u0442\u043E \u0441\u0435 \u043E\u0441\u044A\u0449\
+        \u0435\u0441\u0442\u0432\u044F\u0432\u0430\u0442\r\n\t\t\t\t\t\t\u043E\u043F\
+        \u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u0432\u044A\u0440\u0437\u0430\u043D\
+        \u0438 \u0441\r\n\t\t\t\t\t\t\u0413\u041E, \u0417\u041F, \u043A\u043E\u043C\
+        \u0431\u0438\u043D\u0438\u0440\u0430\u043D\u0430 \u043F\u043E\u043B\u0438\u0446\
+        \u0430 \u0438 \u0421\u0417\u041A.\r\n\t\t\t\t\t\t\u0412\u044A\u0432\u0435\u0436\
+        \u0434\u0430 \u0441\u0435 \u043A\u043E\u0434\r\n\t\t\t\t\t\t2 (\u0414\u0440\
+        \u0443\u0433\u0430), \u043A\u043E\u0433\u0430\u0442\u043E \u0441\u0435 \u043E\
+        \u0441\u044A\u0449\u0435\u0441\u0442\u0432\u044F\u0432\u0430\u0442 \u043E\u043F\
+        \u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u0432\u044A\u0440\u0437\u0430\u043D\
+        \u0438 \u0441 \u0413\u0413\u041E.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t\
+        </annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"\
+        engineType\" type=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0412\
+        \u0438\u0434 \u043D\u0430 \u0434\u0432\u0438\u0433\u0430\u0442\u0435\u043B\
+        \u044F - \u043F\u043E \u043D\u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\
+        \u0443\u0440\u0430.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"vehicleColor\"\
+        \ type=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0426\
+        \u0432\u044F\u0442 \u043D\u0430 \u041C\u041F\u0421 - \u0441\u0432\u043E\u0431\
+        \u043E\u0434\u0435\u043D \u0442\u0435\u043A\u0441\u0442.</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"vehicleColorCode\"\
+        \ type=\"string\"\r\n\t\t\t\tminOccurs=\"0\">\r\n\t\t\t</element>\r\n\t\t\t\
+        <element minOccurs=\"0\" name=\"seatsCount\" type=\"int\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u0411\u0440\u043E\u0439 \u043C\u0435\u0441\u0442\
+        \u0430 \u0437\u0430 \u0441\u044F\u0434\u0430\u043D\u0435.\r\n\t\t\t\t\t\t\u041F\
+        \u043E\u043B\u0435\u0442\u043E \u0435 \u0437\u0430\u0434\u044A\u043B\u0436\
+        \u0438\u0442\u0435\u043B\u043D\u043E \u0437\u0430\r\n\t\t\t\t\t\t\u043F\u0440\
+        \u0438 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u0432\u044A\
+        \u0440\u0437\u0430\u043D\u0438 \u0441 \u0413\u041E \u0438 \u0432\u0438\u0434\
+        \ \u043D\u0430 \u041C\u041F\u0421 - \u0410\u0432\u0442\u043E\u0431\u0443\u0441\
+        .</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element\
+        \ minOccurs=\"0\" name=\"maxWeight\" type=\"int\">\r\n\t\t\t\t<annotation>\r\
+        \n\t\t\t\t\t<documentation>\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\
+        \u043D\u043E \u0434\u043E\u043F\u0443\u0441\u0442\u0438\u043C\u0430 \u043C\
+        \u0430\u0441\u0430 (\u0442\u043E\u043D\u0430\u0436).\r\n\t\t\t\t\t\t\u041F\
+        \u043E\u043B\u0435\u0442\u043E \u0435\r\n\t\t\t\t\t\t\u0437\u0430\u0434\u044A\
+        \u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E \u0437\u0430 \u043F\u0440\
+        \u0438 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u0432\u044A\
+        \u0440\u0437\u0430\u043D\u0438 \u0441 \u0413\u041E \u0438 \u0432\u0438\u0434\
+        \ \u043D\u0430 \u041C\u041F\u0421 - \u0422\u043E\u0432\u0430\u0440\u0435\u043D\
+        \r\n\t\t\t\t\t\t\u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B.</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        0\" name=\"engineCapacity\" type=\"int\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\
+        \t\t<documentation>\u041E\u0431\u0435\u043C \u043D\u0430 \u0434\u0432\u0438\
+        \u0433\u0430\u0442\u0435\u043B\u044F (\u0432 \u043A\u0443\u0431. \u043C.).\r\
+        \n\t\t\t\t\t\t\u041F\u043E\u043B\u0435\u0442\u043E \u0435\r\n\t\t\t\t\t\t\u0437\
+        \u0430\u0434\u044A\u043B\u0436\u0438\u0442\u0435\u043B\u043D\u043E \u0437\u0430\
+        \ \u043F\u0440\u0438 \u043E\u043F\u0435\u0440\u0430\u0446\u0438\u0438 \u0441\
+        \u0432\u044A\u0440\u0437\u0430\u043D\u0438 \u0441 \u0413\u041E \u0438 \u0432\
+        \u0438\u0434 \u043D\u0430 \u041C\u041F\u0421 - \u041B\u0435\u043A\r\n\t\t\t\
+        \t\t\t\u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B.</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        0\" name=\"maxPower\" type=\"int\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t\
+        <documentation>\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u043D\u0430\
+        \ \u043C\u043E\u0449\u043D\u043E\u0441\u0442 (kW).</documentation>\r\n\t\t\
+        \t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"owner\" type=\"\
+        bons:Person\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0421\u043E\
+        \u0431\u0441\u0442\u0432\u0435\u043D\u0438\u043A \u043D\u0430 \u041C\u041F\
+        \u0421 \u043F\u043E \u0442\u0430\u043B\u043E\u043D.\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t</sequence>\r\n\t</complexType>\r\
+        \n\r\n\r\n\t<complexType name=\"Sticker\">\r\n\t\t<sequence>\r\n\t\t\t<element\
+        \ name=\"number\" type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\
+        \t<documentation>\u041D\u043E\u043C\u0435\u0440 \u043D\u0430 \u0437\u043D\u0430\
+        \u043A \u0438\u0437\u0434\u0430\u0434\u0435\u043D \u043E\u0442 \u0413\u0424\
+        \ (\u041D\u043E\u043C\u0435\u0440 \u043D\u0430 \u0441\u0442\u0438\u043A\u0435\
+        \u0440\u0430).\r\n\t\t\t\t\t\t\u0412\u0430\u043B\u0438\u0434\u0430\u0446\u0438\
+        \u044F: 9 \u0441\u0438\u043C\u0432\u043E\u043B\u0430, \u0446\u0438\u0444\u0440\
+        \u0438 \u043E\u0442 0 \u0434\u043E 9.</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element name=\"series\" type=\"string\">\r\n\t\
+        \t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0421\u0435\u0440\u0438\
+        \u044F \u043D\u0430 \u0437\u043D\u0430\u043A \u0438\u0437\u0434\u0430\u0434\
+        \u0435\u043D \u043E\u0442 \u0413\u0424 (\u0421\u0435\u0440\u0438\u044F \u043D\
+        \u0430 \u0441\u0442\u0438\u043A\u0435\u0440\u0430).\r\n\t\t\t\t\t\t\u0412\u0430\
+        \u043B\u0438\u0434\u0430\u0446\u0438\u044F: 2 \u0441\u0438\u043C\u0432\u043E\
+        \u043B\u0430 \u0441\u044A\u0441 \u0441\u044A\u0434\u044A\u0440\u0436\u0430\
+        \u043D\u0438\u0435:\r\n\t\t\t\t\t\t- G\u0445 \u2013 \u0437\u0435\u043B\u0435\
+        \u043D,\r\n\t\t\t\t\t\t- R\u0445 \u2013 \u0447\u0435\u0440\u0432\u0435\u043D\
+        ,\r\n\t\t\t\t\t\t\u043A\u044A\u0434\u0435\u0442\u043E \u201C\u0445\u201D e\
+        \ \u0446\u0438\u0444\u0440\u0430 \u043E\u0442 0 \u0434\u043E 9 \u0438\u043B\
+        \u0438 \u043B\u0430\u0442\u0438\u043D\u0441\u043A\u0430 \u0431\u0443\u043A\
+        \u0432\u0430 \u043E\u0442 \u0410 \u0434\u043E Z.\r\n\t\t\t\t\t</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t\t<element name=\"expiringDate\"\
+        \ type=\"date\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u0414\
+        \u0430\u0442\u0430 \u043D\u0430 \u0432\u0430\u043B\u0438\u0434\u043D\u043E\
+        \u0441\u0442.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t</sequence>\r\n\t</complexType>\r\n\t<complexType name=\"Status\">\r\
+        \n\t\t<sequence>\r\n\t\t\t<element maxOccurs=\"1\" minOccurs=\"1\" name=\"\
+        status\"\r\n\t\t\t\ttype=\"int\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t\
+        <documentation>\u0421\u0442\u0430\u0442\u0443\u0441 \u043D\u0430 \u043E\u043F\
+        \u0435\u0440\u0430\u0446\u0438\u044F\u0442\u0430:\r\n\t\t\t\t\t\t0 \u2013\
+        \ \u041E\u043F\u0435\u0440\u0430\u0446\u0438\u044F\u0442\u0430 \u0435 \u0443\
+        \u0441\u043F\u0435\u0448\u043D\u0430\r\n\t\t\t\t\t\t1 \u2013 \u0413\u0440\u0435\
+        \u0448\u043A\u0430 \u043F\u0440\u0438 \u0438\u0437\u043F\u044A\u043B\u043D\
+        \u0435\u043D\u0438\u0435\u0442\u043E \u043D\u0430 \u043E\u043F\u0435\u0440\
+        \u0430\u0446\u0438\u044F\u0442\u0430\r\n</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element maxOccurs=\"unbounded\" minOccurs=\"\
+        0\" name=\"info\"\r\n\t\t\t\ttype=\"bons:AdditionInformation\">\r\n\t\t\t\t\
+        <annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0414\u0435\u0442\u0430\u0439\
+        \u043B\u043D\u0430 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F\
+        .\r\n\t\t\t\t\t\t\u0421\u044A\u0434\u044A\u0440\u0436\u0430 \u0441\u043F\u0438\
+        \u0441\u044A\u043A \u043E\u0442\r\n\t\t\t\t\t\t\u0441\u044A\u043E\u0431\u0449\
+        \u0435\u043D\u0438\u044F \u2013 \u0432\u0430\u043B\u0438\u0434\u0430\u0446\
+        \u0438\u043E\u043D\u043D\u0438 \u0433\u0440\u0435\u0448\u043A\u0438 \u0438\
+        \u043B\u0438 \u043F\u0440\u0435\u0434\u0443\u043F\u0440\u0435\u0436\u0434\u0435\
+        \u043D\u0438\u044F \u0438\r\n\t\t\t\t\t\t\u0434\u0440\u0443\u0433\u0438\r\n\
+        \t\t\t\t\t\t\u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u043E\u043D\
+        \u043D\u0438 \u0441\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u044F.</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t</sequence>\r\n\t</complexType>\r\
+        \n\r\n\t<complexType name=\"AdditionInformation\">\r\n\t\t<sequence>\r\n\t\
+        \t\t<element maxOccurs=\"1\" minOccurs=\"1\" name=\"code\"\r\n\t\t\t\ttype=\"\
+        string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\t\t<documentation>\u041A\u043E\
+        \u0434 \u043D\u0430 \u0441\u044A\u043E\u0431\u0449\u0435\u043D\u0438\u0435\
+        \u0442\u043E.</documentation>\r\n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\
+        \n\t\t\t<element maxOccurs=\"1\" minOccurs=\"1\" name=\"type\"\r\n\t\t\t\t\
+        type=\"string\">\r\n\t\t\t\t<annotation>\r\n\r\n\t\t\t\t\t<documentation>\u0422\
+        \u0438\u043F \u043D\u0430 \u0441\u044A\u043E\u0431\u0449\u0435\u043D\u0438\
+        \u0435\u0442\u043E:\r\n\t\t\t\t\t\t- INFO,\r\n\t\t\t\t\t\t- WARNING,\r\n\t\
+        \t\t\t\t\t- ERROR.\r\n\t\t\t\t\t</documentation>\r\n\t\t\t\t</annotation>\r\
+        \n\t\t\t</element>\r\n\t\t\t<element maxOccurs=\"1\" minOccurs=\"1\" name=\"\
+        description\"\r\n\t\t\t\ttype=\"string\">\r\n\t\t\t\t<annotation>\r\n\t\t\t\
+        \t\t<documentation>\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435</documentation>\r\
+        \n\t\t\t\t</annotation>\r\n\t\t\t</element>\r\n\t\t</sequence>\r\n\t</complexType>\r\
+        \n\r\n\t<complexType name=\"ActivePolicy\">\r\n\t\t<sequence>\r\n\t\t\t<element\
+        \ minOccurs=\"1\" name=\"upn\" type=\"string\" />\r\n\t\t\t<element name=\"\
+        insuranceType\" type=\"string\">\r\n\t\t\t\t<annotation />\r\n\t\t\t</element>\r\
+        \n\t\t\t<element name=\"vin\" type=\"string\" minOccurs=\"0\">\r\n\t\t\t\t\
+        <annotation />\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"0\" name=\"\
+        regNo\" type=\"string\">\r\n\t\t\t\t<annotation />\r\n\t\t\t</element>\r\n\
+        \r\n\r\n\t\t\t<element name=\"company\" type=\"string\">\r\n\t\t\t\t<annotation\
+        \ />\r\n\t\t\t</element>\r\n\t\t\t<element name=\"contractDate\" type=\"date\"\
+        >\r\n\t\t\t\t<annotation />\r\n\t\t\t</element>\r\n\t\t\t<element minOccurs=\"\
+        0\" name=\"contractTime\" type=\"time\" />\r\n\t\t\t<element name=\"commencingDate\"\
+        \ type=\"date\">\r\n\t\t\t\t<annotation />\r\n\t\t\t</element>\r\n\t\t\t<element\
+        \ minOccurs=\"0\" name=\"commencingTime\" type=\"time\" />\r\n\t\t\t<element\
+        \ name=\"expiringDate\" type=\"date\">\r\n\t\t\t\t<annotation />\r\n\t\t\t\
+        </element>\r\n\t\t\t<element minOccurs=\"0\" name=\"expiringTime\" type=\"\
+        time\" />\r\n            <element name=\"cancellationDate\" type=\"date\"\
+        \ minOccurs=\"0\"></element>\n            <element name=\"cancellationTime\"\
+        \ type=\"time\" minOccurs=\"0\"></element>\n            <element name=\"numberOfInstallments\"\
+        \ type=\"int\"\r\n\t\t\t\tminOccurs=\"0\">\r\n\t\t\t\t<annotation />\r\n\t\
+        \t\t</element>\r\r\r\n\t\t</sequence>\r\n\t</complexType>\r\n\r\n\r\n\t<complexType\
+        \ name=\"ActivePolicies\">\r\n\t\t<sequence>\r\n\t\t\t<element name=\"policy\"\
+        \ type=\"bons:ActivePolicy\" maxOccurs=\"unbounded\" minOccurs=\"0\"></element>\r\
+        \n\t\t</sequence>\r\n\t</complexType>\r\n</schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:51:56 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/VoidMTPLPolicyRequest.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
+        >\r\n\t<xsd:complexType name=\"VoidMTPLPolicyRequest\">\r\n\t\t<xsd:sequence>\r\
+        \n\t\t\t<xsd:element minOccurs=\"1\" name=\"upn\" type=\"xsd:string\">\r\n\
+        \        <xsd:annotation>\r\n          <xsd:documentation>\u041D\u043E\u043C\
+        \u0435\u0440 \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430.</xsd:documentation>\r\
+        \n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t</xsd:sequence>\r\
+        \n\t</xsd:complexType>\r\n</xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:51:57 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/RegisterStickerRequest.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\"\r\n\txmlns:bons0=\"http://guaranteefund.org/irm/bo/common\"\
+        \r\n\txmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n\t<xsd:import schemaLocation=\"\
+        ../common/BussinessObjects.xsd\"\r\n\t\tnamespace=\"http://guaranteefund.org/irm/bo/common\"\
+        >\r\n\t</xsd:import>\r\n\t<xsd:complexType name=\"RegisterStickerRequest\"\
+        >\r\n\t\t<xsd:sequence>\r\n\t\t\t<xsd:element minOccurs=\"1\" name=\"upn\"\
+        \ type=\"xsd:string\">\r\n\t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u041D\
+        \u043E\u043C\u0435\u0440 \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430\
+        .</xsd:documentation>\r\n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\
+        \n\t\t\t<xsd:element minOccurs=\"1\" name=\"sticker\"\r\n\t\t\t\ttype=\"bons0:Sticker\"\
+        >\r\n\t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u0421\u0442\
+        \u0438\u043A\u0435\u0440.</xsd:documentation>\r\n        </xsd:annotation>\r\
+        \n\t\t\t</xsd:element>\r\n\t\t</xsd:sequence>\r\n\t</xsd:complexType>\r\n\
+        </xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:51:57 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/CorrectMTPLPolicyRequest.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\"\r\n\txmlns:bons0=\"http://guaranteefund.org/irm/bo/common\"\
+        \r\n\txmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n\t<xsd:import schemaLocation=\"\
+        ../common/BussinessObjects.xsd\"\r\n\t\tnamespace=\"http://guaranteefund.org/irm/bo/common\"\
+        >\r\n\t</xsd:import>\r\n\t<xsd:complexType name=\"CorrectMTPLPolicyRequest\"\
+        >\r\n\t\t<xsd:sequence>\r\n\t\t\t<xsd:element minOccurs=\"1\" name=\"upn\"\
+        \ type=\"xsd:string\">\r\n\t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u041D\
+        \u043E\u043C\u0435\u0440 \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430\
+        .</xsd:documentation>\r\n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\
+        \n\t\t\t<xsd:element minOccurs=\"1\" name=\"policy\"\r\n\t\t\t\ttype=\"bons0:MTPLPolicy\"\
+        >\r\n\t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u041F\u043E\
+        \u043B\u0438\u0446\u0430.</xsd:documentation>\r\n        </xsd:annotation>\r\
+        \n\t\t\t</xsd:element>\r\n\t\t</xsd:sequence>\r\n\t</xsd:complexType>\r\n\
+        </xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:51:59 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/ValidateMTPLPolicyRequest.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\"\r\n\txmlns:bons0=\"http://guaranteefund.org/irm/bo/common\"\
+        \r\n\txmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n\t<xsd:import schemaLocation=\"\
+        ../common/BussinessObjects.xsd\"\r\n\t\tnamespace=\"http://guaranteefund.org/irm/bo/common\"\
+        >\r\n\t</xsd:import>\r\n\r\n\r\n\t<xsd:complexType name=\"ValidateMTPLPolicyRequest\"\
+        >\r\n\t\t<xsd:sequence>\r\n\t\t\t<xsd:element minOccurs=\"1\" name=\"policy\"\
+        \r\n\t\t\t\ttype=\"bons0:MTPLPolicy\">\r\n\t\t\t\t<xsd:annotation>\r\n   \
+        \       <xsd:documentation>\u041F\u043E\u043B\u0438\u0446\u0430.</xsd:documentation>\r\
+        \n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element\
+        \ minOccurs=\"1\" name=\"sticker\"\r\n\t\t\t\ttype=\"bons0:Sticker\">\r\n\t\
+        \t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u0421\u0442\u0438\u043A\
+        \u0435\u0440.</xsd:documentation>\r\n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\
+        \n\t\t\t<xsd:element minOccurs=\"0\" name=\"bmCoefficient\"\r\n\t\t\t\ttype=\"\
+        bons0:BMCoefficient\">\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"\
+        0\" name=\"greenCard\"\r\n\t\t\t\ttype=\"bons0:GreenCard\">\r\n\t\t\t\t<xsd:annotation>\r\
+        \n          <xsd:documentation>\u041F\u0440\u0438\u043B\u0435\u0436\u0430\u0449\
+        \ \u0421\u0417\u041A.</xsd:documentation>\r\n        </xsd:annotation>\r\n\
+        \t\t\t</xsd:element>\r\n\r\n\t\t</xsd:sequence>\r\n\t</xsd:complexType>\r\n\
+        </xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:51:59 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/CancelMTPLPolicyRequest.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\"\r\n\txmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
+        >\r\n\t<xsd:complexType name=\"CancelMTPLPolicyRequest\">\r\n\t\t<xsd:sequence>\r\
+        \n\t\t\t<xsd:element minOccurs=\"1\" name=\"upn\" type=\"xsd:string\">\r\n\
+        \t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u041D\u043E\u043C\
+        \u0435\u0440 \u043D\u0430 \u043F\u043E\u043B\u0438\u0446\u0430.</xsd:documentation>\r\
+        \n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element\
+        \ minOccurs=\"1\" name=\"cancellationDate\"\r\n\t\t\t\ttype=\"xsd:date\">\r\
+        \n\t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u0414\u0430\u0442\
+        \u0430 \u043D\u0430 \u043F\u0440\u0435\u043A\u0440\u0430\u0442\u044F\u0432\
+        \u0430\u043D\u0435.</xsd:documentation>\r\n        </xsd:annotation>\r\n\t\
+        \t\t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"0\" name=\"cancellationTime\"\
+        \r\n\t\t\t\ttype=\"xsd:time\">\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element\
+        \ minOccurs=\"1\" name=\"cancellationReason\"\r\n\t\t\t\ttype=\"xsd:int\"\
+        >\r\n\t\t\t\t<xsd:annotation>\r\n          <xsd:documentation>\u041F\u0440\
+        \u0438\u0447\u0438\u043D\u0430 \u0437\u0430 \u043F\u0440\u0435\u043A\u0440\
+        \u0430\u0442\u044F\u0432\u0430\u043D\u0435.</xsd:documentation>\r\n      \
+        \  </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t</xsd:sequence>\r\n\t\
+        </xsd:complexType>\r\n</xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:52:00 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/GetBMCoefficientRequest.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
+        >\r\n\t<xsd:complexType name=\"GetBMCoefficientRequest\">\r\n\t\t<xsd:sequence>\r\
+        \n\t\t\t<xsd:element minOccurs=\"1\" name=\"personType\" type=\"xsd:string\"\
+        >\r\n        <xsd:annotation>\r\n          <xsd:documentation>\u0422\u0438\
+        \u043F \u043D\u0430 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\u0438\u043A\
+        \u0430\u0442\u043E\u0440\u0430 \u043D\u0430 \u041B\u0438\u0446\u0435.\r\n\u041D\
+        \u043E\u043C\u0435\u043D\u043A\u043B\u0430\u0442\u0443\u0440\u0430 \u0437\u0430\
+        \ \u0442\u0438\u043F \u043D\u0430 \u0438\u0434\u0435\u043D\u0442\u0438\u0444\
+        \u0438\u043A\u0430\u0442\u043E\u0440 \u043D\u0430 \u043B\u0438\u0446\u0435\
+        \ (E\u0413\u041D/\u041B\u041D\u0427/\u0411\u0443\u043B\u0441\u0442\u0430\u0442\
+        ).</xsd:documentation>\r\n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\
+        \n\t\t\t<xsd:element minOccurs=\"1\" name=\"pin\" type=\"xsd:string\">\r\n\
+        \        <xsd:annotation>\r\n          <xsd:documentation>\u0418\u0434\u0435\
+        \u043D\u0442\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440 \u043D\u0430\
+        \ \u043B\u0438\u0446\u0435.</xsd:documentation>\r\n        </xsd:annotation>\r\
+        \n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"1\" name=\"vin\"\
+        \ type=\"xsd:string\">\r\n        <xsd:annotation>\r\n          <xsd:documentation>\u041D\
+        \u043E\u043C\u0435\u0440 \u043D\u0430 \u0440\u0430\u043C\u0430 \u043D\u0430\
+        \ \u041C\u041F\u0421.</xsd:documentation>\r\n        </xsd:annotation>\r\n\
+        \t\t\t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"0\" name=\"vehicleRegNo\"\
+        \ type=\"xsd:string\">\r\n        <xsd:annotation>\r\n          <xsd:documentation>\u0420\
+        \u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u043E\u043D\u0435\u043D\
+        \ \u043D\u043E\u043C\u0435\u0440 \u043D\u0430 \u041C\u041F\u0421.</xsd:documentation>\r\
+        \n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t</xsd:sequence>\r\
+        \n\t</xsd:complexType>\r\n</xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:52:00 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/RequestConfirmationResponse.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\"\r\n\txmlns:bons0=\"http://guaranteefund.org/irm/bo/common\"\
+        \r\n\txmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n\t<xsd:import schemaLocation=\"\
+        ../common/BussinessObjects.xsd\"\r\n\t\tnamespace=\"http://guaranteefund.org/irm/bo/common\"\
+        >\r\n\t</xsd:import>\r\n\t<xsd:complexType name=\"RequestConfirmationResponse\"\
+        >\r\n\t\t<xsd:sequence>\r\n\t\t\t<xsd:element minOccurs=\"0\" name=\"correlationId\"\
+        \r\n\t\t\t\ttype=\"xsd:string\">\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element\
+        \ minOccurs=\"1\" name=\"status\"\r\n\t\t\t\ttype=\"bons0:Status\">\r\n\t\t\
+        \t</xsd:element>\r\n\t\t</xsd:sequence>\r\n\t</xsd:complexType>\r\n</xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:52:02 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['eisoukr.musala.com:9443']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport/WEB-INF/wsdl/bo/wsdl/IssueMTPLPolicyRequest.xsd
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<xsd:schema targetNamespace=\"\
+        http://guaranteefund.org/irm/bo/wsdl\"\r\n\txmlns:bons1=\"http://guaranteefund.org/irm/bo/common\"\
+        \r\n\txmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n\t<xsd:import schemaLocation=\"\
+        ../common/BussinessObjects.xsd\"\r\n\t\tnamespace=\"http://guaranteefund.org/irm/bo/common\"\
+        >\r\n\t</xsd:import>\r\n\r\n\r\n\r\n\t<xsd:complexType name=\"IssueMTPLPolicyRequest\"\
+        >\r\n\t\t<xsd:sequence>\r\n\t\t\t<xsd:element minOccurs=\"1\" name=\"policy\"\
+        \r\n\t\t\t\ttype=\"bons1:MTPLPolicy\">\r\n\t\t\t\t<xsd:annotation>\r\n   \
+        \       <xsd:documentation>\u041F\u043E\u043B\u0438\u0446\u0430 \u0413\u0440\
+        \u0430\u0436\u0434\u0430\u043D\u0441\u043A\u0430 \u041E\u0442\u0433\u043E\u0432\
+        \u043E\u0440\u043D\u043E\u0441\u0442.</xsd:documentation>\r\n        </xsd:annotation>\r\
+        \n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"1\" name=\"sticker\"\
+        \r\n\t\t\t\ttype=\"bons1:Sticker\">\r\n\t\t\t\t<xsd:annotation>\r\n      \
+        \    <xsd:documentation>\u0421\u0442\u0438\u043A\u0435\u0440.</xsd:documentation>\r\
+        \n        </xsd:annotation>\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element\
+        \ minOccurs=\"0\" name=\"bmCoefficient\"\r\n\t\t\t\ttype=\"bons1:BMCoefficient\"\
+        >\r\n\t\t\t</xsd:element>\r\n\t\t\t<xsd:element minOccurs=\"0\" name=\"greenCard\"\
+        \r\n\t\t\t\ttype=\"bons1:GreenCard\">\r\n\t\t\t\t<xsd:annotation>\r\n    \
+        \      <xsd:documentation>\u041F\u0440\u0438\u043B\u0435\u0436\u0430\u0449\
+        \ \u0421\u0417\u041A.</xsd:documentation>\r\n        </xsd:annotation>\r\n\
+        \t\t\t</xsd:element>\r\n\t\t</xsd:sequence>\r\n\t</xsd:complexType>\r\n</xsd:schema>"}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml]
+      Date: ['Fri, 20 Mar 2015 15:52:02 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8dm9pZE1UUExQb2xpY3kgeG1sbnM9Imh0dHA6Ly9ndWFyYW50ZWVmdW5kLm9y
+      Zy9pcm0vd3NkbC9NVFBMUG9saWN5U2VydmljZSI+CiAgICA8L3ZvaWRNVFBMUG9saWN5Pgo8L3Nv
+      YXA6Qm9keT4KPC9zb2FwOkVudmVsb3BlPg==
+    headers:
+      Connection: [close]
+      Content-Length: ['367']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: ['eisoukr.musala.com:9443']
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://eisoukr.musala.com:9443/IrmInboundMediationWeb/sca/MTPLPolicyWSExport
+  response:
+    body: {string: '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><soapenv:Fault
+        xmlns:axis2ns3="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><faultcode>axis2ns3:InvalidSecurity</faultcode><faultstring>security.wssecurity.WSSContextImpl.s02:
+        com.ibm.websphere.security.WSSecurityException: Exception org.apache.axis2.AxisFault:
+        CWWSS5730E: A required timestamp is not found. ocurred while running action:
+        com.ibm.ws.wssecurity.handler.WSSecurityConsumerHandler$1@5fe95fe9</faultstring><detail></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>'}
+    headers:
+      Connection: [Close]
+      Content-Language: [en-US]
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 15:52:03 GMT']
+      Server: [WebSphere Application Server/7.0]
+      Transfer-Encoding: [chunked]
+    status: {code: 500, message: Internal Server Error}
+version: 1

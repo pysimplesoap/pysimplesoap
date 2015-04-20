@@ -1,0 +1,480 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [ecommercetest.collector.se]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://ecommercetest.collector.se:443/v3.0/InvoiceServiceV31.svc?singleWsdl
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><wsdl:definitions name="InvoiceServiceV31"
+        targetNamespace="http://schemas.ecommerce.collector.se/v30/InvoiceService"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+        xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+        xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+        xmlns:tns="http://schemas.ecommerce.collector.se/v30/InvoiceService" xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+        xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"><wsp:Policy
+        wsu:Id="BasicHttpBinding_IInvoiceServiceV31_policy"><wsp:ExactlyOne><wsp:All><sp:TransportBinding
+        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"><wsp:Policy><sp:TransportToken><wsp:Policy><sp:HttpsToken
+        RequireClientCertificate="false"/></wsp:Policy></sp:TransportToken><sp:AlgorithmSuite><wsp:Policy><sp:Basic256/></wsp:Policy></sp:AlgorithmSuite><sp:Layout><wsp:Policy><sp:Strict/></wsp:Policy></sp:Layout></wsp:Policy></sp:TransportBinding></wsp:All></wsp:ExactlyOne></wsp:Policy><wsdl:types><xs:schema
+        elementFormDefault="qualified" targetNamespace="http://schemas.ecommerce.collector.se/v30/InvoiceService"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:element name="SetReservationRequest"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="CountryCode" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="CurrencyCode" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="CustomerAddress" nillable="true" type="tns:Address"/><xs:element
+        minOccurs="0" name="RegNo" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="ReservedAmount" type="xs:decimal"/><xs:element minOccurs="0" name="StoreId"
+        nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="Address"><xs:complexContent mixed="false"><xs:extension base="tns:BaseAddress"><xs:sequence><xs:element
+        minOccurs="0" name="CellPhoneNumber" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="CompanyName" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Email" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="Firstname" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="Lastname" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="PhoneNumber" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="Address" nillable="true" type="tns:Address"/><xs:complexType name="BaseAddress"><xs:sequence><xs:element
+        minOccurs="0" name="Address1" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Address2" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="COAddress" nillable="true" type="xs:string"/><xs:element
+        name="City" nillable="true" type="xs:string"/><xs:element name="CountryCode"
+        nillable="true" type="xs:string"/><xs:element name="PostalCode" nillable="true"
+        type="xs:string"/></xs:sequence></xs:complexType><xs:element name="BaseAddress"
+        nillable="true" type="tns:BaseAddress"/><xs:element name="ClientIpAddress"
+        nillable="true" type="xs:string"/><xs:element name="Password" nillable="true"
+        type="xs:string"/><xs:element name="Username" nillable="true" type="xs:string"/><xs:element
+        name="SetReservationResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="AvailableAmount" type="xs:decimal"/><xs:element minOccurs="0" name="CorrelationId"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="ReservedAmount"
+        type="xs:decimal"/><xs:element minOccurs="0" name="ValidUntil" nillable="true"
+        type="xs:dateTime"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="CancelReservationRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="RegNo" nillable="true" type="xs:string"/><xs:element minOccurs="0" name="StoreId"
+        nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="CancelReservationResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetReservationRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="RegNo" nillable="true" type="xs:string"/><xs:element minOccurs="0" name="StoreId"
+        nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetReservationResponseV31"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="AvailableReservationAmount" type="xs:decimal"/><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="CustomerStatus" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="ReservedAmount" type="xs:decimal"/><xs:element minOccurs="0"
+        name="ValidUntil" nillable="true" type="xs:dateTime"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetAddressRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="RegNo" nillable="true" type="xs:string"/><xs:element minOccurs="0" name="StoreId"
+        nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetAddressResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="Addresses" nillable="true" type="tns:ArrayOfBaseAddress"/><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Firstname" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Lastname" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="RegNo" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="ArrayOfBaseAddress"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="BaseAddress" nillable="true" type="tns:BaseAddress"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfBaseAddress" nillable="true" type="tns:ArrayOfBaseAddress"/><xs:element
+        name="AddInvoiceRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="ActivationOption" type="xs:int"/><xs:element minOccurs="0" name="CorrelationId"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="CostCenter"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="CountryCode"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="CreditTime"
+        nillable="true" type="xs:int"/><xs:element minOccurs="0" name="Currency" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="CustomerNo" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="DeliveryAddress" nillable="true"
+        type="tns:Address"/><xs:element minOccurs="0" name="Gender" type="xs:int"/><xs:element
+        minOccurs="0" name="InvoiceAddress" nillable="true" type="tns:Address"/><xs:element
+        minOccurs="0" name="InvoiceDeliveryMethod" type="xs:int"/><xs:element minOccurs="0"
+        name="InvoiceRows" nillable="true" type="tns:ArrayOfInvoiceRow"/><xs:element
+        minOccurs="0" name="InvoiceType" type="xs:int"/><xs:element minOccurs="0"
+        name="OrderDate" type="xs:dateTime"/><xs:element minOccurs="0" name="OrderNo"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="ProductCode"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="PurchaseType"
+        nillable="true" type="xs:int"/><xs:element minOccurs="0" name="Reference"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="RegNo" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="SalesPerson" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="StoreId" nillable="true"
+        type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="ArrayOfInvoiceRow"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="InvoiceRow" nillable="true" type="tns:InvoiceRow"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfInvoiceRow" nillable="true" type="tns:ArrayOfInvoiceRow"/><xs:complexType
+        name="InvoiceRow"><xs:sequence><xs:element name="ArticleId" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="Description" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="Quantity" type="xs:int"/><xs:element
+        minOccurs="0" name="UnitPrice" type="xs:decimal"/><xs:element minOccurs="0"
+        name="VAT" type="xs:decimal"/></xs:sequence></xs:complexType><xs:element name="InvoiceRow"
+        nillable="true" type="tns:InvoiceRow"/><xs:element name="AddInvoiceResponseV31"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="AvailableReservationAmount" type="xs:decimal"/><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="DueDate" nillable="true" type="xs:dateTime"/><xs:element
+        minOccurs="0" name="InvoiceNo" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="InvoiceStatus" type="xs:int"/><xs:element minOccurs="0"
+        name="InvoiceUrl" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="LowestAmountToPay" nillable="true" type="xs:decimal"/><xs:element minOccurs="0"
+        name="PaymentReference" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="TotalAmount" nillable="true" type="xs:decimal"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="CancelInvoiceRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="InvoiceNo" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="StoreId" nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="CancelInvoiceResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="ActivateInvoiceRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="InvoiceNo" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="StoreId" nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="ActivateInvoiceResponseV31"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="DueDate" nillable="true" type="xs:dateTime"/><xs:element
+        minOccurs="0" name="InvoiceUrl" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="LowestAmountToPay" nillable="true" type="xs:decimal"/><xs:element
+        minOccurs="0" name="PaymentReference" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="TotalAmount" type="xs:decimal"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="PartActivateInvoiceRequest"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="ArticleList" nillable="true" type="tns:ArrayOfArticle"/><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="CountryCode" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="InvoiceNo" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="StoreId" nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="ArrayOfArticle"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="Article" nillable="true" type="tns:Article"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfArticle" nillable="true" type="tns:ArrayOfArticle"/><xs:complexType
+        name="Article"><xs:sequence><xs:element name="ArticleId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Description" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Quantity" type="xs:int"/></xs:sequence></xs:complexType><xs:element
+        name="Article" nillable="true" type="tns:Article"/><xs:element name="PartActivateInvoiceResponseV31"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="DueDate" nillable="true" type="xs:dateTime"/><xs:element
+        minOccurs="0" name="InvoiceUrl" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="LowestAmountToPay" nillable="true" type="xs:decimal"/><xs:element
+        minOccurs="0" name="NewInvoiceNo" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="PaymentReference" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="TotalAmount" type="xs:decimal"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="CreditInvoiceRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CreditDate" type="xs:dateTime"/><xs:element minOccurs="0" name="InvoiceNo"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="StoreId"
+        nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="CreditInvoiceResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="PartCreditInvoiceRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="ArticleList" nillable="true" type="tns:ArrayOfArticle"/><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="CountryCode" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="CreditDate" type="xs:dateTime"/><xs:element minOccurs="0"
+        name="InvoiceNo" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="StoreId" nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="PartCreditInvoiceResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="AdjustInvoiceRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="Amount" type="xs:decimal"/><xs:element minOccurs="0" name="ArticleId"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="CorrelationId"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="CountryCode"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Description"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="InvoiceNo"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="StoreId"
+        nillable="true" type="xs:int"/><xs:element minOccurs="0" name="Vat" type="xs:decimal"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="AdjustInvoiceResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="ExtendDueDateRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="InvoiceNo" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="StoreId" nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="ExtendDueDateResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="DueDate" type="xs:dateTime"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="ReplaceInvoiceRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="InvoiceNo" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="InvoiceRows" nillable="true" type="tns:ArrayOfInvoiceRow"/><xs:element
+        minOccurs="0" name="StoreId" nillable="true" type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="ReplaceInvoiceResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="AvailableReservationAmount" type="xs:decimal"/><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="InvoiceStatus" type="xs:int"/><xs:element minOccurs="0" name="TotalAmount"
+        type="xs:decimal"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="SendInvoiceRequest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="CorrelationId" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="CountryCode" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="Email" nillable="true" type="xs:string"/><xs:element minOccurs="0" name="InvoiceDeliveryMethod"
+        type="xs:int"/><xs:element minOccurs="0" name="InvoiceNo" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="StoreId" nillable="true"
+        type="xs:int"/></xs:sequence></xs:complexType></xs:element><xs:element name="SendInvoiceResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="AvailableReservationAmount" type="xs:decimal"/><xs:element
+        minOccurs="0" name="CorrelationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="DueDate" nillable="true" type="xs:dateTime"/><xs:element
+        minOccurs="0" name="InvoiceUrl" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="LowestAmountToPay" nillable="true" type="xs:decimal"/><xs:element
+        minOccurs="0" name="NewInvoiceNo" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="PaymentReference" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="TotalAmount" nillable="true" type="xs:decimal"/></xs:sequence></xs:complexType></xs:element></xs:schema><xs:schema
+        attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/"><xs:element
+        name="anyType" nillable="true" type="xs:anyType"/><xs:element name="anyURI"
+        nillable="true" type="xs:anyURI"/><xs:element name="base64Binary" nillable="true"
+        type="xs:base64Binary"/><xs:element name="boolean" nillable="true" type="xs:boolean"/><xs:element
+        name="byte" nillable="true" type="xs:byte"/><xs:element name="dateTime" nillable="true"
+        type="xs:dateTime"/><xs:element name="decimal" nillable="true" type="xs:decimal"/><xs:element
+        name="double" nillable="true" type="xs:double"/><xs:element name="float" nillable="true"
+        type="xs:float"/><xs:element name="int" nillable="true" type="xs:int"/><xs:element
+        name="long" nillable="true" type="xs:long"/><xs:element name="QName" nillable="true"
+        type="xs:QName"/><xs:element name="short" nillable="true" type="xs:short"/><xs:element
+        name="string" nillable="true" type="xs:string"/><xs:element name="unsignedByte"
+        nillable="true" type="xs:unsignedByte"/><xs:element name="unsignedInt" nillable="true"
+        type="xs:unsignedInt"/><xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/><xs:element
+        name="unsignedShort" nillable="true" type="xs:unsignedShort"/><xs:element
+        name="char" nillable="true" type="tns:char"/><xs:simpleType name="char"><xs:restriction
+        base="xs:int"/></xs:simpleType><xs:element name="duration" nillable="true"
+        type="tns:duration"/><xs:simpleType name="duration"><xs:restriction base="xs:duration"><xs:pattern
+        value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/><xs:minInclusive value="-P10675199DT2H48M5.4775808S"/><xs:maxInclusive
+        value="P10675199DT2H48M5.4775807S"/></xs:restriction></xs:simpleType><xs:element
+        name="guid" nillable="true" type="tns:guid"/><xs:simpleType name="guid"><xs:restriction
+        base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType><xs:attribute
+        name="FactoryType" type="xs:QName"/><xs:attribute name="Id" type="xs:ID"/><xs:attribute
+        name="Ref" type="xs:IDREF"/></xs:schema></wsdl:types><wsdl:message name="SetReservationRequest"><wsdl:part
+        name="parameters" element="tns:SetReservationRequest"/></wsdl:message><wsdl:message
+        name="SetReservationRequest_Headers"><wsdl:part name="ClientIpAddress" element="tns:ClientIpAddress"/><wsdl:part
+        name="Password" element="tns:Password"/><wsdl:part name="Username" element="tns:Username"/></wsdl:message><wsdl:message
+        name="SetReservationResponse"><wsdl:part name="parameters" element="tns:SetReservationResponse"/></wsdl:message><wsdl:message
+        name="CancelReservationRequest"><wsdl:part name="parameters" element="tns:CancelReservationRequest"/></wsdl:message><wsdl:message
+        name="CancelReservationRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="CancelReservationResponse"><wsdl:part
+        name="parameters" element="tns:CancelReservationResponse"/></wsdl:message><wsdl:message
+        name="GetReservationRequest"><wsdl:part name="parameters" element="tns:GetReservationRequest"/></wsdl:message><wsdl:message
+        name="GetReservationRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="GetReservationResponseV31"><wsdl:part
+        name="parameters" element="tns:GetReservationResponseV31"/></wsdl:message><wsdl:message
+        name="GetAddressRequest"><wsdl:part name="parameters" element="tns:GetAddressRequest"/></wsdl:message><wsdl:message
+        name="GetAddressRequest_Headers"><wsdl:part name="ClientIpAddress" element="tns:ClientIpAddress"/><wsdl:part
+        name="Password" element="tns:Password"/><wsdl:part name="Username" element="tns:Username"/></wsdl:message><wsdl:message
+        name="GetAddressResponse"><wsdl:part name="parameters" element="tns:GetAddressResponse"/></wsdl:message><wsdl:message
+        name="AddInvoiceRequest"><wsdl:part name="parameters" element="tns:AddInvoiceRequest"/></wsdl:message><wsdl:message
+        name="AddInvoiceRequest_Headers"><wsdl:part name="ClientIpAddress" element="tns:ClientIpAddress"/><wsdl:part
+        name="Password" element="tns:Password"/><wsdl:part name="Username" element="tns:Username"/></wsdl:message><wsdl:message
+        name="AddInvoiceResponseV31"><wsdl:part name="parameters" element="tns:AddInvoiceResponseV31"/></wsdl:message><wsdl:message
+        name="CancelInvoiceRequest"><wsdl:part name="parameters" element="tns:CancelInvoiceRequest"/></wsdl:message><wsdl:message
+        name="CancelInvoiceRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="CancelInvoiceResponse"><wsdl:part
+        name="parameters" element="tns:CancelInvoiceResponse"/></wsdl:message><wsdl:message
+        name="ActivateInvoiceRequest"><wsdl:part name="parameters" element="tns:ActivateInvoiceRequest"/></wsdl:message><wsdl:message
+        name="ActivateInvoiceRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="ActivateInvoiceResponseV31"><wsdl:part
+        name="parameters" element="tns:ActivateInvoiceResponseV31"/></wsdl:message><wsdl:message
+        name="PartActivateInvoiceRequest"><wsdl:part name="parameters" element="tns:PartActivateInvoiceRequest"/></wsdl:message><wsdl:message
+        name="PartActivateInvoiceRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="PartActivateInvoiceResponseV31"><wsdl:part
+        name="parameters" element="tns:PartActivateInvoiceResponseV31"/></wsdl:message><wsdl:message
+        name="CreditInvoiceRequest"><wsdl:part name="parameters" element="tns:CreditInvoiceRequest"/></wsdl:message><wsdl:message
+        name="CreditInvoiceRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="CreditInvoiceResponse"><wsdl:part
+        name="parameters" element="tns:CreditInvoiceResponse"/></wsdl:message><wsdl:message
+        name="PartCreditInvoiceRequest"><wsdl:part name="parameters" element="tns:PartCreditInvoiceRequest"/></wsdl:message><wsdl:message
+        name="PartCreditInvoiceRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="PartCreditInvoiceResponse"><wsdl:part
+        name="parameters" element="tns:PartCreditInvoiceResponse"/></wsdl:message><wsdl:message
+        name="AdjustInvoiceRequest"><wsdl:part name="parameters" element="tns:AdjustInvoiceRequest"/></wsdl:message><wsdl:message
+        name="AdjustInvoiceRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="AdjustInvoiceResponse"><wsdl:part
+        name="parameters" element="tns:AdjustInvoiceResponse"/></wsdl:message><wsdl:message
+        name="ExtendDueDateRequest"><wsdl:part name="parameters" element="tns:ExtendDueDateRequest"/></wsdl:message><wsdl:message
+        name="ExtendDueDateRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="ExtendDueDateResponse"><wsdl:part
+        name="parameters" element="tns:ExtendDueDateResponse"/></wsdl:message><wsdl:message
+        name="ReplaceInvoiceRequest"><wsdl:part name="parameters" element="tns:ReplaceInvoiceRequest"/></wsdl:message><wsdl:message
+        name="ReplaceInvoiceRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="ReplaceInvoiceResponse"><wsdl:part
+        name="parameters" element="tns:ReplaceInvoiceResponse"/></wsdl:message><wsdl:message
+        name="SendInvoiceRequest"><wsdl:part name="parameters" element="tns:SendInvoiceRequest"/></wsdl:message><wsdl:message
+        name="SendInvoiceRequest_Headers"><wsdl:part name="Password" element="tns:Password"/><wsdl:part
+        name="Username" element="tns:Username"/></wsdl:message><wsdl:message name="SendInvoiceResponse"><wsdl:part
+        name="parameters" element="tns:SendInvoiceResponse"/></wsdl:message><wsdl:portType
+        name="IInvoiceServiceV31"><wsdl:operation name="SetReservation"><wsdl:input
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/SetReservation"
+        name="SetReservationRequest" message="tns:SetReservationRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/SetReservationResponse"
+        name="SetReservationResponse" message="tns:SetReservationResponse"/></wsdl:operation><wsdl:operation
+        name="CancelReservation"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CancelReservation"
+        name="CancelReservationRequest" message="tns:CancelReservationRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CancelReservationResponse"
+        name="CancelReservationResponse" message="tns:CancelReservationResponse"/></wsdl:operation><wsdl:operation
+        name="GetReservation"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/GetReservation"
+        name="GetReservationRequest" message="tns:GetReservationRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/GetReservationResponse"
+        name="GetReservationResponseV31" message="tns:GetReservationResponseV31"/></wsdl:operation><wsdl:operation
+        name="GetAddress"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/GetAddress"
+        name="GetAddressRequest" message="tns:GetAddressRequest"/><wsdl:output wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/GetAddressResponse"
+        name="GetAddressResponse" message="tns:GetAddressResponse"/></wsdl:operation><wsdl:operation
+        name="AddInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/AddInvoice"
+        name="AddInvoiceRequest" message="tns:AddInvoiceRequest"/><wsdl:output wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/AddInvoiceResponse"
+        name="AddInvoiceResponseV31" message="tns:AddInvoiceResponseV31"/></wsdl:operation><wsdl:operation
+        name="CancelInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CancelInvoice"
+        name="CancelInvoiceRequest" message="tns:CancelInvoiceRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CancelInvoiceResponse"
+        name="CancelInvoiceResponse" message="tns:CancelInvoiceResponse"/></wsdl:operation><wsdl:operation
+        name="ActivateInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ActivateInvoice"
+        name="ActivateInvoiceRequest" message="tns:ActivateInvoiceRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ActivateInvoiceResponse"
+        name="ActivateInvoiceResponseV31" message="tns:ActivateInvoiceResponseV31"/></wsdl:operation><wsdl:operation
+        name="PartActivateInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/PartActivateInvoice"
+        name="PartActivateInvoiceRequest" message="tns:PartActivateInvoiceRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/PartActivateInvoiceResponse"
+        name="PartActivateInvoiceResponseV31" message="tns:PartActivateInvoiceResponseV31"/></wsdl:operation><wsdl:operation
+        name="CreditInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CreditInvoice"
+        name="CreditInvoiceRequest" message="tns:CreditInvoiceRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CreditInvoiceResponse"
+        name="CreditInvoiceResponse" message="tns:CreditInvoiceResponse"/></wsdl:operation><wsdl:operation
+        name="PartCreditInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/PartCreditInvoice"
+        name="PartCreditInvoiceRequest" message="tns:PartCreditInvoiceRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/PartCreditInvoiceResponse"
+        name="PartCreditInvoiceResponse" message="tns:PartCreditInvoiceResponse"/></wsdl:operation><wsdl:operation
+        name="AdjustInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/AdjustInvoice"
+        name="AdjustInvoiceRequest" message="tns:AdjustInvoiceRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/AdjustInvoiceResponse"
+        name="AdjustInvoiceResponse" message="tns:AdjustInvoiceResponse"/></wsdl:operation><wsdl:operation
+        name="ExtendDueDate"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ExtendDueDate"
+        name="ExtendDueDateRequest" message="tns:ExtendDueDateRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ExtendDueDateResponse"
+        name="ExtendDueDateResponse" message="tns:ExtendDueDateResponse"/></wsdl:operation><wsdl:operation
+        name="ReplaceInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ReplaceInvoice"
+        name="ReplaceInvoiceRequest" message="tns:ReplaceInvoiceRequest"/><wsdl:output
+        wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ReplaceInvoiceResponse"
+        name="ReplaceInvoiceResponse" message="tns:ReplaceInvoiceResponse"/></wsdl:operation><wsdl:operation
+        name="SendInvoice"><wsdl:input wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/SendInvoice"
+        name="SendInvoiceRequest" message="tns:SendInvoiceRequest"/><wsdl:output wsaw:Action="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/SendInvoiceResponse"
+        name="SendInvoiceResponse" message="tns:SendInvoiceResponse"/></wsdl:operation></wsdl:portType><wsdl:binding
+        name="BasicHttpBinding_IInvoiceServiceV31" type="tns:IInvoiceServiceV31"><wsp:PolicyReference
+        URI="#BasicHttpBinding_IInvoiceServiceV31_policy"/><soap:binding transport="http://schemas.xmlsoap.org/soap/http"/><wsdl:operation
+        name="SetReservation"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/SetReservation"
+        style="document"/><wsdl:input name="SetReservationRequest"><soap:header message="tns:SetReservationRequest_Headers"
+        part="ClientIpAddress" use="literal"/><soap:header message="tns:SetReservationRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:SetReservationRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="SetReservationResponse"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="CancelReservation"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CancelReservation"
+        style="document"/><wsdl:input name="CancelReservationRequest"><soap:header
+        message="tns:CancelReservationRequest_Headers" part="Password" use="literal"/><soap:header
+        message="tns:CancelReservationRequest_Headers" part="Username" use="literal"/><soap:body
+        use="literal"/></wsdl:input><wsdl:output name="CancelReservationResponse"><soap:body
+        use="literal"/></wsdl:output></wsdl:operation><wsdl:operation name="GetReservation"><soap:operation
+        soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/GetReservation"
+        style="document"/><wsdl:input name="GetReservationRequest"><soap:header message="tns:GetReservationRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:GetReservationRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="GetReservationResponseV31"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="GetAddress"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/GetAddress"
+        style="document"/><wsdl:input name="GetAddressRequest"><soap:header message="tns:GetAddressRequest_Headers"
+        part="ClientIpAddress" use="literal"/><soap:header message="tns:GetAddressRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:GetAddressRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="GetAddressResponse"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="AddInvoice"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/AddInvoice"
+        style="document"/><wsdl:input name="AddInvoiceRequest"><soap:header message="tns:AddInvoiceRequest_Headers"
+        part="ClientIpAddress" use="literal"/><soap:header message="tns:AddInvoiceRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:AddInvoiceRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="AddInvoiceResponseV31"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="CancelInvoice"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CancelInvoice"
+        style="document"/><wsdl:input name="CancelInvoiceRequest"><soap:header message="tns:CancelInvoiceRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:CancelInvoiceRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="CancelInvoiceResponse"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="ActivateInvoice"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ActivateInvoice"
+        style="document"/><wsdl:input name="ActivateInvoiceRequest"><soap:header message="tns:ActivateInvoiceRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:ActivateInvoiceRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="ActivateInvoiceResponseV31"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="PartActivateInvoice"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/PartActivateInvoice"
+        style="document"/><wsdl:input name="PartActivateInvoiceRequest"><soap:header
+        message="tns:PartActivateInvoiceRequest_Headers" part="Password" use="literal"/><soap:header
+        message="tns:PartActivateInvoiceRequest_Headers" part="Username" use="literal"/><soap:body
+        use="literal"/></wsdl:input><wsdl:output name="PartActivateInvoiceResponseV31"><soap:body
+        use="literal"/></wsdl:output></wsdl:operation><wsdl:operation name="CreditInvoice"><soap:operation
+        soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/CreditInvoice"
+        style="document"/><wsdl:input name="CreditInvoiceRequest"><soap:header message="tns:CreditInvoiceRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:CreditInvoiceRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="CreditInvoiceResponse"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="PartCreditInvoice"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/PartCreditInvoice"
+        style="document"/><wsdl:input name="PartCreditInvoiceRequest"><soap:header
+        message="tns:PartCreditInvoiceRequest_Headers" part="Password" use="literal"/><soap:header
+        message="tns:PartCreditInvoiceRequest_Headers" part="Username" use="literal"/><soap:body
+        use="literal"/></wsdl:input><wsdl:output name="PartCreditInvoiceResponse"><soap:body
+        use="literal"/></wsdl:output></wsdl:operation><wsdl:operation name="AdjustInvoice"><soap:operation
+        soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/AdjustInvoice"
+        style="document"/><wsdl:input name="AdjustInvoiceRequest"><soap:header message="tns:AdjustInvoiceRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:AdjustInvoiceRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="AdjustInvoiceResponse"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="ExtendDueDate"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ExtendDueDate"
+        style="document"/><wsdl:input name="ExtendDueDateRequest"><soap:header message="tns:ExtendDueDateRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:ExtendDueDateRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="ExtendDueDateResponse"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="ReplaceInvoice"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/ReplaceInvoice"
+        style="document"/><wsdl:input name="ReplaceInvoiceRequest"><soap:header message="tns:ReplaceInvoiceRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:ReplaceInvoiceRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="ReplaceInvoiceResponse"><soap:body use="literal"/></wsdl:output></wsdl:operation><wsdl:operation
+        name="SendInvoice"><soap:operation soapAction="http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/SendInvoice"
+        style="document"/><wsdl:input name="SendInvoiceRequest"><soap:header message="tns:SendInvoiceRequest_Headers"
+        part="Password" use="literal"/><soap:header message="tns:SendInvoiceRequest_Headers"
+        part="Username" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="SendInvoiceResponse"><soap:body use="literal"/></wsdl:output></wsdl:operation></wsdl:binding><wsdl:service
+        name="InvoiceServiceV31"><wsdl:port name="BasicHttpBinding_IInvoiceServiceV31"
+        binding="tns:BasicHttpBinding_IInvoiceServiceV31"><soap:address location="https://ecommercetest.collector.se/v3.0/InvoiceServiceV31.svc"/></wsdl:port></wsdl:service></wsdl:definitions>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['41579']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 15:05:34 GMT']
+      Server: [Microsoft-IIS/8.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlcj48UGFzc3dv
+      cmQ+cGFzczwvUGFzc3dvcmQ+PENsaWVudElwQWRkcmVzcz4xMjcuMC4wLjE8L0NsaWVudElwQWRk
+      cmVzcz48VXNlcm5hbWU+dXNlcjwvVXNlcm5hbWU+PC9zb2FwOkhlYWRlcj4KPHNvYXA6Qm9keT4K
+      ICAgIDxHZXRBZGRyZXNzUmVxdWVzdCB4bWxucz0iaHR0cDovL3NjaGVtYXMuZWNvbW1lcmNlLmNv
+      bGxlY3Rvci5zZS92MzAvSW52b2ljZVNlcnZpY2UiPgogICAgPENvdW50cnlDb2RlPlNFPC9Db3Vu
+      dHJ5Q29kZT48UmVnTm8+MTIzNDU2Nzg5MDwvUmVnTm8+PC9HZXRBZGRyZXNzUmVxdWVzdD4KPC9z
+      b2FwOkJvZHk+Cjwvc29hcDpFbnZlbG9wZT4=
+    headers:
+      Connection: [close]
+      Content-Length: ['539']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [ecommercetest.collector.se]
+      Soapaction: ['"http://schemas.ecommerce.collector.se/v30/InvoiceService/IInvoiceServiceV31/GetAddress"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://ecommercetest.collector.se:443/v3.0/InvoiceServiceV31.svc
+  response:
+    body: {string: '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><s:Fault><faultcode>s:VALIDATION_CLIENT_IP_ADDRESS_REQUIRED</faultcode><faultstring
+        xml:lang="sv-SE">Validation exception occured while processing request.</faultstring></s:Fault></s:Body></s:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['273']
+      Content-Type: [text/xml; charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 15:05:35 GMT']
+      Server: [Microsoft-IIS/8.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 500, message: Internal Server Error}
+version: 1

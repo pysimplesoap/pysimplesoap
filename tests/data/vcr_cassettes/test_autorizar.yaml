@@ -1,0 +1,145 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [cel.sri.gob.ec]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://cel.sri.gob.ec:443/comprobantes-electronicos-ws/AutorizacionComprobantes?wsdl
+  response:
+    body: {string: "<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd=\"\
+        http://www.w3.org/2001/XMLSchema\" xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\"\
+        \ xmlns:tns=\"http://ec.gob.sri.ws.autorizacion\" xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"\
+        \ xmlns:ns1=\"http://schemas.xmlsoap.org/soap/http\" name=\"AutorizacionComprobantesService\"\
+        \ targetNamespace=\"http://ec.gob.sri.ws.autorizacion\">\n  <wsdl:types>\n\
+        <xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:tns=\"http://ec.gob.sri.ws.autorizacion\"\
+        \ elementFormDefault=\"unqualified\" targetNamespace=\"http://ec.gob.sri.ws.autorizacion\"\
+        \ version=\"1.0\">\n\n  <xs:element name=\"RespuestaAutorizacion\" nillable=\"\
+        true\" type=\"xs:anyType\"/>\n\n  <xs:element name=\"autorizacion\" type=\"\
+        tns:autorizacion\"/>\n\n  <xs:element name=\"autorizacionComprobante\" type=\"\
+        tns:autorizacionComprobante\"/>\n\n  <xs:element name=\"autorizacionComprobanteLote\"\
+        \ type=\"tns:autorizacionComprobanteLote\"/>\n\n  <xs:element name=\"autorizacionComprobanteLoteResponse\"\
+        \ type=\"tns:autorizacionComprobanteLoteResponse\"/>\n\n  <xs:element name=\"\
+        autorizacionComprobanteResponse\" type=\"tns:autorizacionComprobanteResponse\"\
+        />\n\n  <xs:element name=\"mensaje\" type=\"tns:mensaje\"/>\n\n  <xs:complexType\
+        \ name=\"autorizacionComprobante\">\n    <xs:sequence>\n      <xs:element\
+        \ minOccurs=\"0\" name=\"claveAccesoComprobante\" type=\"xs:string\"/>\n \
+        \   </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType name=\"autorizacionComprobanteResponse\"\
+        >\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"RespuestaAutorizacionComprobante\"\
+        \ type=\"tns:respuestaComprobante\"/>\n    </xs:sequence>\n  </xs:complexType>\n\
+        \n  <xs:complexType name=\"respuestaComprobante\">\n    <xs:sequence>\n  \
+        \    <xs:element minOccurs=\"0\" name=\"claveAccesoConsultada\" type=\"xs:string\"\
+        />\n      <xs:element minOccurs=\"0\" name=\"numeroComprobantes\" type=\"\
+        xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"autorizaciones\">\n\
+        \        <xs:complexType>\n          <xs:sequence>\n            <xs:element\
+        \ maxOccurs=\"unbounded\" minOccurs=\"0\" ref=\"tns:autorizacion\"/>\n   \
+        \       </xs:sequence>\n        </xs:complexType>\n      </xs:element>\n \
+        \   </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType name=\"autorizacion\"\
+        >\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"estado\" type=\"\
+        xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"numeroAutorizacion\"\
+        \ type=\"xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"fechaAutorizacion\"\
+        \ type=\"xs:dateTime\"/>\n      <xs:element minOccurs=\"0\" name=\"ambiente\"\
+        \ type=\"xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"comprobante\"\
+        \ type=\"xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"mensajes\"\
+        >\n        <xs:complexType>\n          <xs:sequence>\n            <xs:element\
+        \ maxOccurs=\"unbounded\" minOccurs=\"0\" ref=\"tns:mensaje\"/>\n        \
+        \  </xs:sequence>\n        </xs:complexType>\n      </xs:element>\n    </xs:sequence>\n\
+        \  </xs:complexType>\n\n  <xs:complexType name=\"mensaje\">\n    <xs:sequence>\n\
+        \      <xs:element minOccurs=\"0\" name=\"identificador\" type=\"xs:string\"\
+        />\n      <xs:element minOccurs=\"0\" name=\"mensaje\" type=\"xs:string\"\
+        />\n      <xs:element minOccurs=\"0\" name=\"informacionAdicional\" type=\"\
+        xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"tipo\" type=\"xs:string\"\
+        />\n    </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType name=\"autorizacionComprobanteLote\"\
+        >\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"claveAccesoLote\"\
+        \ type=\"xs:string\"/>\n    </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType\
+        \ name=\"autorizacionComprobanteLoteResponse\">\n    <xs:sequence>\n     \
+        \ <xs:element minOccurs=\"0\" name=\"RespuestaAutorizacionLote\" type=\"tns:respuestaLote\"\
+        />\n    </xs:sequence>\n  </xs:complexType>\n\n  <xs:complexType name=\"respuestaLote\"\
+        >\n    <xs:sequence>\n      <xs:element minOccurs=\"0\" name=\"claveAccesoLoteConsultada\"\
+        \ type=\"xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"numeroComprobantesLote\"\
+        \ type=\"xs:string\"/>\n      <xs:element minOccurs=\"0\" name=\"autorizaciones\"\
+        >\n        <xs:complexType>\n          <xs:sequence>\n            <xs:element\
+        \ maxOccurs=\"unbounded\" minOccurs=\"0\" ref=\"tns:autorizacion\"/>\n   \
+        \       </xs:sequence>\n        </xs:complexType>\n      </xs:element>\n \
+        \   </xs:sequence>\n  </xs:complexType>\n\n</xs:schema>\n  </wsdl:types>\n\
+        \  <wsdl:message name=\"autorizacionComprobanteLote\">\n    <wsdl:part element=\"\
+        tns:autorizacionComprobanteLote\" name=\"parameters\">\n    </wsdl:part>\n\
+        \  </wsdl:message>\n  <wsdl:message name=\"autorizacionComprobanteResponse\"\
+        >\n    <wsdl:part element=\"tns:autorizacionComprobanteResponse\" name=\"\
+        parameters\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message name=\"\
+        autorizacionComprobanteLoteResponse\">\n    <wsdl:part element=\"tns:autorizacionComprobanteLoteResponse\"\
+        \ name=\"parameters\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:message\
+        \ name=\"autorizacionComprobante\">\n    <wsdl:part element=\"tns:autorizacionComprobante\"\
+        \ name=\"parameters\">\n    </wsdl:part>\n  </wsdl:message>\n  <wsdl:portType\
+        \ name=\"AutorizacionComprobantes\">\n    <wsdl:operation name=\"autorizacionComprobante\"\
+        >\n      <wsdl:input message=\"tns:autorizacionComprobante\" name=\"autorizacionComprobante\"\
+        >\n    </wsdl:input>\n      <wsdl:output message=\"tns:autorizacionComprobanteResponse\"\
+        \ name=\"autorizacionComprobanteResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \    <wsdl:operation name=\"autorizacionComprobanteLote\">\n      <wsdl:input\
+        \ message=\"tns:autorizacionComprobanteLote\" name=\"autorizacionComprobanteLote\"\
+        >\n    </wsdl:input>\n      <wsdl:output message=\"tns:autorizacionComprobanteLoteResponse\"\
+        \ name=\"autorizacionComprobanteLoteResponse\">\n    </wsdl:output>\n    </wsdl:operation>\n\
+        \  </wsdl:portType>\n  <wsdl:binding name=\"AutorizacionComprobantesServiceSoapBinding\"\
+        \ type=\"tns:AutorizacionComprobantes\">\n    <soap:binding style=\"document\"\
+        \ transport=\"http://schemas.xmlsoap.org/soap/http\"/>\n    <wsdl:operation\
+        \ name=\"autorizacionComprobante\">\n      <soap:operation soapAction=\"\"\
+        \ style=\"document\"/>\n      <wsdl:input name=\"autorizacionComprobante\"\
+        >\n        <soap:body use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output\
+        \ name=\"autorizacionComprobanteResponse\">\n        <soap:body use=\"literal\"\
+        />\n      </wsdl:output>\n    </wsdl:operation>\n    <wsdl:operation name=\"\
+        autorizacionComprobanteLote\">\n      <soap:operation soapAction=\"\" style=\"\
+        document\"/>\n      <wsdl:input name=\"autorizacionComprobanteLote\">\n  \
+        \      <soap:body use=\"literal\"/>\n      </wsdl:input>\n      <wsdl:output\
+        \ name=\"autorizacionComprobanteLoteResponse\">\n        <soap:body use=\"\
+        literal\"/>\n      </wsdl:output>\n    </wsdl:operation>\n  </wsdl:binding>\n\
+        \  <wsdl:service name=\"AutorizacionComprobantesService\">\n    <wsdl:port\
+        \ binding=\"tns:AutorizacionComprobantesServiceSoapBinding\" name=\"AutorizacionComprobantesPort\"\
+        >\n      <soap:address location=\"https://cel.sri.gob.ec/comprobantes-electronicos-ws/AutorizacionComprobantes\"\
+        />\n    </wsdl:port>\n  </wsdl:service>\n</wsdl:definitions>"}
+    headers:
+      Cache-Control: [max-age=315360000]
+      Connection: [close]
+      Content-Length: ['6743']
+      Content-Type: [text/xml;charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 10:19:07 GMT']
+      Expires: ['Mon, 17 Mar 2025 10:19:07 GMT']
+      Server: [Apache]
+      Set-Cookie: [bbbbbbbbbbbbbbb=LIDLEAHBFMLOHBIBPMJPHKGNLMOKCBOMFBDHIECAEIBDNGBPDOJMJJLDLCNACKFHBDOOBJAIOPLBMJEBLPACDGMICLLNCDCMADIABLKDNDICCMJFBPEGFCNHLCDGBIME;
+          HttpOnly; secure]
+      Vary: [Accept-Encoding]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcGVudjpFbnZlbG9wZSB4
+      bWxuczplYz0iaHR0cDovL2VjLmdvYi5zcmkud3MuYXV0b3JpemFjaW9uIiB4bWxuczpzb2FwZW52
+      PSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyI+Cjxzb2FwZW52Okhl
+      YWRlci8+Cjxzb2FwZW52OkJvZHk+CiAgICA8ZWM6YXV0b3JpemFjaW9uQ29tcHJvYmFudGU+CiAg
+      ICA8Y2xhdmVBY2Nlc29Db21wcm9iYW50ZT4xNzAyMjAxMjA1MTc2MDAxMzIxMDAwMTEwMDEwMDMw
+      MDAxMDAwMDExMjM0NTY3ODE2PC9jbGF2ZUFjY2Vzb0NvbXByb2JhbnRlPjwvZWM6YXV0b3JpemFj
+      aW9uQ29tcHJvYmFudGU+Cjwvc29hcGVudjpCb2R5Pgo8L3NvYXBlbnY6RW52ZWxvcGU+
+    headers:
+      Connection: [close]
+      Content-Length: ['393']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [cel.sri.gob.ec]
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://cel.sri.gob.ec:443/comprobantes-electronicos-ws/AutorizacionComprobantes
+  response:
+    body: {string: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>The
+        given SOAPAction None does not match an operation.</faultstring></soap:Fault></soap:Body></soap:Envelope>'}
+    headers:
+      Cache-Control: [max-age=315360000]
+      Connection: [close]
+      Content-Length: ['249']
+      Content-Type: [text/xml;charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 10:19:08 GMT']
+      Expires: ['Mon, 17 Mar 2025 10:19:08 GMT']
+      Server: [Apache]
+      Set-Cookie: [bbbbbbbbbbbbbbb=BPNDABFNJMKLDGKMDJJMJMKMEAEAFCHLCAKMADNNPLNDFCJDPNHGHLBFLBKABGJJCDOLMPOOBFPIAMCOLPMNNPHFELMAGODLOIDPCICCJNOODHGPNOPKMDNHGGDDCICF;
+          HttpOnly; secure]
+      Vary: [Accept-Encoding]
+    status: {code: 500, message: Internal Server Error}
+version: 1

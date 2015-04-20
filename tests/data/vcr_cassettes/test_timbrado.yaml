@@ -1,0 +1,628 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [digitalinvoicecfdi.com.mx]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://digitalinvoicecfdi.com.mx:443/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?wsdl
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><wsdl:definitions name="Timbrado"
+        targetNamespace="https://digitalinvoice.com.mx/WSDI" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+        xmlns:tns="https://digitalinvoice.com.mx/WSDI" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+        xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+        xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:i0="http://tempuri.org/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"><wsdl:import
+        namespace="http://tempuri.org/" location="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?wsdl=wsdl0"/><wsdl:types><xsd:schema
+        targetNamespace="https://digitalinvoice.com.mx/WSDI/Imports"><xsd:import schemaLocation="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd0"
+        namespace="https://digitalinvoice.com.mx/WSDI"/><xsd:import schemaLocation="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd2"
+        namespace="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/><xsd:import
+        schemaLocation="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd1"
+        namespace="http://schemas.microsoft.com/2003/10/Serialization/"/><xsd:import
+        schemaLocation="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd3"
+        namespace="http://schemas.datacontract.org/2004/07/DigitalInvoice.WebServices.WSDI"/><xsd:import
+        schemaLocation="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd4"
+        namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/></xsd:schema></wsdl:types><wsdl:message
+        name="ITimbrado_Timbrar_InputMessage"><wsdl:part name="parameters" element="tns:Timbrar"/></wsdl:message><wsdl:message
+        name="ITimbrado_Timbrar_OutputMessage"><wsdl:part name="parameters" element="tns:TimbrarResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_Timbrar_CFDiFaultContractFault_FaultMessage"><wsdl:part name="detail"
+        element="q1:CFDiFaultContract" xmlns:q1="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_Timbrar_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q2:ProcessFaultContract" xmlns:q2="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbre_InputMessage"><wsdl:part name="parameters"
+        element="tns:TimbrarSoloTimbre"/></wsdl:message><wsdl:message name="ITimbrado_TimbrarSoloTimbre_OutputMessage"><wsdl:part
+        name="parameters" element="tns:TimbrarSoloTimbreResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbre_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q3:CFDiFaultContract" xmlns:q3="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbre_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q4:ProcessFaultContract" xmlns:q4="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarTest_InputMessage"><wsdl:part name="parameters" element="tns:TimbrarTest"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarTest_OutputMessage"><wsdl:part name="parameters" element="tns:TimbrarTestResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarTest_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q5:ProcessFaultContract" xmlns:q5="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarTest_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q6:CFDiFaultContract" xmlns:q6="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreTest_InputMessage"><wsdl:part name="parameters"
+        element="tns:TimbrarSoloTimbreTest"/></wsdl:message><wsdl:message name="ITimbrado_TimbrarSoloTimbreTest_OutputMessage"><wsdl:part
+        name="parameters" element="tns:TimbrarSoloTimbreTestResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreTest_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q7:ProcessFaultContract" xmlns:q7="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreTest_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q8:CFDiFaultContract" xmlns:q8="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarAck_InputMessage"><wsdl:part name="parameters" element="tns:TimbrarAck"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarAck_OutputMessage"><wsdl:part name="parameters" element="tns:TimbrarAckResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarAck_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q9:ProcessFaultContract" xmlns:q9="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarAck_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q10:CFDiFaultContract" xmlns:q10="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_ObtenerAck_InputMessage"><wsdl:part name="parameters" element="tns:ObtenerAck"/></wsdl:message><wsdl:message
+        name="ITimbrado_ObtenerAck_OutputMessage"><wsdl:part name="parameters" element="tns:ObtenerAckResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_ObtenerAck_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q11:CFDiFaultContract" xmlns:q11="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_ObtenerAck_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q12:ProcessFaultContract" xmlns:q12="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbre_InputMessage"><wsdl:part name="parameters"
+        element="tns:RecuperarTimbre"/></wsdl:message><wsdl:message name="ITimbrado_RecuperarTimbre_OutputMessage"><wsdl:part
+        name="parameters" element="tns:RecuperarTimbreResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbre_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q13:ProcessFaultContract" xmlns:q13="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbre_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q14:CFDiFaultContract" xmlns:q14="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreUUID_InputMessage"><wsdl:part name="parameters"
+        element="tns:RecuperarTimbreUUID"/></wsdl:message><wsdl:message name="ITimbrado_RecuperarTimbreUUID_OutputMessage"><wsdl:part
+        name="parameters" element="tns:RecuperarTimbreUUIDResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreUUID_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q15:CFDiFaultContract" xmlns:q15="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreUUID_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q16:ProcessFaultContract" xmlns:q16="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbres_InputMessage"><wsdl:part name="parameters"
+        element="tns:RecuperarTimbres"/></wsdl:message><wsdl:message name="ITimbrado_RecuperarTimbres_OutputMessage"><wsdl:part
+        name="parameters" element="tns:RecuperarTimbresResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbres_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q17:CFDiFaultContract" xmlns:q17="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbres_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q18:ProcessFaultContract" xmlns:q18="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarBase64_InputMessage"><wsdl:part name="parameters" element="tns:TimbrarBase64"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarBase64_OutputMessage"><wsdl:part name="parameters"
+        element="tns:TimbrarBase64Response"/></wsdl:message><wsdl:message name="ITimbrado_TimbrarBase64_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q19:ProcessFaultContract" xmlns:q19="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarBase64_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q20:CFDiFaultContract" xmlns:q20="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarTestBase64_InputMessage"><wsdl:part name="parameters"
+        element="tns:TimbrarTestBase64"/></wsdl:message><wsdl:message name="ITimbrado_TimbrarTestBase64_OutputMessage"><wsdl:part
+        name="parameters" element="tns:TimbrarTestBase64Response"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarTestBase64_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q21:CFDiFaultContract" xmlns:q21="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarTestBase64_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q22:ProcessFaultContract" xmlns:q22="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreTestBase64_InputMessage"><wsdl:part name="parameters"
+        element="tns:TimbrarSoloTimbreTestBase64"/></wsdl:message><wsdl:message name="ITimbrado_TimbrarSoloTimbreTestBase64_OutputMessage"><wsdl:part
+        name="parameters" element="tns:TimbrarSoloTimbreTestBase64Response"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreTestBase64_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q23:ProcessFaultContract" xmlns:q23="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreTestBase64_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q24:CFDiFaultContract" xmlns:q24="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarAckBase64_InputMessage"><wsdl:part name="parameters"
+        element="tns:TimbrarAckBase64"/></wsdl:message><wsdl:message name="ITimbrado_TimbrarAckBase64_OutputMessage"><wsdl:part
+        name="parameters" element="tns:TimbrarAckBase64Response"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarAckBase64_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q25:ProcessFaultContract" xmlns:q25="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarAckBase64_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q26:CFDiFaultContract" xmlns:q26="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreBase64_InputMessage"><wsdl:part name="parameters"
+        element="tns:RecuperarTimbreBase64"/></wsdl:message><wsdl:message name="ITimbrado_RecuperarTimbreBase64_OutputMessage"><wsdl:part
+        name="parameters" element="tns:RecuperarTimbreBase64Response"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreBase64_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q27:ProcessFaultContract" xmlns:q27="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreBase64_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q28:CFDiFaultContract" xmlns:q28="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreBase64UUID_InputMessage"><wsdl:part name="parameters"
+        element="tns:RecuperarTimbreBase64UUID"/></wsdl:message><wsdl:message name="ITimbrado_RecuperarTimbreBase64UUID_OutputMessage"><wsdl:part
+        name="parameters" element="tns:RecuperarTimbreBase64UUIDResponse"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreBase64UUID_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q29:CFDiFaultContract" xmlns:q29="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbreBase64UUID_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q30:ProcessFaultContract" xmlns:q30="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbresBase64_InputMessage"><wsdl:part name="parameters"
+        element="tns:RecuperarTimbresBase64"/></wsdl:message><wsdl:message name="ITimbrado_RecuperarTimbresBase64_OutputMessage"><wsdl:part
+        name="parameters" element="tns:RecuperarTimbresBase64Response"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbresBase64_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q31:CFDiFaultContract" xmlns:q31="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_RecuperarTimbresBase64_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q32:ProcessFaultContract" xmlns:q32="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreBase64_InputMessage"><wsdl:part name="parameters"
+        element="tns:TimbrarSoloTimbreBase64"/></wsdl:message><wsdl:message name="ITimbrado_TimbrarSoloTimbreBase64_OutputMessage"><wsdl:part
+        name="parameters" element="tns:TimbrarSoloTimbreBase64Response"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreBase64_ProcessFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q33:ProcessFaultContract" xmlns:q33="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:message
+        name="ITimbrado_TimbrarSoloTimbreBase64_CFDiFaultContractFault_FaultMessage"><wsdl:part
+        name="detail" element="q34:CFDiFaultContract" xmlns:q34="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"/></wsdl:message><wsdl:portType
+        name="ITimbrado"><wsdl:operation name="Timbrar"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/Timbrar"
+        message="tns:ITimbrado_Timbrar_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarResponse"
+        message="tns:ITimbrado_Timbrar_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract"
+        name="CFDiFaultContractFault" message="tns:ITimbrado_Timbrar_CFDiFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_Timbrar_ProcessFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarSoloTimbre"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbre"
+        message="tns:ITimbrado_TimbrarSoloTimbre_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreResponse"
+        message="tns:ITimbrado_TimbrarSoloTimbre_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract"
+        name="CFDiFaultContractFault" message="tns:ITimbrado_TimbrarSoloTimbre_CFDiFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_TimbrarSoloTimbre_ProcessFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarTest"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarTest"
+        message="tns:ITimbrado_TimbrarTest_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarTestResponse"
+        message="tns:ITimbrado_TimbrarTest_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract"
+        name="ProcessFaultContractFault" message="tns:ITimbrado_TimbrarTest_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_TimbrarTest_CFDiFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarSoloTimbreTest"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreTest"
+        message="tns:ITimbrado_TimbrarSoloTimbreTest_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreTestResponse"
+        message="tns:ITimbrado_TimbrarSoloTimbreTest_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract"
+        name="ProcessFaultContractFault" message="tns:ITimbrado_TimbrarSoloTimbreTest_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_TimbrarSoloTimbreTest_CFDiFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarAck"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarAck"
+        message="tns:ITimbrado_TimbrarAck_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarAckResponse"
+        message="tns:ITimbrado_TimbrarAck_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract"
+        name="ProcessFaultContractFault" message="tns:ITimbrado_TimbrarAck_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_TimbrarAck_CFDiFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="ObtenerAck"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/ObtenerAck"
+        message="tns:ITimbrado_ObtenerAck_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/ObtenerAckResponse"
+        message="tns:ITimbrado_ObtenerAck_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract"
+        name="CFDiFaultContractFault" message="tns:ITimbrado_ObtenerAck_CFDiFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_ObtenerAck_ProcessFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="RecuperarTimbre"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbre"
+        message="tns:ITimbrado_RecuperarTimbre_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreResponse"
+        message="tns:ITimbrado_RecuperarTimbre_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract"
+        name="ProcessFaultContractFault" message="tns:ITimbrado_RecuperarTimbre_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_RecuperarTimbre_CFDiFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="RecuperarTimbreUUID"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreUUID"
+        message="tns:ITimbrado_RecuperarTimbreUUID_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreUUIDResponse"
+        message="tns:ITimbrado_RecuperarTimbreUUID_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract"
+        name="CFDiFaultContractFault" message="tns:ITimbrado_RecuperarTimbreUUID_CFDiFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_RecuperarTimbreUUID_ProcessFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="RecuperarTimbres"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbres"
+        message="tns:ITimbrado_RecuperarTimbres_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbresResponse"
+        message="tns:ITimbrado_RecuperarTimbres_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract"
+        name="CFDiFaultContractFault" message="tns:ITimbrado_RecuperarTimbres_CFDiFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_RecuperarTimbres_ProcessFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarBase64"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarBase64"
+        message="tns:ITimbrado_TimbrarBase64_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarBase64Response"
+        message="tns:ITimbrado_TimbrarBase64_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract"
+        name="ProcessFaultContractFault" message="tns:ITimbrado_TimbrarBase64_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_TimbrarBase64_CFDiFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarTestBase64"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarTestBase64"
+        message="tns:ITimbrado_TimbrarTestBase64_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarTestBase64Response"
+        message="tns:ITimbrado_TimbrarTestBase64_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract"
+        name="CFDiFaultContractFault" message="tns:ITimbrado_TimbrarTestBase64_CFDiFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_TimbrarTestBase64_ProcessFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarSoloTimbreTestBase64"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreTestBase64"
+        message="tns:ITimbrado_TimbrarSoloTimbreTestBase64_InputMessage"/><wsdl:output
+        wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreTestBase64Response"
+        message="tns:ITimbrado_TimbrarSoloTimbreTestBase64_OutputMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_TimbrarSoloTimbreTestBase64_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_TimbrarSoloTimbreTestBase64_CFDiFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarAckBase64"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarAckBase64"
+        message="tns:ITimbrado_TimbrarAckBase64_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarAckBase64Response"
+        message="tns:ITimbrado_TimbrarAckBase64_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract"
+        name="ProcessFaultContractFault" message="tns:ITimbrado_TimbrarAckBase64_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_TimbrarAckBase64_CFDiFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="RecuperarTimbreBase64"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreBase64"
+        message="tns:ITimbrado_RecuperarTimbreBase64_InputMessage"/><wsdl:output wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreBase64Response"
+        message="tns:ITimbrado_RecuperarTimbreBase64_OutputMessage"/><wsdl:fault wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract"
+        name="ProcessFaultContractFault" message="tns:ITimbrado_RecuperarTimbreBase64_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_RecuperarTimbreBase64_CFDiFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="RecuperarTimbreBase64UUID"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreBase64UUID"
+        message="tns:ITimbrado_RecuperarTimbreBase64UUID_InputMessage"/><wsdl:output
+        wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreBase64UUIDResponse"
+        message="tns:ITimbrado_RecuperarTimbreBase64UUID_OutputMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_RecuperarTimbreBase64UUID_CFDiFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_RecuperarTimbreBase64UUID_ProcessFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="RecuperarTimbresBase64"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbresBase64"
+        message="tns:ITimbrado_RecuperarTimbresBase64_InputMessage"/><wsdl:output
+        wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbresBase64Response"
+        message="tns:ITimbrado_RecuperarTimbresBase64_OutputMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_RecuperarTimbresBase64_CFDiFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_RecuperarTimbresBase64_ProcessFaultContractFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="TimbrarSoloTimbreBase64"><wsdl:input wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreBase64"
+        message="tns:ITimbrado_TimbrarSoloTimbreBase64_InputMessage"/><wsdl:output
+        wsaw:Action="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreBase64Response"
+        message="tns:ITimbrado_TimbrarSoloTimbreBase64_OutputMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/ProcessFaultContract" name="ProcessFaultContractFault"
+        message="tns:ITimbrado_TimbrarSoloTimbreBase64_ProcessFaultContractFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://digitalinvoice.com.mx/CFDiFaultContract" name="CFDiFaultContractFault"
+        message="tns:ITimbrado_TimbrarSoloTimbreBase64_CFDiFaultContractFault_FaultMessage"/></wsdl:operation></wsdl:portType><wsdl:service
+        name="Timbrado"><wsdl:port name="BasicHttpBinding_ITimbrado" binding="i0:BasicHttpBinding_ITimbrado"><soap:address
+        location="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc/Basic"/></wsdl:port></wsdl:service></wsdl:definitions>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['28369']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:22 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [digitalinvoicecfdi.com.mx]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://digitalinvoicecfdi.com.mx:443/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?wsdl=wsdl0
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><wsdl:definitions targetNamespace="http://tempuri.org/"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
+        xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/"
+        xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+        xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+        xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:i0="https://digitalinvoice.com.mx/WSDI"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"><wsp:Policy
+        wsu:Id="BasicHttpBinding_ITimbrado_policy"><wsp:ExactlyOne><wsp:All><sp:TransportBinding
+        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"><wsp:Policy><sp:TransportToken><wsp:Policy><sp:HttpsToken
+        RequireClientCertificate="false"/></wsp:Policy></sp:TransportToken><sp:AlgorithmSuite><wsp:Policy><sp:Basic256/></wsp:Policy></sp:AlgorithmSuite><sp:Layout><wsp:Policy><sp:Lax/></wsp:Policy></sp:Layout><sp:IncludeTimestamp/></wsp:Policy></sp:TransportBinding><sp:SignedSupportingTokens
+        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"><wsp:Policy><sp:UsernameToken
+        sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient"><wsp:Policy><sp:WssUsernameToken10/></wsp:Policy></sp:UsernameToken></wsp:Policy></sp:SignedSupportingTokens><sp:Wss10
+        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"><wsp:Policy/></sp:Wss10></wsp:All></wsp:ExactlyOne></wsp:Policy><wsdl:import
+        namespace="https://digitalinvoice.com.mx/WSDI" location="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?wsdl"/><wsdl:types/><wsdl:binding
+        name="BasicHttpBinding_ITimbrado" type="i0:ITimbrado"><wsp:PolicyReference
+        URI="#BasicHttpBinding_ITimbrado_policy"/><soap:binding transport="http://schemas.xmlsoap.org/soap/http"/><wsdl:operation
+        name="Timbrar"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/Timbrar"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarSoloTimbre"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbre"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarTest"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarTest"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarSoloTimbreTest"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreTest"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarAck"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarAck"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="ObtenerAck"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/ObtenerAck"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="RecuperarTimbre"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbre"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="RecuperarTimbreUUID"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreUUID"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="RecuperarTimbres"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbres"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarBase64"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarBase64"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarTestBase64"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarTestBase64"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarSoloTimbreTestBase64"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreTestBase64"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarAckBase64"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarAckBase64"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="RecuperarTimbreBase64"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreBase64"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="RecuperarTimbreBase64UUID"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbreBase64UUID"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="RecuperarTimbresBase64"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/RecuperarTimbresBase64"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="TimbrarSoloTimbreBase64"><soap:operation soapAction="https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarSoloTimbreBase64"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="ProcessFaultContractFault"><soap:fault
+        name="ProcessFaultContractFault" use="literal"/></wsdl:fault><wsdl:fault name="CFDiFaultContractFault"><soap:fault
+        name="CFDiFaultContractFault" use="literal"/></wsdl:fault></wsdl:operation></wsdl:binding></wsdl:definitions>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['10888']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:23 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [digitalinvoicecfdi.com.mx]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://digitalinvoicecfdi.com.mx:443/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd0
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="https://digitalinvoice.com.mx/WSDI" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="https://digitalinvoice.com.mx/WSDI"><xs:import schemaLocation="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd3"
+        namespace="http://schemas.datacontract.org/2004/07/DigitalInvoice.WebServices.WSDI"/><xs:import
+        schemaLocation="https://digitalinvoicecfdi.com.mx/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd4"
+        namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/><xs:element
+        name="Timbrar"><xs:complexType><xs:sequence><xs:element minOccurs="0" name="comprobanteBytesZipped"
+        nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="TimbrarResult" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarSoloTimbre"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobante" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarSoloTimbreResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="TimbrarSoloTimbreResult" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarTest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobanteBytesZipped" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarTestResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="TimbrarTestResult" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarSoloTimbreTest"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobante" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarSoloTimbreTestResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="TimbrarSoloTimbreTestResult" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarAck"><xs:complexType><xs:sequence><xs:element minOccurs="0" name="comprobante"
+        nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarAckResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="TimbrarAckResult" nillable="true" type="q1:TimbradoCFDIResult" xmlns:q1="http://schemas.datacontract.org/2004/07/DigitalInvoice.WebServices.WSDI"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="ObtenerAck"><xs:complexType><xs:sequence><xs:element minOccurs="0" name="UUID"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="rfcEmisor"
+        nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="ObtenerAckResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="ObtenerAckResult" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbre"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobante" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbreResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="RecuperarTimbreResult" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbreUUID"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="UUID" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbreUUIDResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="RecuperarTimbreUUIDResult" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbres"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="UUIDs" nillable="true" type="q2:ArrayOfstring" xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbresResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="RecuperarTimbresResult" nillable="true" type="q3:ArrayOfbase64Binary"
+        xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarBase64"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobante" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarBase64Response"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="TimbrarBase64Result" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarTestBase64"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobante" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarTestBase64Response"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="TimbrarTestBase64Result" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarSoloTimbreTestBase64"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="comprobante" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarSoloTimbreTestBase64Response"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="TimbrarSoloTimbreTestBase64Result" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarAckBase64"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobante" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarAckBase64Response"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="TimbrarAckBase64Result" nillable="true" type="q4:TimbradoCFDIResult"
+        xmlns:q4="http://schemas.datacontract.org/2004/07/DigitalInvoice.WebServices.WSDI"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbreBase64"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobante" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbreBase64Response"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="RecuperarTimbreBase64Result" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbreBase64UUID"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="UUID" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbreBase64UUIDResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="RecuperarTimbreBase64UUIDResult" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbresBase64"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="UUIDs" nillable="true" type="q5:ArrayOfstring" xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RecuperarTimbresBase64Response"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="RecuperarTimbresBase64Result" nillable="true" type="q6:ArrayOfstring"
+        xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarSoloTimbreBase64"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="comprobante" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="TimbrarSoloTimbreBase64Response"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="TimbrarSoloTimbreBase64Result" nillable="true" type="xs:string"/></xs:sequence></xs:complexType></xs:element></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['8047']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:25 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [digitalinvoicecfdi.com.mx]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://digitalinvoicecfdi.com.mx:443/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd3
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://schemas.datacontract.org/2004/07/DigitalInvoice.WebServices.WSDI"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/DigitalInvoice.WebServices.WSDI"><xs:complexType
+        name="TimbradoCFDIResult"><xs:sequence><xs:element minOccurs="0" name="AcknowledgeBase64"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Comprobante"
+        nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType><xs:element
+        name="TimbradoCFDIResult" nillable="true" type="tns:TimbradoCFDIResult"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['651']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:26 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [digitalinvoicecfdi.com.mx]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://digitalinvoicecfdi.com.mx:443/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd4
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/Arrays"><xs:complexType
+        name="ArrayOfstring"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="string" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfstring" nillable="true" type="tns:ArrayOfstring"/><xs:complexType
+        name="ArrayOfbase64Binary"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="base64Binary" nillable="true" type="xs:base64Binary"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfbase64Binary" nillable="true" type="tns:ArrayOfbase64Binary"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['816']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:26 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [digitalinvoicecfdi.com.mx]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://digitalinvoicecfdi.com.mx:443/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd2
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/DigitalInvoice.Processes.Exceptions"><xs:complexType
+        name="CFDiFaultContract"><xs:sequence><xs:element minOccurs="0" name="Code"
+        type="xs:short"/><xs:element minOccurs="0" name="Message" nillable="true"
+        type="xs:string"/></xs:sequence></xs:complexType><xs:element name="CFDiFaultContract"
+        nillable="true" type="tns:CFDiFaultContract"/><xs:complexType name="ProcessFaultContract"><xs:sequence><xs:element
+        minOccurs="0" name="Message" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Process" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="ProcessFaultContract" nillable="true" type="tns:ProcessFaultContract"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['943']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:28 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [digitalinvoicecfdi.com.mx]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://digitalinvoicecfdi.com.mx:443/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc?xsd=xsd1
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema attributeFormDefault="qualified"
+        elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/"><xs:element
+        name="anyType" nillable="true" type="xs:anyType"/><xs:element name="anyURI"
+        nillable="true" type="xs:anyURI"/><xs:element name="base64Binary" nillable="true"
+        type="xs:base64Binary"/><xs:element name="boolean" nillable="true" type="xs:boolean"/><xs:element
+        name="byte" nillable="true" type="xs:byte"/><xs:element name="dateTime" nillable="true"
+        type="xs:dateTime"/><xs:element name="decimal" nillable="true" type="xs:decimal"/><xs:element
+        name="double" nillable="true" type="xs:double"/><xs:element name="float" nillable="true"
+        type="xs:float"/><xs:element name="int" nillable="true" type="xs:int"/><xs:element
+        name="long" nillable="true" type="xs:long"/><xs:element name="QName" nillable="true"
+        type="xs:QName"/><xs:element name="short" nillable="true" type="xs:short"/><xs:element
+        name="string" nillable="true" type="xs:string"/><xs:element name="unsignedByte"
+        nillable="true" type="xs:unsignedByte"/><xs:element name="unsignedInt" nillable="true"
+        type="xs:unsignedInt"/><xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/><xs:element
+        name="unsignedShort" nillable="true" type="xs:unsignedShort"/><xs:element
+        name="char" nillable="true" type="tns:char"/><xs:simpleType name="char"><xs:restriction
+        base="xs:int"/></xs:simpleType><xs:element name="duration" nillable="true"
+        type="tns:duration"/><xs:simpleType name="duration"><xs:restriction base="xs:duration"><xs:pattern
+        value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/><xs:minInclusive value="-P10675199DT2H48M5.4775808S"/><xs:maxInclusive
+        value="P10675199DT2H48M5.4775807S"/></xs:restriction></xs:simpleType><xs:element
+        name="guid" nillable="true" type="tns:guid"/><xs:simpleType name="guid"><xs:restriction
+        base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType><xs:attribute
+        name="FactoryType" type="xs:QName"/><xs:attribute name="Id" type="xs:ID"/><xs:attribute
+        name="Ref" type="xs:IDREF"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['2273']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:28 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcGVudjpFbnZlbG9wZSB4
+      bWxuczpuczA9Imh0dHBzOi8vZGlnaXRhbGludm9pY2UuY29tLm14L1dTREkiIHhtbG5zOnNvYXBl
+      bnY9Imh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3NvYXAvZW52ZWxvcGUvIj4KPHNvYXBlbnY6
+      SGVhZGVyLz4KPHNvYXBlbnY6Qm9keT4KICAgIDxuczA6VGltYnJhclRlc3Q+CiAgICA8bnMwOmNv
+      bXByb2JhbnRlQnl0ZXNaaXBwZWQ+MTIzNDwvbnMwOmNvbXByb2JhbnRlQnl0ZXNaaXBwZWQ+PC9u
+      czA6VGltYnJhclRlc3Q+Cjwvc29hcGVudjpCb2R5Pgo8L3NvYXBlbnY6RW52ZWxvcGU+
+    headers:
+      Connection: [close]
+      Content-Length: ['336']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [digitalinvoicecfdi.com.mx]
+      Soapaction: ['"https://digitalinvoice.com.mx/WSDI/ITimbrado/TimbrarTest"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://digitalinvoicecfdi.com.mx:443/WS_WSDI/DigitalInvoice.WebServices.WSDI.Timbrado.svc/Basic
+  response:
+    body: {string: '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><s:Fault><faultcode
+        xmlns:a="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">a:InvalidSecurity</faultcode><faultstring
+        xml:lang="es-MX">An error occurred when verifying security for the message.</faultstring></s:Fault></s:Body></s:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['347']
+      Content-Type: [text/xml; charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 09:46:30 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 500, message: Internal Server Error}
+version: 1

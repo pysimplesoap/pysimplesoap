@@ -18,6 +18,7 @@ import unittest
 from pysimplesoap.client import SimpleXMLElement, SoapClient, SoapFault, parse_proxy, set_http_wrapper
 
 from .dummy_utils import DummyHTTP, TEST_DIR
+import vcr
 
 
 WSDLs = [
@@ -39,10 +40,12 @@ cacert = None
 
 class TestIssues(unittest.TestCase):
 
+    @vcr.use_cassette('tests/data/vcr_cassettes/test_wsaa_exception.yaml')
     def test_wsaa_exception(self):
         """Test WSAA for SoapFault"""
         WSDL = "https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl"
         client = SoapClient(wsdl=WSDL, ns="web")
+        client.http = DummyHTTP(open(os.path.join(TEST_DIR, "data/test_wsaa_exception.xml")).read())
         try:
             resultado = client.loginCms('31867063')
         except SoapFault as e:
@@ -53,6 +56,7 @@ class TestIssues(unittest.TestCase):
         except SoapFault as e:
             self.assertEqual(e.faultcode, 'ns1:cms.bad')
 
+    @vcr.use_cassette('tests/data/vcr_cassettes/test_wsfev1_dummy.yaml')
     def test_wsfev1_dummy(self):
         """Test Argentina AFIP Electronic Invoice WSFEv1 dummy method"""
         client = SoapClient(
@@ -64,6 +68,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['DbServer'], "OK")
         self.assertEqual(result['AuthServer'], "OK")
 
+    @vcr.use_cassette('tests/data/vcr_cassettes/test_wsfexv1_dummy.yaml')
     def test_wsfexv1_dummy(self):
         """Test Argentina AFIP Electronic Invoice WSFEXv1 dummy method"""
         client = SoapClient(
@@ -75,6 +80,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['DbServer'], "OK")
         self.assertEqual(result['AuthServer'], "OK")
 
+    @vcr.use_cassette('tests/data/vcr_cassettes/test_wsbfe_dummy.yaml')
     def test_wsbfe_dummy(self):
         """Test Argentina AFIP Electronic Invoice WSBFE dummy method"""
         client = SoapClient(
@@ -86,6 +92,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['DbServer'], "OK")
         self.assertEqual(result['AuthServer'], "OK")
 
+    @vcr.use_cassette('tests/data/vcr_cassettes/test_wsmtxca_dummy.yaml')
     def test_wsmtxca_dummy(self):
         """Test Argentina AFIP Electronic Invoice WSMTXCA dummy method"""
         client = SoapClient(
@@ -97,23 +104,25 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(result['dbserver'], "OK")
         self.assertEqual(result['authserver'], "OK")
 
+
     def test_wsfexv1_getcmp(self):
         """Test Argentina AFIP Electronic Invoice WSFEXv1 GetCMP method"""
         # create the proxy and parse the WSDL
-        client = SoapClient(
-            wsdl="https://wswhomo.afip.gov.ar/wsfexv1/service.asmx?WSDL",
-            cache=None
-        )
+        with vcr.use_cassette('tests/data/vcr_cassettes/test_wsfexv1_getcmp.yaml'):
+            client = SoapClient(
+                wsdl="https://wswhomo.afip.gov.ar/wsfexv1/service.asmx?WSDL",
+                cache=None
+            )
         # load saved xml
-        xml = open(os.path.join(TEST_DIR, "wsfexv1_getcmp.xml")).read()
+        xml = open(os.path.join(TEST_DIR, "data/wsfexv1_getcmp.xml")).read()
         client.http = DummyHTTP(xml)
         # call RPC
         ret = client.FEXGetCMP(
-            Auth={'Token': "", 'Sign': "", 'Cuit': "0"},
+            Auth={'Token': "", 'Sign': "", 'Cuit': 0},
             Cmp={
-                'Cbte_tipo': "19",
-                'Punto_vta': "3",
-                'Cbte_nro': "38",
+                'Cbte_tipo': 19,
+                'Punto_vta': 3,
+                'Cbte_nro': 38,
             })
         # analyze result
         result = ret['FEXGetCMPResult']

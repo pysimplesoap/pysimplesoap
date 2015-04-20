@@ -1,0 +1,30 @@
+interactions:
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlcj48bnMxOlNl
+      c3Npb24geG1sbnM9Imh0dHA6Ly9jbGFyaXplbi5jb20vYXBpIj48SUQ+MTIzNDwvSUQ+PC9uczE6
+      U2Vzc2lvbj48L3NvYXA6SGVhZGVyPgo8c29hcDpCb2R5PgogICAgPExvZ291dCB4bWxucz0iaHR0
+      cDovL2NsYXJpemVuLmNvbS9hcGkiPgogICAgPC9Mb2dvdXQ+Cjwvc29hcDpCb2R5Pgo8L3NvYXA6
+      RW52ZWxvcGU+
+    headers:
+      Connection: [close]
+      Content-Length: ['408']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [api.clarizen.com]
+      Soapaction: ['"http://clarizen.com/api/IClarizen/LogoutLogout"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://api.clarizen.com:443/v1.0/Clarizen.svc
+  response:
+    body: {string: ''}
+    headers:
+      Connection: [close]
+      Content-Length: ['0']
+      Date: ['Fri, 20 Mar 2015 13:27:52 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 400, message: Bad Request}
+version: 1

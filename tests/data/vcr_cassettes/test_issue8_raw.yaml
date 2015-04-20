@@ -1,0 +1,33 @@
+interactions:
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8Y2hlY2tWYXQgeG1sbnM9InVybjplYy5ldXJvcGEuZXU6dGF4dWQ6dmllczpz
+      ZXJ2aWNlczpjaGVja1ZhdDp0eXBlcyI+CiAgICA8Y291bnRyeUNvZGU+SUU8L2NvdW50cnlDb2Rl
+      Pjx2YXROdW1iZXI+NjM4ODA0N1Y8L3ZhdE51bWJlcj48L2NoZWNrVmF0Pgo8L3NvYXA6Qm9keT4K
+      PC9zb2FwOkVudmVsb3BlPg==
+    headers:
+      Connection: [close]
+      Content-Length: ['415']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [ec.europa.eu]
+      Soapaction: ['"checkVat"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: http://ec.europa.eu/taxation_customs/vies/services/checkVatService
+  response:
+    body: {string: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><checkVatResponse
+        xmlns="urn:ec.europa.eu:taxud:vies:services:checkVat:types"><countryCode>IE</countryCode><vatNumber>6388047V</vatNumber><requestDate>2015-03-20+01:00</requestDate><valid>true</valid><name>GOOGLE
+        IRELAND LIMITED</name><address>3RD FLOOR ,GORDON HOUSE ,BARROW STREET ,DUBLIN
+        4</address></checkVatResponse></soap:Body></soap:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 16:18:45 GMT']
+      Server: [Europa]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+version: 1

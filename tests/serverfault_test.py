@@ -34,7 +34,7 @@ class ServerSoapFaultTest(unittest.TestCase):
            </soap:Body>
         </soap:Envelope>"""
         response = SimpleXMLElement(self.dispatcher.dispatch(xml))
-        self.assertEqual(str(response.DivideResult), '50.0')
+        self.assertEqual(str(response.DivideResult), '50.0000000000')
 
         xml = """<?xml version="1.0" encoding="UTF-8"?>
         <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">

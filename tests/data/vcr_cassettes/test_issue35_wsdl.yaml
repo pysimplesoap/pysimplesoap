@@ -1,0 +1,168 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['wennekers.epcc.ed.ac.uk:8080']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue?WSDL
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<wsdl:definitions\
+        \ targetNamespace=\"urn:mdc.ildg.lqcd.org\" xmlns:apachesoap=\"http://xml.apache.org/xml-soap\"\
+        \ xmlns:impl=\"urn:mdc.ildg.lqcd.org\" xmlns:intf=\"urn:mdc.ildg.lqcd.org\"\
+        \ xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:wsdl=\"\
+        http://schemas.xmlsoap.org/wsdl/\" xmlns:wsdlsoap=\"http://schemas.xmlsoap.org/wsdl/soap/\"\
+        \ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n<!--WSDL created by Apache\
+        \ Axis version: 1.4\nBuilt on Nov 19, 2006 (02:31:34 GMT+00:00)-->\n <wsdl:types>\n\
+        \  <schema targetNamespace=\"urn:mdc.ildg.lqcd.org\" xmlns=\"http://www.w3.org/2001/XMLSchema\"\
+        >\n   <import namespace=\"http://schemas.xmlsoap.org/soap/encoding/\"/>\n\
+        \   <complexType name=\"QueryResults\">\n    <sequence>\n     <element name=\"\
+        statusCode\" nillable=\"true\" type=\"xsd:string\"/>\n     <element name=\"\
+        queryTime\" nillable=\"true\" type=\"xsd:string\"/>\n     <element name=\"\
+        totalResults\" type=\"xsd:int\"/>\n     <element name=\"startIndex\" type=\"\
+        xsd:int\"/>\n     <element name=\"numberOfResults\" type=\"xsd:int\"/>\n \
+        \    <element name=\"results\" nillable=\"true\" type=\"xsd:string\"/>\n \
+        \   </sequence>\n   </complexType>\n   <complexType name=\"MetadataResult\"\
+        >\n    <sequence>\n     <element name=\"document\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n     <element name=\"statusCode\" nillable=\"true\" type=\"\
+        xsd:string\"/>\n    </sequence>\n   </complexType>\n   <complexType name=\"\
+        MDCinfo\">\n    <sequence>\n     <element name=\"groupName\" nillable=\"true\"\
+        \ type=\"xsd:string\"/>\n     <element name=\"groupURL\" nillable=\"true\"\
+        \ type=\"xsd:string\"/>\n     <element name=\"queryTypes\" nillable=\"true\"\
+        \ type=\"xsd:string\"/>\n     <element name=\"version\" nillable=\"true\"\
+        \ type=\"xsd:string\"/>\n    </sequence>\n   </complexType>\n  </schema>\n\
+        \ </wsdl:types>\n\n   <wsdl:message name=\"getEnsembleMetadataRequest\">\n\
+        \n      <wsdl:part name=\"ensembleURI\" type=\"xsd:string\"/>\n\n   </wsdl:message>\n\
+        \n   <wsdl:message name=\"getConfigurationMetadataResponse\">\n\n      <wsdl:part\
+        \ name=\"getConfigurationMetadataReturn\" type=\"impl:MetadataResult\"/>\n\
+        \n   </wsdl:message>\n\n   <wsdl:message name=\"getEnsembleMetadataResponse\"\
+        >\n\n      <wsdl:part name=\"getEnsembleMetadataReturn\" type=\"impl:MetadataResult\"\
+        />\n\n   </wsdl:message>\n\n   <wsdl:message name=\"getConfigurationMetadataRequest\"\
+        >\n\n      <wsdl:part name=\"configurationLFN\" type=\"xsd:string\"/>\n\n\
+        \   </wsdl:message>\n\n   <wsdl:message name=\"doEnsembleURIQueryRequest\"\
+        >\n\n      <wsdl:part name=\"queryFormat\" type=\"xsd:string\"/>\n\n     \
+        \ <wsdl:part name=\"queryString\" type=\"xsd:string\"/>\n\n      <wsdl:part\
+        \ name=\"startIndex\" type=\"xsd:int\"/>\n\n      <wsdl:part name=\"maxResults\"\
+        \ type=\"xsd:int\"/>\n\n   </wsdl:message>\n\n   <wsdl:message name=\"doConfigurationLFNQueryResponse\"\
+        >\n\n      <wsdl:part name=\"doConfigurationLFNQueryReturn\" type=\"impl:QueryResults\"\
+        />\n\n   </wsdl:message>\n\n   <wsdl:message name=\"getMDCinfoRequest\">\n\
+        \n   </wsdl:message>\n\n   <wsdl:message name=\"doConfigurationLFNQueryRequest\"\
+        >\n\n      <wsdl:part name=\"queryFormat\" type=\"xsd:string\"/>\n\n     \
+        \ <wsdl:part name=\"queryString\" type=\"xsd:string\"/>\n\n      <wsdl:part\
+        \ name=\"startIndex\" type=\"xsd:int\"/>\n\n      <wsdl:part name=\"maxResults\"\
+        \ type=\"xsd:int\"/>\n\n   </wsdl:message>\n\n   <wsdl:message name=\"doEnsembleURIQueryResponse\"\
+        >\n\n      <wsdl:part name=\"doEnsembleURIQueryReturn\" type=\"impl:QueryResults\"\
+        />\n\n   </wsdl:message>\n\n   <wsdl:message name=\"getMDCinfoResponse\">\n\
+        \n      <wsdl:part name=\"getMDCinfoReturn\" type=\"impl:MDCinfo\"/>\n\n \
+        \  </wsdl:message>\n\n   <wsdl:portType name=\"MDCInterface\">\n\n      <wsdl:operation\
+        \ name=\"doEnsembleURIQuery\" parameterOrder=\"queryFormat queryString startIndex\
+        \ maxResults\">\n\n         <wsdl:input message=\"impl:doEnsembleURIQueryRequest\"\
+        \ name=\"doEnsembleURIQueryRequest\"/>\n\n         <wsdl:output message=\"\
+        impl:doEnsembleURIQueryResponse\" name=\"doEnsembleURIQueryResponse\"/>\n\n\
+        \      </wsdl:operation>\n\n      <wsdl:operation name=\"doConfigurationLFNQuery\"\
+        \ parameterOrder=\"queryFormat queryString startIndex maxResults\">\n\n  \
+        \       <wsdl:input message=\"impl:doConfigurationLFNQueryRequest\" name=\"\
+        doConfigurationLFNQueryRequest\"/>\n\n         <wsdl:output message=\"impl:doConfigurationLFNQueryResponse\"\
+        \ name=\"doConfigurationLFNQueryResponse\"/>\n\n      </wsdl:operation>\n\n\
+        \      <wsdl:operation name=\"getEnsembleMetadata\" parameterOrder=\"ensembleURI\"\
+        >\n\n         <wsdl:input message=\"impl:getEnsembleMetadataRequest\" name=\"\
+        getEnsembleMetadataRequest\"/>\n\n         <wsdl:output message=\"impl:getEnsembleMetadataResponse\"\
+        \ name=\"getEnsembleMetadataResponse\"/>\n\n      </wsdl:operation>\n\n  \
+        \    <wsdl:operation name=\"getConfigurationMetadata\" parameterOrder=\"configurationLFN\"\
+        >\n\n         <wsdl:input message=\"impl:getConfigurationMetadataRequest\"\
+        \ name=\"getConfigurationMetadataRequest\"/>\n\n         <wsdl:output message=\"\
+        impl:getConfigurationMetadataResponse\" name=\"getConfigurationMetadataResponse\"\
+        />\n\n      </wsdl:operation>\n\n      <wsdl:operation name=\"getMDCinfo\"\
+        >\n\n         <wsdl:input message=\"impl:getMDCinfoRequest\" name=\"getMDCinfoRequest\"\
+        />\n\n         <wsdl:output message=\"impl:getMDCinfoResponse\" name=\"getMDCinfoResponse\"\
+        />\n\n      </wsdl:operation>\n\n   </wsdl:portType>\n\n   <wsdl:binding name=\"\
+        MetadataCatalogueSoapBinding\" type=\"impl:MDCInterface\">\n\n      <wsdlsoap:binding\
+        \ style=\"rpc\" transport=\"http://schemas.xmlsoap.org/soap/http\"/>\n\n \
+        \     <wsdl:operation name=\"doEnsembleURIQuery\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"doEnsembleURIQueryRequest\"\
+        >\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"doEnsembleURIQueryResponse\">\n\n         \
+        \   <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:output>\n\
+        \n      </wsdl:operation>\n\n      <wsdl:operation name=\"doConfigurationLFNQuery\"\
+        >\n\n         <wsdlsoap:operation soapAction=\"\"/>\n\n         <wsdl:input\
+        \ name=\"doConfigurationLFNQueryRequest\">\n\n            <wsdlsoap:body encodingStyle=\"\
+        http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"urn:mdc.ildg.lqcd.org\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:input>\n\n         <wsdl:output name=\"\
+        doConfigurationLFNQueryResponse\">\n\n            <wsdlsoap:body encodingStyle=\"\
+        http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"urn:mdc.ildg.lqcd.org\"\
+        \ use=\"encoded\"/>\n\n         </wsdl:output>\n\n      </wsdl:operation>\n\
+        \n      <wsdl:operation name=\"getEnsembleMetadata\">\n\n         <wsdlsoap:operation\
+        \ soapAction=\"\"/>\n\n         <wsdl:input name=\"getEnsembleMetadataRequest\"\
+        >\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"getEnsembleMetadataResponse\">\n\n        \
+        \    <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:output>\n\
+        \n      </wsdl:operation>\n\n      <wsdl:operation name=\"getConfigurationMetadata\"\
+        >\n\n         <wsdlsoap:operation soapAction=\"\"/>\n\n         <wsdl:input\
+        \ name=\"getConfigurationMetadataRequest\">\n\n            <wsdlsoap:body\
+        \ encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"\
+        urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\n  \
+        \       <wsdl:output name=\"getConfigurationMetadataResponse\">\n\n      \
+        \      <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:output>\n\
+        \n      </wsdl:operation>\n\n      <wsdl:operation name=\"getMDCinfo\">\n\n\
+        \         <wsdlsoap:operation soapAction=\"\"/>\n\n         <wsdl:input name=\"\
+        getMDCinfoRequest\">\n\n            <wsdlsoap:body encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ namespace=\"urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:input>\n\
+        \n         <wsdl:output name=\"getMDCinfoResponse\">\n\n            <wsdlsoap:body\
+        \ encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\" namespace=\"\
+        urn:mdc.ildg.lqcd.org\" use=\"encoded\"/>\n\n         </wsdl:output>\n\n \
+        \     </wsdl:operation>\n\n   </wsdl:binding>\n\n   <wsdl:service name=\"\
+        MetadataCatalogueService\">\n\n      <wsdl:port binding=\"impl:MetadataCatalogueSoapBinding\"\
+        \ name=\"MetadataCatalogue\">\n\n         <wsdlsoap:address location=\"http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue\"\
+        />\n\n      </wsdl:port>\n\n   </wsdl:service>\n\n</wsdl:definitions>\n"}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml;charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 14:40:53 GMT']
+      Server: [Apache-Coyote/1.1]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8ZG9FbnNlbWJsZVVSSVF1ZXJ5IHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8y
+      MDAxL1hNTFNjaGVtYSI+CiAgICA8cXVlcnlGb3JtYXQ+WHBhdGg8L3F1ZXJ5Rm9ybWF0PjxxdWVy
+      eVN0cmluZz4vbWFya292Q2hhaW48L3F1ZXJ5U3RyaW5nPjxzdGFydEluZGV4PjA8L3N0YXJ0SW5k
+      ZXg+PG1heFJlc3VsdHM+LTE8L21heFJlc3VsdHM+PC9kb0Vuc2VtYmxlVVJJUXVlcnk+Cjwvc29h
+      cDpCb2R5Pgo8L3NvYXA6RW52ZWxvcGU+
+    headers:
+      Connection: [close]
+      Content-Length: ['480']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: ['wennekers.epcc.ed.ac.uk:8080']
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: http://wennekers.epcc.ed.ac.uk:8080/axis/services/MetadataCatalogue
+  response:
+    body: {string: '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><xsd:doEnsembleURIQueryResponse
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><doEnsembleURIQueryReturn
+        href="#id0"/></xsd:doEnsembleURIQueryResponse><multiRef id="id0" soapenc:root="0"
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xsi:type="ns1:QueryResults"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="urn:mdc.ildg.lqcd.org"><statusCode
+        xsi:type="xsd:string">MDC_INVALID_REQUEST</statusCode><queryTime xsi:type="xsd:string">3/20/15
+        2:40 PM</queryTime><totalResults xsi:type="xsd:int">0</totalResults><startIndex
+        xsi:type="xsd:int">0</startIndex><numberOfResults xsi:type="xsd:int">0</numberOfResults><results
+        xsi:type="xsd:string" xsi:nil="true"/></multiRef></soapenv:Body></soapenv:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml;charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 14:40:53 GMT']
+      Server: [Apache-Coyote/1.1]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+version: 1

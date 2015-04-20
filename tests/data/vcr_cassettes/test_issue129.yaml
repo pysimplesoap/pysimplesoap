@@ -1,0 +1,34 @@
+interactions:
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8Y29udGFWb2x1bWkgeG1sbnM9Imh0dHA6Ly82Mi45NC4yMTIuMTM4OjgwODEv
+      dGVjYS9zZXJ2aWNlcy90ZWNhU2VydmVyIj4KICAgIDx1c2VyX2lkPjEyMzQ8L3VzZXJfaWQ+PHZh
+      bG9yZUluZGljZT48dmFsb3JlSW5kaWNlPklERU5USUZJRVI8L3ZhbG9yZUluZGljZT48dmFsb3Jl
+      SW5kaWNlPjwvdmFsb3JlSW5kaWNlPjwvdmFsb3JlSW5kaWNlPjwvY29udGFWb2x1bWk+Cjwvc29h
+      cDpCb2R5Pgo8L3NvYXA6RW52ZWxvcGU+
+    headers:
+      Connection: [close]
+      Content-Length: ['480']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: ['62.94.212.138:8081']
+      Soapaction: ['"None"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: http://62.94.212.138:8081/teca/services/tecaServer
+  response:
+    body: {string: '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><ns1:contaVolumiResponse
+        soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="http://62.94.212.138:8081/teca/services/tecaServer"><contaVolumiReturn
+        xsi:type="xsd:int">0</contaVolumiReturn></ns1:contaVolumiResponse></soapenv:Body></soapenv:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Type: [text/xml;charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 15:52:52 GMT']
+      Server: [Apache-Coyote/1.1]
+      Transfer-Encoding: [chunked]
+    status: {code: 200, message: OK}
+version: 1

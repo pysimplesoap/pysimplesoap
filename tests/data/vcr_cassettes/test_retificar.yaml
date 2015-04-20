@@ -1,0 +1,197 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [www.nfp.fazenda.sp.gov.br]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://www.nfp.fazenda.sp.gov.br:443/ws/arquivocf.asmx?WSDL
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<wsdl:definitions\
+        \ xmlns:s=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://schemas.xmlsoap.org/wsdl/soap12/\"\
+        \ xmlns:mime=\"http://schemas.xmlsoap.org/wsdl/mime/\" xmlns:tns=\"https://www.nfp.sp.gov.br/ws\"\
+        \ xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\" xmlns:tm=\"http://microsoft.com/wsdl/mime/textMatching/\"\
+        \ xmlns:http=\"http://schemas.xmlsoap.org/wsdl/http/\" xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\"\
+        \ targetNamespace=\"https://www.nfp.sp.gov.br/ws\" xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\"\
+        >\r\n  <wsdl:types>\r\n    <s:schema elementFormDefault=\"qualified\" targetNamespace=\"\
+        https://www.nfp.sp.gov.br/ws\">\r\n      <s:element name=\"Enviar\">\r\n \
+        \       <s:complexType>\r\n          <s:sequence>\r\n            <s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"NomeArquivo\" type=\"s:string\" />\r\
+        \n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ConteudoArquivo\"\
+        \ type=\"s:string\" />\r\n            <s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"EnvioNormal\" type=\"s:boolean\" />\r\n            <s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"Observacoes\" type=\"s:string\" />\r\n        \
+        \  </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n   \
+        \   <s:element name=\"EnviarResponse\">\r\n        <s:complexType>\r\n   \
+        \       <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"EnviarResult\" type=\"s:string\" />\r\n          </s:sequence>\r\
+        \n        </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"\
+        Autenticacao\" type=\"tns:Autenticacao\" />\r\n      <s:complexType name=\"\
+        Autenticacao\">\r\n        <s:attribute name=\"CNPJ\" type=\"s:string\" />\r\
+        \n        <s:attribute name=\"CategoriaUsuario\" type=\"s:unsignedByte\" use=\"\
+        required\" />\r\n        <s:attribute name=\"Senha\" type=\"s:string\" />\r\
+        \n        <s:attribute name=\"Usuario\" type=\"s:string\" />\r\n        <s:anyAttribute\
+        \ />\r\n      </s:complexType>\r\n      <s:element name=\"Retificar\">\r\n\
+        \        <s:complexType>\r\n          <s:sequence>\r\n            <s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"NomeArquivo\" type=\"s:string\" />\r\
+        \n            <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"ConteudoArquivo\"\
+        \ type=\"s:string\" />\r\n            <s:element minOccurs=\"1\" maxOccurs=\"\
+        1\" name=\"EnvioNormal\" type=\"s:boolean\" />\r\n            <s:element minOccurs=\"\
+        0\" maxOccurs=\"1\" name=\"Observacoes\" type=\"s:string\" />\r\n        \
+        \  </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\n   \
+        \   <s:element name=\"RetificarResponse\">\r\n        <s:complexType>\r\n\
+        \          <s:sequence>\r\n            <s:element minOccurs=\"0\" maxOccurs=\"\
+        1\" name=\"RetificarResult\" type=\"s:string\" />\r\n          </s:sequence>\r\
+        \n        </s:complexType>\r\n      </s:element>\r\n      <s:element name=\"\
+        Consultar\">\r\n        <s:complexType>\r\n          <s:sequence>\r\n    \
+        \        <s:element minOccurs=\"0\" maxOccurs=\"1\" name=\"Protocolo\" type=\"\
+        s:string\" />\r\n          </s:sequence>\r\n        </s:complexType>\r\n \
+        \     </s:element>\r\n      <s:element name=\"ConsultarResponse\">\r\n   \
+        \     <s:complexType>\r\n          <s:sequence>\r\n            <s:element\
+        \ minOccurs=\"0\" maxOccurs=\"1\" name=\"ConsultarResult\" type=\"s:string\"\
+        \ />\r\n          </s:sequence>\r\n        </s:complexType>\r\n      </s:element>\r\
+        \n    </s:schema>\r\n  </wsdl:types>\r\n  <wsdl:message name=\"EnviarSoap12In\"\
+        >\r\n    <wsdl:part name=\"parameters\" element=\"tns:Enviar\" />\r\n  </wsdl:message>\r\
+        \n  <wsdl:message name=\"EnviarSoap12Out\">\r\n    <wsdl:part name=\"parameters\"\
+        \ element=\"tns:EnviarResponse\" />\r\n  </wsdl:message>\r\n  <wsdl:message\
+        \ name=\"EnviarAutenticacao\">\r\n    <wsdl:part name=\"Autenticacao\" element=\"\
+        tns:Autenticacao\" />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"RetificarSoap12In\"\
+        >\r\n    <wsdl:part name=\"parameters\" element=\"tns:Retificar\" />\r\n \
+        \ </wsdl:message>\r\n  <wsdl:message name=\"RetificarSoap12Out\">\r\n    <wsdl:part\
+        \ name=\"parameters\" element=\"tns:RetificarResponse\" />\r\n  </wsdl:message>\r\
+        \n  <wsdl:message name=\"RetificarAutenticacao\">\r\n    <wsdl:part name=\"\
+        Autenticacao\" element=\"tns:Autenticacao\" />\r\n  </wsdl:message>\r\n  <wsdl:message\
+        \ name=\"ConsultarSoap12In\">\r\n    <wsdl:part name=\"parameters\" element=\"\
+        tns:Consultar\" />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"ConsultarSoap12Out\"\
+        >\r\n    <wsdl:part name=\"parameters\" element=\"tns:ConsultarResponse\"\
+        \ />\r\n  </wsdl:message>\r\n  <wsdl:message name=\"ConsultarAutenticacao\"\
+        >\r\n    <wsdl:part name=\"Autenticacao\" element=\"tns:Autenticacao\" />\r\
+        \n  </wsdl:message>\r\n  <wsdl:portType name=\"ArquivoCFSoap12\">\r\n    <wsdl:operation\
+        \ name=\"Enviar\">\r\n      <wsdl:documentation xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\"\
+        >&lt;br /&gt;Este m\xE9todo deve ser usado para envio do arquivo de cupons\
+        \ fiscais gerados por ECF.&lt;br /&gt;Os par\xE2metros de autentica\xE7\xE3\
+        o, informados via SOAP Header, s\xE3o:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Usuario&lt;/b&gt;:\
+        \ login do usu\xE1rio que est\xE1 fazendo a requisi\xE7\xE3o de acordo com\
+        \ o perfil escolhido&lt;/li&gt;&lt;li&gt;&lt;b&gt;Senha&lt;/b&gt;: senha do\
+        \ usu\xE1rio&lt;/li&gt;&lt;li&gt;&lt;b&gt;CNPJ&lt;/b&gt;: CNPJ do estabelecimento\
+        \ ao qual o usu\xE1rio est\xE1 vinculado e o arquivo pertence&lt;/li&gt;&lt;li&gt;&lt;b&gt;CategoriaUsuario&lt;/b&gt;:\
+        \ perfil do usu\xE1rio informado (1 para contribuintes, 2 para contabilistas\
+        \ e 3 para consumidores)&lt;/li&gt;&lt;/ul&gt;&lt;br /&gt;Os par\xE2metros\
+        \ do m\xE9todo s\xE3o:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;NomeArquivo&lt;/b&gt;:\
+        \ nome do arquivo enviado&lt;/li&gt;&lt;li&gt;&lt;b&gt;ConteudoArquivo&lt;/b&gt;:\
+        \ conte\xFAdo do arquivo enviado&lt;/li&gt;&lt;li&gt;&lt;b&gt;EnvioNormal&lt;/b&gt;:\
+        \ este par\xE2metro, se true, indica processamento normal, se false, simples\
+        \ valida\xE7\xE3o&lt;/li&gt;&lt;li&gt;&lt;b&gt;Observacoes&lt;/b&gt;: observa\xE7\
+        \xF5es, caso existam, relativas ao arquivo ou envio&lt;/li&gt;&lt;/ul&gt;&lt;br\
+        \ /&gt;</wsdl:documentation>\r\n      <wsdl:input message=\"tns:EnviarSoap12In\"\
+        \ />\r\n      <wsdl:output message=\"tns:EnviarSoap12Out\" />\r\n    </wsdl:operation>\r\
+        \n    <wsdl:operation name=\"Retificar\">\r\n      <wsdl:documentation xmlns:wsdl=\"\
+        http://schemas.xmlsoap.org/wsdl/\">&lt;br /&gt;Este m\xE9todo deve ser usado\
+        \ para a retifica\xE7\xE3o do arquivo de cupons fiscais gerados por ECF.&lt;br\
+        \ /&gt;Os par\xE2metros de autentica\xE7\xE3o, informados via SOAP Header,\
+        \ s\xE3o:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Usuario&lt;/b&gt;: login\
+        \ do usu\xE1rio que est\xE1 fazendo a requisi\xE7\xE3o de acordo com o perfil\
+        \ escolhido&lt;/li&gt;&lt;li&gt;&lt;b&gt;Senha&lt;/b&gt;: senha do usu\xE1\
+        rio&lt;/li&gt;&lt;li&gt;&lt;b&gt;CNPJ&lt;/b&gt;: CNPJ do estabelecimento ao\
+        \ qual o usu\xE1rio est\xE1 vinculado e o arquivo pertence&lt;/li&gt;&lt;li&gt;&lt;b&gt;CategoriaUsuario&lt;/b&gt;:\
+        \ perfil do usu\xE1rio informado (1 para contribuintes, 2 para contabilistas\
+        \ e 3 para consumidores)&lt;/li&gt;&lt;/ul&gt;&lt;br /&gt;Os par\xE2metros\
+        \ do m\xE9todo s\xE3o:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;NomeArquivo&lt;/b&gt;:\
+        \ nome do arquivo enviado&lt;/li&gt;&lt;li&gt;&lt;b&gt;ConteudoArquivo&lt;/b&gt;:\
+        \ conte\xFAdo do arquivo enviado&lt;/li&gt;&lt;li&gt;&lt;b&gt;EnvioNormal&lt;/b&gt;:\
+        \ este par\xE2metro, se true, indica processamento normal, se false, simples\
+        \ valida\xE7\xE3o&lt;/li&gt;&lt;li&gt;&lt;b&gt;Observacoes&lt;/b&gt;: observa\xE7\
+        \xF5es, caso existam, relativas ao arquivo ou envio&lt;/li&gt;&lt;/ul&gt;&lt;br\
+        \ /&gt;</wsdl:documentation>\r\n      <wsdl:input message=\"tns:RetificarSoap12In\"\
+        \ />\r\n      <wsdl:output message=\"tns:RetificarSoap12Out\" />\r\n    </wsdl:operation>\r\
+        \n    <wsdl:operation name=\"Consultar\">\r\n      <wsdl:documentation xmlns:wsdl=\"\
+        http://schemas.xmlsoap.org/wsdl/\">&lt;br /&gt;Este m\xE9todo \xE9 utilizado\
+        \ para consultar o resultado de processamento para um arquivo de cupons fiscais.&lt;br\
+        \ /&gt;Os par\xE2metros de autentica\xE7\xE3o, informados via SOAP Header,\
+        \ s\xE3o:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Usuario&lt;/b&gt;: login\
+        \ do usu\xE1rio que est\xE1 fazendo a requisi\xE7\xE3o de acordo com o perfil\
+        \ escolhido&lt;/li&gt;&lt;li&gt;&lt;b&gt;Senha&lt;/b&gt;: senha do usu\xE1\
+        rio&lt;/li&gt;&lt;li&gt;&lt;b&gt;CNPJ&lt;/b&gt;: CNPJ do estabelecimento ao\
+        \ qual o usu\xE1rio est\xE1 vinculado e o arquivo pertence&lt;/li&gt;&lt;li&gt;&lt;b&gt;CategoriaUsuario&lt;/b&gt;:\
+        \ perfil do usu\xE1rio informado (1 para contribuintes, 2 para contabilistas\
+        \ e 3 para consumidores)&lt;/li&gt;&lt;/ul&gt;&lt;br /&gt;O par\xE2metro do\
+        \ m\xE9todo \xE9:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Protocolo&lt;/b&gt;:\
+        \ n\xFAmero do protocolo a ser consultado&lt;/li&gt;&lt;/ul&gt;&lt;br /&gt;</wsdl:documentation>\r\
+        \n      <wsdl:input message=\"tns:ConsultarSoap12In\" />\r\n      <wsdl:output\
+        \ message=\"tns:ConsultarSoap12Out\" />\r\n    </wsdl:operation>\r\n  </wsdl:portType>\r\
+        \n  <wsdl:binding name=\"ArquivoCFSoap12\" type=\"tns:ArquivoCFSoap12\">\r\
+        \n    <soap12:binding transport=\"http://schemas.xmlsoap.org/soap/http\" />\r\
+        \n    <wsdl:operation name=\"Enviar\">\r\n      <soap12:operation soapAction=\"\
+        https://www.nfp.sp.gov.br/ws/Enviar\" style=\"document\" />\r\n      <wsdl:input>\r\
+        \n        <soap12:body use=\"literal\" />\r\n        <soap12:header message=\"\
+        tns:EnviarAutenticacao\" part=\"Autenticacao\" use=\"literal\" />\r\n    \
+        \  </wsdl:input>\r\n      <wsdl:output>\r\n        <soap12:body use=\"literal\"\
+        \ />\r\n      </wsdl:output>\r\n    </wsdl:operation>\r\n    <wsdl:operation\
+        \ name=\"Retificar\">\r\n      <soap12:operation soapAction=\"https://www.nfp.sp.gov.br/ws/Retificar\"\
+        \ style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"\
+        literal\" />\r\n        <soap12:header message=\"tns:RetificarAutenticacao\"\
+        \ part=\"Autenticacao\" use=\"literal\" />\r\n      </wsdl:input>\r\n    \
+        \  <wsdl:output>\r\n        <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\
+        \n    </wsdl:operation>\r\n    <wsdl:operation name=\"Consultar\">\r\n   \
+        \   <soap12:operation soapAction=\"https://www.nfp.sp.gov.br/ws/Consultar\"\
+        \ style=\"document\" />\r\n      <wsdl:input>\r\n        <soap12:body use=\"\
+        literal\" />\r\n        <soap12:header message=\"tns:ConsultarAutenticacao\"\
+        \ part=\"Autenticacao\" use=\"literal\" />\r\n      </wsdl:input>\r\n    \
+        \  <wsdl:output>\r\n        <soap12:body use=\"literal\" />\r\n      </wsdl:output>\r\
+        \n    </wsdl:operation>\r\n  </wsdl:binding>\r\n  <wsdl:service name=\"ArquivoCF\"\
+        >\r\n    <wsdl:port name=\"ArquivoCFSoap12\" binding=\"tns:ArquivoCFSoap12\"\
+        >\r\n      <soap12:address location=\"https://www.nfp.fazenda.sp.gov.br/ws/arquivocf.asmx\"\
+        \ />\r\n    </wsdl:port>\r\n  </wsdl:service>\r\n</wsdl:definitions>"}
+    headers:
+      Cache-Control: ['private, max-age=0']
+      Connection: [close]
+      Content-Length: ['10060']
+      Content-Type: [text/xml; charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 12:37:30 GMT']
+      Server: [Microsoft-IIS/6.0]
+      X-AspNet-Version: [4.0.30319]
+      X-Powered-By: [ASP.NET]
+      X-UA-Compatible: [IE=EmulateIE7]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDEyZW52OkVudmVsb3Bl
+      IHhtbG5zOnNvYXAxMmVudj0iaHR0cDovL3d3dy53My5vcmcvMjAwMy8wNS9zb2FwLWVudmVsb3Bl
+      IiB4bWxuczp4c2Q9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hIiB4bWxuczp4c2k9
+      Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIj4KPHNvYXAxMmVudjpI
+      ZWFkZXI+PEF1dGVudGljYWNhbyBDTlBKPSJmZWRfdGF4X251bSIgQ2F0ZWdvcmlhVXN1YXJpbz0i
+      MSIgU2VuaGE9InBhc3N3b3JkIiBVc3VhcmlvPSJ1c2VyIiB4bWxucz0iaHR0cHM6Ly93d3cubmZw
+      LnNwLmdvdi5ici93cyIvPjwvc29hcDEyZW52OkhlYWRlcj4KPHNvYXAxMmVudjpCb2R5PgogICAg
+      PFJldGlmaWNhciB4bWxucz0iaHR0cHM6Ly93d3cubmZwLnNwLmdvdi5ici93cyI+CiAgICA8Tm9t
+      ZUFycXVpdm8+ZmlsZV9uYW1lPC9Ob21lQXJxdWl2bz48Q29udGV1ZG9BcnF1aXZvPmNvbnRlbnQ8
+      L0NvbnRldWRvQXJxdWl2bz48RW52aW9Ob3JtYWw+dHJ1ZTwvRW52aW9Ob3JtYWw+PE9ic2VydmFj
+      b2VzPjwvT2JzZXJ2YWNvZXM+PC9SZXRpZmljYXI+Cjwvc29hcDEyZW52OkJvZHk+Cjwvc29hcDEy
+      ZW52OkVudmVsb3BlPg==
+    headers:
+      Connection: [close]
+      Content-Length: ['640']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [www.nfp.fazenda.sp.gov.br]
+      Soapaction: ['"https://www.nfp.sp.gov.br/ws/Retificar"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://www.nfp.fazenda.sp.gov.br:443/ws/arquivocf.asmx
+  response:
+    body: {string: "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:soap=\"\
+        http://www.w3.org/2003/05/soap-envelope\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\
+        \ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><soap:Body><RetificarResponse\
+        \ xmlns=\"https://www.nfp.sp.gov.br/ws\"><RetificarResult>206|CNPJ informado\
+        \ inv\xE1lido</RetificarResult></RetificarResponse></soap:Body></soap:Envelope>"}
+    headers:
+      Cache-Control: ['private, max-age=0']
+      Connection: [close]
+      Content-Length: ['383']
+      Content-Type: [application/soap+xml; charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 12:37:32 GMT']
+      Server: [Microsoft-IIS/6.0]
+      X-AspNet-Version: [4.0.30319]
+      X-Powered-By: [ASP.NET]
+      X-UA-Compatible: [IE=EmulateIE7]
+    status: {code: 200, message: OK}
+version: 1

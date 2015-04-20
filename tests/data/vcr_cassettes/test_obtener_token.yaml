@@ -1,0 +1,199 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['pruebas.ecodex.com.mx:2044']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://pruebas.ecodex.com.mx:2044/ServicioSeguridad.svc?wsdl
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><wsdl:definitions name="Seguridad"
+        targetNamespace="http://Ecodex.WS.Model/2011/CFDI" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+        xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+        xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+        xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://Ecodex.WS.Model/2011/CFDI" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"><wsp:Policy
+        wsu:Id="PuertoSeguridadSeguro_policy"><wsp:ExactlyOne><wsp:All><sp:TransportBinding
+        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"><wsp:Policy><sp:TransportToken><wsp:Policy><sp:HttpsToken
+        RequireClientCertificate="false"/></wsp:Policy></sp:TransportToken><sp:AlgorithmSuite><wsp:Policy><sp:Basic256/></wsp:Policy></sp:AlgorithmSuite><sp:Layout><wsp:Policy><sp:Strict/></wsp:Policy></sp:Layout></wsp:Policy></sp:TransportBinding></wsp:All></wsp:ExactlyOne></wsp:Policy><wsdl:types><xsd:schema
+        targetNamespace="http://Ecodex.WS.Model/2011/CFDI/Imports"><xsd:import schemaLocation="http://pruebas.ecodex.com.mx:2044/ServicioSeguridad.svc?xsd=xsd0"
+        namespace="http://Ecodex.WS.Model/2011/CFDI"/><xsd:import schemaLocation="http://pruebas.ecodex.com.mx:2044/ServicioSeguridad.svc?xsd=xsd1"
+        namespace="http://schemas.microsoft.com/2003/10/Serialization/"/></xsd:schema></wsdl:types><wsdl:message
+        name="SolicitudObtenerToken"><wsdl:part name="parameters" element="tns:SolicitudObtenerToken"/></wsdl:message><wsdl:message
+        name="RespuestaObtenerToken"><wsdl:part name="parameters" element="tns:RespuestaObtenerToken"/></wsdl:message><wsdl:message
+        name="Seguridad_ObtenerToken_FallaServicioFault_FaultMessage"><wsdl:part name="detail"
+        element="tns:FallaServicio"/></wsdl:message><wsdl:message name="Seguridad_ObtenerToken_FallaSesionFault_FaultMessage"><wsdl:part
+        name="detail" element="tns:FallaSesion"/></wsdl:message><wsdl:portType name="Seguridad"><wsdl:operation
+        name="ObtenerToken"><wsdl:input wsaw:Action="http://Ecodex.WS.Model/2011/CFDI/Seguridad/ObtenerToken"
+        name="SolicitudObtenerToken" message="tns:SolicitudObtenerToken"/><wsdl:output
+        wsaw:Action="http://Ecodex.WS.Model/2011/CFDI/Seguridad/ObtenerTokenResponse"
+        name="RespuestaObtenerToken" message="tns:RespuestaObtenerToken"/><wsdl:fault
+        wsaw:Action="http://Ecodex.WS.Model/2011/CFDI/Seguridad/ObtenerTokenFallaServicioFault"
+        name="FallaServicioFault" message="tns:Seguridad_ObtenerToken_FallaServicioFault_FaultMessage"/><wsdl:fault
+        wsaw:Action="http://Ecodex.WS.Model/2011/CFDI/Seguridad/ObtenerTokenFallaSesionFault"
+        name="FallaSesionFault" message="tns:Seguridad_ObtenerToken_FallaSesionFault_FaultMessage"/></wsdl:operation></wsdl:portType><wsdl:binding
+        name="PuertoSeguridadSeguro" type="tns:Seguridad"><wsp:PolicyReference URI="#PuertoSeguridadSeguro_policy"/><soap:binding
+        transport="http://schemas.xmlsoap.org/soap/http"/><wsdl:operation name="ObtenerToken"><soap:operation
+        soapAction="http://Ecodex.WS.Model/2011/CFDI/Seguridad/ObtenerToken" style="document"/><wsdl:input
+        name="SolicitudObtenerToken"><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="RespuestaObtenerToken"><soap:body use="literal"/></wsdl:output><wsdl:fault
+        name="FallaServicioFault"><soap:fault name="FallaServicioFault" use="literal"/></wsdl:fault><wsdl:fault
+        name="FallaSesionFault"><soap:fault name="FallaSesionFault" use="literal"/></wsdl:fault></wsdl:operation></wsdl:binding><wsdl:binding
+        name="PuertoSeguridad" type="tns:Seguridad"><soap:binding transport="http://schemas.xmlsoap.org/soap/http"/><wsdl:operation
+        name="ObtenerToken"><soap:operation soapAction="http://Ecodex.WS.Model/2011/CFDI/Seguridad/ObtenerToken"
+        style="document"/><wsdl:input name="SolicitudObtenerToken"><soap:body use="literal"/></wsdl:input><wsdl:output
+        name="RespuestaObtenerToken"><soap:body use="literal"/></wsdl:output><wsdl:fault
+        name="FallaServicioFault"><soap:fault name="FallaServicioFault" use="literal"/></wsdl:fault><wsdl:fault
+        name="FallaSesionFault"><soap:fault name="FallaSesionFault" use="literal"/></wsdl:fault></wsdl:operation></wsdl:binding><wsdl:service
+        name="Seguridad"><wsdl:port name="PuertoSeguridadSeguro" binding="tns:PuertoSeguridadSeguro"><soap:address
+        location="https://pruebas.ecodex.com.mx:2045/ServicioSeguridad.svc"/></wsdl:port><wsdl:port
+        name="PuertoSeguridad" binding="tns:PuertoSeguridad"><soap:address location="http://pruebas.ecodex.com.mx:2044/ServicioSeguridad.svc"/></wsdl:port></wsdl:service></wsdl:definitions>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['4999']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:22 GMT']
+      Server: [Microsoft-IIS/8.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['pruebas.ecodex.com.mx:2044']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://pruebas.ecodex.com.mx:2044/ServicioSeguridad.svc?xsd=xsd0
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://Ecodex.WS.Model/2011/CFDI" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://Ecodex.WS.Model/2011/CFDI"><xs:element name="SolicitudObtenerToken"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="RFC" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="TransaccionID" type="xs:long"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="RespuestaObtenerToken"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="Token" nillable="true" type="xs:string"/><xs:element minOccurs="0" name="TransaccionID"
+        type="xs:long"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="FallaServicio"><xs:sequence><xs:element name="RFC" nillable="true" type="xs:string"/><xs:element
+        name="Numero" type="xs:int"/><xs:element minOccurs="0" name="Descripcion"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Evento"
+        nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="FallaServicio" nillable="true" type="tns:FallaServicio"/><xs:complexType
+        name="FallaSesion"><xs:sequence><xs:element name="RFC" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Estatus" type="xs:int"/><xs:element minOccurs="0" name="Descripcion"
+        nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="FallaSesion" nillable="true" type="tns:FallaSesion"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['1479']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:22 GMT']
+      Server: [Microsoft-IIS/8.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: ['pruebas.ecodex.com.mx:2044']
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: http://pruebas.ecodex.com.mx:2044/ServicioSeguridad.svc?xsd=xsd1
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema attributeFormDefault="qualified"
+        elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/"><xs:element
+        name="anyType" nillable="true" type="xs:anyType"/><xs:element name="anyURI"
+        nillable="true" type="xs:anyURI"/><xs:element name="base64Binary" nillable="true"
+        type="xs:base64Binary"/><xs:element name="boolean" nillable="true" type="xs:boolean"/><xs:element
+        name="byte" nillable="true" type="xs:byte"/><xs:element name="dateTime" nillable="true"
+        type="xs:dateTime"/><xs:element name="decimal" nillable="true" type="xs:decimal"/><xs:element
+        name="double" nillable="true" type="xs:double"/><xs:element name="float" nillable="true"
+        type="xs:float"/><xs:element name="int" nillable="true" type="xs:int"/><xs:element
+        name="long" nillable="true" type="xs:long"/><xs:element name="QName" nillable="true"
+        type="xs:QName"/><xs:element name="short" nillable="true" type="xs:short"/><xs:element
+        name="string" nillable="true" type="xs:string"/><xs:element name="unsignedByte"
+        nillable="true" type="xs:unsignedByte"/><xs:element name="unsignedInt" nillable="true"
+        type="xs:unsignedInt"/><xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/><xs:element
+        name="unsignedShort" nillable="true" type="xs:unsignedShort"/><xs:element
+        name="char" nillable="true" type="tns:char"/><xs:simpleType name="char"><xs:restriction
+        base="xs:int"/></xs:simpleType><xs:element name="duration" nillable="true"
+        type="tns:duration"/><xs:simpleType name="duration"><xs:restriction base="xs:duration"><xs:pattern
+        value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/><xs:minInclusive value="-P10675199DT2H48M5.4775808S"/><xs:maxInclusive
+        value="P10675199DT2H48M5.4775807S"/></xs:restriction></xs:simpleType><xs:element
+        name="guid" nillable="true" type="tns:guid"/><xs:simpleType name="guid"><xs:restriction
+        base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType><xs:attribute
+        name="FactoryType" type="xs:QName"/><xs:attribute name="Id" type="xs:ID"/><xs:attribute
+        name="Ref" type="xs:IDREF"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['2273']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 09:46:22 GMT']
+      Server: [Microsoft-IIS/8.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcGVudjpFbnZlbG9wZSB4
+      bWxuczpuczA9Imh0dHA6Ly9FY29kZXguV1MuTW9kZWwvMjAxMS9DRkRJIiB4bWxuczpzb2FwZW52
+      PSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyI+Cjxzb2FwZW52Okhl
+      YWRlci8+Cjxzb2FwZW52OkJvZHk+CiAgICA8bnMwOlNvbGljaXR1ZE9idGVuZXJUb2tlbj4KICAg
+      IDxuczA6UkZDPkFBQTAxMDEwMUFBQTwvbnMwOlJGQz48bnMwOlRyYW5zYWNjaW9uSUQ+MTIzNDwv
+      bnMwOlRyYW5zYWNjaW9uSUQ+PC9uczA6U29saWNpdHVkT2J0ZW5lclRva2VuPgo8L3NvYXBlbnY6
+      Qm9keT4KPC9zb2FwZW52OkVudmVsb3BlPg==
+    headers:
+      Connection: [close]
+      Content-Length: ['367']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: ['pruebas.ecodex.com.mx:2045']
+      Soapaction: ['"http://Ecodex.WS.Model/2011/CFDI/Seguridad/ObtenerToken"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://pruebas.ecodex.com.mx:2045/ServicioSeguridad.svc
+  response:
+    body: {string: '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><RespuestaObtenerToken
+        xmlns="http://Ecodex.WS.Model/2011/CFDI"><Token>a3a2be4ce9b6dea56f36899d0647f8b66d5043d6</Token><TransaccionID>1234</TransaccionID></RespuestaObtenerToken></s:Body></s:Envelope>'}
+    headers:
+      Cache-Control: [private]
+      Connection: [close]
+      Content-Type: [text/xml; charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 09:46:27 GMT']
+      Server: [Microsoft-IIS/8.5]
+      X-AspNet-Version: [4.0.30319]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcGVudjpFbnZlbG9wZSB4
+      bWxuczpuczA9Imh0dHA6Ly9FY29kZXguV1MuTW9kZWwvMjAxMS9DRkRJIiB4bWxuczpzb2FwZW52
+      PSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyI+Cjxzb2FwZW52Okhl
+      YWRlci8+Cjxzb2FwZW52OkJvZHk+CiAgICA8bnMwOlNvbGljaXR1ZE9idGVuZXJUb2tlbj4KICAg
+      IDxuczA6UkZDPkFBQTAxMDEwMUFBQTwvbnMwOlJGQz48bnMwOlRyYW5zYWNjaW9uSUQ+MTIzNDwv
+      bnMwOlRyYW5zYWNjaW9uSUQ+PC9uczA6U29saWNpdHVkT2J0ZW5lclRva2VuPgo8L3NvYXBlbnY6
+      Qm9keT4KPC9zb2FwZW52OkVudmVsb3BlPg==
+    headers:
+      Connection: [close]
+      Content-Length: ['367']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: ['pruebas.ecodex.com.mx:2044']
+      Soapaction: ['"http://Ecodex.WS.Model/2011/CFDI/Seguridad/ObtenerToken"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: http://pruebas.ecodex.com.mx:2044/ServicioSeguridad.svc
+  response:
+    body: {string: '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><RespuestaObtenerToken
+        xmlns="http://Ecodex.WS.Model/2011/CFDI"><Token>150e8fbc3223f580b3e7c924d3d17a958e184bd6</Token><TransaccionID>1234</TransaccionID></RespuestaObtenerToken></s:Body></s:Envelope>'}
+    headers:
+      Cache-Control: [private]
+      Connection: [close]
+      Content-Type: [text/xml; charset=utf-8]
+      Date: ['Fri, 27 Mar 2015 17:41:45 GMT']
+      Server: [Microsoft-IIS/8.5]
+      X-AspNet-Version: [4.0.30319]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+version: 1

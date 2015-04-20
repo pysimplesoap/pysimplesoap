@@ -1,0 +1,1519 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [api.clarizen.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://api.clarizen.com:443/v1.0/Clarizen.svc
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><wsdl:definitions name="Clarizen"
+        targetNamespace="http://clarizen.com/api" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+        xmlns:tns="http://clarizen.com/api" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+        xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+        xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"><wsdl:types><xsd:schema
+        targetNamespace="http://clarizen.com/api/Imports"><xsd:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd0"
+        namespace="http://clarizen.com/api"/><xsd:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd5"
+        namespace="http://clarizen.com/api/faults"/><xsd:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd1"
+        namespace="http://schemas.microsoft.com/2003/10/Serialization/"/><xsd:import
+        schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd2" namespace="http://clarizen.com/api/metadata"/><xsd:import
+        schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd3" namespace="http://clarizen.com/api/queries"/><xsd:import
+        schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd4" namespace="http://clarizen.com/api/files"/><xsd:import
+        schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd6" namespace="http://clarizen.com/api/projectManagement"/></xsd:schema></wsdl:types><wsdl:message
+        name="IClarizen_Login_InputMessage"><wsdl:part name="parameters" element="tns:Login"/></wsdl:message><wsdl:message
+        name="IClarizen_Login_OutputMessage"><wsdl:part name="parameters" element="tns:LoginResponse"/></wsdl:message><wsdl:message
+        name="IClarizen_Login_OutputMessage_Headers"><wsdl:part name="Session" element="tns:Session"/></wsdl:message><wsdl:message
+        name="IClarizen_Login_LoginFailureFault_FaultMessage"><wsdl:part name="detail"
+        element="q1:LoginFailure" xmlns:q1="http://clarizen.com/api/faults"/></wsdl:message><wsdl:message
+        name="IClarizen_Logout_InputMessage"><wsdl:part name="parameters" element="tns:Logout"/></wsdl:message><wsdl:message
+        name="IClarizen_Logout_InputMessage_Headers"><wsdl:part name="Session" element="tns:Session"/></wsdl:message><wsdl:message
+        name="IClarizen_Query_InputMessage"><wsdl:part name="parameters" element="tns:Query"/></wsdl:message><wsdl:message
+        name="IClarizen_Query_InputMessage_Headers"><wsdl:part name="Session" element="tns:Session"/></wsdl:message><wsdl:message
+        name="IClarizen_Query_OutputMessage"><wsdl:part name="parameters" element="tns:QueryResponse"/></wsdl:message><wsdl:message
+        name="IClarizen_Query_SessionTimeoutFailureFault_FaultMessage"><wsdl:part
+        name="detail" element="q2:SessionTimeoutFailure" xmlns:q2="http://clarizen.com/api/faults"/></wsdl:message><wsdl:message
+        name="IClarizen_Metadata_InputMessage"><wsdl:part name="parameters" element="tns:Metadata"/></wsdl:message><wsdl:message
+        name="IClarizen_Metadata_InputMessage_Headers"><wsdl:part name="Session" element="tns:Session"/></wsdl:message><wsdl:message
+        name="IClarizen_Metadata_OutputMessage"><wsdl:part name="parameters" element="tns:MetadataResponse"/></wsdl:message><wsdl:message
+        name="IClarizen_Metadata_SessionTimeoutFailureFault_FaultMessage"><wsdl:part
+        name="detail" element="q3:SessionTimeoutFailure" xmlns:q3="http://clarizen.com/api/faults"/></wsdl:message><wsdl:message
+        name="IClarizen_Execute_InputMessage"><wsdl:part name="parameters" element="tns:Execute"/></wsdl:message><wsdl:message
+        name="IClarizen_Execute_InputMessage_Headers"><wsdl:part name="Info" element="tns:Info"/><wsdl:part
+        name="Options" element="tns:Options"/><wsdl:part name="Session" element="tns:Session"/></wsdl:message><wsdl:message
+        name="IClarizen_Execute_OutputMessage"><wsdl:part name="parameters" element="tns:ExecuteResponse"/></wsdl:message><wsdl:message
+        name="IClarizen_Execute_SessionTimeoutFailureFault_FaultMessage"><wsdl:part
+        name="detail" element="q4:SessionTimeoutFailure" xmlns:q4="http://clarizen.com/api/faults"/></wsdl:message><wsdl:message
+        name="IClarizen_GetServerDefinition_InputMessage"><wsdl:part name="parameters"
+        element="tns:GetServerDefinition"/></wsdl:message><wsdl:message name="IClarizen_GetServerDefinition_InputMessage_Headers"><wsdl:part
+        name="Session" element="tns:Session"/></wsdl:message><wsdl:message name="IClarizen_GetServerDefinition_OutputMessage"><wsdl:part
+        name="parameters" element="tns:GetServerDefinitionResponse"/></wsdl:message><wsdl:portType
+        name="IClarizen"><wsdl:documentation>Contains the operations exposed by the
+        Clarizen web service</wsdl:documentation><wsdl:operation name="Login"><wsdl:documentation>Logs
+        in to the Clarizen API server and starts a session
+
+        @param userName Login user name
+
+        @param password Login password
+
+        @param options Additional options such as partnerId and applicationId
+
+        @return a &lt;see cref="LoginResult" /&gt; with the new session Id</wsdl:documentation><wsdl:input
+        wsaw:Action="http://clarizen.com/api/IClarizen/Login" message="tns:IClarizen_Login_InputMessage"/><wsdl:output
+        wsaw:Action="http://clarizen.com/api/IClarizen/LoginResponse" message="tns:IClarizen_Login_OutputMessage"/><wsdl:fault
+        wsaw:Action="http://clarizen.com/api/IClarizen/LoginLoginFailureFault" name="LoginFailureFault"
+        message="tns:IClarizen_Login_LoginFailureFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="Logout"><wsdl:documentation>Terminates an active web services session</wsdl:documentation><wsdl:input
+        wsaw:Action="http://clarizen.com/api/IClarizen/Logout" message="tns:IClarizen_Logout_InputMessage"/></wsdl:operation><wsdl:operation
+        name="Query"><wsdl:documentation>Executes a Query request. This is the same
+        as sending a Query message to the &lt;see cref="Execute" /&gt; method.
+
+        @param queryExpression The query to execute
+
+        @return A &lt;see cref="QueryResult" /&gt; instance.</wsdl:documentation><wsdl:input
+        wsaw:Action="http://clarizen.com/api/IClarizen/Query" message="tns:IClarizen_Query_InputMessage"/><wsdl:output
+        wsaw:Action="http://clarizen.com/api/IClarizen/QueryResponse" message="tns:IClarizen_Query_OutputMessage"/><wsdl:fault
+        wsaw:Action="http://clarizen.com/api/IClarizen/QuerySessionTimeoutFailureFault"
+        name="SessionTimeoutFailureFault" message="tns:IClarizen_Query_SessionTimeoutFailureFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="Metadata"><wsdl:documentation>Executes a Metadata request. This is the
+        same as sending a &lt;see cref="MetadataMessage" /&gt; to the &lt;see cref="Execute"
+        /&gt; method
+
+        @param request a Metadata request
+
+        @return Returns an instance of a &lt;see cref="Result" /&gt;. You must cast
+        this to the specific instance corresponding to the &lt;c&gt;request&lt;/c&gt;
+        parameter.</wsdl:documentation><wsdl:input wsaw:Action="http://clarizen.com/api/IClarizen/Metadata"
+        message="tns:IClarizen_Metadata_InputMessage"/><wsdl:output wsaw:Action="http://clarizen.com/api/IClarizen/MetadataResponse"
+        message="tns:IClarizen_Metadata_OutputMessage"/><wsdl:fault wsaw:Action="http://clarizen.com/api/IClarizen/MetadataSessionTimeoutFailureFault"
+        name="SessionTimeoutFailureFault" message="tns:IClarizen_Metadata_SessionTimeoutFailureFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="Execute"><wsdl:documentation>Perform operations against the Clarizen
+        web services
+
+        @param request An array of requests derived from &lt;see cref="BaseMessage"
+        /&gt;
+
+        @return An array of &lt;see cref="Result" /&gt; corresponsding to each request.
+        You must cast each result to the specific instance that corresponds to the
+        request parameter. See the remarks section for more information</wsdl:documentation><wsdl:input
+        wsaw:Action="http://clarizen.com/api/IClarizen/Execute" message="tns:IClarizen_Execute_InputMessage"/><wsdl:output
+        wsaw:Action="http://clarizen.com/api/IClarizen/ExecuteResponse" message="tns:IClarizen_Execute_OutputMessage"/><wsdl:fault
+        wsaw:Action="http://clarizen.com/api/IClarizen/ExecuteSessionTimeoutFailureFault"
+        name="SessionTimeoutFailureFault" message="tns:IClarizen_Execute_SessionTimeoutFailureFault_FaultMessage"/></wsdl:operation><wsdl:operation
+        name="GetServerDefinition"><wsdl:input wsaw:Action="http://clarizen.com/api/IClarizen/GetServerDefinition"
+        message="tns:IClarizen_GetServerDefinition_InputMessage"/><wsdl:output wsaw:Action="http://clarizen.com/api/IClarizen/GetServerDefinitionResponse"
+        message="tns:IClarizen_GetServerDefinition_OutputMessage"/></wsdl:operation></wsdl:portType><wsdl:binding
+        name="Clarizen" type="tns:IClarizen"><soap:binding transport="http://schemas.xmlsoap.org/soap/http"/><wsdl:operation
+        name="Login"><soap:operation soapAction="http://clarizen.com/api/IClarizen/Login"
+        style="document"/><wsdl:input><soap:body use="literal"/></wsdl:input><wsdl:output><soap:header
+        message="tns:IClarizen_Login_OutputMessage_Headers" part="Session" use="literal"/><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="LoginFailureFault"><soap:fault
+        name="LoginFailureFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="Logout"><soap:operation soapAction="http://clarizen.com/api/IClarizen/Logout"
+        style="document"/><wsdl:input><soap:header message="tns:IClarizen_Logout_InputMessage_Headers"
+        part="Session" use="literal"/><soap:body use="literal"/></wsdl:input></wsdl:operation><wsdl:operation
+        name="Query"><soap:operation soapAction="http://clarizen.com/api/IClarizen/Query"
+        style="document"/><wsdl:input><soap:header message="tns:IClarizen_Query_InputMessage_Headers"
+        part="Session" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="SessionTimeoutFailureFault"><soap:fault
+        name="SessionTimeoutFailureFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="Metadata"><soap:operation soapAction="http://clarizen.com/api/IClarizen/Metadata"
+        style="document"/><wsdl:input><soap:header message="tns:IClarizen_Metadata_InputMessage_Headers"
+        part="Session" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="SessionTimeoutFailureFault"><soap:fault
+        name="SessionTimeoutFailureFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="Execute"><soap:operation soapAction="http://clarizen.com/api/IClarizen/Execute"
+        style="document"/><wsdl:input><soap:header message="tns:IClarizen_Execute_InputMessage_Headers"
+        part="Info" use="literal"/><soap:header message="tns:IClarizen_Execute_InputMessage_Headers"
+        part="Options" use="literal"/><soap:header message="tns:IClarizen_Execute_InputMessage_Headers"
+        part="Session" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output><wsdl:fault name="SessionTimeoutFailureFault"><soap:fault
+        name="SessionTimeoutFailureFault" use="literal"/></wsdl:fault></wsdl:operation><wsdl:operation
+        name="GetServerDefinition"><soap:operation soapAction="http://clarizen.com/api/IClarizen/GetServerDefinition"
+        style="document"/><wsdl:input><soap:header message="tns:IClarizen_GetServerDefinition_InputMessage_Headers"
+        part="Session" use="literal"/><soap:body use="literal"/></wsdl:input><wsdl:output><soap:body
+        use="literal"/></wsdl:output></wsdl:operation></wsdl:binding><wsdl:service
+        name="Clarizen"><wsdl:port name="Clarizen" binding="tns:Clarizen"><soap:address
+        location="https://api2.clarizen.com/v1.0/Clarizen.svc"/></wsdl:port></wsdl:service></wsdl:definitions>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['11906']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:22:37 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [api2.clarizen.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://api2.clarizen.com:443/v1.0/Clarizen.svc?xsd=xsd0
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://clarizen.com/api" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://clarizen.com/api"><xs:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd1"
+        namespace="http://schemas.microsoft.com/2003/10/Serialization/"/><xs:import
+        schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd3" namespace="http://clarizen.com/api/queries"/><xs:import
+        schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd2" namespace="http://clarizen.com/api/metadata"/><xs:element
+        name="Login"><xs:complexType><xs:sequence><xs:element minOccurs="0" name="userName"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="password"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="options"
+        nillable="true" type="tns:LoginOptions"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="LoginOptions"><xs:sequence><xs:element minOccurs="0" name="ApplicationId"
+        nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>A
+        string representing your application</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="PartnerId" nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>(Optional)
+        If you are a certified partner, please provide the partner id you received
+        from Clarizen</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:complexType><xs:element
+        name="LoginOptions" nillable="true" type="tns:LoginOptions"/><xs:complexType
+        name="ExtendedLoginOptions"><xs:complexContent mixed="false"><xs:extension
+        base="tns:LoginOptions"><xs:sequence><xs:element minOccurs="0" name="ClientVersion"
+        nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ExtendedLoginOptions" nillable="true" type="tns:ExtendedLoginOptions"/><xs:element
+        name="LoginResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="LoginResult" nillable="true" type="tns:LoginResult"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="LoginResult"><xs:complexContent mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element
+        name="LicenseType" type="tns:LicenseType"><xs:annotation><xs:appinfo/><xs:documentation>Indicates
+        which license the current user is assigned</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="OrganizationId" nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>The
+        unique ID of the current organization. Can be used to retrieve additional
+        information about the current organization</xs:documentation></xs:annotation></xs:element><xs:element
+        name="ServerTime" type="xs:dateTime"/><xs:element minOccurs="0" name="SessionId"
+        nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>A
+        unique ID representing the current session</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="UserId" nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>The
+        unique ID of the current user. Can be used to retrieve additional information
+        about the current user</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="LoginResult" nillable="true" type="tns:LoginResult"/><xs:complexType
+        name="Result"><xs:sequence><xs:element minOccurs="0" name="Error" nillable="true"
+        type="tns:Error"/><xs:element name="Success" type="xs:boolean"/></xs:sequence></xs:complexType><xs:element
+        name="Result" nillable="true" type="tns:Result"/><xs:complexType name="Error"><xs:sequence><xs:element
+        name="ErrorCode" type="tns:ErrorCode"><xs:annotation><xs:appinfo/><xs:documentation>An
+        error code representing the failure that occured during the API call</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Message" nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>An
+        error message that can be displayed on screen</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="ReferenceId" nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>A
+        string that can be used to track this error on Clarizen''s side. Make sure
+        to include this when contacting support about issues with the API</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:complexType><xs:element
+        name="Error" nillable="true" type="tns:Error"/><xs:simpleType name="ErrorCode"><xs:restriction
+        base="xs:string"><xs:enumeration value="EntityNotFound"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="InvalidArgument"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MissingArgument"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="InvalidOperation"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="DuplicateKey"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="InvalidField"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="InvalidType"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="FileNotFound"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="VirusCheckFailed"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Unauthorized"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="UnsupportedClient"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="General"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Internal"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">13</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ValidationRuleError"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">14</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LoginFailure"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SessionTimeout"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="ErrorCode" nillable="true" type="tns:ErrorCode"/><xs:complexType name="AppLoginResult"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element minOccurs="0"
+        name="Url" nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>A
+        Url that can be used to enter the web application without requireing credentials</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="AppLoginResult" nillable="true" type="tns:AppLoginResult"/><xs:complexType
+        name="stringList"><xs:annotation><xs:appinfo><GenericType Name="{0}List" Namespace="http://clarizen.com/api"
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/"><GenericParameter
+        Name="string" Namespace="http://www.w3.org/2001/XMLSchema"/></GenericType></xs:appinfo></xs:annotation><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="stringList" nillable="true" type="tns:stringList"/><xs:complexType name="ErrorValue"><xs:sequence/></xs:complexType><xs:element
+        name="ErrorValue" nillable="true" type="tns:ErrorValue"/><xs:complexType name="EntityId"><xs:sequence><xs:element
+        minOccurs="0" name="TypeName" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="Value" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="EntityId" nillable="true" type="tns:EntityId"/><xs:complexType name="Duration"><xs:sequence><xs:element
+        minOccurs="0" name="DurationType" nillable="true" type="tns:DurationType"/><xs:element
+        name="Unit" type="tns:DurationUnit"/><xs:element name="Value" type="xs:double"/></xs:sequence></xs:complexType><xs:element
+        name="Duration" nillable="true" type="tns:Duration"/><xs:simpleType name="DurationType"><xs:restriction
+        base="xs:string"><xs:enumeration value="Default"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Consecutive"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="OverrideStart"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="OverrideEnd"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="OverrideBoth"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="DurationType" nillable="true" type="tns:DurationType"/><xs:simpleType
+        name="DurationUnit"><xs:restriction base="xs:string"><xs:enumeration value="Minutes"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Hours"/><xs:enumeration value="Days"/><xs:enumeration value="Weeks"/><xs:enumeration
+        value="Months"/></xs:restriction></xs:simpleType><xs:element name="DurationUnit"
+        nillable="true" type="tns:DurationUnit"/><xs:complexType name="Money"><xs:sequence><xs:element
+        name="Currency" type="tns:Currency"/><xs:element name="Value" type="xs:double"/></xs:sequence></xs:complexType><xs:element
+        name="Money" nillable="true" type="tns:Money"/><xs:simpleType name="Currency"><xs:annotation><xs:appinfo><ActualType
+        Name="long" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation><xs:restriction
+        base="xs:string"><xs:enumeration value="USD"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="EUR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="JPY"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="GBP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="AUD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="HKD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TWD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CNY"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ILS"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CAD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="AED"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="AFN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ALL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">13</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="AMD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">14</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ANG"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="AOA"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ARS"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">17</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="AWG"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">18</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="AZN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">19</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BAM"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">20</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BBD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">21</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BDT"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">22</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BGN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">23</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BHD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">24</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BIF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">25</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BMD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">26</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BND"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">27</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BOB"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">28</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BRL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">29</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BSD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">30</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BTN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">31</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BWP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">32</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BYR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">33</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="BZD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">34</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CDF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">35</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CHF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">36</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CLF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">37</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CLP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">38</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="COP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">39</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="COU"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">40</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CRC"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">41</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CUP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">42</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CVE"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">43</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CZK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">44</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="DJF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">45</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="DKK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">46</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="DOP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">47</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="DZD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">48</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="EEK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">49</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="EGP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">50</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ERN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">51</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ETB"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">52</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="FJD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">53</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="FKP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">54</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="GEL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">55</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="GHS"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">56</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="GIP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">57</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="GMD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">58</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="GNF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">59</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="GTQ"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">60</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="GYD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">61</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="HNL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">62</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="HRK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">63</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="HTG"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">64</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="HUF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">65</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="IDR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">66</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="INR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">67</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="IQD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">68</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="IRR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">69</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ISK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">70</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="JMD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">71</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="JOD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">72</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KES"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">73</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KGS"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">74</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KHR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">75</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KMF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">76</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KPW"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">77</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KRW"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">78</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KWD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">79</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KYD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">80</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="KZT"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">81</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LAK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">82</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LBP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">83</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LKR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">84</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LRD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">85</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LSL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">86</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LTL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">87</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LVL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">88</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="LYD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">89</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MAD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">90</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MDL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">91</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MGA"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">92</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MKD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">93</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MMK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">94</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MNT"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">95</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MOP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">96</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MRO"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">97</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MUR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">98</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MVR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">99</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MWK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">100</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MXN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">101</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MYR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">102</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="MZN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">103</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="NAD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">104</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="NGN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">105</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="NIO"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">106</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="NOK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">107</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="NPR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">108</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="NZD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">109</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="OMR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">110</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PAB"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">111</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PEN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">112</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PGK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">113</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PHP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">114</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PKR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">115</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PLN"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">116</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="PYG"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">117</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="QAR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">118</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="RON"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">119</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="RSD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">120</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="RUB"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">121</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="RWF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">122</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SAR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">123</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SBD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">124</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SCR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">125</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SDG"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">126</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SEK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">127</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SGD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">128</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SHP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">129</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SKK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">130</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SLL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">131</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SOS"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">132</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SRD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">133</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="STD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">134</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SYP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">135</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="SZL"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">136</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="THB"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">137</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TJS"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">138</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TMM"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">139</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TND"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">140</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TOP"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">141</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TRY"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">142</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TTD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">143</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TZS"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">144</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="UAH"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">145</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="UGX"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">146</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="UYU"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">147</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="UZS"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">148</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="VEF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">149</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="VND"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">150</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="VUV"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">151</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="WST"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">152</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="XAF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">153</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="XCD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">154</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="XOF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">155</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="XPF"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">156</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="YER"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">157</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ZAR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">158</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ZMK"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">159</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ZWD"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">160</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="RUR"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">161</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="Currency" nillable="true" type="tns:Currency"/><xs:complexType name="BaseEntity"><xs:sequence><xs:element
+        minOccurs="0" name="Id" nillable="true" type="tns:EntityId"/></xs:sequence></xs:complexType><xs:element
+        name="BaseEntity" nillable="true" type="tns:BaseEntity"/><xs:complexType name="GenericEntity"><xs:complexContent
+        mixed="false"><xs:extension base="tns:BaseEntity"><xs:sequence><xs:element
+        minOccurs="0" name="Permissions" nillable="true" type="tns:Permissions"><xs:annotation><xs:appinfo><DefaultValue
+        EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Values" nillable="true" type="tns:ArrayOfFieldValue"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GenericEntity" nillable="true" type="tns:GenericEntity"/><xs:complexType
+        name="Permissions"><xs:sequence><xs:element minOccurs="0" name="FieldPermissions"
+        nillable="true" type="tns:ArrayOfFieldPermission"/><xs:element minOccurs="0"
+        name="ObjectPermissions" nillable="true" type="tns:ArrayOfObjectPermissions"/></xs:sequence></xs:complexType><xs:element
+        name="Permissions" nillable="true" type="tns:Permissions"/><xs:complexType
+        name="ArrayOfFieldPermission"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="FieldPermission" nillable="true" type="tns:FieldPermission"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfFieldPermission" nillable="true" type="tns:ArrayOfFieldPermission"/><xs:complexType
+        name="FieldPermission"><xs:sequence><xs:element minOccurs="0" name="FieldName"
+        nillable="true" type="xs:string"/><xs:element name="Permissions" type="tns:FieldPermissions"/></xs:sequence></xs:complexType><xs:element
+        name="FieldPermission" nillable="true" type="tns:FieldPermission"/><xs:simpleType
+        name="FieldPermissions"><xs:restriction base="xs:string"><xs:enumeration value="Read"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ReadWrite"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="FieldPermissions" nillable="true" type="tns:FieldPermissions"/><xs:complexType
+        name="ArrayOfObjectPermissions"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="ObjectPermissions" type="tns:ObjectPermissions"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfObjectPermissions" nillable="true" type="tns:ArrayOfObjectPermissions"/><xs:simpleType
+        name="ObjectPermissions"><xs:restriction base="xs:string"><xs:enumeration
+        value="Update"/><xs:enumeration value="Delete"/></xs:restriction></xs:simpleType><xs:element
+        name="ObjectPermissions" nillable="true" type="tns:ObjectPermissions"/><xs:complexType
+        name="ArrayOfFieldValue"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="FieldValue" nillable="true" type="tns:FieldValue"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfFieldValue" nillable="true" type="tns:ArrayOfFieldValue"/><xs:complexType
+        name="FieldValue"><xs:sequence><xs:element minOccurs="0" name="FieldName"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Value" nillable="true"
+        type="xs:anyType"/></xs:sequence></xs:complexType><xs:element name="FieldValue"
+        nillable="true" type="tns:FieldValue"/><xs:complexType name="ResetValue"><xs:sequence/></xs:complexType><xs:element
+        name="ResetValue" nillable="true" type="tns:ResetValue"/><xs:complexType name="ArrayOfBaseEntity"><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="BaseEntity" nillable="true" type="tns:BaseEntity"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfBaseEntity" nillable="true" type="tns:ArrayOfBaseEntity"/><xs:complexType
+        name="TimesheetsResult"><xs:complexContent mixed="false"><xs:extension base="q1:QueryResult"
+        xmlns:q1="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="DaysTotal" nillable="true" type="tns:ArrayOfFieldValue"/><xs:element
+        minOccurs="0" name="WeekTotal" nillable="true" type="tns:FieldValue"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="TimesheetsResult" nillable="true" type="tns:TimesheetsResult"/><xs:complexType
+        name="ObjectDefaultsResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:Result"><xs:sequence><xs:element minOccurs="0" name="Entity" nillable="true"
+        type="tns:BaseEntity"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ObjectDefaultsResult" nillable="true" type="tns:ObjectDefaultsResult"/><xs:complexType
+        name="RelationResult"><xs:complexContent mixed="false"><xs:extension base="q2:QueryResult"
+        xmlns:q2="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="Editable" type="xs:boolean"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="RelationResult" nillable="true" type="tns:RelationResult"/><xs:complexType
+        name="GetAutocompleteItemsResult"><xs:complexContent mixed="false"><xs:extension
+        base="q3:QueryResult" xmlns:q3="http://clarizen.com/api/queries"><xs:sequence><xs:element
+        minOccurs="0" name="AssignedEntities" nillable="true" type="tns:ArrayOfAssignedEntity"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetAutocompleteItemsResult" nillable="true" type="tns:GetAutocompleteItemsResult"/><xs:complexType
+        name="ArrayOfAssignedEntity"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="AssignedEntity" nillable="true" type="tns:AssignedEntity"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfAssignedEntity" nillable="true" type="tns:ArrayOfAssignedEntity"/><xs:complexType
+        name="AssignedEntity"><xs:sequence><xs:element minOccurs="0" name="DisplayName"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="LinkId"
+        nillable="true" type="tns:EntityId"/><xs:element minOccurs="0" name="RelatedEntityId"
+        nillable="true" type="tns:EntityId"/></xs:sequence></xs:complexType><xs:element
+        name="AssignedEntity" nillable="true" type="tns:AssignedEntity"/><xs:complexType
+        name="ForgotPasswordResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:Result"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ForgotPasswordResult" nillable="true" type="tns:ForgotPasswordResult"/><xs:complexType
+        name="GenerateUniqueIdsResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:Result"><xs:sequence><xs:element minOccurs="0" name="Ids" nillable="true"
+        type="tns:stringList"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GenerateUniqueIdsResult" nillable="true" type="tns:GenerateUniqueIdsResult"/><xs:complexType
+        name="GetTodayInfoResult"><xs:complexContent mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element
+        name="InfoItem" type="tns:TodayInfoItem"/><xs:element name="Value" type="xs:long"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetTodayInfoResult" nillable="true" type="tns:GetTodayInfoResult"/><xs:simpleType
+        name="TodayInfoItem"><xs:restriction base="xs:string"><xs:enumeration value="MyTasks"/><xs:enumeration
+        value="MyOverdueTasks"/><xs:enumeration value="ManagedTask"/><xs:enumeration
+        value="OverdueManagedTask"/><xs:enumeration value="MyIssues"/><xs:enumeration
+        value="MyOverdueIssues"/><xs:enumeration value="SubordinatesIssues"/><xs:enumeration
+        value="OverdueSubordinatesIssues"/><xs:enumeration value="AprovalTimesheets"/><xs:enumeration
+        value="NewProjects"/><xs:enumeration value="NewMilestones"/><xs:enumeration
+        value="NewTasks"/><xs:enumeration value="NewDocuments"/><xs:enumeration value="NewNotes"/><xs:enumeration
+        value="NewDiscussions"/></xs:restriction></xs:simpleType><xs:element name="TodayInfoItem"
+        nillable="true" type="tns:TodayInfoItem"/><xs:complexType name="GetMultipleTodayInfoResult"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element minOccurs="0"
+        name="Results" nillable="true" type="tns:ArrayOfGetTodayInfoResult"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetMultipleTodayInfoResult" nillable="true" type="tns:GetMultipleTodayInfoResult"/><xs:complexType
+        name="ArrayOfGetTodayInfoResult"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="GetTodayInfoResult" nillable="true" type="tns:GetTodayInfoResult"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfGetTodayInfoResult" nillable="true" type="tns:ArrayOfGetTodayInfoResult"/><xs:complexType
+        name="GetApplicationStatusResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:Result"><xs:sequence><xs:element minOccurs="0" name="Installed"
+        type="xs:boolean"/><xs:element minOccurs="0" name="Version" nillable="true"
+        type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetApplicationStatusResult" nillable="true" type="tns:GetApplicationStatusResult"/><xs:complexType
+        name="GetCalendarInfoResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:Result"><xs:sequence><xs:element minOccurs="0" name="DefaultWorkingDay"
+        nillable="true" type="tns:DayInformation"/><xs:element minOccurs="0" name="WeekDayInformation"
+        nillable="true" type="tns:ArrayOfDayInformation"><xs:annotation><xs:appinfo/><xs:documentation>Provides
+        information about each day of the week. The first day in the array is Sunday</xs:documentation></xs:annotation></xs:element><xs:element
+        name="WeekStartsOn" type="tns:Day"><xs:annotation><xs:appinfo/><xs:documentation>Indicates
+        the day which is considered the first day of the week</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="WorkingDaysPerMonth" type="xs:int"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetCalendarInfoResult" nillable="true" type="tns:GetCalendarInfoResult"/><xs:complexType
+        name="DayInformation"><xs:annotation><xs:appinfo/><xs:documentation>Provides
+        working day information about a calendar day</xs:documentation></xs:annotation><xs:sequence><xs:element
+        name="EndHour" type="xs:double"><xs:annotation><xs:appinfo/><xs:documentation>A
+        number between 0 and 24 representing the end of the working day. If the day
+        ends at 17:15 this number will contain 17.25</xs:documentation></xs:annotation></xs:element><xs:element
+        name="IsWorkingDay" type="xs:boolean"><xs:annotation><xs:appinfo/><xs:documentation>Indicates
+        whether this day is a working day</xs:documentation></xs:annotation></xs:element><xs:element
+        name="StartHour" type="xs:double"><xs:annotation><xs:appinfo/><xs:documentation>A
+        number between 0 and 24 representing the first working hour of the day. If
+        the day starts at 08:30AM this number will contain 8.5</xs:documentation></xs:annotation></xs:element><xs:element
+        name="TotalWorkingHours" type="xs:double"><xs:annotation><xs:appinfo/><xs:documentation>Total
+        number of working hour in this day. Only relevant if &lt;see cref="IsWorkingDay"
+        /&gt; is true.</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:complexType><xs:element
+        name="DayInformation" nillable="true" type="tns:DayInformation"/><xs:complexType
+        name="ArrayOfDayInformation"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="DayInformation" nillable="true" type="tns:DayInformation"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfDayInformation" nillable="true" type="tns:ArrayOfDayInformation"/><xs:simpleType
+        name="Day"><xs:restriction base="xs:string"><xs:enumeration value="Sunday"/><xs:enumeration
+        value="Monday"/><xs:enumeration value="Tuesday"/><xs:enumeration value="Wednesday"/><xs:enumeration
+        value="Thursday"/><xs:enumeration value="Friday"/><xs:enumeration value="Saturday"/></xs:restriction></xs:simpleType><xs:element
+        name="Day" nillable="true" type="tns:Day"/><xs:complexType name="ExtendedLoginResult"><xs:complexContent
+        mixed="false"><xs:extension base="tns:LoginResult"><xs:sequence><xs:element
+        minOccurs="0" name="ClientVersionInfo" nillable="true" type="tns:ClientVersionInfo"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ExtendedLoginResult" nillable="true" type="tns:ExtendedLoginResult"/><xs:complexType
+        name="ClientVersionInfo"><xs:sequence><xs:element minOccurs="0" name="CurrentVersion"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Information"
+        nillable="true" type="xs:string"/><xs:element name="MustUpgrade" type="xs:boolean"/><xs:element
+        minOccurs="0" name="Url" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="ClientVersionInfo" nillable="true" type="tns:ClientVersionInfo"/><xs:complexType
+        name="GetSessionInfoResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:LoginResult"><xs:sequence><xs:element minOccurs="0" name="CustomInfo"
+        nillable="true" type="tns:ArrayOfFieldValue"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetSessionInfoResult" nillable="true" type="tns:GetSessionInfoResult"/><xs:complexType
+        name="GetSessionInfoExtendedResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:GetSessionInfoResult"><xs:sequence><xs:element minOccurs="0" name="ClientVersionInfo"
+        nillable="true" type="tns:ClientVersionInfo"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetSessionInfoExtendedResult" nillable="true" type="tns:GetSessionInfoExtendedResult"/><xs:complexType
+        name="GetWidgetUrlResult"><xs:complexContent mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element
+        minOccurs="0" name="Url" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetWidgetUrlResult" nillable="true" type="tns:GetWidgetUrlResult"/><xs:complexType
+        name="CreateResult"><xs:complexContent mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element
+        minOccurs="0" name="Id" nillable="true" type="tns:EntityId"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CreateResult" nillable="true" type="tns:CreateResult"/><xs:complexType
+        name="ArrayOfResourceManagementNode"><xs:sequence><xs:element minOccurs="0"
+        maxOccurs="unbounded" name="ResourceManagementNode" nillable="true" type="tns:ResourceManagementNode"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfResourceManagementNode" nillable="true" type="tns:ArrayOfResourceManagementNode"/><xs:complexType
+        name="ResourceManagementNode"><xs:sequence><xs:element minOccurs="0" name="Availability"
+        nillable="true" type="xs:double"/><xs:element minOccurs="0" name="Entity"
+        nillable="true" type="tns:BaseEntity"/><xs:element minOccurs="0" name="IsAuthorizedForExternalUser"
+        nillable="true" type="xs:boolean"/><xs:element minOccurs="0" name="Parent"
+        nillable="true" type="tns:BaseEntity"/><xs:element minOccurs="0" name="RelatedNodes"
+        nillable="true" type="tns:ArrayOfResourceManagementNode"/><xs:element minOccurs="0"
+        name="ResourceRole" nillable="true" type="tns:ResourceRoleCode"/><xs:element
+        minOccurs="0" name="ResourceUsageDetails" nillable="true" type="tns:ArrayOfResourceUsagePerTimeUnit"/></xs:sequence></xs:complexType><xs:element
+        name="ResourceManagementNode" nillable="true" type="tns:ResourceManagementNode"/><xs:simpleType
+        name="ResourceRoleCode"><xs:annotation><xs:appinfo><ActualType Name="long"
+        Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation><xs:restriction
+        base="xs:string"><xs:enumeration value="Regular"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Manager"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="ResourceRoleCode" nillable="true" type="tns:ResourceRoleCode"/><xs:complexType
+        name="ArrayOfResourceUsagePerTimeUnit"><xs:sequence><xs:element minOccurs="0"
+        maxOccurs="unbounded" name="ResourceUsagePerTimeUnit" nillable="true" type="tns:ResourceUsagePerTimeUnit"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfResourceUsagePerTimeUnit" nillable="true" type="tns:ArrayOfResourceUsagePerTimeUnit"/><xs:complexType
+        name="ResourceUsagePerTimeUnit"><xs:sequence><xs:element minOccurs="0" name="Date"
+        type="xs:dateTime"/><xs:element minOccurs="0" name="Overloaded" type="xs:boolean"/><xs:element
+        minOccurs="0" name="Uncertain" type="xs:boolean"/><xs:element minOccurs="0"
+        name="Value" nillable="true" type="xs:double"/><xs:element minOccurs="0" name="Variance"
+        nillable="true" type="xs:double"/><xs:element minOccurs="0" name="WorkingDay"
+        type="xs:boolean"/></xs:sequence></xs:complexType><xs:element name="ResourceUsagePerTimeUnit"
+        nillable="true" type="tns:ResourceUsagePerTimeUnit"/><xs:complexType name="RetrieveResult"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element minOccurs="0"
+        name="Entity" nillable="true" type="tns:BaseEntity"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="RetrieveResult" nillable="true" type="tns:RetrieveResult"/><xs:complexType
+        name="RetrieveMultipleResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:Result"><xs:sequence><xs:element minOccurs="0" name="Results" nillable="true"
+        type="tns:ArrayOfRetrieveResult"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="RetrieveMultipleResult" nillable="true" type="tns:RetrieveMultipleResult"/><xs:complexType
+        name="ArrayOfRetrieveResult"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="RetrieveResult" nillable="true" type="tns:RetrieveResult"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfRetrieveResult" nillable="true" type="tns:ArrayOfRetrieveResult"/><xs:complexType
+        name="CreateDiscussionMessageResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:Result"><xs:sequence><xs:element minOccurs="0" name="Id" nillable="true"
+        type="tns:EntityId"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CreateDiscussionMessageResult" nillable="true" type="tns:CreateDiscussionMessageResult"/><xs:complexType
+        name="GroupsQueryResult"><xs:complexContent mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element
+        minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfBaseEntity"/><xs:element
+        minOccurs="0" name="Paging" nillable="true" type="q4:Paging" xmlns:q4="http://clarizen.com/api/queries"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GroupsQueryResult" nillable="true" type="tns:GroupsQueryResult"/><xs:complexType
+        name="FeedQueryResult"><xs:complexContent mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element
+        minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfPostFeedItem"/><xs:element
+        minOccurs="0" name="Paging" nillable="true" type="q5:Paging" xmlns:q5="http://clarizen.com/api/queries"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="FeedQueryResult" nillable="true" type="tns:FeedQueryResult"/><xs:complexType
+        name="ArrayOfPostFeedItem"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="PostFeedItem" nillable="true" type="tns:PostFeedItem"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfPostFeedItem" nillable="true" type="tns:ArrayOfPostFeedItem"/><xs:complexType
+        name="PostFeedItem"><xs:annotation><xs:appinfo/><xs:documentation>An object
+        representing a single post in a feed</xs:documentation></xs:annotation><xs:complexContent
+        mixed="false"><xs:extension base="tns:FeedItem"><xs:sequence><xs:element minOccurs="0"
+        name="LatestReplies" nillable="true" type="tns:ArrayOfReplyFeedItem"><xs:annotation><xs:appinfo/><xs:documentation>Last
+        two replies in this post</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Pinned" type="xs:boolean"><xs:annotation><xs:appinfo/><xs:documentation>A
+        flag indicating whether this message is pinned\highlighted</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="PostFeedItem" nillable="true" type="tns:PostFeedItem"/><xs:complexType
+        name="FeedItem"><xs:sequence><xs:element minOccurs="0" name="LikedByMe" type="xs:boolean"><xs:annotation><xs:appinfo/><xs:documentation>Boolean
+        flag which indicates whether the current user likes this message</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Message" nillable="true" type="tns:BaseEntity"><xs:annotation><xs:appinfo/><xs:documentation>The
+        discussion message entity</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Notify" nillable="true" type="tns:ArrayOfBaseEntity"><xs:annotation><xs:appinfo/><xs:documentation>users
+        or groups notified in this message</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="RelatedEntities" nillable="true" type="tns:ArrayOfBaseEntity"><xs:annotation><xs:appinfo/><xs:documentation>related
+        items mentioned in this message</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Topics" nillable="true" type="tns:ArrayOfBaseEntity"><xs:annotation><xs:appinfo/><xs:documentation>topics
+        in this message</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:complexType><xs:element
+        name="FeedItem" nillable="true" type="tns:FeedItem"/><xs:complexType name="ArrayOfReplyFeedItem"><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="ReplyFeedItem" nillable="true" type="tns:ReplyFeedItem"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfReplyFeedItem" nillable="true" type="tns:ArrayOfReplyFeedItem"/><xs:complexType
+        name="ReplyFeedItem"><xs:complexContent mixed="false"><xs:extension base="tns:FeedItem"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ReplyFeedItem" nillable="true" type="tns:ReplyFeedItem"/><xs:complexType
+        name="RepliesQueryResult"><xs:complexContent mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element
+        minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfReplyFeedItem"/><xs:element
+        minOccurs="0" name="Paging" nillable="true" type="q6:Paging" xmlns:q6="http://clarizen.com/api/queries"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="RepliesQueryResult" nillable="true" type="tns:RepliesQueryResult"/><xs:complexType
+        name="TransactionResult"><xs:complexContent mixed="false"><xs:extension base="tns:Result"><xs:sequence><xs:element
+        minOccurs="0" name="Results" nillable="true" type="tns:ArrayOfResult"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="TransactionResult" nillable="true" type="tns:TransactionResult"/><xs:complexType
+        name="ArrayOfResult"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="Result" nillable="true" type="tns:Result"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfResult" nillable="true" type="tns:ArrayOfResult"/><xs:complexType
+        name="GetServerDefinitionResult"><xs:complexContent mixed="false"><xs:extension
+        base="tns:Result"><xs:sequence><xs:element minOccurs="0" name="ServerLocation"
+        nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>The
+        actual API url to use for subsequent calls</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetServerDefinitionResult" nillable="true" type="tns:GetServerDefinitionResult"/><xs:complexType
+        name="anyTypeList"><xs:annotation><xs:appinfo><GenericType Name="{0}List"
+        Namespace="http://clarizen.com/api" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"><GenericParameter
+        Name="anyType" Namespace="http://www.w3.org/2001/XMLSchema"/></GenericType></xs:appinfo></xs:annotation><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" type="xs:anyType"/></xs:sequence></xs:complexType><xs:element
+        name="anyTypeList" nillable="true" type="tns:anyTypeList"/><xs:complexType
+        name="EntityRelationsDescriptionList"><xs:annotation><xs:appinfo><GenericType
+        Name="{0}List" Namespace="http://clarizen.com/api" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"><GenericParameter
+        Name="EntityRelationsDescription" Namespace="http://clarizen.com/api/metadata"/></GenericType></xs:appinfo></xs:annotation><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="EntityRelationsDescription" nillable="true"
+        type="q7:EntityRelationsDescription" xmlns:q7="http://clarizen.com/api/metadata"/></xs:sequence></xs:complexType><xs:element
+        name="EntityRelationsDescriptionList" nillable="true" type="tns:EntityRelationsDescriptionList"/><xs:simpleType
+        name="LicenseType"><xs:annotation><xs:appinfo><ActualType Name="long" Namespace="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation><xs:restriction
+        base="xs:string"><xs:enumeration value="Full"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="TeamMember"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Limited"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Social"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Email"/><xs:enumeration value="None"/></xs:restriction></xs:simpleType><xs:element
+        name="LicenseType" nillable="true" type="tns:LicenseType"/><xs:complexType
+        name="SessionHeader"><xs:annotation><xs:appinfo/><xs:documentation>Represents
+        the session ID SOAP header</xs:documentation></xs:annotation><xs:sequence><xs:element
+        minOccurs="0" name="ID" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="SessionHeader" nillable="true" type="tns:SessionHeader"/><xs:element
+        name="Session" nillable="true" type="tns:SessionHeader"/><xs:element name="Logout"><xs:complexType><xs:sequence/></xs:complexType></xs:element><xs:element
+        name="Query"><xs:complexType><xs:sequence><xs:element minOccurs="0" name="queryExpression"
+        nillable="true" type="q8:Query" xmlns:q8="http://clarizen.com/api/queries"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="BaseMessage"><xs:annotation><xs:appinfo/><xs:documentation>Base message
+        description</xs:documentation></xs:annotation><xs:sequence/></xs:complexType><xs:element
+        name="BaseMessage" nillable="true" type="tns:BaseMessage"/><xs:complexType
+        name="AppLoginMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="AppLoginMessage" nillable="true" type="tns:AppLoginMessage"/><xs:complexType
+        name="ChangeStateMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="Ids" nillable="true" type="tns:ArrayOfEntityId"/><xs:element
+        minOccurs="0" name="State" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ChangeStateMessage" nillable="true" type="tns:ChangeStateMessage"/><xs:complexType
+        name="ArrayOfEntityId"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="EntityId" nillable="true" type="tns:EntityId"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfEntityId" nillable="true" type="tns:ArrayOfEntityId"/><xs:complexType
+        name="BaseFeedQuery"><xs:complexContent mixed="false"><xs:extension base="q9:Query"
+        xmlns:q9="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="Fields" nillable="true" type="tns:stringList"><xs:annotation><xs:appinfo/><xs:documentation>list
+        of Fields the query should return</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="BaseFeedQuery" nillable="true" type="tns:BaseFeedQuery"/><xs:complexType
+        name="CreateMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="Entity" nillable="true" type="tns:BaseEntity"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CreateMessage" nillable="true" type="tns:CreateMessage"/><xs:complexType
+        name="CreateDiscussionMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:CreateMessage"><xs:sequence><xs:element minOccurs="0" name="Notify"
+        nillable="true" type="tns:ArrayOfEntityId"/><xs:element minOccurs="0" name="RelatedEntities"
+        nillable="true" type="tns:ArrayOfEntityId"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CreateDiscussionMessage" nillable="true" type="tns:CreateDiscussionMessage"/><xs:complexType
+        name="CreateAndRetrieveMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:CreateMessage"><xs:sequence><xs:element minOccurs="0" name="Fields"
+        nillable="true" type="tns:stringList"><xs:annotation><xs:appinfo/><xs:documentation>list
+        of fields to retrieve</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Permissions" type="tns:PermissionOptions"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CreateAndRetrieveMessage" nillable="true" type="tns:CreateAndRetrieveMessage"/><xs:simpleType
+        name="PermissionOptions"><xs:restriction base="xs:string"><xs:enumeration
+        value="Object"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="ObjectAndFields"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="PermissionOptions" nillable="true" type="tns:PermissionOptions"/><xs:complexType
+        name="FindUserQuery"><xs:complexContent mixed="false"><xs:extension base="q10:BuiltInQuery"
+        xmlns:q10="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="EMail" nillable="true" type="xs:string"/><xs:element minOccurs="0" name="FirstName"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="LastName"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="FuzzySearchUserName"
+        type="xs:boolean"/><xs:element minOccurs="0" name="IncludeSuspendedUsers"
+        type="xs:boolean"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="FindUserQuery" nillable="true" type="tns:FindUserQuery"/><xs:complexType
+        name="FindCustomerQuery"><xs:complexContent mixed="false"><xs:extension base="q11:BuiltInQuery"
+        xmlns:q11="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="Name" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="FindCustomerQuery" nillable="true" type="tns:FindCustomerQuery"/><xs:complexType
+        name="GenerateUniqueIdsMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:BaseMessage"><xs:sequence><xs:element name="Count" type="xs:int"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GenerateUniqueIdsMessage" nillable="true" type="tns:GenerateUniqueIdsMessage"/><xs:complexType
+        name="GetTodayInfoMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:BaseMessage"><xs:sequence><xs:element name="InfoItem" type="tns:TodayInfoItem"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetTodayInfoMessage" nillable="true" type="tns:GetTodayInfoMessage"/><xs:complexType
+        name="GetMultipleTodayInfoMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:BaseMessage"><xs:sequence><xs:element minOccurs="0" name="InfoItems"
+        nillable="true" type="tns:ArrayOfTodayInfoItem"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetMultipleTodayInfoMessage" nillable="true" type="tns:GetMultipleTodayInfoMessage"/><xs:complexType
+        name="ArrayOfTodayInfoItem"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="TodayInfoItem" type="tns:TodayInfoItem"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfTodayInfoItem" nillable="true" type="tns:ArrayOfTodayInfoItem"/><xs:complexType
+        name="TodayQuery"><xs:complexContent mixed="false"><xs:extension base="q12:BuiltInQuery"
+        xmlns:q12="http://clarizen.com/api/queries"><xs:sequence><xs:element name="InfoItem"
+        type="tns:TodayInfoItem"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="TodayQuery" nillable="true" type="tns:TodayQuery"/><xs:complexType name="GetApplicationStatusMessage"><xs:complexContent
+        mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="ApplicationId" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetApplicationStatusMessage" nillable="true" type="tns:GetApplicationStatusMessage"/><xs:complexType
+        name="GetCalendarInfoMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:BaseMessage"><xs:sequence><xs:element minOccurs="0" name="UserId"
+        nillable="true" type="tns:EntityId"><xs:annotation><xs:appinfo/><xs:documentation>(Optional)
+        If UserId is specified, the result will contain information about the claendar
+        of the specified user.</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetCalendarInfoMessage" nillable="true" type="tns:GetCalendarInfoMessage"/><xs:complexType
+        name="GetSessionInfoMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:BaseMessage"><xs:sequence><xs:element minOccurs="0" name="options"
+        nillable="true" type="tns:LoginOptions"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetSessionInfoMessage" nillable="true" type="tns:GetSessionInfoMessage"/><xs:complexType
+        name="GetWidgetUrlMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:BaseMessage"><xs:sequence><xs:element minOccurs="0" name="ExpirationDate"
+        type="xs:dateTime"/><xs:element minOccurs="0" name="Format" type="tns:WidgetFormat"/><xs:element
+        minOccurs="0" name="Id" nillable="true" type="tns:EntityId"/><xs:element minOccurs="0"
+        name="Registered" type="xs:boolean"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetWidgetUrlMessage" nillable="true" type="tns:GetWidgetUrlMessage"/><xs:simpleType
+        name="WidgetFormat"><xs:restriction base="xs:string"><xs:enumeration value="Roadmap"/><xs:enumeration
+        value="Gantt"/></xs:restriction></xs:simpleType><xs:element name="WidgetFormat"
+        nillable="true" type="tns:WidgetFormat"/><xs:complexType name="InstallApplicationMessage"><xs:complexContent
+        mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="ApplicationId" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="AutoEnable" type="xs:boolean"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="InstallApplicationMessage" nillable="true" type="tns:InstallApplicationMessage"/><xs:complexType
+        name="LifecycleMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="Ids" nillable="true" type="tns:ArrayOfEntityId"><xs:annotation><xs:appinfo/><xs:documentation>A
+        list of objects to perform the operation on</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Operation" nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>The
+        operation to perform (''Activate'', ''Cancel'' etc.)</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Recursive" type="xs:boolean"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="LifecycleMessage" nillable="true" type="tns:LifecycleMessage"/><xs:complexType
+        name="CreateFromTemplateMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:CreateMessage"><xs:sequence><xs:element minOccurs="0" name="ParentId"
+        nillable="true" type="tns:EntityId"/><xs:element minOccurs="0" name="TemplateName"
+        nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>Name
+        of the template to use</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CreateFromTemplateMessage" nillable="true" type="tns:CreateFromTemplateMessage"/><xs:complexType
+        name="DeleteMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="Id" nillable="true" type="tns:EntityId"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DeleteMessage" nillable="true" type="tns:DeleteMessage"/><xs:complexType
+        name="ConditionList"><xs:annotation><xs:appinfo><GenericType Name="{0}List"
+        Namespace="http://clarizen.com/api" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"><GenericParameter
+        Name="Condition" Namespace="http://clarizen.com/api/queries"/></GenericType></xs:appinfo></xs:annotation><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="Condition" nillable="true" type="q13:Condition"
+        xmlns:q13="http://clarizen.com/api/queries"/></xs:sequence></xs:complexType><xs:element
+        name="ConditionList" nillable="true" type="tns:ConditionList"/><xs:simpleType
+        name="TimesheetState"><xs:annotation><xs:appinfo><ActualType Name="unsignedLong"
+        Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation><xs:list><xs:simpleType><xs:restriction
+        base="xs:string"><xs:enumeration value="UnSubmitted"/><xs:enumeration value="PendingApproval"/><xs:enumeration
+        value="Approved"/><xs:enumeration value="All"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType></xs:list></xs:simpleType><xs:element
+        name="TimesheetState" nillable="true" type="tns:TimesheetState"/><xs:complexType
+        name="EntityIdList"><xs:annotation><xs:appinfo><GenericType Name="{0}List"
+        Namespace="http://clarizen.com/api" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"><GenericParameter
+        Name="EntityId" Namespace="http://clarizen.com/api"/></GenericType></xs:appinfo></xs:annotation><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="EntityId" nillable="true" type="tns:EntityId"/></xs:sequence></xs:complexType><xs:element
+        name="EntityIdList" nillable="true" type="tns:EntityIdList"/><xs:simpleType
+        name="ResourceLoadFilterType"><xs:restriction base="xs:string"><xs:enumeration
+        value="None"/><xs:enumeration value="Billable"/><xs:enumeration value="NotBillable"/></xs:restriction></xs:simpleType><xs:element
+        name="ResourceLoadFilterType" nillable="true" type="tns:ResourceLoadFilterType"/><xs:simpleType
+        name="ResourceLoadValueType"><xs:restriction base="xs:string"><xs:enumeration
+        value="Load"/><xs:enumeration value="Availability"/></xs:restriction></xs:simpleType><xs:element
+        name="ResourceLoadValueType" nillable="true" type="tns:ResourceLoadValueType"/><xs:simpleType
+        name="ReportingPeriodType"><xs:restriction base="xs:string"><xs:enumeration
+        value="Daily"/><xs:enumeration value="Weekly"/><xs:enumeration value="Monthly"/></xs:restriction></xs:simpleType><xs:element
+        name="ReportingPeriodType" nillable="true" type="tns:ReportingPeriodType"/><xs:simpleType
+        name="UserSortingType"><xs:restriction base="xs:string"><xs:enumeration value="InTwoGroups"/><xs:enumeration
+        value="ByList"/><xs:enumeration value="Alfabet"/></xs:restriction></xs:simpleType><xs:element
+        name="UserSortingType" nillable="true" type="tns:UserSortingType"/><xs:simpleType
+        name="ResourceLoadBaseType"><xs:restriction base="xs:string"><xs:enumeration
+        value="Work"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="RemainingEffort"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="ResourceLoadBaseType" nillable="true" type="tns:ResourceLoadBaseType"/><xs:complexType
+        name="RetrieveMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="Fields" nillable="true" type="tns:stringList"><xs:annotation><xs:appinfo/><xs:documentation>The
+        list of fields to read</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Id" nillable="true" type="tns:EntityId"/><xs:element minOccurs="0"
+        name="Permissions" type="tns:PermissionOptions"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="RetrieveMessage" nillable="true" type="tns:RetrieveMessage"/><xs:complexType
+        name="RetrieveMultipleMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:BaseMessage"><xs:sequence><xs:element minOccurs="0" name="Fields"
+        nillable="true" type="tns:stringList"/><xs:element minOccurs="0" name="Ids"
+        nillable="true" type="tns:ArrayOfEntityId"/><xs:element minOccurs="0" name="Permissions"
+        type="tns:PermissionOptions"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="RetrieveMultipleMessage" nillable="true" type="tns:RetrieveMultipleMessage"/><xs:complexType
+        name="SendEMailMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="AccessType" type="tns:AccessType"/><xs:element minOccurs="0"
+        name="Body" nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Recipients"
+        nillable="true" type="tns:ArrayOfRecipient"/><xs:element minOccurs="0" name="RelatedEntity"
+        nillable="true" type="tns:EntityId"/><xs:element minOccurs="0" name="Subject"
+        nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="SendEMailMessage" nillable="true" type="tns:SendEMailMessage"/><xs:simpleType
+        name="AccessType"><xs:annotation><xs:appinfo><ActualType Name="long" Namespace="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation><xs:restriction
+        base="xs:string"><xs:enumeration value="Public"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="Private"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="AccessType" nillable="true" type="tns:AccessType"/><xs:complexType name="ArrayOfRecipient"><xs:sequence><xs:element
+        minOccurs="0" maxOccurs="unbounded" name="Recipient" nillable="true" type="tns:Recipient"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfRecipient" nillable="true" type="tns:ArrayOfRecipient"/><xs:complexType
+        name="Recipient"><xs:sequence><xs:element minOccurs="0" name="EMail" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="RecipientType" type="tns:RecipientType"/><xs:element
+        minOccurs="0" name="User" nillable="true" type="tns:EntityId"/></xs:sequence></xs:complexType><xs:element
+        name="Recipient" nillable="true" type="tns:Recipient"/><xs:simpleType name="RecipientType"><xs:annotation><xs:appinfo><ActualType
+        Name="long" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation><xs:restriction
+        base="xs:string"><xs:enumeration value="To"><xs:annotation><xs:appinfo><EnumerationValue
+        xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration><xs:enumeration
+        value="CC"><xs:annotation><xs:appinfo><EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue></xs:appinfo></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="RecipientType" nillable="true" type="tns:RecipientType"/><xs:complexType
+        name="EntityFeedQuery"><xs:complexContent mixed="false"><xs:extension base="tns:BaseFeedQuery"><xs:sequence><xs:element
+        minOccurs="0" name="EntityId" nillable="true" type="tns:EntityId"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="EntityFeedQuery" nillable="true" type="tns:EntityFeedQuery"/><xs:complexType
+        name="GroupsQuery"><xs:complexContent mixed="false"><xs:extension base="q14:Query"
+        xmlns:q14="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="Fields" nillable="true" type="tns:stringList"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GroupsQuery" nillable="true" type="tns:GroupsQuery"/><xs:complexType
+        name="NewsFeedQuery"><xs:complexContent mixed="false"><xs:extension base="tns:BaseFeedQuery"><xs:sequence><xs:element
+        minOccurs="0" name="Mode" type="tns:NewsFeedMode"><xs:annotation><xs:appinfo/><xs:documentation>Mode
+        of the news feed query: Following or All</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="NewsFeedQuery" nillable="true" type="tns:NewsFeedQuery"/><xs:simpleType
+        name="NewsFeedMode"><xs:restriction base="xs:string"><xs:enumeration value="Following"/><xs:enumeration
+        value="All"/></xs:restriction></xs:simpleType><xs:element name="NewsFeedMode"
+        nillable="true" type="tns:NewsFeedMode"/><xs:complexType name="RepliesQuery"><xs:complexContent
+        mixed="false"><xs:extension base="tns:BaseFeedQuery"><xs:sequence><xs:element
+        minOccurs="0" name="PostId" nillable="true" type="tns:EntityId"><xs:annotation><xs:appinfo/><xs:documentation>Id
+        of the discussion post</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="RepliesQuery" nillable="true" type="tns:RepliesQuery"/><xs:complexType
+        name="TransactionMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="Messages" nillable="true" type="tns:ArrayOfBaseMessage"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="TransactionMessage" nillable="true" type="tns:TransactionMessage"/><xs:complexType
+        name="ArrayOfBaseMessage"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="BaseMessage" nillable="true" type="tns:BaseMessage"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfBaseMessage" nillable="true" type="tns:ArrayOfBaseMessage"/><xs:complexType
+        name="UpdateMessage"><xs:complexContent mixed="false"><xs:extension base="tns:BaseMessage"><xs:sequence><xs:element
+        minOccurs="0" name="Entity" nillable="true" type="tns:BaseEntity"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="UpdateMessage" nillable="true" type="tns:UpdateMessage"/><xs:element
+        name="QueryResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="QueryResult" nillable="true" type="q15:QueryResult" xmlns:q15="http://clarizen.com/api/queries"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="Metadata"><xs:complexType><xs:sequence><xs:element minOccurs="0" name="request"
+        nillable="true" type="q16:MetadataMessage" xmlns:q16="http://clarizen.com/api/metadata"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="MetadataResponse"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="MetadataResult" nillable="true" type="tns:Result"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="Execute"><xs:complexType><xs:sequence><xs:element minOccurs="0" name="request"
+        nillable="true" type="tns:ArrayOfBaseMessage"/></xs:sequence></xs:complexType></xs:element><xs:complexType
+        name="CallInfo"><xs:sequence><xs:element minOccurs="0" name="Activity" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="Module" nillable="true"
+        type="xs:string"/></xs:sequence></xs:complexType><xs:element name="CallInfo"
+        nillable="true" type="tns:CallInfo"/><xs:element name="Info" nillable="true"
+        type="tns:CallInfo"/><xs:complexType name="CallOptions"><xs:sequence><xs:element
+        minOccurs="0" name="Batch" type="xs:boolean"/><xs:element minOccurs="0" name="DisableValidationRules"
+        type="xs:boolean"/><xs:element minOccurs="0" name="DisableWorkflowRules" type="xs:boolean"/><xs:element
+        minOccurs="0" name="ImpersonateUser" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="QuestionsAutoHandling" type="xs:boolean"/></xs:sequence></xs:complexType><xs:element
+        name="CallOptions" nillable="true" type="tns:CallOptions"/><xs:element name="Options"
+        nillable="true" type="tns:CallOptions"/><xs:element name="ExecuteResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="ExecuteResult" nillable="true" type="tns:ArrayOfResult"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetServerDefinition"><xs:complexType><xs:sequence><xs:element minOccurs="0"
+        name="userName" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="password" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="options" nillable="true" type="tns:LoginOptions"/></xs:sequence></xs:complexType></xs:element><xs:element
+        name="GetServerDefinitionResponse"><xs:complexType><xs:sequence><xs:element
+        minOccurs="0" name="GetServerDefinitionResult" nillable="true" type="tns:GetServerDefinitionResult"/></xs:sequence></xs:complexType></xs:element></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['95003']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:22:38 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [api2.clarizen.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://api2.clarizen.com:443/v1.0/Clarizen.svc?xsd=xsd1
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema attributeFormDefault="qualified"
+        elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/"><xs:element
+        name="anyType" nillable="true" type="xs:anyType"/><xs:element name="anyURI"
+        nillable="true" type="xs:anyURI"/><xs:element name="base64Binary" nillable="true"
+        type="xs:base64Binary"/><xs:element name="boolean" nillable="true" type="xs:boolean"/><xs:element
+        name="byte" nillable="true" type="xs:byte"/><xs:element name="dateTime" nillable="true"
+        type="xs:dateTime"/><xs:element name="decimal" nillable="true" type="xs:decimal"/><xs:element
+        name="double" nillable="true" type="xs:double"/><xs:element name="float" nillable="true"
+        type="xs:float"/><xs:element name="int" nillable="true" type="xs:int"/><xs:element
+        name="long" nillable="true" type="xs:long"/><xs:element name="QName" nillable="true"
+        type="xs:QName"/><xs:element name="short" nillable="true" type="xs:short"/><xs:element
+        name="string" nillable="true" type="xs:string"/><xs:element name="unsignedByte"
+        nillable="true" type="xs:unsignedByte"/><xs:element name="unsignedInt" nillable="true"
+        type="xs:unsignedInt"/><xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/><xs:element
+        name="unsignedShort" nillable="true" type="xs:unsignedShort"/><xs:element
+        name="char" nillable="true" type="tns:char"/><xs:simpleType name="char"><xs:restriction
+        base="xs:int"/></xs:simpleType><xs:element name="duration" nillable="true"
+        type="tns:duration"/><xs:simpleType name="duration"><xs:restriction base="xs:duration"><xs:pattern
+        value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/><xs:minInclusive value="-P10675199DT2H48M5.4775808S"/><xs:maxInclusive
+        value="P10675199DT2H48M5.4775807S"/></xs:restriction></xs:simpleType><xs:element
+        name="guid" nillable="true" type="tns:guid"/><xs:simpleType name="guid"><xs:restriction
+        base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType><xs:attribute
+        name="FactoryType" type="xs:QName"/><xs:attribute name="Id" type="xs:ID"/><xs:attribute
+        name="Ref" type="xs:IDREF"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['2273']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:22:41 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [api2.clarizen.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://api2.clarizen.com:443/v1.0/Clarizen.svc?xsd=xsd3
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://clarizen.com/api/queries" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://clarizen.com/api/queries"><xs:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd0"
+        namespace="http://clarizen.com/api"/><xs:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd2"
+        namespace="http://clarizen.com/api/metadata"/><xs:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd6"
+        namespace="http://clarizen.com/api/projectManagement"/><xs:complexType name="QueryResult"><xs:complexContent
+        mixed="false"><xs:extension base="q1:Result" xmlns:q1="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="Entities" nillable="true" type="q1:ArrayOfBaseEntity"><xs:annotation><xs:appinfo/><xs:documentation>Array
+        of entities returned from this query</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Paging" nillable="true" type="tns:Paging"><xs:annotation><xs:appinfo/><xs:documentation>Paging
+        information returned from this query. If &lt;code&gt;paging.hasMore&lt;/code&gt;
+        is set to true, this object should be passed as is to the same query to retrieve
+        the next page</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="QueryResult" nillable="true" type="tns:QueryResult"/><xs:complexType
+        name="Paging"><xs:annotation><xs:appinfo/><xs:documentation>Paging information
+        for a query</xs:documentation></xs:annotation><xs:sequence><xs:element minOccurs="0"
+        name="HasMore" type="xs:boolean"><xs:annotation><xs:appinfo/><xs:documentation>When
+        a query results is returned, indicates whether there are more pages to fetch
+        for this query</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="PageNumber" type="xs:int"><xs:annotation><xs:appinfo/><xs:documentation>The
+        page number to retrieve</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="PageSize" type="xs:int"><xs:annotation><xs:appinfo/><xs:documentation>Number
+        of records to retrieve in each page</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:complexType><xs:element
+        name="Paging" nillable="true" type="tns:Paging"/><xs:complexType name="GetTemplateDescriptionsResult"><xs:complexContent
+        mixed="false"><xs:extension base="q2:Result" xmlns:q2="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="Templates" nillable="true" type="q2:stringList"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetTemplateDescriptionsResult" nillable="true" type="tns:GetTemplateDescriptionsResult"/><xs:complexType
+        name="CountQueryResult"><xs:complexContent mixed="false"><xs:extension base="q3:Result"
+        xmlns:q3="http://clarizen.com/api"><xs:sequence><xs:element minOccurs="0"
+        name="Count" type="xs:long"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CountQueryResult" nillable="true" type="tns:CountQueryResult"/><xs:complexType
+        name="GetWorkItemResourcesResult"><xs:complexContent mixed="false"><xs:extension
+        base="q4:Result" xmlns:q4="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="WorkItemResources" nillable="true" type="tns:ArrayOfWorkItemResources"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetWorkItemResourcesResult" nillable="true" type="tns:GetWorkItemResourcesResult"/><xs:complexType
+        name="ArrayOfWorkItemResources"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="WorkItemResources" nillable="true" type="tns:WorkItemResources"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfWorkItemResources" nillable="true" type="tns:ArrayOfWorkItemResources"/><xs:complexType
+        name="WorkItemResources"><xs:sequence><xs:element minOccurs="0" name="Resources"
+        nillable="true" type="q5:ArrayOfBaseEntity" xmlns:q5="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="WorkItemId" nillable="true" type="q6:EntityId" xmlns:q6="http://clarizen.com/api"/></xs:sequence></xs:complexType><xs:element
+        name="WorkItemResources" nillable="true" type="tns:WorkItemResources"/><xs:complexType
+        name="ResourceManagementQueryResult"><xs:complexContent mixed="false"><xs:extension
+        base="q7:Result" xmlns:q7="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="Nodes" nillable="true" type="q7:ArrayOfResourceManagementNode"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ResourceManagementQueryResult" nillable="true" type="tns:ResourceManagementQueryResult"/><xs:complexType
+        name="Query"><xs:complexContent mixed="false"><xs:extension base="q8:BaseMessage"
+        xmlns:q8="http://clarizen.com/api"><xs:sequence><xs:element minOccurs="0"
+        name="Paging" nillable="true" type="tns:Paging"><xs:annotation><xs:appinfo/><xs:documentation>paging
+        setting for the query</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Permissions" type="q8:PermissionOptions"><xs:annotation><xs:appinfo/><xs:documentation>permission
+        setting for query : None, Object or ObjectAndFields</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="Query" nillable="true" type="tns:Query"/><xs:complexType name="BuiltInQuery"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Query"><xs:sequence><xs:element minOccurs="0"
+        name="Fields" nillable="true" type="q9:stringList" xmlns:q9="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="Orders" nillable="true" type="tns:ArrayOfOrderBy"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="BuiltInQuery" nillable="true" type="tns:BuiltInQuery"/><xs:complexType
+        name="ArrayOfOrderBy"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="OrderBy" nillable="true" type="tns:OrderBy"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfOrderBy" nillable="true" type="tns:ArrayOfOrderBy"/><xs:complexType
+        name="OrderBy"><xs:sequence><xs:element minOccurs="0" name="FieldName" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="Order" type="tns:Order"/></xs:sequence></xs:complexType><xs:element
+        name="OrderBy" nillable="true" type="tns:OrderBy"/><xs:simpleType name="Order"><xs:restriction
+        base="xs:string"><xs:enumeration value="Ascending"/><xs:enumeration value="Descending"/></xs:restriction></xs:simpleType><xs:element
+        name="Order" nillable="true" type="tns:Order"/><xs:complexType name="GetTemplateDescriptionsMessage"><xs:complexContent
+        mixed="false"><xs:extension base="q10:BaseMessage" xmlns:q10="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="TypeName" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetTemplateDescriptionsMessage" nillable="true" type="tns:GetTemplateDescriptionsMessage"/><xs:complexType
+        name="Condition"><xs:sequence/></xs:complexType><xs:element name="Condition"
+        nillable="true" type="tns:Condition"/><xs:complexType name="LogicalCondition"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Condition"><xs:sequence><xs:element
+        minOccurs="0" name="Conditions" nillable="true" type="q11:ConditionList" xmlns:q11="http://clarizen.com/api"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="LogicalCondition" nillable="true" type="tns:LogicalCondition"/><xs:complexType
+        name="And"><xs:complexContent mixed="false"><xs:extension base="tns:LogicalCondition"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="And" nillable="true" type="tns:And"/><xs:complexType name="Or"><xs:complexContent
+        mixed="false"><xs:extension base="tns:LogicalCondition"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="Or" nillable="true" type="tns:Or"/><xs:complexType name="Compare"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Condition"><xs:sequence><xs:element
+        minOccurs="0" name="LeftExpression" nillable="true" type="tns:Expression"/><xs:element
+        name="Operator" type="tns:Operator"/><xs:element minOccurs="0" name="RightExpression"
+        nillable="true" type="tns:Expression"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="Compare" nillable="true" type="tns:Compare"/><xs:complexType name="Expression"><xs:sequence/></xs:complexType><xs:element
+        name="Expression" nillable="true" type="tns:Expression"/><xs:complexType name="ConstantExpression"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Expression"><xs:sequence><xs:element
+        minOccurs="0" name="Value" nillable="true" type="xs:anyType"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ConstantExpression" nillable="true" type="tns:ConstantExpression"/><xs:complexType
+        name="FieldExpression"><xs:complexContent mixed="false"><xs:extension base="tns:Expression"><xs:sequence><xs:element
+        minOccurs="0" name="FieldName" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="FieldExpression" nillable="true" type="tns:FieldExpression"/><xs:complexType
+        name="EntityIdExpression"><xs:complexContent mixed="false"><xs:extension base="tns:Expression"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="EntityIdExpression" nillable="true" type="tns:EntityIdExpression"/><xs:complexType
+        name="QueryExpression"><xs:complexContent mixed="false"><xs:extension base="tns:Expression"><xs:sequence><xs:element
+        minOccurs="0" name="Query" nillable="true" type="tns:Query"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="QueryExpression" nillable="true" type="tns:QueryExpression"/><xs:simpleType
+        name="Operator"><xs:annotation><xs:appinfo/></xs:annotation><xs:restriction
+        base="xs:string"><xs:enumeration value="Equal"/><xs:enumeration value="NotEqual"/><xs:enumeration
+        value="LessThan"/><xs:enumeration value="GreaterThan"/><xs:enumeration value="LessThanOrEqual"/><xs:enumeration
+        value="GreaterThanOrEqual"/><xs:enumeration value="BeginsWith"/><xs:enumeration
+        value="EndsWith"/><xs:enumeration value="Contains"/><xs:enumeration value="DoesNotContain"/><xs:enumeration
+        value="In"><xs:annotation><xs:documentation>In is only supported in compare
+        operations where the left side is a FieldExpression which represents a "reference
+        to entity" field and the right side is a QueryExpression</xs:documentation></xs:annotation></xs:enumeration></xs:restriction></xs:simpleType><xs:element
+        name="Operator" nillable="true" type="tns:Operator"/><xs:complexType name="EntityQuery"><xs:complexContent
+        mixed="false"><xs:extension base="tns:Query"><xs:sequence><xs:element minOccurs="0"
+        name="Deleted" type="xs:boolean"><xs:annotation><xs:appinfo/><xs:documentation>If
+        set to true, the query is performed on Deleted entities</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Fields" nillable="true" type="q12:stringList" xmlns:q12="http://clarizen.com/api"><xs:annotation><xs:appinfo/><xs:documentation>A
+        list of field names to retrieve</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Orders" nillable="true" type="tns:ArrayOfOrderBy"><xs:annotation><xs:appinfo/><xs:documentation>Optionaly
+        order the result</xs:documentation></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="TypeName" nillable="true" type="xs:string"><xs:annotation><xs:appinfo/><xs:documentation>The
+        main entity type to query (e.g. &lt;code&gt;WorkItem&lt;/code&gt;,&lt;code&gt;User&lt;/code&gt;
+        etc.)</xs:documentation></xs:annotation></xs:element><xs:element minOccurs="0"
+        name="Where" nillable="true" type="tns:Condition"><xs:annotation><xs:appinfo/><xs:documentation>The
+        query criteria</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="EntityQuery" nillable="true" type="tns:EntityQuery"/><xs:complexType
+        name="CountQuery"><xs:complexContent mixed="false"><xs:extension base="q13:BaseMessage"
+        xmlns:q13="http://clarizen.com/api"><xs:sequence><xs:element minOccurs="0"
+        name="Query" nillable="true" type="tns:Query"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CountQuery" nillable="true" type="tns:CountQuery"/><xs:complexType name="GetWorkItemResourcesMessage"><xs:complexContent
+        mixed="false"><xs:extension base="q14:BaseMessage" xmlns:q14="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="Fields" nillable="true" type="q14:stringList"/><xs:element
+        minOccurs="0" name="Permissions" type="q14:PermissionOptions"/><xs:element
+        minOccurs="0" name="WorkItemsIds" nillable="true" type="q14:ArrayOfEntityId"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetWorkItemResourcesMessage" nillable="true" type="tns:GetWorkItemResourcesMessage"/><xs:complexType
+        name="QueryByExample"><xs:complexContent mixed="false"><xs:extension base="tns:Query"><xs:sequence><xs:element
+        minOccurs="0" name="Entity" nillable="true" type="q15:BaseEntity" xmlns:q15="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="Fields" nillable="true" type="q16:stringList" xmlns:q16="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="Orders" nillable="true" type="tns:ArrayOfOrderBy"/><xs:element
+        minOccurs="0" name="TypeName" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="QueryByExample" nillable="true" type="tns:QueryByExample"/><xs:complexType
+        name="RecursiveQuery"><xs:complexContent mixed="false"><xs:extension base="tns:BuiltInQuery"><xs:sequence><xs:element
+        name="Levels" type="xs:int"/><xs:element minOccurs="0" name="RootItemId" nillable="true"
+        type="q17:EntityId" xmlns:q17="http://clarizen.com/api"/><xs:element minOccurs="0"
+        name="TypeName" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="Where" nillable="true" type="tns:Condition"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="RecursiveQuery" nillable="true" type="tns:RecursiveQuery"/><xs:complexType
+        name="WorkItemRecursiveQuery"><xs:complexContent mixed="false"><xs:extension
+        base="tns:RecursiveQuery"><xs:sequence><xs:element minOccurs="0" name="IncludeShortcuts"
+        type="xs:boolean"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="WorkItemRecursiveQuery" nillable="true" type="tns:WorkItemRecursiveQuery"/><xs:complexType
+        name="ResourceManagementQuery"><xs:complexContent mixed="false"><xs:extension
+        base="q18:BaseMessage" xmlns:q18="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="Definition" nillable="true" type="tns:ResourceManagementQueryDefinition"/><xs:element
+        minOccurs="0" name="ResourceEntitiesIds" nillable="true" type="q18:EntityIdList"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ResourceManagementQuery" nillable="true" type="tns:ResourceManagementQuery"/><xs:complexType
+        name="ResourceManagementQueryDefinition"><xs:sequence><xs:element minOccurs="0"
+        name="GlobalFilters" nillable="true" type="tns:ResourceManagementQueryGlobalFilters"/><xs:element
+        minOccurs="0" name="PresentationFilters" nillable="true" type="tns:ResourceManagementQueryPresentationFilters"/><xs:element
+        minOccurs="0" name="Setting" nillable="true" type="tns:ResourceManagementQuerySetting"/></xs:sequence></xs:complexType><xs:element
+        name="ResourceManagementQueryDefinition" nillable="true" type="tns:ResourceManagementQueryDefinition"/><xs:complexType
+        name="ResourceManagementQueryGlobalFilters"><xs:sequence><xs:element minOccurs="0"
+        name="ProjectConstraint" nillable="true" type="tns:Condition"/><xs:element
+        minOccurs="0" name="ProjectTypes" nillable="true" type="q19:ArrayOfPickupDescription"
+        xmlns:q19="http://clarizen.com/api/metadata"/><xs:element minOccurs="0" name="ProjectsList"
+        nillable="true" type="q20:EntityIdList" xmlns:q20="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="ResourceLoadFilter" nillable="true" type="q21:ResourceLoadFilterType"
+        xmlns:q21="http://clarizen.com/api"/><xs:element minOccurs="0" name="TaskConstraint"
+        nillable="true" type="tns:Condition"/><xs:element minOccurs="0" name="TimeFilter"
+        nillable="true" type="tns:TimeFilter"/><xs:element minOccurs="0" name="WantedStates"
+        nillable="true" type="q22:ArrayOfWorkItemState" xmlns:q22="http://clarizen.com/api/projectManagement"/></xs:sequence></xs:complexType><xs:element
+        name="ResourceManagementQueryGlobalFilters" nillable="true" type="tns:ResourceManagementQueryGlobalFilters"/><xs:complexType
+        name="TimeFilter"><xs:sequence><xs:element minOccurs="0" name="From" nillable="true"
+        type="xs:dateTime"/><xs:element minOccurs="0" name="To" nillable="true" type="xs:dateTime"/></xs:sequence></xs:complexType><xs:element
+        name="TimeFilter" nillable="true" type="tns:TimeFilter"/><xs:complexType name="ResourceManagementQueryPresentationFilters"><xs:sequence><xs:element
+        minOccurs="0" name="ContainsInName" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="ProjectConstraint" nillable="true" type="tns:Condition"/><xs:element
+        minOccurs="0" name="TaskConstraint" nillable="true" type="tns:Condition"/></xs:sequence></xs:complexType><xs:element
+        name="ResourceManagementQueryPresentationFilters" nillable="true" type="tns:ResourceManagementQueryPresentationFilters"/><xs:complexType
+        name="ResourceManagementQuerySetting"><xs:sequence><xs:element minOccurs="0"
+        name="Fields" nillable="true" type="tns:ArrayOfFieldsToBeSelected"/><xs:element
+        minOccurs="0" name="HoursView" nillable="true" type="xs:boolean"/><xs:element
+        minOccurs="0" name="LoadOrAvailability" nillable="true" type="q23:ResourceLoadValueType"
+        xmlns:q23="http://clarizen.com/api"/><xs:element minOccurs="0" name="ReportingPeriod"
+        nillable="true" type="q24:ReportingPeriodType" xmlns:q24="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="SortingType" nillable="true" type="q25:UserSortingType"
+        xmlns:q25="http://clarizen.com/api"/><xs:element minOccurs="0" name="WorkOrRemainingEffort"
+        nillable="true" type="q26:ResourceLoadBaseType" xmlns:q26="http://clarizen.com/api"/></xs:sequence></xs:complexType><xs:element
+        name="ResourceManagementQuerySetting" nillable="true" type="tns:ResourceManagementQuerySetting"/><xs:complexType
+        name="ArrayOfFieldsToBeSelected"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="FieldsToBeSelected" nillable="true" type="tns:FieldsToBeSelected"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfFieldsToBeSelected" nillable="true" type="tns:ArrayOfFieldsToBeSelected"/><xs:complexType
+        name="FieldsToBeSelected"><xs:sequence><xs:element minOccurs="0" name="FieldNames"
+        nillable="true" type="q27:stringList" xmlns:q27="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="TypeName" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="FieldsToBeSelected" nillable="true" type="tns:FieldsToBeSelected"/><xs:complexType
+        name="SearchQuery"><xs:complexContent mixed="false"><xs:extension base="tns:Query"><xs:sequence><xs:element
+        minOccurs="0" name="Fields" nillable="true" type="q28:stringList" xmlns:q28="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="SearchText" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="TypeNames" nillable="true" type="q29:stringList" xmlns:q29="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="Where" nillable="true" type="tns:Condition"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="SearchQuery" nillable="true" type="tns:SearchQuery"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['19751']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:22:42 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [api2.clarizen.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://api2.clarizen.com:443/v1.0/Clarizen.svc?xsd=xsd2
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://clarizen.com/api/metadata" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://clarizen.com/api/metadata"><xs:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd0"
+        namespace="http://clarizen.com/api"/><xs:complexType name="DescribeMetadataResult"><xs:complexContent
+        mixed="false"><xs:extension base="q1:Result" xmlns:q1="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="ETag" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="EntityDescriptions" nillable="true" type="tns:ArrayOfEntityDescription"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DescribeMetadataResult" nillable="true" type="tns:DescribeMetadataResult"/><xs:complexType
+        name="ArrayOfEntityDescription"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="EntityDescription" nillable="true" type="tns:EntityDescription"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfEntityDescription" nillable="true" type="tns:ArrayOfEntityDescription"/><xs:complexType
+        name="EntityDescription"><xs:sequence><xs:element minOccurs="0" name="Fields"
+        nillable="true" type="tns:ArrayOfFieldDescription"/><xs:element minOccurs="0"
+        name="TypeName" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="ValidStates" nillable="true" type="q2:stringList" xmlns:q2="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="Label" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="LabelPlural" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="ParentEntity" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="DisplayField" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="Relations" nillable="true" type="tns:ArrayOfRelationDescription"><xs:annotation><xs:appinfo><DefaultValue
+        EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation></xs:element></xs:sequence></xs:complexType><xs:element
+        name="EntityDescription" nillable="true" type="tns:EntityDescription"/><xs:complexType
+        name="ArrayOfFieldDescription"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="FieldDescription" nillable="true" type="tns:FieldDescription"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfFieldDescription" nillable="true" type="tns:ArrayOfFieldDescription"/><xs:complexType
+        name="FieldDescription"><xs:sequence><xs:element minOccurs="0" name="Name"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Type" type="tns:FieldType"/><xs:element
+        name="Calculated" type="xs:boolean"/><xs:element name="CreateOnly" type="xs:boolean"/><xs:element
+        name="Custom" type="xs:boolean"/><xs:element minOccurs="0" name="DefaultValue"
+        nillable="true" type="xs:anyType"/><xs:element name="Internal" type="xs:boolean"/><xs:element
+        minOccurs="0" name="Label" nillable="true" type="xs:string"/><xs:element name="Nullable"
+        type="xs:boolean"/><xs:element minOccurs="0" name="PresentationType" type="tns:PresentationType"/><xs:element
+        name="System" type="xs:boolean"/><xs:element name="Updateable" type="xs:boolean"/><xs:element
+        name="Visible" type="xs:boolean"/><xs:element name="DecimalPlaces" type="xs:int"/></xs:sequence></xs:complexType><xs:element
+        name="FieldDescription" nillable="true" type="tns:FieldDescription"/><xs:simpleType
+        name="FieldType"><xs:restriction base="xs:string"><xs:enumeration value="Boolean"/><xs:enumeration
+        value="String"/><xs:enumeration value="Integer"/><xs:enumeration value="Long"/><xs:enumeration
+        value="Double"/><xs:enumeration value="DateTime"/><xs:enumeration value="Date"/><xs:enumeration
+        value="Entity"/><xs:enumeration value="Duration"/><xs:enumeration value="Money"/></xs:restriction></xs:simpleType><xs:element
+        name="FieldType" nillable="true" type="tns:FieldType"/><xs:simpleType name="PresentationType"><xs:restriction
+        base="xs:string"><xs:enumeration value="Text"/><xs:enumeration value="Numeric"/><xs:enumeration
+        value="Date"/><xs:enumeration value="Checkbox"/><xs:enumeration value="TextArea"/><xs:enumeration
+        value="Currency"/><xs:enumeration value="Duration"/><xs:enumeration value="ReferenceToObject"/><xs:enumeration
+        value="PickList"/><xs:enumeration value="Url"/><xs:enumeration value="Percent"/><xs:enumeration
+        value="Other"/></xs:restriction></xs:simpleType><xs:element name="PresentationType"
+        nillable="true" type="tns:PresentationType"/><xs:complexType name="EntityFieldDescription"><xs:complexContent
+        mixed="false"><xs:extension base="tns:FieldDescription"><xs:sequence><xs:element
+        minOccurs="0" name="ReferencedEntities" nillable="true" type="q3:stringList"
+        xmlns:q3="http://clarizen.com/api"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="EntityFieldDescription" nillable="true" type="tns:EntityFieldDescription"/><xs:complexType
+        name="ArrayOfRelationDescription"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="RelationDescription" nillable="true" type="tns:RelationDescription"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfRelationDescription" nillable="true" type="tns:ArrayOfRelationDescription"/><xs:complexType
+        name="RelationDescription"><xs:sequence><xs:element minOccurs="0" name="Label"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="LinkTypeName"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Name" nillable="true"
+        type="xs:string"/><xs:element minOccurs="0" name="ReadOnly" type="xs:boolean"/><xs:element
+        minOccurs="0" name="RelatedTypeName" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="RoleLabel" nillable="true" type="xs:string"/><xs:element
+        minOccurs="0" name="SourceFieldName" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="RelationDescription" nillable="true" type="tns:RelationDescription"/><xs:complexType
+        name="LinkEntityDescription"><xs:complexContent mixed="false"><xs:extension
+        base="tns:EntityDescription"><xs:sequence><xs:element minOccurs="0" name="PossibleLinks"
+        nillable="true" type="tns:ArrayOfPossibleLinkDescription"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="LinkEntityDescription" nillable="true" type="tns:LinkEntityDescription"/><xs:complexType
+        name="ArrayOfPossibleLinkDescription"><xs:sequence><xs:element minOccurs="0"
+        maxOccurs="unbounded" name="PossibleLinkDescription" nillable="true" type="tns:PossibleLinkDescription"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfPossibleLinkDescription" nillable="true" type="tns:ArrayOfPossibleLinkDescription"/><xs:complexType
+        name="PossibleLinkDescription"><xs:sequence><xs:element minOccurs="0" name="FromEntity"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="FromField"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="ToEntity"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="ToField"
+        nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="PossibleLinkDescription" nillable="true" type="tns:PossibleLinkDescription"/><xs:complexType
+        name="PickupEntityDescription"><xs:complexContent mixed="false"><xs:extension
+        base="tns:EntityDescription"><xs:sequence><xs:element minOccurs="0" name="Pickups"
+        nillable="true" type="tns:ArrayOfPickupDescription"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="PickupEntityDescription" nillable="true" type="tns:PickupEntityDescription"/><xs:complexType
+        name="ArrayOfPickupDescription"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="PickupDescription" nillable="true" type="tns:PickupDescription"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfPickupDescription" nillable="true" type="tns:ArrayOfPickupDescription"/><xs:complexType
+        name="PickupDescription"><xs:sequence><xs:element minOccurs="0" name="Description"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="DisplayValue"
+        nillable="true" type="xs:string"/><xs:element minOccurs="0" name="Value" nillable="true"
+        type="xs:string"/></xs:sequence></xs:complexType><xs:element name="PickupDescription"
+        nillable="true" type="tns:PickupDescription"/><xs:complexType name="ListEntitiesResult"><xs:complexContent
+        mixed="false"><xs:extension base="q4:Result" xmlns:q4="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="TypeNames" nillable="true" type="q4:stringList"><xs:annotation><xs:appinfo/><xs:documentation>An
+        array of strings representing the entity types available to your organization</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ListEntitiesResult" nillable="true" type="tns:ListEntitiesResult"/><xs:complexType
+        name="DescribeEntitiesResult"><xs:complexContent mixed="false"><xs:extension
+        base="q5:Result" xmlns:q5="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="EntityDescriptions" nillable="true" type="tns:ArrayOfEntityDescription"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DescribeEntitiesResult" nillable="true" type="tns:DescribeEntitiesResult"/><xs:complexType
+        name="GetSystemSettingsValuesResult"><xs:complexContent mixed="false"><xs:extension
+        base="q6:Result" xmlns:q6="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="Values" nillable="true" type="q6:anyTypeList"><xs:annotation><xs:appinfo/><xs:documentation>Array
+        of objects representing the values of each system setting. The value type
+        (e.g. boolean, int etc.) depends on the system setting</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetSystemSettingsValuesResult" nillable="true" type="tns:GetSystemSettingsValuesResult"/><xs:complexType
+        name="DescribeEntityRelationsResult"><xs:complexContent mixed="false"><xs:extension
+        base="q7:Result" xmlns:q7="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="EntityRelations" nillable="true" type="q7:EntityRelationsDescriptionList"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DescribeEntityRelationsResult" nillable="true" type="tns:DescribeEntityRelationsResult"/><xs:complexType
+        name="EntityRelationsDescription"><xs:sequence><xs:element minOccurs="0" name="Relations"
+        nillable="true" type="tns:ArrayOfRelationDescription"/><xs:element minOccurs="0"
+        name="TypeName" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="EntityRelationsDescription" nillable="true" type="tns:EntityRelationsDescription"/><xs:complexType
+        name="DescribeMetadataMessage"><xs:complexContent mixed="false"><xs:extension
+        base="q8:BaseMessage" xmlns:q8="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="ETag" nillable="true" type="xs:string"/><xs:element minOccurs="0"
+        name="Flags" nillable="true" type="q8:stringList"/><xs:element minOccurs="0"
+        name="TypeNames" nillable="true" type="q8:stringList"><xs:annotation><xs:appinfo/><xs:documentation>The
+        types of entities to describe</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DescribeMetadataMessage" nillable="true" type="tns:DescribeMetadataMessage"/><xs:complexType
+        name="MetadataMessage"><xs:complexContent mixed="false"><xs:extension base="q9:BaseMessage"
+        xmlns:q9="http://clarizen.com/api"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="MetadataMessage" nillable="true" type="tns:MetadataMessage"/><xs:complexType
+        name="ListEntitiesMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:MetadataMessage"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ListEntitiesMessage" nillable="true" type="tns:ListEntitiesMessage"/><xs:complexType
+        name="DescribeEntitiesMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:MetadataMessage"><xs:sequence><xs:element minOccurs="0" name="TypeNames"
+        nillable="true" type="q10:stringList" xmlns:q10="http://clarizen.com/api"><xs:annotation><xs:appinfo/><xs:documentation>The
+        types of entities to describe</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DescribeEntitiesMessage" nillable="true" type="tns:DescribeEntitiesMessage"/><xs:complexType
+        name="GetSystemSettingsValuesMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:MetadataMessage"><xs:sequence><xs:element minOccurs="0" name="Settings"
+        nillable="true" type="q11:stringList" xmlns:q11="http://clarizen.com/api"><xs:annotation><xs:appinfo/><xs:documentation>List
+        of system setting names</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="GetSystemSettingsValuesMessage" nillable="true" type="tns:GetSystemSettingsValuesMessage"/><xs:complexType
+        name="DescribeEntityRelationsMessage"><xs:complexContent mixed="false"><xs:extension
+        base="tns:MetadataMessage"><xs:sequence><xs:element minOccurs="0" name="TypeNames"
+        nillable="true" type="q12:stringList" xmlns:q12="http://clarizen.com/api"><xs:annotation><xs:appinfo/><xs:documentation>List
+        of types to describe</xs:documentation></xs:annotation></xs:element></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DescribeEntityRelationsMessage" nillable="true" type="tns:DescribeEntityRelationsMessage"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['13601']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:22:43 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [api2.clarizen.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://api2.clarizen.com:443/v1.0/Clarizen.svc?xsd=xsd6
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://clarizen.com/api/projectManagement" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://clarizen.com/api/projectManagement"><xs:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd0"
+        namespace="http://clarizen.com/api"/><xs:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd3"
+        namespace="http://clarizen.com/api/queries"/><xs:complexType name="CommentsQuery"><xs:complexContent
+        mixed="false"><xs:extension base="q1:BuiltInQuery" xmlns:q1="http://clarizen.com/api/queries"><xs:sequence><xs:element
+        minOccurs="0" name="AttachedToId" nillable="true" type="q2:EntityId" xmlns:q2="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="CommentType" type="tns:CommentType"/><xs:element minOccurs="0"
+        name="Visibility" type="tns:CommentVisibility"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="CommentsQuery" nillable="true" type="tns:CommentsQuery"/><xs:simpleType
+        name="CommentType"><xs:restriction base="xs:string"><xs:enumeration value="Note"/><xs:enumeration
+        value="Discussion"/></xs:restriction></xs:simpleType><xs:element name="CommentType"
+        nillable="true" type="tns:CommentType"/><xs:simpleType name="CommentVisibility"><xs:restriction
+        base="xs:string"><xs:enumeration value="All"/><xs:enumeration value="Private"/><xs:enumeration
+        value="Public"/></xs:restriction></xs:simpleType><xs:element name="CommentVisibility"
+        nillable="true" type="tns:CommentVisibility"/><xs:complexType name="MyWorkItemsQuery"><xs:complexContent
+        mixed="false"><xs:extension base="q3:BuiltInQuery" xmlns:q3="http://clarizen.com/api/queries"><xs:sequence><xs:element
+        minOccurs="0" name="ItemsFilter" type="tns:WorkItemFilter"/><xs:element minOccurs="0"
+        name="ItemsState" type="tns:WorkItemState"/><xs:element minOccurs="0" name="ItemsType"
+        type="tns:WorkItemType"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="MyWorkItemsQuery" nillable="true" type="tns:MyWorkItemsQuery"/><xs:simpleType
+        name="WorkItemFilter"><xs:restriction base="xs:string"><xs:enumeration value="IHaveAnyRole"/><xs:enumeration
+        value="IManageTheProject"/><xs:enumeration value="IAmAManager"/><xs:enumeration
+        value="IAmAResource"/><xs:enumeration value="IAmAReviewer"/><xs:enumeration
+        value="IAmAManagerOrAResource"/><xs:enumeration value="All"/></xs:restriction></xs:simpleType><xs:element
+        name="WorkItemFilter" nillable="true" type="tns:WorkItemFilter"/><xs:simpleType
+        name="WorkItemState"><xs:restriction base="xs:string"><xs:enumeration value="All"/><xs:enumeration
+        value="Active"/><xs:enumeration value="Cancelled"/><xs:enumeration value="Draft"/><xs:enumeration
+        value="Completed"/><xs:enumeration value="OnHold"/><xs:enumeration value="Current"/><xs:enumeration
+        value="Upcoming"/><xs:enumeration value="InTheWorks"/><xs:enumeration value="Executable"/></xs:restriction></xs:simpleType><xs:element
+        name="WorkItemState" nillable="true" type="tns:WorkItemState"/><xs:simpleType
+        name="WorkItemType"><xs:restriction base="xs:string"><xs:enumeration value="Project"/><xs:enumeration
+        value="Milestone"/><xs:enumeration value="Task"/><xs:enumeration value="All"/></xs:restriction></xs:simpleType><xs:element
+        name="WorkItemType" nillable="true" type="tns:WorkItemType"/><xs:complexType
+        name="WorkItemsQuery"><xs:complexContent mixed="false"><xs:extension base="tns:MyWorkItemsQuery"><xs:sequence><xs:element
+        minOccurs="0" name="UserIds" nillable="true" type="q4:ArrayOfEntityId" xmlns:q4="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="Where" nillable="true" type="q5:Condition" xmlns:q5="http://clarizen.com/api/queries"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="WorkItemsQuery" nillable="true" type="tns:WorkItemsQuery"/><xs:complexType
+        name="ExpenseQuery"><xs:complexContent mixed="false"><xs:extension base="q6:EntityQuery"
+        xmlns:q6="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="CustomerId" nillable="true" type="q7:EntityId" xmlns:q7="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="ProjectId" nillable="true" type="q8:EntityId" xmlns:q8="http://clarizen.com/api"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ExpenseQuery" nillable="true" type="tns:ExpenseQuery"/><xs:complexType
+        name="TimesheetQuery"><xs:complexContent mixed="false"><xs:extension base="q9:EntityQuery"
+        xmlns:q9="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="CustomerId" nillable="true" type="q10:EntityId" xmlns:q10="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="IAmTheApprover" type="xs:boolean"/><xs:element minOccurs="0"
+        name="ProjectId" nillable="true" type="q11:EntityId" xmlns:q11="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="TimesheetState" type="q12:TimesheetState" xmlns:q12="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="WorkItems" nillable="true" type="q13:ArrayOfEntityId"
+        xmlns:q13="http://clarizen.com/api"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="TimesheetQuery" nillable="true" type="tns:TimesheetQuery"/><xs:complexType
+        name="TimesheetViewQuery"><xs:complexContent mixed="false"><xs:extension base="q14:EntityQuery"
+        xmlns:q14="http://clarizen.com/api/queries"><xs:sequence><xs:element name="EndDate"
+        type="xs:dateTime"/><xs:element name="StartDate" type="xs:dateTime"/><xs:element
+        minOccurs="0" name="UserId" nillable="true" type="q15:EntityId" xmlns:q15="http://clarizen.com/api"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="TimesheetViewQuery" nillable="true" type="tns:TimesheetViewQuery"/><xs:complexType
+        name="IssuesQuery"><xs:complexContent mixed="false"><xs:extension base="q16:EntityQuery"
+        xmlns:q16="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="CustomerCondition" nillable="true" type="q16:Condition"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="IssuesQuery" nillable="true" type="tns:IssuesQuery"/><xs:complexType
+        name="ProjectIssuesQuery"><xs:complexContent mixed="false"><xs:extension base="q17:BuiltInQuery"
+        xmlns:q17="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="ProjectId" nillable="true" type="q18:EntityId" xmlns:q18="http://clarizen.com/api"/><xs:element
+        minOccurs="0" name="TypeName" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="ProjectIssuesQuery" nillable="true" type="tns:ProjectIssuesQuery"/><xs:complexType
+        name="WorkItemsByFileNameQuery"><xs:complexContent mixed="false"><xs:extension
+        base="q19:BuiltInQuery" xmlns:q19="http://clarizen.com/api/queries"><xs:sequence><xs:element
+        minOccurs="0" name="FileName" nillable="true" type="xs:string"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="WorkItemsByFileNameQuery" nillable="true" type="tns:WorkItemsByFileNameQuery"/><xs:complexType
+        name="DocumentsQuery"><xs:complexContent mixed="false"><xs:extension base="q20:BuiltInQuery"
+        xmlns:q20="http://clarizen.com/api/queries"><xs:sequence><xs:element minOccurs="0"
+        name="WorkItemId" nillable="true" type="q21:EntityId" xmlns:q21="http://clarizen.com/api"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DocumentsQuery" nillable="true" type="tns:DocumentsQuery"/><xs:complexType
+        name="ArrayOfWorkItemState"><xs:sequence><xs:element minOccurs="0" maxOccurs="unbounded"
+        name="WorkItemState" type="tns:WorkItemState"/></xs:sequence></xs:complexType><xs:element
+        name="ArrayOfWorkItemState" nillable="true" type="tns:ArrayOfWorkItemState"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['7782']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:22:45 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [api2.clarizen.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://api2.clarizen.com:443/v1.0/Clarizen.svc?xsd=xsd5
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://clarizen.com/api/faults" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://clarizen.com/api/faults"><xs:complexType name="LoginFailure"><xs:complexContent
+        mixed="false"><xs:extension base="tns:GeneralFault"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="LoginFailure" nillable="true" type="tns:LoginFailure"/><xs:complexType
+        name="GeneralFault"><xs:sequence><xs:element minOccurs="0" name="Message"
+        nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="GeneralFault" nillable="true" type="tns:GeneralFault"/><xs:complexType
+        name="SessionTimeoutFailure"><xs:complexContent mixed="false"><xs:extension
+        base="tns:GeneralFault"><xs:sequence/></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="SessionTimeoutFailure" nillable="true" type="tns:SessionTimeoutFailure"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['975']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:22:46 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [api2.clarizen.com]
+      User-Agent: [Python-urllib/3.4]
+    method: GET
+    uri: https://api2.clarizen.com:443/v1.0/Clarizen.svc?xsd=xsd4
+  response:
+    body: {string: '<?xml version="1.0" encoding="utf-8"?><xs:schema elementFormDefault="qualified"
+        targetNamespace="http://clarizen.com/api/files" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://clarizen.com/api/files"><xs:import schemaLocation="https://api2.clarizen.com/v1.0/Clarizen.svc?xsd=xsd0"
+        namespace="http://clarizen.com/api"/><xs:complexType name="DownloadResult"><xs:complexContent
+        mixed="false"><xs:extension base="q1:Result" xmlns:q1="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="FileInformation" nillable="true" type="tns:FileInformation"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DownloadResult" nillable="true" type="tns:DownloadResult"/><xs:complexType
+        name="FileInformation"><xs:sequence><xs:element minOccurs="0" name="Content"
+        nillable="true" type="xs:base64Binary"/><xs:element minOccurs="0" name="ExtendedInfo"
+        nillable="true" type="xs:string"><xs:annotation><xs:appinfo><DefaultValue
+        EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="FileName" nillable="true" type="xs:string"/><xs:element
+        name="Storage" type="tns:Storage"/><xs:element minOccurs="0" name="SubType"
+        nillable="true" type="xs:string"><xs:annotation><xs:appinfo><DefaultValue
+        EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/"/></xs:appinfo></xs:annotation></xs:element><xs:element
+        minOccurs="0" name="Url" nillable="true" type="xs:string"/></xs:sequence></xs:complexType><xs:element
+        name="FileInformation" nillable="true" type="tns:FileInformation"/><xs:simpleType
+        name="Storage"><xs:restriction base="xs:string"><xs:enumeration value="Server"/><xs:enumeration
+        value="Url"/><xs:enumeration value="Link"/></xs:restriction></xs:simpleType><xs:element
+        name="Storage" nillable="true" type="tns:Storage"/><xs:complexType name="DownloadMessage"><xs:complexContent
+        mixed="false"><xs:extension base="q2:BaseMessage" xmlns:q2="http://clarizen.com/api"><xs:sequence><xs:element
+        minOccurs="0" name="DocumentId" nillable="true" type="q2:EntityId"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="DownloadMessage" nillable="true" type="tns:DownloadMessage"/><xs:complexType
+        name="UploadMessage"><xs:complexContent mixed="false"><xs:extension base="q3:BaseMessage"
+        xmlns:q3="http://clarizen.com/api"><xs:sequence><xs:element minOccurs="0"
+        name="DocumentId" nillable="true" type="q3:EntityId"/><xs:element minOccurs="0"
+        name="FileInformation" nillable="true" type="tns:FileInformation"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType><xs:element
+        name="UploadMessage" nillable="true" type="tns:UploadMessage"/></xs:schema>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['2757']
+      Content-Type: [text/xml; charset=UTF-8]
+      Date: ['Fri, 20 Mar 2015 13:22:47 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 200, message: OK}
+- request:
+    body: !!binary |
+      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c29hcDpFbnZlbG9wZSB4bWxu
+      czpzb2FwPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyIgeG1sbnM6
+      eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8v
+      d3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+Cjxzb2FwOkhlYWRlci8+Cjxzb2Fw
+      OkJvZHk+CiAgICA8TG9naW4geG1sbnM9Imh0dHA6Ly9jbGFyaXplbi5jb20vYXBpIj4KICAgIDx1
+      c2VyTmFtZT5mb288L3VzZXJOYW1lPjxwYXNzd29yZD5iYXI8L3Bhc3N3b3JkPjwvTG9naW4+Cjwv
+      c29hcDpCb2R5Pgo8L3NvYXA6RW52ZWxvcGU+
+    headers:
+      Connection: [close]
+      Content-Length: ['369']
+      Content-Type: [text/xml; charset="UTF-8"]
+      Host: [api2.clarizen.com]
+      Soapaction: ['"http://clarizen.com/api/IClarizen/Login"']
+      User-Agent: [Python-urllib/3.4]
+    method: POST
+    uri: https://api2.clarizen.com:443/v1.0/Clarizen.svc
+  response:
+    body: {string: '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><s:Fault><faultcode>s:InvalidUserNameOrPassword</faultcode><faultstring
+        xml:lang="en-US">Username and password do not match.</faultstring><detail><LoginFailure
+        xmlns="http://clarizen.com/api/faults" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><Message>Username
+        and password do not match.</Message></LoginFailure></detail></s:Fault></s:Body></s:Envelope>'}
+    headers:
+      Connection: [close]
+      Content-Length: ['433']
+      Content-Type: [text/xml; charset=utf-8]
+      Date: ['Fri, 20 Mar 2015 13:22:47 GMT']
+      Server: [Microsoft-IIS/7.5]
+      X-Powered-By: [ASP.NET]
+    status: {code: 500, message: Internal Server Error}
+version: 1
