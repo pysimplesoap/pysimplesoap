@@ -311,6 +311,9 @@ def postprocess_element(elements, processed):
                             if isinstance(v.refers_to, Struct) and v.refers_to.namespaces and kk:
                                 elements[k].namespaces[kk] = v.refers_to.namespaces[kk]
                                 elements[k].references[kk] = v.refers_to.references[kk]
+                    # referred to entity may not have been already processed, hence array conversion is not done
+                    # make sure it is done
+                    postprocess_element(v, processed)
                     # clean the reference:
                     v.refers_to = None
                 else:  # "alias", just replace
