@@ -446,8 +446,8 @@ def datetime_u(s):
         return _strptime(s, fmt)
     except ValueError:
         try:
-            # strip utc offset
-            if s[-3] == ":" and s[-6] in (' ', '-', '+'):
+            # strip zulu timezone suffix or utc offset
+            if s[-1] == "Z" or (s[-3] == ":" and s[-6] in (' ', '-', '+')):
                 try:
                     import iso8601
                     return iso8601.parse_date(s)
@@ -466,8 +466,8 @@ def datetime_u(s):
                 except ImportError:
                     pass
 
-                warnings.warn('removing unsupported UTC offset. Install `iso8601`, `isodate` or `python-dateutil` package to support it', RuntimeWarning)
-                s = s[:-6]
+                warnings.warn('removing unsupported "Z" suffix or UTC offset. Install `iso8601`, `isodate` or `python-dateutil` package to support it', RuntimeWarning)
+                s = s[:-1] if s[-1] == "Z" else s[:-6]
             # parse microseconds
             try:
                 return _strptime(s, fmt + ".%f")
