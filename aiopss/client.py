@@ -79,19 +79,23 @@ class AsyncSoapClient(object):
 
     def __init__(self, *args, **kwargs):
         self.baseclient = SoapClient(*args, **kwargs)
+        self.closed = False
 
     @asyncio.coroutine
     def connect(self):
         yield from self.baseclient.connect()
+        # Store transport and remove from baseclient.
         self.transport = self.baseclient.http
         delattr(self.baseclient, 'http')
-        #print('WSDL fetched!')
 
-    @asyncio.coroutine
     def close(self):
-        pass
+        self.closed = True
+        self.baseclient.http = self.transport
+        return self.baseclient.close()
 
     def __getattr__(self, attr):
+        if self.closed:
+            raise RuntimeError('Client was closed')
         client = deepcopy(self.baseclient)
         client.http = self.transport
         return partial(client.wsdl_call, attr)
@@ -101,14 +105,16 @@ class SoapClient(object):
     """Simple SOAP Client (simil PHP)"""
     def __init__(self, location=None, action=None, namespace=None,
                  cert=None, exceptions=True, proxy=None, ns=None,
-                 soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
-                 sessions=False, soap_server=None, timeout=TIMEOUT,
+                 soap_ns=None, wsdl=None, wsdl_basedir='',
+                 cache=False, cacert=None, sessions=False,
+                 soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
                  username=None, password=None,
                  key_file=None, plugins=None,
                  ):
         """
-        :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
+        :param http_headers: Additional HTTP Headers; example: {'Host':
+        'ipsec.example.com'}
         """
         self.certssl = cert
         self.cache = cache
@@ -904,11 +910,10 @@ class SoapClient(object):
         """Set SOAP Header value - this header will be sent for every request."""
         self.__headers[item] = value
 
-    @asyncio.coroutine
     def close(self):
         """Finish the connection and remove temp files"""
-        yield from self.http.close()
-        if self.cacert.startswith(tempfile.gettempdir()):
+        self.http.close()
+        if self.cacert and self.cacert.startswith(tempfile.gettempdir()):
             log.debug('removing %s' % self.cacert)
             os.unlink(self.cacert)
 

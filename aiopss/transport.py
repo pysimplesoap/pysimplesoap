@@ -224,19 +224,26 @@ class AiohttpTransport(TransportBase):
         if sessions:
             raise NotImplementedError('sessions is not supported')
         self._timeout = timeout
+        self.session = None
 
 
     @asyncio.coroutine
     def request(self, url, method="GET", body=None, headers={}):
-        #TODO: use ClientSession to reuse connection
-        resp = yield from aiohttp.request(
-            method, url, data=body, headers=headers)
-        return resp.headers, (yield from resp.read())
+        if self.session is None:
+            self.session = aiohttp.ClientSession()
+        req = self.session.request(method, url, data=body, headers=headers)
+        try:
+            resp = yield from asyncio.wait_for(req, self._timeout)
+            return resp.headers, (yield from resp.read())
+        except asyncio.TimeoutError as e:
+            logger.info('Soap Request timed out')
+        except Exception as e:
+            logger.warning('Soap request failed')
+        raise e
 
-    @asyncio.coroutine
+
     def close(self):
-        #TODO: close ClientSession to reuse connection
-        pass
+        self.session.close()
 
 _http_connectors['aiohttp'] = AiohttpTransport
 
