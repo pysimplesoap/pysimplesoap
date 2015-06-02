@@ -27,6 +27,7 @@ import logging
 import os
 import tempfile
 import warnings
+import asyncio
 
 from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, Struct
@@ -34,8 +35,10 @@ from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from .helpers import fetch, sort_dict, make_key, process_element, \
                      postprocess_element, get_message, preprocess_schema, \
-                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit
+                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit, Alias
 from .wsse import UsernameToken
+from copy import deepcopy
+from functools import partial
 
 
 log = logging.getLogger(__name__)
@@ -72,6 +75,28 @@ soap_namespaces = dict(
 )
 
 
+class AsyncSoapClient(object):
+
+    def __init__(self, *args, **kwargs):
+        self.baseclient = SoapClient(*args, **kwargs)
+
+    @asyncio.coroutine
+    def connect(self):
+        yield from self.baseclient.connect()
+        self.transport = self.baseclient.http
+        delattr(self.baseclient, 'http')
+        #print('WSDL fetched!')
+
+    @asyncio.coroutine
+    def close(self):
+        pass
+
+    def __getattr__(self, attr):
+        client = deepcopy(self.baseclient)
+        client.http = self.transport
+        return partial(client.wsdl_call, attr)
+
+
 class SoapClient(object):
     """Simple SOAP Client (simil PHP)"""
     def __init__(self, location=None, action=None, namespace=None,
@@ -86,6 +111,7 @@ class SoapClient(object):
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
         """
         self.certssl = cert
+        self.cache = cache
         self.keyssl = key_file
         self.location = location        # server location (url)
         self.action = action            # SOAP base action
@@ -94,6 +120,7 @@ class SoapClient(object):
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers or {}
         self.plugins = plugins or []
+        self.__wsdl = wsdl
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
             # parse the wsdl url, strip the scheme and filename
@@ -165,17 +192,14 @@ class SoapClient(object):
 <%(soap_ns)s:Header/>
 <%(soap_ns)s:Body><%(ns)s:%(method)s></%(ns)s:%(method)s></%(soap_ns)s:Body></%(soap_ns)s:Envelope>"""
 
+
+    @asyncio.coroutine
+    def connect(self, *args, **kwargs):
         # parse wsdl url
-        self.services = wsdl and self.wsdl_parse(wsdl, cache=cache)
+        self.services = self.__wsdl and (yield from self.wsdl_parse(self.__wsdl, cache=self.cache))
         self.service_port = None                 # service port for late binding
 
-    def __getattr__(self, attr):
-        """Return a pseudo-method that can be called"""
-        if not self.services:  # not using WSDL?
-            return lambda self=self, *args, **kwargs: self.call(attr, *args, **kwargs)
-        else:  # using WSDL:
-            return lambda *args, **kwargs: self.wsdl_call(attr, *args, **kwargs)
-
+    @asyncio.coroutine
     def call(self, method, *args, **kwargs):
         """Prepare xml request and make SOAP call, returning a SimpleXMLElement.
 
@@ -253,7 +277,7 @@ class SoapClient(object):
                                     self.__headers, soap_uri)
 
         self.xml_request = request.as_xml()
-        self.xml_response = self.send(method, self.xml_request)
+        self.xml_response = yield from self.send(method, self.xml_request)
         response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty',))
         if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
@@ -276,6 +300,7 @@ class SoapClient(object):
 
         return response
 
+    @asyncio.coroutine
     def send(self, method, xml):
         """Send SOAP request using HTTP"""
         if self.location == 'test': return
@@ -305,10 +330,9 @@ class SoapClient(object):
             # httplib in python3 do the same inside itself, don't need to convert it here
             headers = dict((str(k), str(v)) for k, v in headers.items())
 
-        response, content = self.http.request(
-            location, http_method, body=xml, headers=headers)
-        self.response = response
-        self.content = content
+        response, content = yield from self.http.request(location, http_method, body=xml, headers=headers)
+        #self.response = response
+        #self.content = content
 
         log.debug('\n'.join(["%s: %s" % (k, v) for k, v in response.items()]))
         log.debug(content)
@@ -337,10 +361,12 @@ class SoapClient(object):
                                (method, self.service_port))
         return operation
 
+    @asyncio.coroutine
     def wsdl_call(self, method, *args, **kwargs):
         """Pre and post process SOAP call, input and output parameters using WSDL"""
-        return self.wsdl_call_with_args(method, args, kwargs)
+        return (yield from self.wsdl_call_with_args(method, args, kwargs))
 
+    @asyncio.coroutine
     def wsdl_call_with_args(self, method, args, kwargs):
         """Pre and post process SOAP call, input and output parameters using WSDL"""
         soap_uri = soap_namespaces[self.__soap_ns]
@@ -363,7 +389,7 @@ class SoapClient(object):
         method, params = self.wsdl_call_get_params(method, input, args, kwargs)
 
         # call remote procedure
-        response = self.call(method, *params)
+        response = yield from self.call(method, *params)
         # parse results:
         resp = response('Body', ns=soap_uri).children().unmarshall(output)
         return resp and list(resp.values())[0]  # pass Response tag children
@@ -427,6 +453,7 @@ class SoapClient(object):
         warnings = []
         valid = True
 
+
         # Determine parameter type
         if type(struct) == type(value):
             typematch = True
@@ -445,6 +472,14 @@ class SoapClient(object):
                 except:
                     valid = False
                     errors.append('Type mismatch for argument value. parameter(%s): %s, value(%s): %s' % (type(struct), struct, type(value), value))
+
+        elif isinstance(struct, Alias):
+                try:
+                    struct(value)
+                except:
+                    valid = False
+                    errors.append('Type mismatch for argument value. parameter(%s): %s, value(%s): %s' % (type(struct), struct, type(value), value))
+
 
         elif isinstance(struct, list) and len(struct) == 1 and not isinstance(value, list):
             # parameter can have a dict in a list: [{}] indicating a list is allowed, but not needed if only one argument.
@@ -520,10 +555,11 @@ class SoapClient(object):
     xsd_uri = 'http://www.w3.org/2001/XMLSchema'
     xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
 
+    @asyncio.coroutine
     def _url_to_xml_tree(self, url, cache, force_download):
         """Unmarshall the WSDL at the given url into a tree of SimpleXMLElement nodes"""
         # Open uri and read xml:
-        xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
+        xml = yield from fetch(url, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
         # Parse WSDL XML:
         wsdl = SimpleXMLElement(xml, namespace=self.wsdl_uri)
 
@@ -812,6 +848,7 @@ class SoapClient(object):
 
         return services
 
+    @asyncio.coroutine
     def wsdl_parse(self, url, cache=False):
         """Parse Web Service Description v1.1"""
 
@@ -842,7 +879,7 @@ class SoapClient(object):
         # always return an unicode object:
         REVERSE_TYPE_MAP['string'] = str
 
-        wsdl = self._url_to_xml_tree(url, cache, force_download)
+        wsdl = yield from self._url_to_xml_tree(url, cache, force_download)
         services = self._xml_tree_to_services(wsdl, cache, force_download)
 
         # dump the full service/port/operation map
@@ -867,9 +904,10 @@ class SoapClient(object):
         """Set SOAP Header value - this header will be sent for every request."""
         self.__headers[item] = value
 
+    @asyncio.coroutine
     def close(self):
         """Finish the connection and remove temp files"""
-        self.http.close()
+        yield from self.http.close()
         if self.cacert.startswith(tempfile.gettempdir()):
             log.debug('removing %s' % self.cacert)
             os.unlink(self.cacert)
@@ -890,7 +928,3 @@ def parse_proxy(proxy_str):
     if ':' in user_pass:
         proxy_dict['proxy_user'], proxy_dict['proxy_pass'] = user_pass.split(':')
     return proxy_dict
-
-
-if __name__ == '__main__':
-    pass

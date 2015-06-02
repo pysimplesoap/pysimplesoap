@@ -321,7 +321,7 @@ class SimpleXMLElement(object):
 
     _element = property(lambda self: self.__elements[0])
 
-    def unmarshall(self, types, strict=True):
+    def unmarshall(self, types, strict=False):
         #import pdb; pdb.set_trace()
 
         """Convert to python values the current serialized xml element"""

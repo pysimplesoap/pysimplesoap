@@ -24,6 +24,7 @@ import os
 import logging
 import hashlib
 import warnings
+import asyncio
 
 try:
     import urllib2
@@ -38,6 +39,7 @@ from . import __author__, __copyright__, __license__, __version__
 log = logging.getLogger(__name__)
 
 
+@asyncio.coroutine
 def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers={}):
     """Download a document from a URL, save it locally if cache enabled"""
 
@@ -73,7 +75,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers
             xml = f.read()
         else:
             log.info('GET %s using %s' % (url, http._wrapper_version))
-            response, xml = http.request(url, 'GET', None, headers)
+            response, xml = yield from http.request(url, 'GET', None, headers)
         if cache:
             log.info('Writing file %s' % filename)
             if not os.path.isdir(cache):
@@ -504,6 +506,7 @@ class Alias(object):
 
 if sys.version > '3':
     long = Alias(int, 'long')
+
 byte = Alias(str, 'byte')
 short = Alias(int, 'short')
 double = Alias(float, 'double')
@@ -513,6 +516,7 @@ Date = datetime.date
 Time = datetime.time
 duration = Alias(str, 'duration')
 any_uri = Alias(str, 'anyURI')
+unsignedByte = Alias(str, 'unsignedByte')
 
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {
@@ -531,6 +535,7 @@ TYPE_MAP = {
     datetime.time: 'time',
     duration: 'duration',
     any_uri: 'anyURI',
+    unsignedByte: 'unsignedByte',
 }
 TYPE_MARSHAL_FN = {
     datetime.datetime: datetime_m,

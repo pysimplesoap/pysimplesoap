@@ -13,8 +13,10 @@
 """Pythonic simple SOAP Client transport"""
 
 
+import aiohttp
 import logging
 import sys
+import asyncio
 try:
     import urllib2
     from cookielib import CookieJar
@@ -63,10 +65,10 @@ try:
     import httplib2
     if sys.version > '3' and httplib2.__version__ <= "0.7.7":
         import http.client
-        # httplib2 workaround: check_hostname needs a SSL context with either 
+        # httplib2 workaround: check_hostname needs a SSL context with either
         #                      CERT_OPTIONAL or CERT_REQUIRED
         # see https://code.google.com/p/httplib2/issues/detail?id=173
-        orig__init__ = http.client.HTTPSConnection.__init__ 
+        orig__init__ = http.client.HTTPSConnection.__init__
         def fixer(self, host, port, key_file, cert_file, timeout, context,
                         check_hostname, *args, **kwargs):
             chk = kwargs.get('disable_ssl_certificate_validation', True) ^ True
@@ -83,7 +85,7 @@ else:
         _wrapper_name = 'httplib2'
 
         def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
-#            httplib2.debuglevel=4 
+#            httplib2.debuglevel=4
             kwargs = {}
             if proxy:
                 import socks
@@ -210,6 +212,34 @@ else:
     _http_facilities.setdefault('timeout', []).append('pycurl')
 
 
+class AiohttpTransport(TransportBase):
+    _wrapper_version = "1.0"
+    _wrapper_name = 'AiohttpTransport'
+
+    def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
+        if proxy:
+            raise NotImplementedError('proxy is not supported')
+        if cacert:
+            raise NotImplementedError('cacert is not supported')
+        if sessions:
+            raise NotImplementedError('sessions is not supported')
+        self._timeout = timeout
+
+
+    @asyncio.coroutine
+    def request(self, url, method="GET", body=None, headers={}):
+        #TODO: use ClientSession to reuse connection
+        resp = yield from aiohttp.request(
+            method, url, data=body, headers=headers)
+        return resp.headers, (yield from resp.read())
+
+    @asyncio.coroutine
+    def close(self):
+        #TODO: close ClientSession to reuse connection
+        pass
+
+_http_connectors['aiohttp'] = AiohttpTransport
+
 class DummyTransport:
     """Testing class to load a xml response"""
 
@@ -270,4 +300,4 @@ def get_Http():
 
 
 # define the default HTTP connection class (it can be changed at runtime!):
-set_http_wrapper()
+set_http_wrapper(library='aiohttp')

@@ -35,7 +35,7 @@ for name in ('soap2py', 'PySimpleSOAP'):
         author=__author__,
         author_email=__author_email__,
         url='http://code.google.com/p/pysimplesoap',
-        packages=['pysimplesoap'],
+        packages=['aiopss'],
         license=__license__,
     #    console=['client.py'],
         cmdclass={"py2exe": build_installer},
