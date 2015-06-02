@@ -1,3 +1,44 @@
+Asyncio PySimpleSOAP
+======================
+I will update the readme later, for now the example below must suffice.
+
+```python
+from aiopss.client import AsyncSoapClient
+from datetime import datetime
+import asyncio
+
+
+@asyncio.coroutine
+def example():
+    client = AsyncSoapClient(
+        wsdl="http://www.nimta.com/Gateway/Kunder/Udsend/GatewayModtager.wsdl",
+        location="http://cypres.dk/files/gatewaytest/"
+    )
+
+    yield from client.connect()
+    response = yield from client.receiveSMSStatuses(
+        username='jonas',
+        password='password',
+        statuses=[
+            {'Status':
+                {
+                    'messageID': 1,
+                    'countryCode': 45,
+                    'number': '26159917',
+                    'latestStatus': datetime.today(),
+                    'statusCode': '1',
+                    'errorCode': '2',
+                }
+            }
+        ]
+    )
+    print(response)
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(example())
+loop.close()
+```
+
 PySimpleSOAP / soap2py
 ======================
 
