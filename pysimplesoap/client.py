@@ -262,8 +262,14 @@ class SoapClient(object):
 
             if detailXml and detailXml.children():
                 operation = self.get_operation(method)
-                fault = operation['faults'][detailXml.children()[0].get_name()]
-                detail = detailXml.children()[0].unmarshall(fault, strict=False)
+                fault_name = detailXml.children()[0].get_name()
+                if fault_name in operation['faults']:
+                    fault = operation['faults'][fault_name]
+                    detail = detailXml.children()[0].unmarshall(fault, strict=False)
+                else:
+                    # No fault defined! Just return the detail as a SimpleXMLElement and
+                    # let the user do the rest.
+                    detail = detailXml
 
             raise SoapFault(unicode(response.faultcode),
                             unicode(response.faultstring),
