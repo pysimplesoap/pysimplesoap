@@ -245,9 +245,11 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                         # {'ClassName': [{'attr1': val1, 'attr2': val2}]
                         fn.array = True
                     else:
-                        # .NET style support (backward compatibility)
-                        # [{'ClassName': {'attr1': val1, 'attr2': val2}]
-                        struct.array = True
+                        # .NET style now matches Jetty style
+                        # {'ClassName': [{'attr1': val1, 'attr2': val2}]
+                        #fn.array = True
+                        #struct.array = True
+                        fn = [fn]
                 else:
                     if len(children) > 1 or dialect in ('jetty',):
                         # Jetty style support
@@ -288,6 +290,8 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
 
 def postprocess_element(elements, processed):
     """Fix unresolved references"""
+    #elements variable contains all eelements and complexTypes defined in http://www.w3.org/2001/XMLSchema
+
     # (elements referenced before its definition, thanks .net)
     # avoid already processed elements:
     if elements in processed:
@@ -303,14 +307,7 @@ def postprocess_element(elements, processed):
                     warnings.warn(unicode(e), RuntimeWarning)
             if v.refers_to:  # extension base?
                 if isinstance(v.refers_to, dict):
-                    for i, kk in enumerate(v.refers_to):
-                        # extend base -keep orginal order-
-                        if isinstance(v.refers_to, Struct):
-                            elements[k].insert(kk, v.refers_to[kk], i)
-                            # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
-                            if isinstance(v.refers_to, Struct) and v.refers_to.namespaces and kk:
-                                elements[k].namespaces[kk] = v.refers_to.namespaces[kk]
-                                elements[k].references[kk] = v.refers_to.references[kk]
+                    extend_element(v, v.refers_to)
                     # clean the reference:
                     v.refers_to = None
                 else:  # "alias", just replace
@@ -324,6 +321,20 @@ def postprocess_element(elements, processed):
                     #if n != elements:  # TODO: fix recursive elements
                     postprocess_element(n, processed)
 
+def extend_element(element, base):
+    ''' Recursively extend the elemnet if it has an extension base.'''
+    ''' Recursion is needed if the extension base itself extends another element.'''
+    if isinstance(base, dict):
+        for i, kk in enumerate(base):
+            # extend base -keep orginal order-
+            if isinstance(base, Struct):
+                element.insert(kk, base[kk], i)
+                # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
+                if isinstance(base, Struct) and base.namespaces and kk:
+                    element.namespaces[kk] = base.namespaces[kk]
+                    element.references[kk] = base.references[kk]
+        if base.refers_to:
+            extend_element(element, base.refers_to)
 
 def get_message(messages, message_name, part_name, parameter_order=None):
     if part_name:
