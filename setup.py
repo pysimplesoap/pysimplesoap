@@ -20,7 +20,6 @@ if os.path.exists("README.md") and sys.platform == "linux2":
     try:
         cmd = ['pandoc', '--from=markdown', '--to=rst', 'README.md']
         long_desc = subprocess.check_output(cmd).decode("utf8")
-        print "Long DESC", long_desc
     except Exception as e:
         warnings.warn("Exception when converting the README format: %s" % e)
 
