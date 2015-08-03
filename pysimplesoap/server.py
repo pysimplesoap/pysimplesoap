@@ -385,7 +385,7 @@ class SoapDispatcher(object):
                         parse_element(n, v.items(), complex=True)
                         t = "tns:%s" % n
                     else:
-                        raise TypeError("unknonw type v for marshalling" % str(v))
+                        raise TypeError("unknonw type %s for marshalling" % str(v))
                     e.add_attribute('type', t)
 
             parse_element("%s" % method, args and args.items())
