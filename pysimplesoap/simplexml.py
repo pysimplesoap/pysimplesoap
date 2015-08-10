@@ -385,7 +385,9 @@ class SimpleXMLElement(object):
             if isinstance(fn, list):
                 # append to existing list (if any) - unnested dict arrays -
                 value = d.setdefault(name, [])
-                children = node.children()
+                # If the node has no children then the node itself might
+                # have multiple occurrences:
+                children = node.children() or node
                 # TODO: check if this was really needed (get first child only)
                 ##if len(fn[0]) == 1 and children:
                 ##    children = children()
