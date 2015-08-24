@@ -11,7 +11,7 @@
 # for more details.
 
 """Pythonic XML Security Library implementation"""
-
+from __future__ import print_function
 import base64
 import hashlib
 import os
