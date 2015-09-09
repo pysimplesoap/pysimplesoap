@@ -291,8 +291,11 @@ class SoapClient(object):
         headers = {
             'Content-type': 'text/xml; charset="UTF-8"',
             'Content-length': str(len(xml)),
-            'SOAPAction': '"%s"' % soap_action
         }
+
+        if self.action:
+            headers['SOAPAction'] = soap_action
+
         headers.update(self.http_headers)
         log.info("POST %s" % location)
         log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
