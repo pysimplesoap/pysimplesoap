@@ -516,6 +516,9 @@ class SoapClient(object):
             headers,
         )
 
+    def set_service_port(self, port):
+        self.service_port = self.service_port[0], port
+
     soap_ns_uris = {
         'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
         'http://schemas.xmlsoap.org/wsdl/soap12/': 'soap12',
