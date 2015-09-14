@@ -81,6 +81,7 @@ class SoapClient(object):
                  http_headers=None, trace=False,
                  username=None, password=None,
                  key_file=None, plugins=None,
+                 transport=None
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -94,6 +95,7 @@ class SoapClient(object):
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers or {}
         self.plugins = plugins or []
+        self.transport = transport
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
             # parse the wsdl url, strip the scheme and filename
@@ -136,6 +138,8 @@ class SoapClient(object):
         self.cacert = cacert
 
         # Create HTTP wrapper
+        if not self.transport == None:
+            set_http_wrapper(self.transport)
         Http = get_Http()
         self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
         if username and password:
@@ -511,6 +515,9 @@ class SoapClient(object):
             operation.get('documentation', ''),
             headers,
         )
+
+    def set_service_port(self, port):
+        self.service_port = self.service_port[0], port
 
     soap_ns_uris = {
         'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
