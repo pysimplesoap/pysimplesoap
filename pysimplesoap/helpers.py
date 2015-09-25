@@ -6,7 +6,7 @@
 # later version.
 #
 # This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTIBILITY
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 
@@ -326,7 +326,7 @@ def extend_element(element, base):
     ''' Recursion is needed if the extension base itself extends another element.'''
     if isinstance(base, dict):
         for i, kk in enumerate(base):
-            # extend base -keep orginal order-
+            # extend base -keep orignal order-
             if isinstance(base, Struct):
                 element.insert(kk, base[kk], i)
                 # update namespace (avoid ArrayOfKeyValueOfanyTypeanyType)
@@ -525,7 +525,7 @@ Time = datetime.time
 duration = Alias(str, 'duration')
 any_uri = Alias(str, 'anyURI')
 
-# Define convertion function (python type): xml schema type
+# Define conversion function (python type): xml schema type
 TYPE_MAP = {
     unicode: 'string',
     bool: 'boolean',
