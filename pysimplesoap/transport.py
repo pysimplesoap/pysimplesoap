@@ -14,6 +14,7 @@
 
 
 import logging
+import ssl
 import sys
 try:
     import urllib2
@@ -121,6 +122,7 @@ class urllib2Transport(TransportBase):
             raise RuntimeError('proxy is not supported with urllib2 transport')
         if cacert:
             raise RuntimeError('cacert is not support with urllib2 transport')
+        self.cacert = cacert
 
         self.request_opener = urllib2.urlopen
         if sessions:
@@ -131,8 +133,12 @@ class urllib2Transport(TransportBase):
 
     def request(self, url, method="GET", body=None, headers={}):
         req = urllib2.Request(url, body, headers)
+        if not self.cacert:
+            context = ssl.create_default_context()
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
         try:
-            f = self.request_opener(req, timeout=self._timeout)
+            f = self.request_opener(req, timeout=self._timeout, context=context)
             return f.info(), f.read()
         except urllib2.HTTPError as f:
             if f.code != 500:
