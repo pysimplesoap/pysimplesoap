@@ -563,6 +563,10 @@ REVERSE_TYPE_MAP = dict([(v, k) for k, v in TYPE_MAP.items()])
 
 REVERSE_TYPE_MAP.update({
     'base64Binary': str,
+    'unsignedByte': byte,
+    'unsignedInt': int,
+    'unsignedLong': long,
+    'unsignedShort': short
 })
 
 # insert str here to avoid collision in REVERSE_TYPE_MAP (i.e. decoding errors)
