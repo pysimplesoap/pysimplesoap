@@ -796,7 +796,7 @@ class SoapClient(object):
                 binding = ports[port['name']] = copy.deepcopy(bindings[binding_name])
                 address = port('address', ns=list(soap_uris.values()), error=False)
                 location = address and address['location'] or None
-                soap_uri = address and soap_uris.get(address.get_prefix())
+                soap_uri = address and soap_uris.get(address.get_prefix()) or address["xmlns"]
                 soap_ver = soap_uri and self.soap_ns_uris.get(soap_uri)
 
                 binding.update({
