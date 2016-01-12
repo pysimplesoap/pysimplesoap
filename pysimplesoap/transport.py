@@ -6,7 +6,7 @@
 # version.
 #
 # This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTIBILITY
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 
@@ -91,7 +91,7 @@ else:
                 kwargs['proxy_info'] = httplib2.ProxyInfo(proxy_type=socks.PROXY_TYPE_HTTP, **proxy)
                 log.info("using proxy %s" % proxy)
 
-            # set optional parameters according supported httplib2 version
+            # set optional parameters according to supported httplib2 version
             if httplib2.__version__ >= '0.3.0':
                 kwargs['timeout'] = timeout
             if httplib2.__version__ >= '0.7.0':

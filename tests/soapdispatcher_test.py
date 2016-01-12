@@ -52,7 +52,7 @@ class TestSoapDispatcher(unittest.TestCase):
         self.dispatcher.register_function('Echo', echo)
 
     def test_classic_dialect(self):
-        # adder local test (clasic soap dialect)
+        # adder local test (classic soap dialect)
         resp = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soap:Body><AdderResponse xmlns="http://example.com/pysimplesoapsamle/"><dd>5000000.3</dd><ab>3</ab><dt>2011-07-24</dt></AdderResponse></soap:Body></soap:Envelope>"""
         xml = """<?xml version="1.0" encoding="UTF-8"?>
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">

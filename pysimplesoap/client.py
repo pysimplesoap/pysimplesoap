@@ -6,7 +6,7 @@
 # version.
 #
 # This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTIBILITY
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 
@@ -395,7 +395,7 @@ class SoapClient(object):
             valid, errors, warnings = self.wsdl_validate_params(input, all_args)
             if not valid:
                 raise ValueError('Invalid Args Structure. Errors: %s' % errors)
-            # sort and filter parameters acording wsdl input structure
+            # sort and filter parameters according to wsdl input structure
             tree = sort_dict(input, all_args)
             root = list(tree.values())[0]
             params = []
@@ -531,7 +531,7 @@ class SoapClient(object):
         self.namespace = ""
         self.documentation = unicode(wsdl('documentation', error=False)) or ''
 
-        # some wsdl are splitted down in several files, join them:
+        # some wsdl are split down in several files, join them:
         imported_wsdls = {}
         for element in wsdl.children() or []:
             if element.get_local_name() in ('import'):
@@ -707,7 +707,7 @@ class SoapClient(object):
                 if action:
                     op['action'] = action
 
-                # input and/or ouput can be not present!
+                # input and/or output can be not present!
                 input = operation_node('input', error=False)
                 body = input and input('body', ns=list(soap_uris.values()), error=False)
                 parts_input_body = body and body['parts'] or None
@@ -729,7 +729,7 @@ class SoapClient(object):
                         if hdr:
                             headers.update(hdr)
                         else:
-                            pass # not enought info to search the header message:
+                            pass # not enough info to search the header message:
                     op['input'] = get_message(messages, op['input_msg'], parts_input_body, op['parameter_order'])
                     op['header'] = headers
 

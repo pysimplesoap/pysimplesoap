@@ -6,7 +6,7 @@
 # version.
 #
 # This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTIBILITY
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 # for more details.
 
@@ -325,7 +325,7 @@ class SimpleXMLElement(object):
         #import pdb; pdb.set_trace()
 
         """Convert to python values the current serialized xml element"""
-        # types is a dict of {tag name: convertion function}
+        # types is a dict of {tag name: conversion function}
         # strict=False to use default type conversion if not specified
         # example: types={'p': {'a': int,'b': int}, 'c': [{'d':str}]}
         #   expected xml: <p><a>1</a><b>2</b></p><c><d>hola</d><d>chau</d>
