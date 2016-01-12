@@ -207,8 +207,8 @@ class SoapDispatcher(object):
             etype, evalue, etb = sys.exc_info()
             log.error(traceback.format_exc())
             if self.debug:
-                detail = ''.join(traceback.format_exception(etype, evalue, etb))
-                detail += '\n\nXML REQUEST\n\n' + xml
+                detail = u''.join(traceback.format_exception(etype, evalue, etb))
+                detail += u'\n\nXML REQUEST\n\n' + xml.decode('UTF-8')
             else:
                 detail = None
             fault.update({'faultcode': "%s.%s" % (soap_fault_code, etype.__name__),
@@ -385,7 +385,7 @@ class SoapDispatcher(object):
                         parse_element(n, v.items(), complex=True)
                         t = "tns:%s" % n
                     else:
-                        raise TypeError("unknonw type v for marshalling" % str(v))
+                        raise TypeError("unknonw type %s for marshalling" % str(v))
                     e.add_attribute('type', t)
 
             parse_element("%s" % method, args and args.items())
