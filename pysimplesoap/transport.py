@@ -191,7 +191,7 @@ else:
                 c.setopt(c.CAINFO, self.cacert)
             c.setopt(pycurl.SSL_VERIFYPEER, self.cacert and 1 or 0)
             c.setopt(pycurl.SSL_VERIFYHOST, self.cacert and 2 or 0)
-            c.setopt(pycurl.CONNECTTIMEOUT, self.timeout / 6)
+            c.setopt(pycurl.CONNECTTIMEOUT, self.timeout)
             c.setopt(pycurl.TIMEOUT, self.timeout)
             if method == 'POST':
                 c.setopt(pycurl.POST, 1)
