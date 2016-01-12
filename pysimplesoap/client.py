@@ -296,7 +296,7 @@ class SoapClient(object):
             'Content-length': str(len(xml)),
         }
 
-        if self.action:
+        if self.action is not None:
             headers['SOAPAction'] = soap_action
 
         headers.update(self.http_headers)
@@ -710,7 +710,7 @@ class SoapClient(object):
                 op = binding['operations'].setdefault(op_name, {})
                 op['name'] = op_name
                 op['style'] = op.get('style', style)
-                if action:
+                if action is not None:
                     op['action'] = action
 
                 # input and/or output can be not present!
