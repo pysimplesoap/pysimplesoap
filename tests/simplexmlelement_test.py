@@ -141,6 +141,29 @@ class TestSimpleXMLElement(unittest.TestCase):
             )}}
         self.eq(span.unmarshall(d), e)
 
+    def test_multiple_element_unmarshall_one(self):
+        xml = """
+        <results>
+            <foo>bar</foo>
+        </results>
+        """
+        span = SimpleXMLElement(xml)
+        d = {'results': {'foo': [str]}}
+        e = {'results': {'foo': ['bar']}}
+        self.eq(span.unmarshall(d), e)
+
+    def test_multiple_element_unmarshall_two(self):
+        xml = """
+        <results>
+            <foo>bar</foo>
+            <foo>baz</foo>
+        </results>
+        """
+        span = SimpleXMLElement(xml)
+        d = {'results': {'foo': [str]}}
+        e = {'results': {'foo': ['bar', 'baz']}}
+        self.eq(span.unmarshall(d), e)
+
     def test_basic(self):
         span = SimpleXMLElement(
             '<span><a href="python.org.ar">pyar</a>'

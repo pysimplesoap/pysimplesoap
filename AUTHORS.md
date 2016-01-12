@@ -40,3 +40,4 @@ Patches and Suggestions
 - jpc <jpc@alumni.rice.edu>
 - Luka Birsa
 - Bill Bennert @billwebreply
+- Sean E. Millichamp
