@@ -42,7 +42,7 @@ class TestIssues(unittest.TestCase):
     def test_wsaa_exception(self):
         """Test WSAA for SoapFault"""
         WSDL = "https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl"
-        client = SoapClient(wsdl=WSDL, ns="web")
+        client = SoapClient(wsdl=WSDL, trace=False, ns="web")
         try:
             resultado = client.loginCms('31867063')
         except SoapFault as e:
@@ -130,3 +130,10 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(resultget['Cbte_nro'], 38)
         self.assertEqual(resultget['Imp_total'], Decimal('130.21'))
         self.assertEqual(resultget['Cbte_tipo'], 19)
+        
+if __name__ == '__main__':
+    #unittest.main()
+    suite = unittest.TestSuite()
+    suite.addTest(TestIssues('test_wsaa_exception'))
+    unittest.TextTestRunner().run(suite)
+
