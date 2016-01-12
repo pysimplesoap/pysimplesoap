@@ -80,7 +80,7 @@ class SoapClient(object):
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
                  username=None, password=None,
-                 key_file=None, plugins=None,
+                 key_file=None, plugins=None, strict=True,
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -94,6 +94,7 @@ class SoapClient(object):
         self.xml_request = self.xml_response = ''
         self.http_headers = http_headers or {}
         self.plugins = plugins or []
+        self.strict = strict
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
             # parse the wsdl url, strip the scheme and filename
@@ -371,7 +372,7 @@ class SoapClient(object):
         # call remote procedure
         response = self.call(method, *params)
         # parse results:
-        resp = response('Body', ns=soap_uri).children().unmarshall(output)
+        resp = response('Body', ns=soap_uri).children().unmarshall(output, strict=self.strict)
         return resp and list(resp.values())[0]  # pass Response tag children
 
     def wsdl_call_get_params(self, method, input, args, kwargs):
