@@ -261,12 +261,15 @@ class SoapClient(object):
             detail = None
 
             if detailXml and detailXml.children():
-                operation = self.get_operation(method)
-                fault_name = detailXml.children()[0].get_name()
-                # if fault not defined in WSDL, it could be an axis or other 
-                # standard type (i.e. "hostname"), try to convert it to string 
-                fault = operation['faults'].get(fault_name) or unicode
-                detail = detailXml.children()[0].unmarshall(fault, strict=False)
+                if self.services is not None:
+                    operation = self.get_operation(method)
+                    fault_name = detailXml.children()[0].get_name()
+                    # if fault not defined in WSDL, it could be an axis or other 
+                    # standard type (i.e. "hostname"), try to convert it to string 
+                    fault = operation['faults'].get(fault_name) or unicode
+                    detail = detailXml.children()[0].unmarshall(fault, strict=False)
+                else:
+                    detail = repr(detailXml.children())
 
             raise SoapFault(unicode(response.faultcode),
                             unicode(response.faultstring),
