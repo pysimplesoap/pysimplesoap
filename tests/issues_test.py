@@ -23,6 +23,13 @@ class TestIssues(unittest.TestCase):
             wsdl='http://uat.destin8.co.uk:80/ChiefEDI/ChiefEDI?wsdl'
         )
 
+    def test_issue33(self):
+        """Test SSL/TLS connection to self-signed or invalid hostname"""
+        # correct hostname is wsaahomo.afip.gov.ar, so avoid cert validation: 
+        wsdl = "https://wsaahomo.afip.gob.ar/ws/services/LoginCms?wsdl"
+        client = SoapClient(wsdl=wsdl, cert=None, cacert=None)
+        # TODO: handle incorrect or invalid certificate connection...        
+
     def test_issue34(self):
         """Test soap_server SoapClient constructor parameter"""
         client = SoapClient(
@@ -647,6 +654,7 @@ ageResult></AddPackageResponse></soap:Body></soap:Envelope>
 if __name__ == '__main__':
     #unittest.main()
     suite = unittest.TestSuite()
+    suite.addTest(TestIssues('test_issue33'))
     #suite.addTest(TestIssues('test_issue34'))
     #suite.addTest(TestIssues('test_issue93'))
     #suite.addTest(TestIssues('test_issue57'))
@@ -659,5 +667,5 @@ if __name__ == '__main__':
     #suite.addTest(TestIssues('test_issue130'))
     #suite.addTest(TestIssues('test_issue141'))
     #suite.addTest(TestIssues('test_issue143'))
-    suite.addTest(TestIssues('test_issue157'))
+    #suite.addTest(TestIssues('test_issue157'))
     unittest.TextTestRunner().run(suite)
