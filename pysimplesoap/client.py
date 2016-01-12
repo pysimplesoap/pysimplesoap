@@ -262,7 +262,10 @@ class SoapClient(object):
 
             if detailXml and detailXml.children():
                 operation = self.get_operation(method)
-                fault = operation['faults'][detailXml.children()[0].get_name()]
+                fault_name = detailXml.children()[0].get_name()
+                # if fault not defined in WSDL, it could be an axis or other 
+                # standard type (i.e. "hostname"), try to convert it to string 
+                fault = operation['faults'].get(fault_name) or unicode
                 detail = detailXml.children()[0].unmarshall(fault, strict=False)
 
             raise SoapFault(unicode(response.faultcode),
