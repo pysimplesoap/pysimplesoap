@@ -830,7 +830,7 @@ class SoapClient(object):
         force_download = False
         if cache:
             # make md5 hash of the url for caching...
-            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
+            filename_pkl = '%s.pkl' % hashlib.md5(url.encode('utf8')).hexdigest()
             if isinstance(cache, basestring):
                 filename_pkl = os.path.join(cache, filename_pkl)
             if os.path.exists(filename_pkl):
