@@ -7,6 +7,7 @@ import httplib2
 import socket
 from xml.parsers.expat import ExpatError
 from pysimplesoap.client import SoapClient, SimpleXMLElement, SoapFault
+from pysimplesoap.helpers import Alias
 from .dummy_utils import DummyHTTP, TEST_DIR
 
 import sys
@@ -243,6 +244,10 @@ class TestIssues(unittest.TestCase):
             self.assertIsNotNone(question)
             self.assertNotEqual(question, "")
 
+    def test_issue65(self):
+        client = SoapClient()
+        valid = client.wsdl_validate_params(Alias(float, 'double'), 10.7)
+        self.assertTrue(valid[0], valid[1:])
                             
     def test_issue66(self):
         """Verify marshaled requests can be sent with no children"""
