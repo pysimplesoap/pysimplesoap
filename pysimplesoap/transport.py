@@ -122,23 +122,27 @@ class urllib2Transport(TransportBase):
             raise RuntimeError('proxy is not supported with urllib2 transport')
         if cacert:
             raise RuntimeError('cacert is not support with urllib2 transport')
-        self.cacert = cacert
+        
+        handlers = []
 
-        self.request_opener = urllib2.urlopen
+        if ((sys.version_info[0] == 2 and sys.version_info >= (2,7,9)) or
+            (sys.version_info[0] == 3 and sys.version_info >= (3,2,0))):
+            context = ssl.create_default_context()
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
+            handlers.append(urllib2.HTTPSHandler(context=context))
+        
         if sessions:
-            opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(CookieJar()))
-            self.request_opener = opener.open
-
+            handlers.append(urllib2.HTTPCookieProcessor(CookieJar()))
+        
+        opener = urllib2.build_opener(*handlers)
+        self.request_opener = opener.open
         self._timeout = timeout
 
     def request(self, url, method="GET", body=None, headers={}):
         req = urllib2.Request(url, body, headers)
-        if not self.cacert:
-            context = ssl.create_default_context()
-            context.check_hostname = False
-            context.verify_mode = ssl.CERT_NONE
         try:
-            f = self.request_opener(req, timeout=self._timeout, context=context)
+            f = self.request_opener(req, timeout=self._timeout)
             return f.info(), f.read()
         except urllib2.HTTPError as f:
             if f.code != 500:
@@ -148,10 +152,8 @@ class urllib2Transport(TransportBase):
 _http_connectors['urllib2'] = urllib2Transport
 _http_facilities.setdefault('sessions', []).append('urllib2')
 
-import sys
 if sys.version_info >= (2, 6):
     _http_facilities.setdefault('timeout', []).append('urllib2')
-del sys
 
 #
 # pycurl support.
