@@ -8,6 +8,7 @@ import socket
 from xml.parsers.expat import ExpatError
 from pysimplesoap.client import SoapClient, SimpleXMLElement, SoapFault
 from pysimplesoap.helpers import Alias
+from pysimplesoap.transport import set_http_wrapper
 from .dummy_utils import DummyHTTP, TEST_DIR
 
 import sys
@@ -29,7 +30,11 @@ class TestIssues(unittest.TestCase):
         # correct hostname is wsaahomo.afip.gov.ar, so avoid cert validation: 
         wsdl = "https://wsaahomo.afip.gob.ar/ws/services/LoginCms?wsdl"
         client = SoapClient(wsdl=wsdl, cert=None, cacert=None)
-        # TODO: handle incorrect or invalid certificate connection...        
+        # TODO: handle incorrect or invalid certificate connection...
+
+    def test_issue33_fix(self):
+        set_http_wrapper('urllib2')
+        client = SoapClient(sessions=True)
 
     def test_issue34(self):
         """Test soap_server SoapClient constructor parameter"""
