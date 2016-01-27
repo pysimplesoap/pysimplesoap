@@ -197,11 +197,12 @@ class SoapClient(object):
 
         request_headers = kwargs.pop('headers', None)
 
+        parameters = list(args)
+
         # serialize parameters
         if kwargs:
             parameters = list(kwargs.items())
-        else:
-            parameters = args
+
         if parameters and isinstance(parameters[0], SimpleXMLElement):
             body = request('Body', ns=list(soap_namespaces.values()),)
             # remove default body parameter (method name)
