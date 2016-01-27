@@ -142,6 +142,7 @@ class SoapDispatcher(object):
         # _ns_reversed = {'http://external.mt.moboperator': 'external', 'http://model.common.mt.moboperator': 'model'}
 
         try:
+            xml = xml.encode('utf-8', 'replace')
             request = SimpleXMLElement(xml, namespace=self.namespace)
 
             # detect soap prefix and uri (xmlns attributes of Envelope)
