@@ -216,7 +216,7 @@ class SoapClient(object):
                     ns = v.namespaces.get(None, True)
                 else:
                     ns = use_ns
-                getattr(request, method).marshall(k, v, ns=ns)
+                getattr(request, method).marshall(k, v, ns=ns, add_children_ns=False)
         elif self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=list(soap_namespaces.values()),), method)
