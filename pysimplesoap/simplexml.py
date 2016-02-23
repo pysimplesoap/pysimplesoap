@@ -17,6 +17,7 @@ __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
 __version__ = "1.03b"
 
+import base64
 import datetime
 import logging
 import re
@@ -113,6 +114,10 @@ TYPE_UNMARSHAL_FN = {
 }
 
 REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
+REVERSE_TYPE_MAP.update({
+    'base64Binary': base64.b64decode,
+})
+
 
 class OrderedDict(dict):
     "Minimal ordered dictionary for xsd:sequences"
@@ -470,14 +475,22 @@ class SimpleXMLElement(object):
                 # TODO: check if this was really needed (get first child only)
                 ##if len(fn[0]) == 1 and children:
                 ##    children = children()
-                if self.__jetty and len(fn[0]) > 1: 
-                    # Jetty array style support [{k, v}]
+                if name =="variedad":
+                    pass#import pdb; pdb.set_trace()
+                if self.__jetty or len(fn[0]) > 1: 
+                    # Jetty array style support [{k: v}]
                     for parent in node:
                         tmp_dict = {}    # unmarshall each value & mix
                         for child in (node.children() or []):
-                            tmp_dict.update(child.unmarshall(fn[0], strict))
+                            # preserve lists (unnested unnested arrays...)
+                            _d = child.unmarshall(fn[0], strict)
+                            _k, _v = _d.items()[0]
+                            if isinstance(_v, list):
+                                tmp_dict.setdefault(_k, []).append(_v[0])
+                            else:
+                                tmp_dict.update(_d)
                         value.append(tmp_dict)  
-                else:  # .Net / Java                   
+                else:  # .Net / Java [{type: {k: v}]
                     for child in (children or []):
                         value.append(child.unmarshall(fn[0], strict))
             
