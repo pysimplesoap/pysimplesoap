@@ -15,7 +15,7 @@
 from __future__ import unicode_literals
 import sys
 if sys.version > '3':
-    unicode = str
+    basestring = unicode = str
 
 try:
     import cPickle as pickle
@@ -468,7 +468,11 @@ class SoapClient(object):
         elif isinstance(struct, dict):
             if struct and value:
                 for key in value:
-                    if key not in struct:
+                    if isinstance(key, (dict, list)):
+                        # TODO: FIX TypeError: unhashable type: 'dict'
+                        warnings.append('dict or list, unable to continue validation')
+                        break
+                    elif key not in struct:
                         valid = False
                         errors.append('Argument key %s not in parameter. parameter: %s, args: %s' % (key, struct, value))
                     else:
@@ -830,12 +834,12 @@ class SoapClient(object):
         force_download = False
         if cache:
             # make md5 hash of the url for caching...
-            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
+            filename_pkl = '%s.pkl' % hashlib.md5(url.encode("utf8")).hexdigest()
             if isinstance(cache, basestring):
                 filename_pkl = os.path.join(cache, filename_pkl)
             if os.path.exists(filename_pkl):
                 log.debug('Unpickle file %s' % (filename_pkl, ))
-                f = open(filename_pkl, 'r')
+                f = open(filename_pkl, 'rb')
                 pkl = pickle.load(f)
                 f.close()
                 # sanity check:
