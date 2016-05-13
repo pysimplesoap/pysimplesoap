@@ -515,6 +515,25 @@ class Alias(object):
 
     def __eq__(self, other):
         return isinstance(other, Alias) and self.xml_type == other.xml_type
+        
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __gt__(self, other):
+        if isinstance(other, Alias): return self.xml_type > other.xml_type
+        if isinstance(other, Struct): return False
+        return True
+
+    def __lt__(self, other):
+        if isinstance(other, Alias): return self.xml_type < other.xml_type
+        if isinstance(other, Struct): return True
+        return False
+
+    def __ge__(self, other):
+        return self.__gt__(other) or self.__eq__(other)
+
+    def __le__(self, other):
+        return self.__gt__(other) or self.__eq__(other)
 
     def __hash__(self):
         return hash(self.xml_type)
@@ -640,6 +659,23 @@ class Struct(dict):
     def __eq__(self, other):
         return isinstance(other, Struct) and self.key == other.key and self.key != None
 
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __gt__(self, other):
+        if isinstance(other, Struct): return (self.key[2], self.key[0], self.key[1]) > (other.key[2], other.key[0], other.key[1])
+        return True
+
+    def __lt__(self, other):
+        if isinstance(other, Struct): return (self.key[2], self.key[0], self.key[1]) < (other.key[2], other.key[0], other.key[1])
+        return False
+
+    def __ge__(self, other):
+        return self.__gt__(other) or self.__eq__(other)
+
+    def __le__(self, other):
+        return self.__gt__(other) or self.__eq__(other)
+
     def __hash__(self):
         return hash(self.key)
 
@@ -647,11 +683,24 @@ class Struct(dict):
         return "%s" % dict.__str__(self)
 
     def __repr__(self):
-        try:
-            s = "{%s}" % ", ".join(['%s: %s' % (repr(k), repr(v)) for k, v in self.items()])
-        except RuntimeError as e:  # maximum recursion depth exceeded
-            s = "{%s}" % ", ".join(['%s: %s' % (repr(k), unicode(e)) for k, v in self.items()])
-            warnings.warn(unicode(e), RuntimeWarning)
-        if self.array and False:
-            s = "[%s]" % s
+        if not self.key: return str(self.keys())
+        s = '%s' % self.key[0]
+        if self.keys():
+            s += ' {'
+            for k, t in self.items():
+                is_list = False
+                if isinstance(t, list):
+                    is_list = True
+                    t = t[0]
+                if isinstance(t, type):
+                    t = t.__name__
+                    pass
+                elif isinstance(t, Alias):
+                    t = t.xml_type
+                elif isinstance(t, Struct):
+                    t = t.key[0]
+                if is_list:
+                    t = [t]
+                s += '%s: %s, ' % (k, t)
+            s = s[:-2]+'}'
         return s
