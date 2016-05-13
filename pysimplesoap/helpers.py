@@ -208,9 +208,9 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                                 # get the complext element:
                                 ref_type = "complexType"
                                 key = make_key(type_name, ref_type, fn_namespace)
-                                fn_complex = elements.setdefault(key, Struct())
+                                fn_complex = elements.setdefault(key, Struct(key))
                                 # create an indirect struct {type_name: ...}:
-                                fn_array = Struct()
+                                fn_array = Struct(key)
                                 fn_array[type_name] = fn_complex
                                 fn_array.namespaces[None] = fn_namespace   # set the default namespace
                                 fn_array.qualified = qualified
@@ -235,7 +235,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                 else:
                     ref_type = "element"
                 key = make_key(type_name, ref_type, fn_namespace)
-                fn = elements.setdefault(key, Struct())
+                fn = elements.setdefault(key, Struct(key))
 
             if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
                 # it's an array... TODO: compound arrays? and check ns uri!
@@ -285,7 +285,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
         # add the processed element to the main dictionary (if not extension):
         if new_struct:
             key = make_key(element_name, element_type, namespace)
-            elements.setdefault(key, Struct()).update(struct)
+            elements.setdefault(key, Struct(key)).update(struct)
 
 
 def postprocess_element(elements, processed):
@@ -583,7 +583,8 @@ if str not in TYPE_MAP:
 class Struct(dict):
     """Minimal ordered dictionary to represent elements (i.e. xsd:sequences)"""
 
-    def __init__(self):
+    def __init__(self, key=None):
+        self.key = key
         self.__keys = []
         self.array = False
         self.namespaces = {}     # key: element, value: namespace URI
@@ -616,6 +617,8 @@ class Struct(dict):
         return [(key, self[key]) for key in self.__keys]
 
     def update(self, other):
+        if isinstance(other, Struct) and other.key:
+            self.key = other.key
         for k, v in other.items():
             self[k] = v
         # do not change if we are an array but the other is not:
@@ -630,9 +633,15 @@ class Struct(dict):
 
     def copy(self):
         "Make a duplicate"
-        new = Struct()
+        new = Struct(self.key)
         new.update(self)
         return new
+
+    def __eq__(self, other):
+        return isinstance(other, Struct) and self.key == other.key and self.key != None
+
+    def __hash__(self):
+        return hash(self.key)
 
     def __str__(self):
         return "%s" % dict.__str__(self)
