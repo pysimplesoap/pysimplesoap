@@ -32,11 +32,10 @@ from . import __author__, __copyright__, __license__, __version__, TIMEOUT
 from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, Struct
 from .transport import get_http_wrapper, set_http_wrapper, get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
-from .helpers import fetch, sort_dict, make_key, process_element, \
+from .helpers import Alias, fetch, sort_dict, make_key, process_element, \
                      postprocess_element, get_message, preprocess_schema, \
                      get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit
 from .wsse import UsernameToken
-
 
 log = logging.getLogger(__name__)
 
@@ -819,6 +818,13 @@ class SoapClient(object):
         # create an default service if none is given in the wsdl:
         if not services:
             services[''] = {'ports': {'': None}}
+   
+        elements = list(e for e in elements.values() if type(e) is type) + sorted(e for e in elements.values() if not(type(e) is type))
+        e = None
+        self.elements = []
+        for element in elements:
+            if e!= element: self.elements.append(element)
+            e = element
 
         return services
 
@@ -884,6 +890,56 @@ class SoapClient(object):
             log.debug('removing %s' % self.cacert)
             os.unlink(self.cacert)
 
+    def __repr__(self):
+        s = 'SOAP CLIENT'
+        s += '\n ELEMENTS'
+        for e in self.elements:
+            if isinstance(e, type):
+                e = e.__name__
+            elif isinstance(e, Alias):
+                e = e.xml_type
+            elif isinstance(e, Struct) and e.key[1]=='element':
+                e = repr(e)
+            else:
+                continue
+            s += '\n  %s' % e
+        for service in self.services:
+            s += '\n SERVICE (%s)' % service
+            ports = self.services[service]['ports']
+            for port in ports:
+                port = ports[port]
+                if port['soap_ver'] == None: continue
+                s += '\n   PORT (%s)' % port['name']
+                s += '\n    Location: %s' % port['location']
+                s += '\n    Soap ver: %s' % port['soap_ver']
+                s += '\n    Soap URI: %s' % port['soap_uri']
+                s += '\n    OPERATIONS'
+                operations = port['operations']
+                for operation in sorted(operations):
+                    operation = self.get_operation(operation)
+                    input = operation.get('input')
+                    input = input and input.values() and list(input.values())[0]
+                    input_str = ''
+                    if isinstance(input, dict):
+                        if 'parameters' not in input or input['parameters']!=None:
+                            for k, v in input.items():
+                                if isinstance(v, type):
+                                    v = v.__name__
+                                elif isinstance(v, Alias):
+                                    v = v.xml_type
+                                elif isinstance(v, Struct):
+                                    v = v.key[0]
+                                input_str += '%s: %s, ' % (k, v)
+                    output = operation.get('output')
+                    if output:
+                        output = list(operation['output'].values())[0]
+                    s += '\n     %s(%s)' % (
+                        operation['name'],
+                        input_str[:-2]
+                        )
+                    s += '\n      > %s' % output
+
+        return s
 
 def parse_proxy(proxy_str):
     """Parses proxy address user:pass@host:port into a dict suitable for httplib2"""
