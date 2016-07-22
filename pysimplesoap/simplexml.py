@@ -23,11 +23,10 @@ import logging
 import re
 import xml.dom.minidom
 
-from . import __author__, __copyright__, __license__, __version__
 
 # Utility functions used for marshalling, moved aside for readability
 from .helpers import TYPE_MAP, TYPE_MARSHAL_FN, TYPE_UNMARSHAL_FN, \
-                     REVERSE_TYPE_MAP, Struct, Date, Decimal
+                     REVERSE_TYPE_MAP
 
 log = logging.getLogger(__name__)
 
@@ -63,7 +62,7 @@ class SimpleXMLElement(object):
 
     def _get_raw_xml(self, text):
         if text.startswith('--MIMEBoundary'):
-            return text[text.find('<?xml'):text.find('\n--MIMEBoundary')]
+            return text[text.find('<?xml'):text.find('\r\n--MIMEBoundary')]
         return text
 
     def add_child(self, name, text=None, ns=True):
@@ -337,14 +336,12 @@ class SimpleXMLElement(object):
         d = {}
         for node in self():
             name = str(node.get_local_name())
-            ref_name_type = None
             # handle multirefs: href="#id0"
             if 'href' in node.attributes().keys():
                 href = node['href'][1:]
                 for ref_node in self(root=True)("multiRef"):
                     if ref_node['id'] == href:
                         node = ref_node
-                        ref_name_type = ref_node['xsi:type'].split(":")[1]
                         break
 
             try:
@@ -434,8 +431,6 @@ class SimpleXMLElement(object):
                     value = tuple(value)
 
             elif isinstance(fn, dict):
-                ##if ref_name_type is not None:
-                ##    fn = fn[ref_name_type]
                 children = node.children()
                 value = children and children.unmarshall(fn, strict)
             else:
