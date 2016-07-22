@@ -21,7 +21,6 @@ if sys.version > '3':
 
 import logging
 import re
-import time
 import xml.dom.minidom
 
 from . import __author__, __copyright__, __license__, __version__
@@ -53,7 +52,7 @@ class SimpleXMLElement(object):
 
         if text is not None:
             try:
-                self.__document = xml.dom.minidom.parseString(text)
+                self.__document = xml.dom.minidom.parseString(self._get_raw_xml(text))
             except:
                 log.error(text)
                 raise
@@ -61,6 +60,11 @@ class SimpleXMLElement(object):
         else:
             self.__elements = elements
             self.__document = document
+
+    def _get_raw_xml(self, text):
+        if text.startswith('--MIMEBoundary'):
+            return text[text.find('<?xml'):text.find('\n--MIMEBoundary')]
+        return text
 
     def add_child(self, name, text=None, ns=True):
         """Adding a child tag to a node"""
