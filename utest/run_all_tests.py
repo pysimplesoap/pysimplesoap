@@ -2,12 +2,7 @@
 import unittest
 from unittest import defaultTestLoader
 import sys
-import os
 import logging
-_tst_path = os.path.abspath(os.path.dirname(__file__))
-_src_path = os.path.join(_tst_path, '..')
-sys.path.insert(0, _tst_path)
-sys.path.insert(0, _src_path)
 import test_pysimplesoap
 
 
