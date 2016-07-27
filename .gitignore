@@ -11,3 +11,5 @@ include/*
 
 build/
 dist/
+
+*.swp

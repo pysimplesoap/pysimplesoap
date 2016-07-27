@@ -5,10 +5,10 @@ Patches Applied to xml.dom.ext.c14n:
     http://sourceforge.net/projects/pyxml/
 
     [ 1444526 ] c14n.py: http://www.w3.org/TR/xml-exc-c14n/ fix
-        -- includes [ 829905 ] c14n.py fix for bug #825115, 
+        -- includes [ 829905 ] c14n.py fix for bug #825115,
            Date Submitted: 2003-10-24 23:43
-        -- include dependent namespace declarations declared in ancestor nodes 
-           (checking attributes and tags), 
+        -- include dependent namespace declarations declared in ancestor nodes
+           (checking attributes and tags),
         -- handle InclusiveNamespaces PrefixList parameter
 
 This module generates canonical XML of a document or element.
@@ -96,7 +96,7 @@ def _utilized(n, node, other_attrs, unsuppressedPrefixes):
     elif n.startswith('xmlns'):
         n = n[5:]
     if (n=="" and node.prefix in ["#default", None]) or \
-        n == node.prefix or n in unsuppressedPrefixes: 
+        n == node.prefix or n in unsuppressedPrefixes:
             return 1
     for attr in other_attrs:
         if n == attr.prefix: return 1
@@ -104,13 +104,13 @@ def _utilized(n, node, other_attrs, unsuppressedPrefixes):
     if unsuppressedPrefixes is not None:
         for attr in _attrs(node):
             if n == attr.prefix: return 1
-            
+
     return 0
 
 
 def _inclusiveNamespacePrefixes(node, context, unsuppressedPrefixes):
-    '''http://www.w3.org/TR/xml-exc-c14n/ 
-    InclusiveNamespaces PrefixList parameter, which lists namespace prefixes that 
+    '''http://www.w3.org/TR/xml-exc-c14n/
+    InclusiveNamespaces PrefixList parameter, which lists namespace prefixes that
     are handled in the manner described by the Canonical XML Recommendation'''
     inclusive = []
     if node.prefix:
@@ -156,16 +156,16 @@ class _implementation:
         self.comments = kw.get('comments', 0)
         self.unsuppressedPrefixes = kw.get('unsuppressedPrefixes')
         nsdict = kw.get('nsdict', { 'xml': XMLNS.XML, 'xmlns': XMLNS.BASE })
-        
+
         # Processing state.
         self.state = (nsdict, {'xml':''}, {}, {}) #0422
-        
+
         if node.nodeType == Node.DOCUMENT_NODE:
             self._do_document(node)
         elif node.nodeType == Node.ELEMENT_NODE:
             self.documentOrder = _Element        # At document element
             if not _inclusive(self):
-                inherited,unused = _inclusiveNamespacePrefixes(node, self._inherit_context(node), 
+                inherited,unused = _inclusiveNamespacePrefixes(node, self._inherit_context(node),
                                 self.unsuppressedPrefixes)
                 self._do_element(node, inherited, unused=unused)
             else:
@@ -300,14 +300,14 @@ class _implementation:
         #        ns_local -- NS declarations relevant to this element
         #   xml_attrs -- Attributes in XML namespace from parent
         #       xml_attrs_local -- Local attributes in XML namespace.
-        #   ns_unused_inherited -- not rendered namespaces, used for exclusive 
+        #   ns_unused_inherited -- not rendered namespaces, used for exclusive
         ns_parent, ns_rendered, xml_attrs = \
                 self.state[0], self.state[1].copy(), self.state[2].copy() #0422
-                
+
         ns_unused_inherited = unused
         if unused is None:
             ns_unused_inherited = self.state[3].copy()
-            
+
         ns_local = ns_parent.copy()
         inclusive = _inclusive(self)
         xml_attrs_local = {}
@@ -326,7 +326,7 @@ class _implementation:
             else:
                 if  _in_subset(self.subset, a):     #020925 Test to see if attribute node in subset
                     other_attrs.append(a)
-                    
+
 #                # TODO: exclusive, might need to define xmlns:prefix here
 #                if not inclusive and a.prefix is not None and not ns_rendered.has_key('xmlns:%s' %a.prefix):
 #                    ns_local['xmlns:%s' %a.prefix] = ??
@@ -336,23 +336,23 @@ class _implementation:
 
         # Render the node
         W, name = self.write, None
-        if in_subset: 
+        if in_subset:
             name = node.nodeName
             if not inclusive:
                 if node.prefix is not None:
                     prefix = 'xmlns:%s' %node.prefix
                 else:
                     prefix = 'xmlns'
-                    
+
                 if not ns_rendered.has_key(prefix) and not ns_local.has_key(prefix):
                     if not ns_unused_inherited.has_key(prefix):
                         raise RuntimeError(\
                             'For exclusive c14n, unable to map prefix "%s" in %s' %(
                             prefix, node))
-                    
+
                     ns_local[prefix] = ns_unused_inherited[prefix]
                     del ns_unused_inherited[prefix]
-                
+
             W('<')
             W(name)
 
