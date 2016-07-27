@@ -254,7 +254,8 @@ class SoapClient(object):
 
         resp_headers, resp_content = self.send(method, request.as_xml())
         response = SimpleXMLElement(resp_content, namespace=self.namespace,
-                                    jetty=self.__soap_server in ('jetty',))
+                                    jetty=self.__soap_server in ('jetty',),
+                                    headers=resp_headers)
         if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
             detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
             detail = None
