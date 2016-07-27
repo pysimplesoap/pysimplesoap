@@ -21,13 +21,11 @@ if sys.version > '3':
 
 import logging
 import re
-import xml.dom.minidom
+from xml.dom import minidom
 
-from . import __author__, __copyright__, __license__, __version__
 
 # Utility functions used for marshalling, moved aside for readability
-from .helpers import TYPE_MAP, TYPE_MARSHAL_FN, TYPE_UNMARSHAL_FN, \
-                     REVERSE_TYPE_MAP, Struct, Date, Decimal
+from .helpers import TYPE_MAP, TYPE_MARSHAL_FN, TYPE_UNMARSHAL_FN, REVERSE_TYPE_MAP
 
 log = logging.getLogger(__name__)
 
@@ -36,7 +34,7 @@ class SimpleXMLElement(object):
     """Simple XML manipulation (simil PHP)"""
 
     def __init__(self, text=None, elements=None, document=None,
-                 namespace=None, prefix=None, namespaces_map={}, jetty=False):
+                 namespace=None, prefix=None, namespaces_map={}, jetty=False, headers=None):
         """
         :param namespaces_map: How to map our namespace prefix to that given by the client;
           {prefix: received_prefix}
@@ -51,8 +49,9 @@ class SimpleXMLElement(object):
         self.__jetty = jetty                           # special list support
 
         if text is not None:
+            content_type = headers and headers.get('content-type', '') or ''
             try:
-                self.__document = xml.dom.minidom.parseString(self._get_raw_xml(text))
+                self.__document = minidom.parseString(self._get_raw_xml(content_type, text))
             except:
                 log.error(text)
                 raise
@@ -61,10 +60,27 @@ class SimpleXMLElement(object):
             self.__elements = elements
             self.__document = document
 
-    def _get_raw_xml(self, text):
-        if text.startswith('--MIMEBoundary'):
-            return text[text.find('<?xml'):text.find('\n--MIMEBoundary')]
+    def _get_raw_xml(self, content_type, text):
+        settings = self._parse_content_type(content_type)
+
+        if settings.get('multipart/related', False):
+            # TODO: multiple MIME
+            start_pos = text.find(settings['start']) + len(settings['start'])
+            end_pos = text.find('--'+settings['boundary'], start_pos)
+            return text[start_pos: end_pos].strip()
+
         return text
+
+    def _parse_content_type(self, content_type):
+        settings = {}
+        for item in content_type.split(';'):
+            if '=' in item:
+                k, v = item.strip().split('=', 1)
+                settings[k] = v.strip('""')
+            else:
+                settings[item.strip()] = True
+
+        return settings
 
     def add_child(self, name, text=None, ns=True):
         """Adding a child tag to a node"""
@@ -83,7 +99,7 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, name)
         # don't append null tags!
         if text is not None:
-            if isinstance(text, xml.dom.minidom.CDATASection):
+            if isinstance(text, minidom.CDATASection):
                 element.appendChild(self.__document.createCDATASection(text.data))
             else:
                 element.appendChild(self.__document.createTextNode(text))
@@ -337,14 +353,12 @@ class SimpleXMLElement(object):
         d = {}
         for node in self():
             name = str(node.get_local_name())
-            ref_name_type = None
             # handle multirefs: href="#id0"
             if 'href' in node.attributes().keys():
                 href = node['href'][1:]
                 for ref_node in self(root=True)("multiRef"):
                     if ref_node['id'] == href:
                         node = ref_node
-                        ref_name_type = ref_node['xsi:type'].split(":")[1]
                         break
 
             try:
@@ -434,8 +448,6 @@ class SimpleXMLElement(object):
                     value = tuple(value)
 
             elif isinstance(fn, dict):
-                ##if ref_name_type is not None:
-                ##    fn = fn[ref_name_type]
                 children = node.children()
                 value = children and children.unmarshall(fn, strict)
             else:
@@ -511,7 +523,7 @@ class SimpleXMLElement(object):
                 # TODO: this could be an issue for some arrays of single values
                 if isinstance(t, dict) and len(t) > 1 and i < len(value) - 1:
                     child = self.add_child(name, ns=ns)
-        elif isinstance(value, (xml.dom.minidom.CDATASection, basestring)):  # do not convert strings or unicodes
+        elif isinstance(value, (minidom.CDATASection, basestring)):  # do not convert strings or unicodes
             self.add_child(name, value, ns=ns)
         elif value is None:  # sent a empty tag?
             self.add_child(name, ns=ns)

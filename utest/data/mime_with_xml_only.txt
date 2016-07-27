@@ -1,0 +1,8 @@
+--MIMEBoundary_37b1639e1b936afbe7bfb91e329eda80160d10652a34d791
+Content-Type: text/xml; charset=UTF-8
+Content-Transfer-Encoding: binary
+Content-ID: <0.27b1639e1b936afbe7bfb91e329eda80160d10652a34d791@apache.org>
+
+<?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><startRegistrationResponse xmlns="http://www.nokiasiemens.com/ne3s/1.0"><agentIdentity><uniqueId>PLMN-PLMN/SBTS-1735</uniqueId><type>BTS</type><vendor>NSN</vendor><release>4.5</release></agentIdentity><agentNonce>VUV4TlRpMVFURTFPTDFOQ1ZGTXRNVGN6TlE9PQ==</agentNonce><agentResponse>AQI=</agentResponse><licenseRequired>false</licenseRequired><registrationComplete>true</registrationComplete></startRegistrationResponse></soapenv:Body></soapenv:Envelope>
+--MIMEBoundary_37b1639e1b936afbe7bfb91e329eda80160d10652a34d791--
+

@@ -1,0 +1,2496 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ref="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:ne3s="http://www.nokiasiemens.com/ne3s/1.0" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://www.nokiasiemens.com/ne3s/1.0">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.nokiasiemens.com/ne3s/1.0">
+            <xs:annotation>
+                <xs:documentation>Common type definitions for NE3S/WS WSDL definitions.</xs:documentation>
+            </xs:annotation>
+            <xs:import namespace="http://ws-i.org/profiles/basic/1.1/xsd" schemaLocation="swaref.xsd"/>
+            <xs:simpleType name="stopType">
+                <xs:annotation>
+                    <xs:documentation>Used to define how the session should be stopped.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="forced">
+                        <xs:annotation>
+                            <xs:documentation>Session must be stopped immediately, all operations must be
+                                aborted and resources released.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="graceful">
+                        <xs:annotation>
+                            <xs:documentation>Ongoing operations should be stopped gracefully before closing
+                                the session and relasing resources..
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="sessionId">
+                <xs:annotation>
+                    <xs:documentation>Session identifier used to identify NE3S/WS session between a manager
+                        and an agent.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="sessionTimeout">
+                <xs:annotation>
+                    <xs:documentation>Session timeout value in seconds, after the session will be terminated
+                        if there is no message flow.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:positiveInteger">
+                    <xs:minInclusive value="60">
+                        <xs:annotation>
+                            <xs:documentation>1 minute</xs:documentation>
+                        </xs:annotation>
+                    </xs:minInclusive>
+                    <xs:maxInclusive value="900">
+                        <xs:annotation>
+                            <xs:documentation>15 minutes</xs:documentation>
+                        </xs:annotation>
+                    </xs:maxInclusive>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="operationId">
+                <xs:annotation>
+                    <xs:documentation>Identifier assigned for the asynchronous operation by the manager.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="objectCount">
+                <xs:annotation>
+                    <xs:documentation>Used to inform number of processed MO's and total number of MO's if
+                        known.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="current" type="xs:unsignedLong">
+                        <xs:annotation>
+                            <xs:documentation>Tells current consequential number of processed MO's.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="total" type="xs:unsignedLong">
+                        <xs:annotation>
+                            <xs:documentation>Total number of processed MO's if known by the agent.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="identity">
+                <xs:annotation>
+                    <xs:documentation>Used to identify either manager or agent in the network.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="uniqueId" type="ne3s:uniqueId">
+                        <xs:annotation>
+                            <xs:documentation>Unique identifier of the manager or the agent.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="type" type="ne3s:type">
+                        <xs:annotation>
+                            <xs:documentation>Type of the manager (type of network or element manager) or the
+                                agent (type of network element). E.g. RNC, MSS.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="vendor" type="ne3s:vendor">
+                        <xs:annotation>
+                            <xs:documentation>Vendor name of the manager or the agent.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="release" type="ne3s:release">
+                        <xs:annotation>
+                            <xs:documentation>Software release of the manager or the agent.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="uniqueId">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier of the manager or the agent.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="400"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="type">
+                <xs:annotation>
+                    <xs:documentation>ype of the manager (type of network or element manager) or the agent
+                        (type of network element). E.g. RNC, MSS.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="vendor">
+                <xs:annotation>
+                    <xs:documentation>Vendor name of the manager or the agent.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="release">
+                <xs:annotation>
+                    <xs:documentation>Software release of the manager or the agent.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="queueId">
+                <xs:annotation>
+                    <xs:documentation>Identifier of the notification queue. Used with reliable
+                        notifications.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="notificationType">
+                <xs:annotation>
+                    <xs:documentation>Type of the notification. E.g. ne3s_common_changeNotification.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="reRegisterInterval">
+                <xs:annotation>
+                    <xs:documentation>Re-registration interval in days which within the manager must be
+                        re-register for the agent, or it will be removed from the registration database of the
+                        agent.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:positiveInteger">
+                    <xs:minInclusive value="1"/>
+                    <xs:maxInclusive value="30"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="attachmentProperties">
+                <xs:annotation>
+                    <xs:documentation>Properties of the SOAP attachement.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="compression" type="ne3s:compression">
+                        <xs:annotation>
+                            <xs:documentation>Defines used compression of the attachment, if any.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="contentType" type="ne3s:contentType">
+                        <xs:annotation>
+                            <xs:documentation>Defines format of the attached XML document.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="checksum" type="ne3s:checksum">
+                        <xs:annotation>
+                            <xs:documentation>Defines used algorithm and checksum for the attachment.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="primaryDocument" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Used if multiple files are transfered as one package in the
+                                download operation. Contains filename of the primary (OCoS) document
+                                attachment containing the state information.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="uploadType">
+                <xs:annotation>
+                    <xs:documentation>Defines type of the upload. See NE3S/WS Common Specification for more
+                        information.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="topology"/>
+                    <xs:enumeration value="configuration"/>
+                    <xs:enumeration value="configuration_with_attachments"/>
+                    <xs:enumeration value="measurement"/>
+                    <xs:enumeration value="active_faults"/>
+                    <xs:enumeration value="acknowledged_faults"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="compressionThreshold">
+                <xs:annotation>
+                    <xs:documentation>Threshold for attachment size in kB after which the compression is
+                        required before transmission.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:nonNegativeInteger"/>
+            </xs:simpleType>
+            <xs:simpleType name="depthType">
+                <xs:restriction base="xs:unsignedInt">
+                    <xs:minInclusive value="1"/>
+                    <xs:maxInclusive value="10000"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="sdnSelector">
+                <xs:sequence>
+                    <xs:element name="sdn" type="xs:string"/>
+                    <xs:element default="1" name="depth" type="ne3s:depthType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="filter">
+                <xs:annotation>
+                    <xs:documentation>Filter for defining more detailed parameters for the upload.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:choice>
+                        <xs:element name="uploadType" type="ne3s:uploadType">
+                            <xs:annotation>
+                                <xs:documentation>Defines type of the upload. Mutually exclusive with the
+                                    notificationUploadType
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="notificationFilter">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element minOccurs="0" name="notificationType" type="ne3s:notificationType">
+                                        <xs:annotation>
+                                            <xs:documentation>Defines type of the notification upload,
+                                                notification types are specified in the Common and fragment
+                                                specific interface specifications. Mutually exclusive with the
+                                                uploadType.
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                    <xs:element minOccurs="0" name="startDateTime" type="xs:dateTime">
+                                        <xs:annotation>
+                                            <xs:documentation>Time label for the oldest item included in the
+                                                upload in form of UTC+offset.
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                    <xs:element minOccurs="0" name="endDateTime" type="xs:dateTime">
+                                        <xs:annotation>
+                                            <xs:documentation>Time label for the newest item included in the
+                                                upload in form of UTC+offset.
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                    <xs:element name="sequenceNumberRange">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="queueId" type="ne3s:queueId">
+                                                    <xs:annotation>
+                                                        <xs:documentation>Queue id from which the
+                                                            notifications are uploaded
+                                                        </xs:documentation>
+                                                    </xs:annotation>
+                                                </xs:element>
+                                                <xs:element minOccurs="0" name="startSequenceNumber" type="xs:positiveInteger">
+                                                    <xs:annotation>
+                                                        <xs:documentation>Sequence number of oldest
+                                                            notification included in the upload. Used only in
+                                                            the notification upload.
+                                                        </xs:documentation>
+                                                    </xs:annotation>
+                                                </xs:element>
+                                                <xs:element minOccurs="0" name="endSequenceNumber" type="xs:positiveInteger">
+                                                    <xs:annotation>
+                                                        <xs:documentation>Sequence number of newest
+                                                            notification included in the upload. Used only in
+                                                            the notification upload.
+                                                        </xs:documentation>
+                                                    </xs:annotation>
+                                                </xs:element>
+                                            </xs:sequence>
+                                        </xs:complexType>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:choice>
+                    <xs:element maxOccurs="unbounded" name="objects" type="ne3s:sdnSelector">
+                        <xs:annotation>
+                            <xs:documentation>List of SDN's. If any of the SDNs is '*' (asterisk) then all
+                                managed objects matching to other filters are uploaded.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="objectClass" type="ne3s:class">
+                        <xs:annotation>
+                            <xs:documentation>Type of class which is included to the upload.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="progressFeedback">
+                <xs:annotation>
+                    <xs:documentation>Defines how the agent must send a progress status for the manager. The
+                        "objectValue" is used to define number of handled objects which after the
+                        progress status is sent. The "timeInterval" is used to define time period
+                        which after the progress status is sent. The values are inclusive. The agent must send
+                        no feedback if both "objectAmount" and "timeInternal" have nill
+                        value or the values are 0.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="objectAmount" type="xs:unsignedLong">
+                        <xs:annotation>
+                            <xs:documentation>Number of handled managed objects which after the progress
+                                status is sent.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="timeInterval" type="xs:unsignedLong">
+                        <xs:annotation>
+                            <xs:documentation>Time interval in minutes, after which the progress status is
+                                sent.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="planId">
+                <xs:annotation>
+                    <xs:documentation>Identifier of the configuration plan.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="compression">
+                <xs:annotation>
+                    <xs:documentation>Enumeration for possible compression values. See NE3S/WS Common
+                        Specification for more information.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="none">
+                        <xs:annotation>
+                            <xs:documentation>No compression, plain XML document.</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="gzip">
+                        <xs:annotation>
+                            <xs:documentation>GZIP compressed file attachment.</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="tar_gzip">
+                        <xs:annotation>
+                            <xs:documentation>GZIP compressed TAR archive.</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="tar">
+                        <xs:annotation>
+                            <xs:documentation>TAR archive.</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="contentType">
+                <xs:annotation>
+                    <xs:documentation>Enumeration for possible attachment types. See NE3S/WS Common
+                        Specification for more information.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="ocos">
+                        <xs:annotation>
+                            <xs:documentation>Radio Access Markup Language schema version 2.1
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="feedback">
+                        <xs:annotation>
+                            <xs:documentation>NE3S/WS Feedback schema</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="ofas">
+                        <xs:annotation>
+                            <xs:documentation>Open Fault Standard schema version 1.0</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="omes">
+                        <xs:annotation>
+                            <xs:documentation>Open Measurement Standard schema version 2.0</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="oats">
+                        <xs:annotation>
+                            <xs:documentation>Open Auditing Standard schema version 1.0</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="oobs">
+                        <xs:annotation>
+                            <xs:documentation>Open Observation Standard schema version 1.0</xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="checksum">
+                <xs:annotation>
+                    <xs:documentation>Defines used hash algorithm and value.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="algorithm">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="none">
+                                    <xs:annotation>
+                                        <xs:documentation>No hash.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="sha1">
+                                    <xs:annotation>
+                                        <xs:documentation>Hash Algorithm 1 used.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="hash" type="ne3s:hash">
+                        <xs:annotation>
+                            <xs:documentation>Hash value calculated by using algorithm mentioned above.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="sdn">
+                <xs:annotation>
+                    <xs:documentation>Distinguished Name (SDN) used to identify the managed object (MO).
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="400"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="class">
+                <xs:annotation>
+                    <xs:documentation>Class name of the MO.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType name="hash">
+                <xs:annotation>
+                    <xs:documentation>Hash value for verifying the SOAP attachment.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="reliableNotification">
+                <xs:annotation>
+                    <xs:documentation>Information about realiable notifications sent by the agent to the
+                        manager. Used with ping operation only.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="queueId" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Identifier of the notification queue assigned for the
+                                notification type.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="notificationType" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Type of the notification, which for the notification number of
+                                the last sent notification is required from the agent.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="sequenceNumber" type="xs:nonNegativeInteger">
+                        <xs:annotation>
+                            <xs:documentation>Notification number of the last sent notification of requested
+                                type.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="extension">
+                <xs:sequence>
+                    <xs:element name="type" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Type, or name, of the extension. E.g.
+                                ne3s_fragment_limitsExtension
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" name="attributes" type="ne3s:attribute">
+                        <xs:annotation>
+                            <xs:documentation>List of extension attributes as name - value pairs.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="attribute">
+                <xs:annotation>
+                    <xs:documentation>Attribute information related to an extension.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="name" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Name of the attribute.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="value" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Value of the attribute.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="transferNotification">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="queueId" type="ne3s:queueId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the notification queue.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="notificationType" type="ne3s:notificationType">
+                            <xs:annotation>
+                                <xs:documentation>Fragment specific notification type identifier used for
+                                    routing of the notification and for notification reliability mechanism.
+                                    Supported notification types can be found from the NE3S/WS Common
+                                    specification and NE3S/WS management fragment interface specifications.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sequenceNumber" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Used for notification reliability mechanism. The initial
+                                    value must be '1'. If the value exceeds, it must return to the initial
+                                    value '1'. Sequence numbering is handled per notification queue. If
+                                    notification content is TAR archive of multiple notifications, the
+                                    sequenceNumber must be the sequence number of the oldest notification
+                                    included in the archive.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="attachmentProperties" type="ne3s:attachmentProperties">
+                            <xs:annotation>
+                                <xs:documentation>Defines properties of the attached XML document, e.g. file
+                                    type and compression.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation. Supported extensions
+                                    are defined in the Statement of Compliance definition of the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="notificationContent" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="transferNotificationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="get">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="compressionThreshold" type="ne3s:compressionThreshold">
+                            <xs:annotation>
+                                <xs:documentation>Defines compression threshold in kilobytes for the returned
+                                    file attachment. If exceed, the agent must compress the file before
+                                    sending it.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="filter" type="ne3s:filter">
+                            <xs:annotation>
+                                <xs:documentation>Filter is used by the manager to define e.g. base SDN value
+                                    in the managed object tree of the agent where from the upload is started.
+                                    The manager may also define filter based on class of the managed object,
+                                    time label and so on.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation. Supported extensions
+                                    are defined in the Statement of Compliance definition of the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the agent.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="attachmentProperties" type="ne3s:attachmentProperties">
+                            <xs:annotation>
+                                <xs:documentation>Defines properties of the attached file, e.g. file type and
+                                    compression.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation. Supported extensions
+                                    are defined in the Statement of Compliance definition of the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="getResponseContent" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="getResponseFeedback" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="set">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="compressionThreshold" type="ne3s:compressionThreshold">
+                            <xs:annotation>
+                                <xs:documentation>Defines compression threshold in kilobytes for the returned
+                                    file attachment. If exceed, the agent must compress the file before
+                                    sending it.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="attachmentProperties" type="ne3s:attachmentProperties">
+                            <xs:annotation>
+                                <xs:documentation>Defines properties of the attached file, e.g. file type and
+                                    compression.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation. Supported extensions
+                                    are defined in the Statement of Compliance definition of the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="setContent" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="setResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the agent.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="attachmentProperties" type="ne3s:attachmentProperties">
+                            <xs:annotation>
+                                <xs:documentation>Defines properties of the attached file, e.g. file type and
+                                    compression.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation. Supported extensions
+                                    are defined in the Statement of Compliance definition of the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="setFeedback" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="upload">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier for the asynchronous operation assigned by the
+                                    manager. Used later to tie asynchronous responses to the certain
+                                    operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="compressionThreshold" type="ne3s:compressionThreshold">
+                            <xs:annotation>
+                                <xs:documentation>Defines compression threshold in kilobytes for the returned
+                                    file attachment. If exceed, the agent must compress the file before
+                                    sending it.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="progressFeedback" type="ne3s:progressFeedback">
+                            <xs:annotation>
+                                <xs:documentation>Defines how often the manager wants to have feedback about
+                                    progress of the asynchronous operation based on either time interval or
+                                    amount of processed managed objects.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="filter" type="ne3s:filter">
+                            <xs:annotation>
+                                <xs:documentation>Filter is used by the manager to define e.g. base SDN value
+                                    in the managed object tree of the agent where from the upload is started.
+                                    The manager may also define filter based on class of the managed object,
+                                    time label and so on.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="uploadResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="download">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier for the asynchronous operation assigned by the
+                                    manager. Used later to tie asynchronous responses to the certain
+                                    operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="compressionThreshold" type="ne3s:compressionThreshold">
+                            <xs:annotation>
+                                <xs:documentation>Defines compression threshold in kilobytes for the returned
+                                    file attachment. If exceed, the agent must compress the file before
+                                    sending it.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="progressFeedback" type="ne3s:progressFeedback">
+                            <xs:annotation>
+                                <xs:documentation>Defines how often the manager wants to have feedback about
+                                    progress of the asynchronous operation based on either time interval or
+                                    amount of processed managed objects.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="planId" type="ne3s:planId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the downloaded plan file to be validated.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="attachmentProperties" type="ne3s:attachmentProperties">
+                            <xs:annotation>
+                                <xs:documentation>Defines properties of the attached file, e.g. file type and
+                                    compression.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="downloadContent" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="downloadResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="validate">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier for the asynchronous operation assigned by the
+                                    manager. Used later to tie asynchronous responses to the certain
+                                    operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="compressionThreshold" type="ne3s:compressionThreshold">
+                            <xs:annotation>
+                                <xs:documentation>Defines compression threshold in kilobytes for the returned
+                                    file attachment. If exceed, the agent must compress the file before
+                                    sending it.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="progressFeedback" type="ne3s:progressFeedback">
+                            <xs:annotation>
+                                <xs:documentation>Defines how often the manager wants to have feedback about
+                                    progress of the asynchronous operation based on either time interval or
+                                    amount of processed managed objects.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="planId" type="ne3s:planId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the previously downloaded plan file to be
+                                    validated.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="blockLocalChanges" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Defines whether local changes to the managed objects are
+                                    allowed during the operation, or not.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="validateResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="activate">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier for the asynchronous operation assigned by the
+                                    manager. Used later to tie asynchronous responses to the certain
+                                    operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="compressionThreshold" type="ne3s:compressionThreshold">
+                            <xs:annotation>
+                                <xs:documentation>Defines compression threshold in kilobytes for the returned
+                                    file attachment. If exceed, the agent must compress the file before
+                                    sending it.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="progressFeedback" type="ne3s:progressFeedback">
+                            <xs:annotation>
+                                <xs:documentation>Defines how often the manager wants to have feedback about
+                                    progress of the asynchronous operation based on either time interval or
+                                    amount of processed managed objects.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="planId" type="ne3s:planId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the previously downloaded plan file to be
+                                    validated.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="fallbackId" type="ne3s:planId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the fallback. If the 'takeFallback' parameter
+                                    is 'true' then this value is assigned for the new fallback image. If the
+                                    'takeFallback' parameter is 'false' then this value is used to identify
+                                    existing fallback image, which must be taken into use. In this case value
+                                    is exclusive with the 'planId'.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="takeFallback" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Defines whether the fallback must be stored before
+                                    activation, or not. The fallback area is an image of the actual
+                                    configuration of the network and can be used in case the activation failed
+                                    entirely or partially.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="blockLocalChanges" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Defines whether local changes to the managed objects are
+                                    allowed during the operation, or not.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="activateResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="provision">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier for the asynchronous operation assigned by the
+                                    manager. Used later to tie asynchronous responses to the certain
+                                    operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="compressionThreshold" type="ne3s:compressionThreshold">
+                            <xs:annotation>
+                                <xs:documentation>Defines compression threshold in kilobytes for the returned
+                                    file attachment. If exceed, the agent must compress the file before
+                                    sending it.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="progressFeedback" type="ne3s:progressFeedback">
+                            <xs:annotation>
+                                <xs:documentation>Defines how often the manager wants to have feedback about
+                                    progress of the asynchronous operation based on either time interval or
+                                    amount of processed managed objects.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="attachmentProperties" type="ne3s:attachmentProperties">
+                            <xs:annotation>
+                                <xs:documentation>Defines properties of the attached file, e.g. file type and
+                                    compression.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="planId" type="ne3s:planId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the attached plan file.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="blockLocalChanges" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Defines whether local changes to the managed objects are
+                                    allowed during the operation, or not.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="fallbackId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the taken fallback, if any, to be taken before
+                                    the activation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="takeFallback" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Defines whether the fallback must be stored before
+                                    activation, or not. The fallback area is an image of the actual
+                                    configuration of the network and can be used in case the activation failed
+                                    entirely or partially.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="provisionContent" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="provisionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeout" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Negotiated timeout value in seconds for asynchronous
+                                    operation. In request message manager proposes a timeout value and in
+                                    response agent either accepts the value by returning it back to maanger or
+                                    overrides it by introducing a new value which is taken into use.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible fragment specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="faultMessage">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="faultMessage" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Used to carry an additional description about the nature of
+                                    the exception.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="requestOperationStatus">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier for the asynchronous operation assigned by the
+                                    manager. Used later to tie asynchronous responses to the certain
+                                    operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="compressionThreshold" type="ne3s:compressionThreshold">
+                            <xs:annotation>
+                                <xs:documentation>Defines compression threshold in kilobytes for the returned
+                                    file attachment. If exceed, the agent must compress the file before
+                                    sending it.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="requestOperationStatusResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="completed" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Defines whether the asynchronous operation was completed
+                                    (true=completion status) or still under processing (false=progress
+                                    status).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="pageSequenceNumber" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Used by the manager to check that it has received all result
+                                    documents in case of the paging. The sequence numbering is operation
+                                    specific and the initial value must be '1'. If the value exceeds, it must
+                                    return to the initial value '1'.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="objectCount" type="ne3s:objectCount">
+                            <xs:annotation>
+                                <xs:documentation>Defines number of processed MOs and total number of MO's if
+                                    known by the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="attachmentProperties" type="ne3s:attachmentProperties">
+                            <xs:annotation>
+                                <xs:documentation>Defines properties of the attached file, e.g. file type and
+                                    compression.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationStatusContent" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="interruptOperation">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the asynchronous operation which needs to be
+                                    interrupted.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="interruptOperationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ping">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="pingResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="notificationSequences" type="ne3s:reliableNotification">
+                            <xs:annotation>
+                                <xs:documentation>List of reliable notifications and sequence numbers.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="reportOperationStatus">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the asynchronous operation used to associate
+                                    the status report message with the initial request made by the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="completed" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Defines whether the asynchronous operation was completed
+                                    (true=completion status) or still under processing (false=progress
+                                    status).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="pageSequenceNumber" type="xs:positiveInteger">
+                            <xs:annotation>
+                                <xs:documentation>Used by the manager to check that it has received all result
+                                    documents in case of the paging. The sequence numbering is operation
+                                    specific and the initial value must be '1'. If the value exceeds, it must
+                                    return to the initial value '1'.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="objectCount" type="ne3s:objectCount">
+                            <xs:annotation>
+                                <xs:documentation>Defines number of processed MOs and total number of MO's if
+                                    known by the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="attachmentProperties" type="ne3s:attachmentProperties">
+                            <xs:annotation>
+                                <xs:documentation>Defines properties of the attached file, e.g. file type and
+                                    compression.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationStatusContent" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="reportOperationStatusResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="reportOperationInterrupt">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operationId" type="ne3s:operationId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of the asynchronous operation used to associate
+                                    the status report message with the initial request made by the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="reason" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Reason for stopping of the session.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="reportOperationInterruptResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="unregister">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerIdentity" type="ne3s:identity">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier, vendor and software release of
+                                    the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible agent specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="unregisterResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentIdentity" type="ne3s:identity">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier, vendor and software release of
+                                    the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible agent specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="startRegistration">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerIdentity" type="ne3s:identity">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier, vendor and software release of
+                                    the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentUniqueId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier for the agent assigned by the
+                                    manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="notificationConsumerURL" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>URL of notification consumer of the manager. If omitted, it
+                                    means that the manager is not able to receive any notifications.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="reRegisterInterval" type="ne3s:reRegisterInterval">
+                            <xs:annotation>
+                                <xs:documentation>Defines timeout within the manager must re-register itself
+                                    to the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerNonce" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Base64 encoded nonce value sent by the manager for the
+                                    agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible agent specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="soc" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="startRegistrationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentIdentity" type="ne3s:identity">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier, vendor and software release of
+                                    the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentNonce" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Base64 encoded nonce value sent by the agent for the
+                                    manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentResponse" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Base64 encoded agent calculated signature of the manager
+                                    nonce.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="licenseRequired" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Based on the vendor authentication, the agent can request a
+                                    license file from the manager by setting this flag to 'true'.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="registrationComplete" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>he agent can flag the registration completed (true) in the
+                                    first response message sent to the manager if vendor authentication or
+                                    interface license is not needed.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible agent specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="agentCertificate" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="completeRegistration">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerIdentity" type="ne3s:identity">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier, vendor and software release of
+                                    the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerResponse" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Base64 encoded manager calculated signature of the agent
+                                    nonce.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="agentUniqueId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier for the agent assigned by the
+                                    manager. Replaces the id given in the startRegistration operation if not
+                                    nill.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible agent specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="managerCertificate" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="agentLicense" type="ref:swaRef">
+                            <xs:annotation>
+                                <xs:documentation>Reference to the attachment.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="completeRegistrationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible agent specific extensions to the operation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="reregister">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="reregisterResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="startSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="useStatusRequest" type="xs:boolean">
+                            <xs:annotation>
+                                <xs:documentation>Defines whether the asynchronous operations within the
+                                    session are based on status requests (true) or callbacks (false).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="startSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionTimeout" type="ne3s:sessionTimeout">
+                            <xs:annotation>
+                                <xs:documentation>Timeout value assigned for the session by the agent.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="stopSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="stopType" type="ne3s:stopType">
+                            <xs:annotation>
+                                <xs:documentation>Type of the stop request, must be either 'forced' or
+                                    'graceful'.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="stopSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="keepAliveSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="keepAliveSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="abortSession">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="agentRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Unique identifier of the agent assigned by the manager in
+                                    the registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="agentRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the agent nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sessionId" type="ne3s:sessionId">
+                            <xs:annotation>
+                                <xs:documentation>Identifier of a NE3S session assigned by the manager when
+                                    the session is created.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="reason" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Reason for stopping of the session.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="abortSessionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="managerRegistrationId" type="ne3s:uniqueId">
+                            <xs:annotation>
+                                <xs:documentation>Contains unique identifier of the manager.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="managerRegistrationKey" type="xs:base64Binary">
+                            <xs:annotation>
+                                <xs:documentation>Used to validate registration between the manager and the
+                                    agent. Contains the manager nonce used in the latest registration.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="ne3s:extension">
+                            <xs:annotation>
+                                <xs:documentation>Possible extensions to the operation.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="UnRegisterRequest">
+        <wsdl:part name="parameters" element="ne3s:unregister"/>
+    </wsdl:message>
+    <wsdl:message name="UnRegisterResponse">
+        <wsdl:part name="parameters" element="ne3s:unregisterResponse"/>
+    </wsdl:message>
+    <wsdl:message name="GeneralException">
+        <wsdl:part name="faultMessage" element="ne3s:faultMessage"/>
+    </wsdl:message>
+    <wsdl:message name="NotRegisteredException">
+        <wsdl:part name="faultMessage" element="ne3s:faultMessage"/>
+    </wsdl:message>
+    <wsdl:message name="AuthorizationException">
+        <wsdl:part name="faultMessage" element="ne3s:faultMessage"/>
+    </wsdl:message>
+    <wsdl:message name="IllegalArgumentException">
+        <wsdl:part name="faultMessage" element="ne3s:faultMessage"/>
+    </wsdl:message>
+    <wsdl:message name="CompleteRegistrationRequest">
+        <wsdl:part name="parameters" element="ne3s:completeRegistration"/>
+    </wsdl:message>
+    <wsdl:message name="CompleteRegistrationResponse">
+        <wsdl:part name="parameters" element="ne3s:completeRegistrationResponse"/>
+    </wsdl:message>
+    <wsdl:message name="NoResourcesException">
+        <wsdl:part name="faultMessage" element="ne3s:faultMessage"/>
+    </wsdl:message>
+    <wsdl:message name="RegistrationException">
+        <wsdl:part name="faultMessage" element="ne3s:faultMessage"/>
+    </wsdl:message>
+    <wsdl:message name="StartRegistrationRequest">
+        <wsdl:part name="parameters" element="ne3s:startRegistration"/>
+    </wsdl:message>
+    <wsdl:message name="StartRegistrationResponse">
+        <wsdl:part name="parameters" element="ne3s:startRegistrationResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="NE3SRegistrationServicePortType">
+        <wsdl:operation name="unregister">
+            <wsdl:documentation>unregister operation is used by the manager to un-register itself from the
+                agent. The agent must not however rely that the manager will always use the operation when
+                leaving the network.
+            </wsdl:documentation>
+            <wsdl:input message="ne3s:UnRegisterRequest" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/unregister"/>
+            <wsdl:output message="ne3s:UnRegisterResponse" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/unregisterResponse"/>
+            <wsdl:fault message="ne3s:GeneralException" name="GeneralException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/unregister/Fault/GeneralException"/>
+            <wsdl:fault message="ne3s:NotRegisteredException" name="NotRegisteredException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/unregister/Fault/NotRegisteredException"/>
+            <wsdl:fault message="ne3s:AuthorizationException" name="AuthorizationException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/unregister/Fault/AuthorizationException"/>
+            <wsdl:fault message="ne3s:IllegalArgumentException" name="IllegalArgumentException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/unregister/Fault/IllegalArgumentException"/>
+        </wsdl:operation>
+        <wsdl:operation name="completeRegistration">
+            <wsdl:documentation>completeRegistration is used by the manager to complete registration with an
+                agent.
+            </wsdl:documentation>
+            <wsdl:input message="ne3s:CompleteRegistrationRequest" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/completeRegistration"/>
+            <wsdl:output message="ne3s:CompleteRegistrationResponse" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/completeRegistrationResponse"/>
+            <wsdl:fault message="ne3s:NoResourcesException" name="NoResourcesException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/completeRegistration/Fault/NoResourcesException"/>
+            <wsdl:fault message="ne3s:RegistrationException" name="RegistrationException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/completeRegistration/Fault/RegistrationException"/>
+            <wsdl:fault message="ne3s:GeneralException" name="GeneralException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/completeRegistration/Fault/GeneralException"/>
+            <wsdl:fault message="ne3s:AuthorizationException" name="AuthorizationException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/completeRegistration/Fault/AuthorizationException"/>
+            <wsdl:fault message="ne3s:IllegalArgumentException" name="IllegalArgumentException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/completeRegistration/Fault/IllegalArgumentException"/>
+        </wsdl:operation>
+        <wsdl:operation name="startRegistration">
+            <wsdl:documentation>startRegistration operation is used by the manager to start registration with
+                an agent.
+            </wsdl:documentation>
+            <wsdl:input message="ne3s:StartRegistrationRequest" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/startRegistration"/>
+            <wsdl:output message="ne3s:StartRegistrationResponse" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/startRegistrationResponse"/>
+            <wsdl:fault message="ne3s:NoResourcesException" name="NoResourcesException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/startRegistration/Fault/NoResourcesException"/>
+            <wsdl:fault message="ne3s:RegistrationException" name="RegistrationException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/startRegistration/Fault/RegistrationException"/>
+            <wsdl:fault message="ne3s:GeneralException" name="GeneralException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/startRegistration/Fault/GeneralException"/>
+            <wsdl:fault message="ne3s:AuthorizationException" name="AuthorizationException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/startRegistration/Fault/AuthorizationException"/>
+            <wsdl:fault message="ne3s:IllegalArgumentException" name="IllegalArgumentException" wsaw:Action="http://www.nokiasiemens.com/ne3s/1.0/NE3SRegistrationPort/startRegistration/Fault/IllegalArgumentException"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="NE3SRegistrationBinding" type="ne3s:NE3SRegistrationServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="unregister">
+            <soap:operation soapAction="http://www.nokiasiemens.com/ne3s/1.0/unregister" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GeneralException">
+                <soap:fault use="literal" name="GeneralException"/>
+            </wsdl:fault>
+            <wsdl:fault name="NotRegisteredException">
+                <soap:fault use="literal" name="NotRegisteredException"/>
+            </wsdl:fault>
+            <wsdl:fault name="AuthorizationException">
+                <soap:fault use="literal" name="AuthorizationException"/>
+            </wsdl:fault>
+            <wsdl:fault name="IllegalArgumentException">
+                <soap:fault use="literal" name="IllegalArgumentException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="completeRegistration">
+            <soap:operation soapAction="http://www.nokiasiemens.com/ne3s/1.0/completeRegistration" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="NoResourcesException">
+                <soap:fault use="literal" name="NoResourcesException"/>
+            </wsdl:fault>
+            <wsdl:fault name="RegistrationException">
+                <soap:fault use="literal" name="RegistrationException"/>
+            </wsdl:fault>
+            <wsdl:fault name="GeneralException">
+                <soap:fault use="literal" name="GeneralException"/>
+            </wsdl:fault>
+            <wsdl:fault name="AuthorizationException">
+                <soap:fault use="literal" name="AuthorizationException"/>
+            </wsdl:fault>
+            <wsdl:fault name="IllegalArgumentException">
+                <soap:fault use="literal" name="IllegalArgumentException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="startRegistration">
+            <soap:operation soapAction="http://www.nokiasiemens.com/ne3s/1.0/startRegistration" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="NoResourcesException">
+                <soap:fault use="literal" name="NoResourcesException"/>
+            </wsdl:fault>
+            <wsdl:fault name="RegistrationException">
+                <soap:fault use="literal" name="RegistrationException"/>
+            </wsdl:fault>
+            <wsdl:fault name="GeneralException">
+                <soap:fault use="literal" name="GeneralException"/>
+            </wsdl:fault>
+            <wsdl:fault name="AuthorizationException">
+                <soap:fault use="literal" name="AuthorizationException"/>
+            </wsdl:fault>
+            <wsdl:fault name="IllegalArgumentException">
+                <soap:fault use="literal" name="IllegalArgumentException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="NE3SRegistrationService">
+        <wsdl:port name="ne3sRegistration" binding="ne3s:NE3SRegistrationBinding">
+            <soap:address location="http://localhost:8080/services/NE3SRegistrationService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
