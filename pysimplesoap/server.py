@@ -504,14 +504,14 @@ class WSGISOAPHandler(object):
         elif environ['REQUEST_METHOD'] == 'POST':
             return self.do_post(environ, start_response)
         else:
-            start_response('405 Method not allowed', [('Content-Type', 'text/plain')])
+            start_response(str('405 Method not allowed'), [(str('Content-Type'), str('text/plain'))])
             return ['Method not allowed']
 
     def do_get(self, environ, start_response):
         path = environ.get('PATH_INFO').lstrip('/')
         query = environ.get('QUERY_STRING')
         if path != "" and path not in self.dispatcher.methods.keys():
-            start_response('404 Not Found', [('Content-Type', 'text/plain')])
+            start_response(str('404 Not Found'), [('Content-Type', 'text/plain')])
             return ["Method not found: %s" % path]
         elif path == "":
             # return wsdl if no method supplied
@@ -523,14 +523,14 @@ class WSGISOAPHandler(object):
                 response = req
             else:
                 response = res
-        start_response('200 OK', [('Content-Type', 'text/xml'), ('Content-Length', str(len(response)))])
+        start_response(str('200 OK'), [(str('Content-Type'), str('text/xml')), (str('Content-Length'), str(len(response)))])
         return [response]
 
     def do_post(self, environ, start_response):
         length = int(environ['CONTENT_LENGTH'])
         request = environ['wsgi.input'].read(length)
         response = self.dispatcher.dispatch(request)
-        start_response('200 OK', [('Content-Type', 'text/xml'), ('Content-Length', str(len(response)))])
+        start_response(str('200 OK'), [(str('Content-Type'), str('text/xml')), (str('Content-Length'), str(len(response)))])
         return [response]
 
 
