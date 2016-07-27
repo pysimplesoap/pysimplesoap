@@ -18,6 +18,7 @@ import sys
 if sys.version > '3':
     basestring = unicode = str
 
+import time
 import datetime
 from decimal import Decimal
 import os
@@ -31,8 +32,6 @@ try:
 except ImportError:
     from urllib import request as urllib2
     from urllib.parse import urlsplit
-
-from . import __author__, __copyright__, __license__, __version__
 
 
 log = logging.getLogger(__name__)
@@ -515,7 +514,7 @@ class Alias(object):
 
     def __eq__(self, other):
         return isinstance(other, Alias) and self.xml_type == other.xml_type
-        
+
     def __ne__(self, other):
         return not self.__eq__(other)
 

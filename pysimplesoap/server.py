@@ -30,8 +30,8 @@ try:
 except ImportError:
     from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from . import __author__, __copyright__, __license__, __version__
-from .simplexml import SimpleXMLElement, TYPE_MAP, Date, Decimal
+from .simplexml import SimpleXMLElement, TYPE_MAP
+from .helpers import Date, Decimal
 
 log = logging.getLogger(__name__)
 
@@ -608,7 +608,7 @@ if __name__ == "__main__":
         result = response.AddResult
         log.info(int(result.ab))
         log.info(str(result.dd))
-        
+
     if '--consume-wsdl' in sys.argv:
         from .client import SoapClient
         client = SoapClient(

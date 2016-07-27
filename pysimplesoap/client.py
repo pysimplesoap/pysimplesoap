@@ -28,13 +28,14 @@ import os
 import tempfile
 import warnings
 
-from . import __author__, __copyright__, __license__, __version__, TIMEOUT
-from .simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, Struct
-from .transport import get_http_wrapper, set_http_wrapper, get_Http
+from . import __version__, TIMEOUT
+from .simplexml import SimpleXMLElement, REVERSE_TYPE_MAP
+from .helpers import Struct
+from .transport import get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
-from .helpers import Alias, fetch, sort_dict, make_key, process_element, \
-                     postprocess_element, get_message, preprocess_schema, \
-                     get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit
+from .helpers import Alias, fetch, sort_dict, make_key, postprocess_element, \
+        get_message, preprocess_schema, get_local_name, get_namespace_prefix, \
+        TYPE_MAP, urlsplit
 from .wsse import UsernameToken
 
 log = logging.getLogger(__name__)
@@ -264,8 +265,8 @@ class SoapClient(object):
                 if self.services is not None:
                     operation = self.get_operation(method)
                     fault_name = detailXml.children()[0].get_name()
-                    # if fault not defined in WSDL, it could be an axis or other 
-                    # standard type (i.e. "hostname"), try to convert it to string 
+                    # if fault not defined in WSDL, it could be an axis or other
+                    # standard type (i.e. "hostname"), try to convert it to string
                     fault = operation['faults'].get(fault_name) or unicode
                     detail = detailXml.children()[0].unmarshall(fault, strict=False)
                 else:
@@ -567,13 +568,10 @@ class SoapClient(object):
     def _xml_tree_to_services(self, wsdl, cache, force_download):
         """Convert SimpleXMLElement tree representation of the WSDL into pythonic objects"""
         # detect soap prefix and uri (xmlns attributes of <definitions>)
-        xsd_ns = None
         soap_uris = {}
         for k, v in wsdl[:]:
             if v in self.soap_ns_uris and k.startswith('xmlns:'):
                 soap_uris[get_local_name(k)] = v
-            if v == self.xsd_uri and k.startswith('xmlns:'):
-                xsd_ns = get_local_name(k)
 
         elements = {}            # element: type def
         messages = {}            # message: element
@@ -818,7 +816,7 @@ class SoapClient(object):
         # create an default service if none is given in the wsdl:
         if not services:
             services[''] = {'ports': {'': None}}
-   
+
         elements = list(e for e in elements.values() if type(e) is type) + sorted(e for e in elements.values() if not(type(e) is type))
         e = None
         self.elements = []
