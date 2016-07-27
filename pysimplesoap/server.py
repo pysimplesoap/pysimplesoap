@@ -30,8 +30,8 @@ try:
 except ImportError:
     from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from .simplexml import SimpleXMLElement, TYPE_MAP
-from .helpers import Date, Decimal
+from .simplexml import SimpleXMLElement
+from .helpers import TYPE_MAP, Date, Decimal
 
 log = logging.getLogger(__name__)
 

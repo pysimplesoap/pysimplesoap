@@ -29,13 +29,12 @@ import tempfile
 import warnings
 
 from . import __version__, TIMEOUT
-from .simplexml import SimpleXMLElement, REVERSE_TYPE_MAP
-from .helpers import Struct
+from .simplexml import SimpleXMLElement
 from .transport import get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from .helpers import Alias, fetch, sort_dict, make_key, postprocess_element, \
         get_message, preprocess_schema, get_local_name, get_namespace_prefix, \
-        TYPE_MAP, urlsplit
+        TYPE_MAP, urlsplit, Struct, REVERSE_TYPE_MAP
 from .wsse import UsernameToken
 
 log = logging.getLogger(__name__)
@@ -91,7 +90,6 @@ class SoapClient(object):
         self.action = action            # SOAP base action
         self.namespace = namespace      # message
         self.exceptions = exceptions    # lanzar execpiones? (Soap Faults)
-        self.xml_request = self.xml_response = ''
         self.http_headers = http_headers or {}
         self.plugins = plugins or []
         self.strict = strict
@@ -167,6 +165,7 @@ class SoapClient(object):
 <%(soap_ns)s:Body><%(ns)s:%(method)s></%(ns)s:%(method)s></%(soap_ns)s:Body></%(soap_ns)s:Envelope>"""
 
         # parse wsdl url
+        log.debug('wsdl: %s' % wsdl)
         self.services = wsdl and self.wsdl_parse(wsdl, cache=cache)
         self.service_port = None                 # service port for late binding
 
@@ -253,9 +252,8 @@ class SoapClient(object):
             plugin.preprocess(self, request, method, args, kwargs,
                                     self.__headers, soap_uri)
 
-        self.xml_request = request.as_xml()
-        self.xml_response = self.send(method, self.xml_request)
-        response = SimpleXMLElement(self.xml_response, namespace=self.namespace,
+        resp_headers, resp_content = self.send(method, request.as_xml())
+        response = SimpleXMLElement(resp_content, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty',))
         if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
             detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
@@ -275,7 +273,6 @@ class SoapClient(object):
             raise SoapFault(unicode(response.faultcode),
                             unicode(response.faultstring),
                             detail)
-
         # do post-processing using plugins (i.e. WSSE signature verification)
         for plugin in self.plugins:
             plugin.postprocess(self, response, method, args, kwargs,
@@ -315,14 +312,12 @@ class SoapClient(object):
             # httplib in python3 do the same inside itself, don't need to convert it here
             headers = dict((str(k), str(v)) for k, v in headers.items())
 
-        response, content = self.http.request(
+        resp_headers, resp_content = self.http.request(
             location, http_method, body=xml, headers=headers)
-        self.response = response
-        self.content = content
 
-        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in response.items()]))
-        log.debug(content)
-        return content
+        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in resp_headers.items()]))
+        log.debug(resp_content)
+        return (resp_headers, resp_content)
 
     def get_operation(self, method):
         # try to find operation in wsdl file
@@ -375,6 +370,9 @@ class SoapClient(object):
         # call remote procedure
         response = self.call(method, *params)
         # parse results:
+        log.info(soap_uri)
+        log.info(output)
+        log.info(self.strict)
         resp = response('Body', ns=soap_uri).children().unmarshall(output, strict=self.strict)
         return resp and list(resp.values())[0]  # pass Response tag children
 
@@ -859,21 +857,17 @@ class SoapClient(object):
         wsdl = self._url_to_xml_tree(url, cache, force_download)
         services = self._xml_tree_to_services(wsdl, cache, force_download)
 
-        # dump the full service/port/operation map
-        #log.debug(pprint.pformat(services))
-
         # Save parsed wsdl (cache)
         if cache:
-            f = open(filename_pkl, "wb")
-            pkl = {
-                'version': __version__.split(' ')[0],
-                'url': url,
-                'namespace': self.namespace,
-                'documentation': self.documentation,
-                'services': services,
-            }
-            pickle.dump(pkl, f)
-            f.close()
+            with open(filename_pkl, 'wb') as f:
+                pkl = {
+                    'version': __version__.split(' ')[0],
+                    'url': url,
+                    'namespace': self.namespace,
+                    'documentation': self.documentation,
+                    'services': services,
+                }
+                pickle.dump(pkl, f)
 
         return services
 

@@ -62,9 +62,8 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers
         filename = os.path.join(cache, filename)
     if cache and os.path.exists(filename) and not force_download:
         log.info('Reading file %s' % filename)
-        f = open(filename, 'r')
-        xml = f.read()
-        f.close()
+        with open(filename, 'rb') as f:
+            xml = f.read()
     else:
         if url_scheme == 'file':
             log.info('Fetching url %s using urllib2' % url)
@@ -77,9 +76,8 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers
             log.info('Writing file %s' % filename)
             if not os.path.isdir(cache):
                 os.makedirs(cache)
-            f = open(filename, 'w')
-            f.write(xml)
-            f.close()
+            with open(filename, 'wb') as f:
+                f.write(xml)
     return xml
 
 
@@ -101,8 +99,8 @@ def sort_dict(od, d):
             ret.references.update(od.references)
             ret.qualified = od.qualified
         return ret
-    else:
-        return d
+
+    return d
 
 
 def make_key(element_name, element_type, namespace):

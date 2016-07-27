@@ -21,12 +21,11 @@ if sys.version > '3':
 
 import logging
 import re
-import xml.dom.minidom
+from xml.dom import minidom
 
 
 # Utility functions used for marshalling, moved aside for readability
-from .helpers import TYPE_MAP, TYPE_MARSHAL_FN, TYPE_UNMARSHAL_FN, \
-                     REVERSE_TYPE_MAP
+from .helpers import TYPE_MAP, TYPE_MARSHAL_FN, TYPE_UNMARSHAL_FN, REVERSE_TYPE_MAP
 
 log = logging.getLogger(__name__)
 
@@ -51,7 +50,7 @@ class SimpleXMLElement(object):
 
         if text is not None:
             try:
-                self.__document = xml.dom.minidom.parseString(self._get_raw_xml(text))
+                self.__document = minidom.parseString(self._get_raw_xml(text))
             except:
                 log.error(text)
                 raise
@@ -82,7 +81,7 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, name)
         # don't append null tags!
         if text is not None:
-            if isinstance(text, xml.dom.minidom.CDATASection):
+            if isinstance(text, minidom.CDATASection):
                 element.appendChild(self.__document.createCDATASection(text.data))
             else:
                 element.appendChild(self.__document.createTextNode(text))
@@ -506,7 +505,7 @@ class SimpleXMLElement(object):
                 # TODO: this could be an issue for some arrays of single values
                 if isinstance(t, dict) and len(t) > 1 and i < len(value) - 1:
                     child = self.add_child(name, ns=ns)
-        elif isinstance(value, (xml.dom.minidom.CDATASection, basestring)):  # do not convert strings or unicodes
+        elif isinstance(value, (minidom.CDATASection, basestring)):  # do not convert strings or unicodes
             self.add_child(name, value, ns=ns)
         elif value is None:  # sent a empty tag?
             self.add_child(name, ns=ns)
