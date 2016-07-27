@@ -10,7 +10,10 @@ ns = 'http://schemas.xmlsoap.org/soap/envelope/'
 
 class TestSimpleXmlElement(BaseTestcase):
     def test_get_normal_xml(self):
-        pass
+        response = SimpleXMLElement(self.get_data('normal_xml'))
+        output = client.get_operation('startRegistration')['output']
+        resp = response('Body', ns=ns).children().unmarshall(output, strict=True)
+        self.assertEqual(resp['startRegistrationResponse']['agentIdentity']['type'], 'BTS')
 
     def test_get_MIME_with_xml_only(self):
         # {'status': 200,
