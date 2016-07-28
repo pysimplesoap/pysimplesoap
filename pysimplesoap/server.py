@@ -346,13 +346,13 @@ class SoapDispatcher(object):
         for method, (function, returns, args, doc) in self.methods.items():
             # create elements:
 
-            def parse_element(name, values, array=False, complex=False):
-                if not complex:
+            def parse_element(name, values, array=False, complex_type=False):
+                if not complex_type:
                     element = wsdl('wsdl:types')('xsd:schema').add_child('xsd:element')
-                    complex = element.add_child("xsd:complexType")
+                    complex_type = element.add_child("xsd:complexType")
                 else:
-                    complex = wsdl('wsdl:types')('xsd:schema').add_child('xsd:complexType')
-                    element = complex
+                    complex_type = wsdl('wsdl:types')('xsd:schema').add_child('xsd:complexType')
+                    element = complex_type
                 element['name'] = name
                 if values:
                     items = values
@@ -361,11 +361,11 @@ class SoapDispatcher(object):
                 else:
                     items = []
                 if not array and items:
-                    all = complex.add_child("xsd:all")
+                    all_type = complex_type.add_child("xsd:all")
                 elif items:
-                    all = complex.add_child("xsd:sequence")
+                    all_type = complex_type.add_child("xsd:sequence")
                 for k, v in items:
-                    e = all.add_child("xsd:element")
+                    e = all_type.add_child("xsd:element")
                     e['name'] = k
                     if array:
                         e[:] = {'minOccurs': "0", 'maxOccurs': "unbounded"}
@@ -378,11 +378,11 @@ class SoapDispatcher(object):
                         l = []
                         for d in v:
                             l.extend(d.items())
-                        parse_element(n, l, array=True, complex=True)
+                        parse_element(n, l, array=True, complex_type=True)
                         t = "tns:%s" % n
                     elif isinstance(v, dict):
                         n = "%s%s" % (name, k)
-                        parse_element(n, v.items(), complex=True)
+                        parse_element(n, v.items(), complex_type=True)
                         t = "tns:%s" % n
                     else:
                         raise TypeError("unknonw type %s for marshalling" % str(v))
@@ -407,8 +407,8 @@ class SoapDispatcher(object):
             op['name'] = method
             if doc:
                 op.add_child("wsdl:documentation", doc)
-            input = op.add_child("wsdl:input")
-            input['message'] = "tns:%sInput" % method
+            _input = op.add_child("wsdl:input")
+            _input['message'] = "tns:%sInput" % method
             output = op.add_child("wsdl:output")
             output['message'] = "tns:%sOutput" % method
 
@@ -425,12 +425,10 @@ class SoapDispatcher(object):
             soapop = op.add_child('soap:operation')
             soapop['soapAction'] = self.action + method
             soapop['style'] = 'document'
-            input = op.add_child("wsdl:input")
-            ##input.add_attribute('name', "%sInput" % method)
-            soapbody = input.add_child("soap:body")
+            _input = op.add_child("wsdl:input")
+            soapbody = _input.add_child("soap:body")
             soapbody["use"] = "literal"
             output = op.add_child("wsdl:output")
-            ##output.add_attribute('name', "%sOutput" % method)
             soapbody = output.add_child("soap:body")
             soapbody["use"] = "literal"
 
