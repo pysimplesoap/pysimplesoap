@@ -54,7 +54,7 @@ def parse(wsdl_path):
     if not services:
         services[''] = {'ports': {'': None}}
 
-    return services
+    return (elements, messages, port_types, bindings, services)
 
 
 def _merge_imported_wsdl(wsdl, http, wsdl_basedir):

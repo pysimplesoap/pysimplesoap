@@ -125,7 +125,7 @@ class SoapDispatcher(object):
     def response_element_name(self, method):
         return '%sResponse' % method
 
-    def dispatch(self, xml, action=None, fault=None):
+    def dispatch(self, xml, action=None, fault=None, headers={}):
         """Receive and process SOAP call, returns the xml"""
         # a dict can be sent in fault to expose it to the caller
         # default values:
@@ -142,7 +142,7 @@ class SoapDispatcher(object):
         # _ns_reversed = {'http://external.mt.moboperator': 'external', 'http://model.common.mt.moboperator': 'model'}
 
         try:
-            request = SimpleXMLElement(xml, namespace=self.namespace)
+            request = SimpleXMLElement(xml, namespace=self.namespace, headers=headers)
 
             # detect soap prefix and uri (xmlns attributes of Envelope)
             for k, v in request[:]:
@@ -474,12 +474,14 @@ class SOAPHandler(BaseHTTPRequestHandler):
             encoding = self.headers.getparam("charset")
         else:
             encoding = self.headers.get_param("charset")
-        request = request.decode(encoding)
+        request = request.decode(encoding or 'utf-8')
         fault = {}
         # execute the method
-        response = self.server.dispatcher.dispatch(request, fault=fault)
+        response = self.server.dispatcher.dispatch(request, fault=fault,
+            headers={'content-type': self.headers.get('content-type')})
         # check if fault dict was completed (faultcode, faultstring, detail)
         if fault:
+            log.error(fault)
             self.send_response(500)
         else:
             self.send_response(200)
@@ -527,6 +529,7 @@ class WSGISOAPHandler(object):
     def do_post(self, environ, start_response):
         length = int(environ['CONTENT_LENGTH'])
         request = environ['wsgi.input'].read(length)
+        # FIXME: add content-type headers to dispatch
         response = self.dispatcher.dispatch(request)
         start_response(str('200 OK'), [(str('Content-Type'), str('text/xml')), (str('Content-Length'), str(len(response)))])
         return [response]
