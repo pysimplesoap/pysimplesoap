@@ -19,6 +19,21 @@ wsdl_uri = 'http://schemas.xmlsoap.org/wsdl/'
 xsd_uri = 'http://www.w3.org/2001/XMLSchema'
 xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
 
+
+def cache(func):
+    cached = {}
+
+    def _cached_f(wsdl_path, *args, **kwargs):
+        if wsdl_path not in cached:
+            cached[wsdl_path] = func(wsdl_path, *args, **kwargs)
+        return cached[wsdl_path]
+
+    _cached_f.func_name = func.func_name
+
+    return _cached_f
+
+
+@cache
 def parse(wsdl_path):
     logger.debug('Parsing wsdl path: %s' % wsdl_path)
     # always return an unicode object:
