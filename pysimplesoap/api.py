@@ -15,9 +15,8 @@ def decode(headers, content, wsdl, soap_ver='soap11'):
         for service_name, service in services.iteritems():
             for port_name, port in [port for port in service['ports'].items()]:
                 if port['soap_ver'] == soap_ver:
-                    operation = port['operations'].get(method)
-                    if operation:
-                        return operation
+                    if method in port['operations']:
+                        return port['operations'][method]
 
         raise RuntimeError('Cannot determine service in WSDL: '
                            'SOAP version: %s' % soap_ver)
