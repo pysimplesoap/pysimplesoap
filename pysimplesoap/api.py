@@ -11,18 +11,13 @@ def decode(headers, content, wsdl, soap_ver='soap11'):
     method = headers['soapaction'].rsplit('/', 1)[1]
 
     def get_operation():
-        service_port = None
         # try to find operation in wsdl file
         for service_name, service in services.iteritems():
             for port_name, port in [port for port in service['ports'].items()]:
                 if port['soap_ver'] == soap_ver:
-                    service_port = service_name, port_name
                     operation = port['operations'].get(method)
-                    if not operation:
-                        raise RuntimeError('Operation %s not found in WSDL: '
-                                           'Service/Port Type: %s' %
-                                           (method, service_port))
-                    return operation
+                    if operation:
+                        return operation
 
         raise RuntimeError('Cannot determine service in WSDL: '
                            'SOAP version: %s' % soap_ver)
