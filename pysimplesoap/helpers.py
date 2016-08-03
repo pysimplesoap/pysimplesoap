@@ -541,6 +541,7 @@ byte = Alias(str, 'byte')
 short = Alias(int, 'short')
 double = Alias(float, 'double')
 integer = Alias(long, 'integer')
+positiveInteger = Alias(long, 'positiveInteger')
 DateTime = datetime.datetime
 Date = datetime.date
 Time = datetime.time
@@ -556,6 +557,7 @@ TYPE_MAP = {
     int: 'int',
     long: 'long',
     integer: 'integer',
+    positiveInteger: 'positiveInteger',
     float: 'float',
     double: 'double',
     Decimal: 'decimal',

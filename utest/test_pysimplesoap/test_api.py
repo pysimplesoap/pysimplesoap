@@ -27,7 +27,7 @@ class TestMsgDecoding(BaseTestcase):
         headers = {'content-type': 'multipart/related; boundary=MIMEBoundaryurn_uuid_41C3C1F5C427229F7A1466676077706; type="text/xml"; start="<0.urn:uuid:41C3C1F5C427229F7A1466676077707@apache.org>"', 'soapaction': '"http://www.nokiasiemens.com/ne3s/1.0/transferNotification"','transfer-encoding':'chunked'}
         resp = decode(headers, self.get_data('multi_mime'), wsdl=wsdl)
         self.assertEqual(resp['queueId'], 'ne3s_atl_logUploadNotificationQueue')
-        self.assertEqual(resp['sequenceNumber'], None),
+        self.assertEqual(resp['sequenceNumber'], 11),
         self.assertEqual(resp['attachmentProperties']['contentType'], 'oats')
         self.assertIn('transferNotificationContent1466676077553@nokiasiemens.com', resp)
         self.assertNotIn('', resp)
