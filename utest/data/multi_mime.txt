@@ -1,0 +1,22 @@
+--MIMEBoundaryurn_uuid_41C3C1F5C427229F7A1466676077706
+Content-Type: text/xml; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Content-ID: <0.urn:uuid:41C3C1F5C427229F7A1466676077707@apache.org>
+
+<?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header xmlns:wsa="http://www.w3.org/2005/08/addressing"><wsa:To>http://127.0.0.1:30505/services/NE3SBasicNotificationsService</wsa:To><wsa:MessageID>urn:uuid:41C3C1F5C427229F7A1466676077705</wsa:MessageID><wsa:Action>http://www.nokiasiemens.com/ne3s/1.0/transferNotification</wsa:Action></soapenv:Header><soapenv:Body><transferNotification xmlns="http://www.nokiasiemens.com/ne3s/1.0"><agentRegistrationId>PLMN-PLMN/SBTS-1735</agentRegistrationId><agentRegistrationKey>LTE5OTQ2MzgyMw==</agentRegistrationKey><queueId>ne3s_atl_logUploadNotificationQueue</queueId><notificationType>ne3s_atl_logUploadNotification</notificationType><sequenceNumber>11</sequenceNumber><attachmentProperties><compression>none</compression><contentType>oats</contentType><checksum><algorithm>none</algorithm><hash></hash></checksum><primaryDocument>ne3s_atl_logUploadNotification.ne3s_atl_logUploadNotificationQueue.11.xml</primaryDocument></attachmentProperties><notificationContent>cid:transferNotificationContent1466676077553@nokiasiemens.com</notificationContent></transferNotification></soapenv:Body></soapenv:Envelope>
+--MIMEBoundaryurn_uuid_41C3C1F5C427229F7A1466676077706
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: binary
+Content-ID: <transferNotificationContent1466676077553@nokiasiemens.com>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<log logFileName="AUDIT_LOG" logType="AUDIT_LOG" creationTime="2016-06-23T13:01:17+03:00">
+	<record userName="wsuser" sessionID="1466675768102" eventTime="2016-06-23T13:01:17+03:00" >
+ 		<clientIPAddress>127.0.0.1</clientIPAddress>
+		<Sdn></Sdn>
+		<operation>upload_active_faults</operation>
+		<interfaceType>ne3s_ws</interfaceType>
+		<operationId>100600.19.628907544383990</operationId>
+	</record>
+</log>
+--MIMEBoundaryurn_uuid_41C3C1F5C427229F7A1466676077706--
