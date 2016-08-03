@@ -1,5 +1,6 @@
 ''' API module for functional usage like encode/decode '''
 import xmltodict
+from xml.parsers.expat import ExpatError
 from .wsdl import parse
 from .simplexml import SimpleXMLElement
 
@@ -31,13 +32,7 @@ class _SoapMsgParser(object):
 
         if settings.get('multipart/related', False):
             boundary = '--' + settings['boundary']
-            mimes = []
-            start_pos = text.find(boundary) + len(boundary)
-            end_pos = text.find(boundary, start_pos)
-            while end_pos > 0:
-                mimes.append(text[start_pos: end_pos].strip())
-                start_pos = end_pos + len(boundary)
-                end_pos = text.find(boundary, start_pos)
+            mimes = filter(lambda x: x != '', [e.strip() for e in text.split(boundary)])
             if not mimes:
                 return '', []
 
@@ -81,7 +76,10 @@ class _SoapMsgParser(object):
         cid = mime[cid_start:cid_end].strip('< >')
         content = mime[mime.find('\r\n\r\n', cid_end):].strip()
 
-        return cid, xmltodict.parse(content)
+        try:
+            return cid, xmltodict.parse(content)
+        except ExpatError:
+            return cid, content
 
     def _get_operation(self, method):
         for service_name, service in self.services.iteritems():
