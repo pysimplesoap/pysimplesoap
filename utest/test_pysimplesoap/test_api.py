@@ -30,6 +30,7 @@ class TestMsgDecoding(BaseTestcase):
         self.assertEqual(resp['sequenceNumber'], None),
         self.assertEqual(resp['attachmentProperties']['contentType'], 'oats')
         self.assertIn('transferNotificationContent1466676077553@nokiasiemens.com', resp)
+        self.assertNotIn('', resp)
         attachment = resp['transferNotificationContent1466676077553@nokiasiemens.com']
         self.assertEqual(attachment['log']['@logFileName'], 'AUDIT_LOG')
         self.assertEqual(attachment['log']['@logType'], 'AUDIT_LOG')

@@ -32,7 +32,7 @@ class _SoapMsgParser(object):
 
         if settings.get('multipart/related', False):
             boundary = '--' + settings['boundary']
-            mimes = filter(lambda x: x != '', [e.strip() for e in text.split(boundary)])
+            mimes = filter(lambda x: x not in ('', '--'), [e.strip() for e in text.split(boundary)])
             if not mimes:
                 return '', []
 
