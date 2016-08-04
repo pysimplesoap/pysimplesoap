@@ -35,7 +35,6 @@ from .transport import get_Http
 from .helpers import Alias, fetch, sort_dict, make_key, postprocess_element, \
         get_message, preprocess_schema, get_local_name, get_namespace_prefix, \
         TYPE_MAP, urlsplit, Struct, REVERSE_TYPE_MAP
-from .wsse import UsernameToken
 from .mime import MimeGenerator
 
 log = logging.getLogger(__name__)
@@ -80,7 +79,7 @@ class SoapClient(object):
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
                  username=None, password=None,
-                 key_file=None, plugins=None, strict=True,
+                 key_file=None, strict=True,
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -92,7 +91,6 @@ class SoapClient(object):
         self.namespace = namespace      # message
         self.exceptions = exceptions    # lanzar execpiones? (Soap Faults)
         self.http_headers = http_headers or {}
-        self.plugins = plugins or []
         self.strict = strict
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
@@ -187,7 +185,6 @@ class SoapClient(object):
         """
         #TODO: method != input_message
         # Basic SOAP request:
-        soap_uri = soap_namespaces[self.__soap_ns]
         req_headers, request = self._generate_request(method, args, kwargs, attachments)
 
         resp_headers, resp_content = self.send(method, req_headers, request)
@@ -214,10 +211,6 @@ class SoapClient(object):
             raise SoapFault(unicode(response.faultcode),
                             unicode(response.faultstring),
                             detail)
-        # do post-processing using plugins (i.e. WSSE signature verification)
-        for plugin in self.plugins:
-            plugin.postprocess(self, response, method, args, kwargs,
-                                     self.__headers, soap_uri)
 
         return response
 
@@ -262,11 +255,6 @@ class SoapClient(object):
         if self.__headers and not self.services:
             self.__call_headers = dict([(k, v) for k, v in self.__headers.items()
                                         if not k.startswith('wsse:')])
-        # always extract WS Security header and send it (backward compatible)
-        if 'wsse:Security' in self.__headers and not self.plugins:
-            warnings.warn("Replace wsse:Security with UsernameToken plugin",
-                          DeprecationWarning)
-            self.plugins.append(UsernameToken())
 
         if self.__call_headers:
             header = request('Header', ns=list(soap_namespaces.values()),)
@@ -282,11 +270,6 @@ class SoapClient(object):
             header = request('Header', ns=list(soap_namespaces.values()),)
             for subheader in request_headers.children():
                 header.import_node(subheader)
-
-        # do pre-processing using plugins (i.e. WSSE signing)
-        for plugin in self.plugins:
-            plugin.preprocess(self, request, method, args, kwargs,
-                                    self.__headers, soap_uri)
 
         if attachments:
             mime_gen = MimeGenerator(request.as_xml(), attachments)
