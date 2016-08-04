@@ -3,7 +3,7 @@ from .base import BaseTestcase
 from pysimplesoap.api import decode
 
 
-wsdl=os.path.abspath('utest/data/ne3s.wsdl')
+wsdl=os.path.abspath('tst/data/ne3s.wsdl')
 
 
 class TestMsgDecoding(BaseTestcase):

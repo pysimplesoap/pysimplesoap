@@ -176,7 +176,6 @@ class SoapClient(object):
             return lambda *args, **kwargs: self.wsdl_call(attr, *args, **kwargs)
 
     def call(self, method, attachments, *args, **kwargs):
-        # TODO: support MIME
         """Prepare xml request and make SOAP call, returning a SimpleXMLElement.
 
         If a keyword argument called "headers" is passed with a value of a
@@ -189,7 +188,6 @@ class SoapClient(object):
 
         resp_headers, resp_content = self.send(method, req_headers, request)
 
-        # TODO: use api.decode
         response = SimpleXMLElement(resp_content, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty',),
                                     headers=resp_headers)
@@ -368,6 +366,7 @@ class SoapClient(object):
         method, params = self.wsdl_call_get_params(method, input, args, kwargs)
 
         # call remote procedure
+        # TODO: response add MIME content
         response = self.call(method, attachments, *params)
         # parse results:
         log.info(soap_uri)
@@ -933,22 +932,3 @@ class SoapClient(object):
 
         return s
 
-def parse_proxy(proxy_str):
-    """Parses proxy address user:pass@host:port into a dict suitable for httplib2"""
-    proxy_dict = {}
-    if proxy_str is None:
-        return
-    if '@' in proxy_str:
-        user_pass, host_port = proxy_str.split('@')
-    else:
-        user_pass, host_port = '', proxy_str
-    if ':' in host_port:
-        host, port = host_port.split(':')
-        proxy_dict['proxy_host'], proxy_dict['proxy_port'] = host, int(port)
-    if ':' in user_pass:
-        proxy_dict['proxy_user'], proxy_dict['proxy_pass'] = user_pass.split(':')
-    return proxy_dict
-
-
-if __name__ == '__main__':
-    pass
