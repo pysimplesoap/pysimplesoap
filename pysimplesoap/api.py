@@ -37,7 +37,7 @@ class _SoapMsgParser(object):
                 return '', []
 
             raw_xml = mimes.pop(0)
-            start_pos = raw_xml.find(settings['start'])+len(settings['start'])
+            start_pos = raw_xml.find('\r\n\r\n')+4
             raw_xml = raw_xml[start_pos:].strip()
 
             return raw_xml, mimes

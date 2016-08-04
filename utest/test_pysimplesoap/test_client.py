@@ -1,4 +1,5 @@
 import os
+import re
 from .base import BaseTestcase
 from pysimplesoap.simplexml import SimpleXMLElement
 from pysimplesoap.client import SoapClient
@@ -25,6 +26,36 @@ class TestSimpleXmlElement(BaseTestcase):
         resp = response('Body', ns=ns).children().unmarshall(output, strict=True)
         self.assertEqual(resp['startRegistrationResponse']['agentIdentity']['type'], 'BTS')
 
-    def test_get_MIME_with_multi_boundaries(self):
-        # TODO
-        pass
+
+class TestGenerateClientRequest(BaseTestcase):
+    def test_generate_normal_xml_request(self):
+        self.assertEqual(client._generate_request('startRegistration', (), {}, []), ({}, '''<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<soap:Header/>
+<soap:Body>
+    <startRegistration xmlns="">
+    </startRegistration>
+</soap:Body>
+</soap:Envelope>'''))
+
+    def test_generate_mime_request(self):
+        header, body = client._generate_request('startRegistration', (), {}, [('abcde', '12345')])
+        self.assertIn('multipart/related', header['Content-type'])
+        ptn = re.compile(r'--\S+')
+        self.assertEqual(ptn.sub('', body).replace('\r\n', '\n'), ptn.sub('', '''--8cf32b7e-5a0c-11e6-9fa3-080027d14c2a
+Content-Type: text/xml
+
+<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<soap:Header/>
+<soap:Body>
+    <startRegistration xmlns="">
+    </startRegistration>
+</soap:Body>
+</soap:Envelope>
+--8cf32b7e-5a0c-11e6-9fa3-080027d14c2a
+Content-Id:<abcde>
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: bindary
+
+12345
+--8cf32b7e-5a0c-11e6-9fa3-080027d14c2a--'''))
+

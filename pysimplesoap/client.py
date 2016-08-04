@@ -36,6 +36,7 @@ from .helpers import Alias, fetch, sort_dict, make_key, postprocess_element, \
         get_message, preprocess_schema, get_local_name, get_namespace_prefix, \
         TYPE_MAP, urlsplit, Struct, REVERSE_TYPE_MAP
 from .wsse import UsernameToken
+from .mime import MimeGenerator
 
 log = logging.getLogger(__name__)
 
@@ -176,7 +177,8 @@ class SoapClient(object):
         else:  # using WSDL:
             return lambda *args, **kwargs: self.wsdl_call(attr, *args, **kwargs)
 
-    def call(self, method, *args, **kwargs):
+    def call(self, method, attachments, *args, **kwargs):
+        # TODO: support MIME
         """Prepare xml request and make SOAP call, returning a SimpleXMLElement.
 
         If a keyword argument called "headers" is passed with a value of a
@@ -185,6 +187,42 @@ class SoapClient(object):
         """
         #TODO: method != input_message
         # Basic SOAP request:
+        soap_uri = soap_namespaces[self.__soap_ns]
+        req_headers, request = self._generate_request(method, args, kwargs, attachments)
+
+        resp_headers, resp_content = self.send(method, req_headers, request)
+
+        # TODO: use api.decode
+        response = SimpleXMLElement(resp_content, namespace=self.namespace,
+                                    jetty=self.__soap_server in ('jetty',),
+                                    headers=resp_headers)
+        if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
+            detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
+            detail = None
+
+            if detailXml and detailXml.children():
+                if self.services is not None:
+                    operation = self.get_operation(method)
+                    fault_name = detailXml.children()[0].get_name()
+                    # if fault not defined in WSDL, it could be an axis or other
+                    # standard type (i.e. "hostname"), try to convert it to string
+                    fault = operation['faults'].get(fault_name) or unicode
+                    detail = detailXml.children()[0].unmarshall(fault, strict=False)
+                else:
+                    detail = repr(detailXml.children())
+
+            raise SoapFault(unicode(response.faultcode),
+                            unicode(response.faultstring),
+                            detail)
+        # do post-processing using plugins (i.e. WSSE signature verification)
+        for plugin in self.plugins:
+            plugin.postprocess(self, response, method, args, kwargs,
+                                     self.__headers, soap_uri)
+
+        return response
+
+
+    def _generate_request(self, method, args, kwargs, attachments):
         soap_uri = soap_namespaces[self.__soap_ns]
         xml = self.__xml % dict(method=method,              # method tag name
                                 namespace=self.namespace,   # method ns uri
@@ -233,8 +271,6 @@ class SoapClient(object):
         if self.__call_headers:
             header = request('Header', ns=list(soap_namespaces.values()),)
             for k, v in self.__call_headers.items():
-                ##if not self.__ns:
-                ##    header['xmlns']
                 if isinstance(v, SimpleXMLElement):
                     # allows a SimpleXMLElement to be constructed and inserted
                     # rather than a dictionary. marshall doesn't allow ns: prefixes
@@ -252,36 +288,13 @@ class SoapClient(object):
             plugin.preprocess(self, request, method, args, kwargs,
                                     self.__headers, soap_uri)
 
-        resp_headers, resp_content = self.send(method, request.as_xml())
-        response = SimpleXMLElement(resp_content, namespace=self.namespace,
-                                    jetty=self.__soap_server in ('jetty',),
-                                    headers=resp_headers)
-        if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
-            detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
-            detail = None
+        if attachments:
+            mime_gen = MimeGenerator(request.as_xml(), attachments)
+            mime_gen.generate()
+            return {'Content-type': 'multipart/related; type="text/xml"; boundary="%s"' % mime_gen.get_boundary()}, mime_gen.to_string()
+        return {}, request.as_xml()
 
-            if detailXml and detailXml.children():
-                if self.services is not None:
-                    operation = self.get_operation(method)
-                    fault_name = detailXml.children()[0].get_name()
-                    # if fault not defined in WSDL, it could be an axis or other
-                    # standard type (i.e. "hostname"), try to convert it to string
-                    fault = operation['faults'].get(fault_name) or unicode
-                    detail = detailXml.children()[0].unmarshall(fault, strict=False)
-                else:
-                    detail = repr(detailXml.children())
-
-            raise SoapFault(unicode(response.faultcode),
-                            unicode(response.faultstring),
-                            detail)
-        # do post-processing using plugins (i.e. WSSE signature verification)
-        for plugin in self.plugins:
-            plugin.postprocess(self, response, method, args, kwargs,
-                                     self.__headers, soap_uri)
-
-        return response
-
-    def send(self, method, xml):
+    def send(self, method, req_headers, xml):
         """Send SOAP request using HTTP"""
         if self.location == 'test': return
         # location = '%s' % self.location #?op=%s" % (self.location, method)
@@ -292,11 +305,12 @@ class SoapClient(object):
             soap_action = str(self.action)
         else:
             soap_action = str(self.action) + method
-
+        # TODO: support MIME header
         headers = {
             'Content-type': 'text/xml; charset="UTF-8"',
             'Content-length': str(len(xml)),
         }
+        headers.update(req_headers)
 
         if self.action is not None:
             headers['SOAPAction'] = soap_action
@@ -366,10 +380,12 @@ class SoapClient(object):
         # construct header and parameters
         if header:
             self.__call_headers = sort_dict(header, self.__headers)
+        attachments = [(k.split(':', 1)[1], v) for (k, v) in kwargs.iteritems() if k.startswith('cid:')]
+        kwargs = dict((k,v) for k,v in kwargs.iteritems() if not k.startswith('cid:'))
         method, params = self.wsdl_call_get_params(method, input, args, kwargs)
 
         # call remote procedure
-        response = self.call(method, *params)
+        response = self.call(method, attachments, *params)
         # parse results:
         log.info(soap_uri)
         log.info(output)
