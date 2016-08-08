@@ -68,24 +68,18 @@ soap_namespaces = dict(
 class SoapClient(object):
     """Simple SOAP Client (simil PHP)"""
     def __init__(self, location=None, action=None, namespace=None,
-                 cert=None, exceptions=True, proxy=None, ns=None,
+                 cert=None, proxy=None, ns=None,
                  soap_ns=None, wsdl=None, wsdl_basedir='', cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
-                 http_headers=None, trace=False,
-                 username=None, password=None,
-                 key_file=None, strict=True,
-                 ):
+                 http_headers=None, username=None, password=None,
+                 key_file=None, **kwds):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
         """
-        self.certssl = cert
-        self.keyssl = key_file
         self.location = location        # server location (url)
         self.action = action            # SOAP base action
         self.namespace = namespace      # message
-        self.exceptions = exceptions    # lanzar execpiones? (Soap Faults)
         self.http_headers = http_headers or {}
-        self.strict = strict
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
             # parse the wsdl url, strip the scheme and filename
@@ -93,15 +87,6 @@ class SoapClient(object):
             wsdl_basedir = os.path.dirname(netloc + path)
 
         self.wsdl_basedir = wsdl_basedir
-
-        # shortcut to print all debugging info and sent / received xml messages
-        if trace:
-            if trace is True:
-                level = logging.DEBUG           # default logging level
-            else:
-                level = trace                   # use the provided level
-            logging.basicConfig(level=level)
-            log.setLevel(level)
 
         if not soap_ns and not ns:
             self.__soap_ns = 'soap'  # 1.1
@@ -185,7 +170,7 @@ class SoapClient(object):
         response = SimpleXMLElement(resp_content, namespace=self.namespace,
                                     jetty=self.__soap_server in ('jetty',),
                                     headers=resp_headers)
-        if self.exceptions and response("Fault", ns=list(soap_namespaces.values()), error=False):
+        if response("Fault", ns=list(soap_namespaces.values()), error=False):
             detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
             detail = None
 
@@ -365,8 +350,7 @@ class SoapClient(object):
         # parse results:
         log.info(soap_uri)
         log.info(output)
-        log.info(self.strict)
-        resp = response('Body', ns=soap_uri).children().unmarshall(output, strict=self.strict)
+        resp = response('Body', ns=soap_uri).children().unmarshall(output, strict=True)
         return resp and list(resp.values())[0]  # pass Response tag children
 
     def wsdl_call_get_params(self, method, input, args, kwargs):
@@ -582,19 +566,6 @@ class SoapClient(object):
 
         imported_schemas = {}
         global_namespaces = {None: self.namespace}
-
-        # process current wsdl schema (if any, or many if imported):
-        # <wsdl:definitions>
-        #     <wsdl:types>
-        #         <xs:schema>
-        #             <xs:element>
-        #                 <xs:complexType>...</xs:complexType>
-        #                 or
-        #                 <xs:.../>
-        #             </xs:element>
-        #         </xs:schema>
-        #     </wsdl:types>
-        # </wsdl:definitions>
 
         for types in wsdl('types', error=False) or []:
             # avoid issue if schema is not given in the main WSDL file
