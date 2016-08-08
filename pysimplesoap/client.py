@@ -17,18 +17,12 @@ import sys
 if sys.version > '3':
     unicode = str
 
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
 import copy
-import hashlib
 import logging
 import os
 import tempfile
-import warnings
 
-from . import __version__, TIMEOUT
+from . import TIMEOUT
 from .simplexml import SimpleXMLElement
 from .transport import get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
@@ -75,7 +69,7 @@ class SoapClient(object):
     """Simple SOAP Client (simil PHP)"""
     def __init__(self, location=None, action=None, namespace=None,
                  cert=None, exceptions=True, proxy=None, ns=None,
-                 soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
+                 soap_ns=None, wsdl=None, wsdl_basedir='', cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
                  username=None, password=None,
@@ -165,7 +159,7 @@ class SoapClient(object):
 
         # parse wsdl url
         log.debug('wsdl: %s' % wsdl)
-        self.services = wsdl and self.wsdl_parse(wsdl, cache=cache)
+        self.services = wsdl and self.wsdl_parse(wsdl)
         self.service_port = None                 # service port for late binding
 
     def __getattr__(self, attr):
@@ -527,10 +521,10 @@ class SoapClient(object):
     xsd_uri = 'http://www.w3.org/2001/XMLSchema'
     xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
 
-    def _url_to_xml_tree(self, url, cache, force_download):
+    def _url_to_xml_tree(self, url):
         """Unmarshall the WSDL at the given url into a tree of SimpleXMLElement nodes"""
         # Open uri and read xml:
-        xml = fetch(url, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
+        xml = fetch(url, self.http, False, False, self.wsdl_basedir, self.http_headers)
         # Parse WSDL XML:
         wsdl = SimpleXMLElement(xml, namespace=self.wsdl_uri)
 
@@ -553,7 +547,7 @@ class SoapClient(object):
                 imported_wsdls[wsdl_location] = wsdl_namespace
                 log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
                 # Open uri and read xml:
-                xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
+                xml = fetch(wsdl_location, self.http, False, False, self.wsdl_basedir, self.http_headers)
                 # Parse imported XML schema (recursively):
                 imported_wsdl = SimpleXMLElement(xml, namespace=self.xsd_uri)
                 # merge the imported wsdl into the main document:
@@ -562,7 +556,7 @@ class SoapClient(object):
 
         return wsdl
 
-    def _xml_tree_to_services(self, wsdl, cache, force_download):
+    def _xml_tree_to_services(self, wsdl):
         """Convert SimpleXMLElement tree representation of the WSDL into pythonic objects"""
         # detect soap prefix and uri (xmlns attributes of <definitions>)
         soap_uris = {}
@@ -607,8 +601,8 @@ class SoapClient(object):
             schemas = types('schema', ns=self.xsd_uri, error=False)
             for schema in schemas or []:
                 preprocess_schema(schema, imported_schemas, elements, self.xsd_uri,
-                                  self.__soap_server, self.http, cache,
-                                  force_download, self.wsdl_basedir,
+                                  self.__soap_server, self.http, False,
+                                  False, self.wsdl_basedir,
                                   global_namespaces=global_namespaces)
 
         # 2nd phase: alias, postdefined elements, extend bases, convert lists
@@ -823,50 +817,16 @@ class SoapClient(object):
 
         return services
 
-    def wsdl_parse(self, url, cache=False):
+    def wsdl_parse(self, url):
         """Parse Web Service Description v1.1"""
 
         log.debug('Parsing wsdl url: %s' % url)
-        # Try to load a previously parsed wsdl:
-        force_download = False
-        if cache:
-            # make md5 hash of the url for caching...
-            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
-            if isinstance(cache, basestring):
-                filename_pkl = os.path.join(cache, filename_pkl)
-            if os.path.exists(filename_pkl):
-                log.debug('Unpickle file %s' % (filename_pkl, ))
-                f = open(filename_pkl, 'r')
-                pkl = pickle.load(f)
-                f.close()
-                # sanity check:
-                if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
-                    warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
-                    log.debug('Version: %s %s' % (pkl['version'], __version__))
-                    log.debug('URL: %s %s' % (pkl['url'], url))
-                    force_download = True
-                else:
-                    self.namespace = pkl['namespace']
-                    self.documentation = pkl['documentation']
-                    return pkl['services']
-
         # always return an unicode object:
         REVERSE_TYPE_MAP['string'] = str
 
-        wsdl = self._url_to_xml_tree(url, cache, force_download)
-        services = self._xml_tree_to_services(wsdl, cache, force_download)
+        wsdl = self._url_to_xml_tree(url)
+        services = self._xml_tree_to_services(wsdl)
 
-        # Save parsed wsdl (cache)
-        if cache:
-            with open(filename_pkl, 'wb') as f:
-                pkl = {
-                    'version': __version__.split(' ')[0],
-                    'url': url,
-                    'namespace': self.namespace,
-                    'documentation': self.documentation,
-                    'services': services,
-                }
-                pickle.dump(pkl, f)
 
         return services
 
