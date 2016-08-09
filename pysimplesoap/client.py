@@ -246,25 +246,16 @@ class SoapClient(object):
     def get_operation(self, method):
         # try to find operation in wsdl file
         soap_ver = self.__soap_ns.startswith('soap12') and 'soap12' or 'soap11'
-        if not self.service_port:
-            for service_name, service in self.services.items():
-                for port_name, port in [port for port in service['ports'].items()]:
-                    if port['soap_ver'] == soap_ver:
-                        self.service_port = service_name, port_name
-                        break
-                else:
-                    raise RuntimeError('Cannot determine service in WSDL: '
-                                       'SOAP version: %s' % soap_ver)
-        else:
-            port = self.services[self.service_port[0]]['ports'][self.service_port[1]]
-        if not self.location:
-            self.location = port['location']
-        operation = port['operations'].get(method)
-        if not operation:
-            raise RuntimeError('Operation %s not found in WSDL: '
-                               'Service/Port Type: %s' %
-                               (method, self.service_port))
-        return operation
+        for service_name, service in self.services.iteritems():
+            for port_name, port in service['ports'].iteritems():
+                if port['soap_ver'] == soap_ver:
+                    if method in port['operations']:
+                        if not self.location:
+                            self.location = port['location']
+                        return port['operations'][method]
+
+        raise RuntimeError('Cannot determine service in WSDL: '
+                           'SOAP version: %s' % soap_ver)
 
     def wsdl_call(self, method, *args, **kwargs):
         """Pre and post process SOAP call, input and output parameters using WSDL"""
