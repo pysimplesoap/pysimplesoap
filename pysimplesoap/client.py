@@ -22,7 +22,6 @@ import logging
 import os
 import tempfile
 
-from . import TIMEOUT
 from .simplexml import SimpleXMLElement
 from .transport import get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
@@ -31,6 +30,7 @@ from .helpers import Alias, fetch, sort_dict, make_key, postprocess_element, \
         TYPE_MAP, urlsplit, Struct, REVERSE_TYPE_MAP
 from .mime import MimeGenerator
 from .env import SOAP_NAMESPACES
+from .env import TIMEOUT
 from .api import decode
 
 log = logging.getLogger(__name__)

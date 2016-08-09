@@ -23,8 +23,6 @@ except ImportError:
     from urllib import request as urllib2
     from http.cookiejar import CookieJar
 
-from . import TIMEOUT
-
 log = logging.getLogger(__name__)
 
 #
@@ -75,7 +73,7 @@ try:
                 check_hostname=chk)
         http.client.HTTPSConnection.__init__ = fixer
 except ImportError:
-    TIMEOUT = None  # timeout not supported by urllib2
+    pass  # timeout not supported by urllib2
 else:
     class Httplib2Transport(httplib2.Http, TransportBase):
         _wrapper_version = "httplib2 %s" % httplib2.__version__
