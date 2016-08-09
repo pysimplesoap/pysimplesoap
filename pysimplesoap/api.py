@@ -3,26 +3,31 @@ import xmltodict
 from xml.parsers.expat import ExpatError
 from .wsdl import parse
 from .simplexml import SimpleXMLElement
+from .errors import SoapFault
+from .env import SOAP_NAMESPACES
 
 __all__ = ('decode', )
 
 
-def decode(headers, content, wsdl, soap_ver='soap11'):
-    parser = _SoapMsgParser(wsdl, soap_ver)
+def decode(headers, content, wsdl_or_services, ns='soapenv', method=None):
+    parser = _SoapMsgParser(wsdl_or_services, ns, method)
     return parser.parse(headers, content)
 
 
-SOAPENV = 'http://schemas.xmlsoap.org/soap/envelope/'
-
 class _SoapMsgParser(object):
-    def __init__(self, wsdl, soap_ver='soap11'):
-        self.elements, self.messages, self.port_types, self.bindings, self.services = parse(wsdl)
-        self.soap_version = soap_ver
+    def __init__(self, wsdl_or_services, ns='soapenv', method=None):
+        if type(wsdl_or_services) in (str, unicode):
+            _, _, _, _, self.services = parse(wsdl_or_services)
+        else:
+            self.services = wsdl_or_services
+        self.soap_version = ns.startswith('soap12') and 'soap12' or 'soap11'
+        self.namespace = SOAP_NAMESPACES[ns]
+        self.method = method
 
     def parse(self, headers, content):
         content_type = headers and headers.get('content-type', '') or ''
         raw_xml, mimes = self._get_raw_xml(content_type, content)
-        resp = self._parse_raw_xml(raw_xml, headers['soapaction'].strip('"').rsplit('/', 1)[1])
+        resp = self._parse_raw_xml(raw_xml, self.method or headers['soapaction'].strip('"').rsplit('/', 1)[1])
         resp.update(self._parse_mimes(mimes))
 
         return resp
@@ -58,14 +63,34 @@ class _SoapMsgParser(object):
     def _parse_raw_xml(self, raw_xml, method):
         response = SimpleXMLElement(raw_xml)
         operation = self._get_operation(method)
+        if response("Fault", ns=SOAP_NAMESPACES.values(), error=False):
+            self._raise_fault(response, operation)
         input_output = operation['input']
         input_output.update(operation['output'])
-        resp = response('Body', ns=SOAPENV) \
+        resp = response('Body', ns=self.namespace) \
                 .children() \
                 .unmarshall(input_output, strict=True) \
                 .values()[0]
 
         return resp
+
+    def _raise_fault(self, response, operation):
+        detail_xml = response("detail", ns=SOAP_NAMESPACES.values(), error=False)
+        detail = None
+
+        if detail_xml and detail_xml.children():
+            if self.services is not None:
+                fault_name = detail_xml.children()[0].get_name()
+                # if fault not defined in WSDL, it could be an axis or other
+                # standard type (i.e. "hostname"), try to convert it to string
+                fault = operation['faults'].get(fault_name) or unicode
+                detail = detail_xml.children()[0].unmarshall(fault, strict=False)
+            else:
+                detail = repr(detail_xml.children())
+
+        raise SoapFault(unicode(response.faultcode),
+                        unicode(response.faultstring),
+                        detail)
 
     def _parse_mimes(self, mimes):
         return dict([self._parse_one_mime(mime) for mime in mimes])

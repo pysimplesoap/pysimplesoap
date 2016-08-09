@@ -30,39 +30,10 @@ from .helpers import Alias, fetch, sort_dict, make_key, postprocess_element, \
         get_message, preprocess_schema, get_local_name, get_namespace_prefix, \
         TYPE_MAP, urlsplit, Struct, REVERSE_TYPE_MAP
 from .mime import MimeGenerator
+from .env import SOAP_NAMESPACES
+from .api import decode
 
 log = logging.getLogger(__name__)
-
-class SoapFault(RuntimeError):
-    def __init__(self, faultcode, faultstring, detail=None):
-        self.faultcode = faultcode
-        self.faultstring = faultstring
-        self.detail = detail
-        RuntimeError.__init__(self, faultcode, faultstring, detail)
-
-    def __unicode__(self):
-        return '%s: %s' % (self.faultcode, self.faultstring)
-
-    if sys.version > '3':
-        __str__ = __unicode__
-    else:
-        def __str__(self):
-            return self.__unicode__().encode('ascii', 'ignore')
-
-    def __repr__(self):
-        return "SoapFault(faultcode = %s, faultstring %s, detail = %s)" % (repr(self.faultcode),
-                                                                           repr(self.faultstring),
-                                                                           repr(self.detail))
-
-
-# soap protocol specification & namespace
-soap_namespaces = dict(
-    soap11='http://schemas.xmlsoap.org/soap/envelope/',
-    soap='http://schemas.xmlsoap.org/soap/envelope/',
-    soapenv='http://schemas.xmlsoap.org/soap/envelope/',
-    soap12='http://www.w3.org/2003/05/soap-env',
-    soap12env="http://www.w3.org/2003/05/soap-envelope",
-)
 
 
 class SoapClient(object):
@@ -167,33 +138,11 @@ class SoapClient(object):
 
         resp_headers, resp_content = self.send(method, req_headers, request)
 
-        response = SimpleXMLElement(resp_content, namespace=self.namespace,
-                                    jetty=self.__soap_server in ('jetty',),
-                                    headers=resp_headers)
-        if response("Fault", ns=list(soap_namespaces.values()), error=False):
-            detailXml = response("detail", ns=list(soap_namespaces.values()), error=False)
-            detail = None
-
-            if detailXml and detailXml.children():
-                if self.services is not None:
-                    operation = self.get_operation(method)
-                    fault_name = detailXml.children()[0].get_name()
-                    # if fault not defined in WSDL, it could be an axis or other
-                    # standard type (i.e. "hostname"), try to convert it to string
-                    fault = operation['faults'].get(fault_name) or unicode
-                    detail = detailXml.children()[0].unmarshall(fault, strict=False)
-                else:
-                    detail = repr(detailXml.children())
-
-            raise SoapFault(unicode(response.faultcode),
-                            unicode(response.faultstring),
-                            detail)
-
-        return response
+        return decode(resp_headers, resp_content, self.services, ns=self.__soap_ns, method=method)
 
 
     def _generate_request(self, method, args, kwargs, attachments):
-        soap_uri = soap_namespaces[self.__soap_ns]
+        soap_uri = SOAP_NAMESPACES[self.__soap_ns]
         xml = self.__xml % dict(method=method,              # method tag name
                                 namespace=self.namespace,   # method ns uri
                                 ns=self.__ns,               # method ns prefix
@@ -210,7 +159,7 @@ class SoapClient(object):
         else:
             parameters = args
         if parameters and isinstance(parameters[0], SimpleXMLElement):
-            body = request('Body', ns=list(soap_namespaces.values()),)
+            body = request('Body', ns=SOAP_NAMESPACES.values())
             # remove default body parameter (method name)
             delattr(body, method)
             # merge xmlelement parameter ("raw" - already marshalled)
@@ -226,7 +175,7 @@ class SoapClient(object):
                 getattr(request, method).marshall(k, v, ns=ns)
         elif self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
-            delattr(request("Body", ns=list(soap_namespaces.values()),), method)
+            delattr(request("Body", ns=SOAP_NAMESPACES.values()), method)
 
         # construct header and parameters (if not wsdl given) except wsse
         if self.__headers and not self.services:
@@ -234,7 +183,7 @@ class SoapClient(object):
                                         if not k.startswith('wsse:')])
 
         if self.__call_headers:
-            header = request('Header', ns=list(soap_namespaces.values()),)
+            header = request('Header', ns=SOAP_NAMESPACES.values())
             for k, v in self.__call_headers.items():
                 if isinstance(v, SimpleXMLElement):
                     # allows a SimpleXMLElement to be constructed and inserted
@@ -244,7 +193,7 @@ class SoapClient(object):
                 else:
                     header.marshall(k, v, ns=self.__ns, add_children_ns=False)
         if request_headers:
-            header = request('Header', ns=list(soap_namespaces.values()),)
+            header = request('Header', ns=SOAP_NAMESPACES.values())
             for subheader in request_headers.children():
                 header.import_node(subheader)
 
@@ -323,12 +272,10 @@ class SoapClient(object):
 
     def wsdl_call_with_args(self, method, args, kwargs):
         """Pre and post process SOAP call, input and output parameters using WSDL"""
-        soap_uri = soap_namespaces[self.__soap_ns]
         operation = self.get_operation(method)
 
         # get i/o type declarations:
         input = operation['input']
-        output = operation['output']
         header = operation.get('header')
         if 'action' in operation:
             self.action = operation['action']
@@ -345,13 +292,7 @@ class SoapClient(object):
         method, params = self.wsdl_call_get_params(method, input, args, kwargs)
 
         # call remote procedure
-        # TODO: response add MIME content
-        response = self.call(method, attachments, *params)
-        # parse results:
-        log.info(soap_uri)
-        log.info(output)
-        resp = response('Body', ns=soap_uri).children().unmarshall(output, strict=True)
-        return resp and list(resp.values())[0]  # pass Response tag children
+        return self.call(method, attachments, *params)
 
     def wsdl_call_get_params(self, method, input, args, kwargs):
         """Build params from input and args/kwargs"""
