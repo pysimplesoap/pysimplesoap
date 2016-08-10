@@ -23,7 +23,6 @@ import datetime
 from decimal import Decimal
 import os
 import logging
-import hashlib
 import warnings
 
 try:
@@ -37,13 +36,13 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers={}):
+def fetch(url, http, wsdl_basedir='', headers={}):
     """Download a document from a URL, save it locally if cache enabled"""
 
     # check / append a valid schema if not given:
     url_scheme, netloc, path, query, fragment = urlsplit(url)
     if not url_scheme in ('http', 'https', 'file'):
-        for scheme in ('http', 'https', 'file'):
+        for scheme in ('file', 'http', 'https'):
             try:
                 path = os.path.normpath(os.path.join(wsdl_basedir, url))
                 if not url.startswith("/") and scheme in ('http', 'https'):
@@ -51,33 +50,20 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers
                 else:
                     tmp_url = "%s:%s" % (scheme, path)
                 log.debug('Scheme not found, trying %s' % scheme)
-                return fetch(tmp_url, http, cache, force_download, wsdl_basedir, headers)
+                return fetch(tmp_url, http, wsdl_basedir, headers)
             except Exception as e:
                 log.error(e)
         raise RuntimeError('No scheme given for url: %s' % url)
 
     # make md5 hash of the url for caching...
-    filename = '%s.xml' % hashlib.md5(url.encode('utf8')).hexdigest()
-    if isinstance(cache, basestring):
-        filename = os.path.join(cache, filename)
-    if cache and os.path.exists(filename) and not force_download:
-        log.info('Reading file %s' % filename)
-        with open(filename, 'rb') as f:
-            xml = f.read()
+    if url_scheme == 'file':
+        log.info('Fetching url %s using urllib2' % url)
+        f = urllib2.urlopen(url)
+        xml = f.read()
     else:
-        if url_scheme == 'file':
-            log.info('Fetching url %s using urllib2' % url)
-            f = urllib2.urlopen(url)
-            xml = f.read()
-        else:
-            log.info('GET %s using %s' % (url, http._wrapper_version))
-            response, xml = http.request(url, 'GET', None, headers)
-        if cache:
-            log.info('Writing file %s' % filename)
-            if not os.path.isdir(cache):
-                os.makedirs(cache)
-            with open(filename, 'wb') as f:
-                f.write(xml)
+        log.info('GET %s using %s' % (url, http._wrapper_version))
+        response, xml = http.request(url, 'GET', None, headers)
+
     return xml
 
 
@@ -366,8 +352,7 @@ get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or Non
 
 
 def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
-                      http, cache, force_download, wsdl_basedir,
-                      global_namespaces=None, qualified=False):
+                      http, wsdl_basedir, global_namespaces=None, qualified=False):
     """Find schema elements and complex types"""
 
     from .simplexml import SimpleXMLElement    # here to avoid recursive imports
@@ -402,7 +387,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             imported_schemas[schema_location] = schema_namespace
             log.debug('Importing schema %s from %s' % (schema_namespace, schema_location))
             # Open uri and read xml:
-            xml = fetch(schema_location, http, cache, force_download, wsdl_basedir)
+            xml = fetch(schema_location, http, wsdl_basedir)
 
             # recalculate base path for relative schema locations
             path = os.path.normpath(os.path.join(wsdl_basedir, schema_location))
@@ -411,7 +396,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             # Parse imported XML schema (recursively):
             imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
             preprocess_schema(imported_schema, imported_schemas, elements,
-                              xsd_uri, dialect, http, cache, force_download,
+                              xsd_uri, dialect, http,
                               path, global_namespaces, qualified)
 
         element_type = element.get_local_name()
