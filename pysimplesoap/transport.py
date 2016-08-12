@@ -11,6 +11,7 @@
 # for more details.
 
 """Pythonic simple SOAP Client transport"""
+# TODO: use requests as transport client
 
 
 import logging
@@ -25,22 +26,6 @@ except ImportError:
 
 log = logging.getLogger(__name__)
 
-#
-# Socket wrapper to enable socket.TCP_NODELAY - this greatly speeds up transactions in Linux
-# WARNING: this will modify the standard library socket module, use with care!
-# TODO: implement this as a transport faciliy
-#       (to pass options directly to httplib2 or pycurl)
-#       be aware of metaclasses and socks.py (SocksiPy) used by httplib2
-
-if False:
-    import socket
-    realsocket = socket.socket
-    def socketwrap(family=socket.AF_INET, type=socket.SOCK_STREAM, proto=0):
-        sockobj = realsocket(family, type, proto)
-        if type == socket.SOCK_STREAM:
-            sockobj.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        return sockobj
-    socket.socket = socketwrap
 
 #
 # We store metadata about what available transport mechanisms we have available.
