@@ -179,7 +179,7 @@ class SoapClient(object):
 
         if self.__call_headers:
             header = request('Header', ns=SOAP_NAMESPACES.values())
-            for k, v in self.__call_headers.items():
+            for k, v in self.__call_headers.iteritems():
                 if isinstance(v, SimpleXMLElement):
                     # allows a SimpleXMLElement to be constructed and inserted
                     # rather than a dictionary. marshall doesn't allow ns: prefixes
@@ -220,7 +220,7 @@ class SoapClient(object):
 
         headers.update(self.http_headers)
         log.info("POST %s" % location)
-        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
+        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.iteritems()]))
         log.debug(xml)
 
         if sys.version < '3':
@@ -228,7 +228,7 @@ class SoapClient(object):
             # UnicodeError inside httplib.HTTPConnection._send_output.
 
             # httplib in python3 do the same inside itself, don't need to convert it here
-            headers = dict((str(k), str(v)) for k, v in headers.items())
+            headers = dict((str(k), str(v)) for k, v in headers.iteritems())
 
         resp = self.http.post(location, data=xml, headers=headers)
 
@@ -310,7 +310,7 @@ class SoapClient(object):
             root = list(tree.values())[0]
             params = []
             # make a params tuple list suitable for self.call(method, *params)
-            for k, v in root.items():
+            for k, v in root.iteritems():
                 # fix referenced namespaces as info is lost when calling call
                 root_ns = root.namespaces[k]
                 if not root.references[k] and isinstance(v, Struct):
@@ -326,7 +326,7 @@ class SoapClient(object):
         #elif not input:
             #TODO: no message! (see wsmtxca.dummy)
         else:
-            params = kwargs and kwargs.items()
+            params = kwargs and kwargs.iteritems()
 
         return (method, params)
 
@@ -407,7 +407,7 @@ class SoapClient(object):
         input = operation.get('input')
         input = input and input.values() and list(input.values())[0]
         if isinstance(input, dict):
-            input = ", ".join("%s=%s" % (k, repr(v)) for k, v in input.items())
+            input = ", ".join("%s=%s" % (k, repr(v)) for k, v in input.iteritems())
         elif isinstance(input, list):
             input = repr(input)
         output = operation.get('output')
