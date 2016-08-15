@@ -40,7 +40,7 @@ _session.mount('file://', FileAdapter())
 log = logging.getLogger(__name__)
 
 
-def fetch(url, wsdl_basedir='', headers={}):
+def fetch(url, wsdl_basedir=''):
     """Download a document from a URL, save it locally if cache enabled"""
 
     # check / append a valid schema if not given:
@@ -51,7 +51,7 @@ def fetch(url, wsdl_basedir='', headers={}):
                 path = os.path.normpath(os.path.join(wsdl_basedir, url))
                 tmp_url = "%s://%s" % (scheme, path)
                 log.debug('Scheme not found, trying %s' % scheme)
-                return fetch(tmp_url, wsdl_basedir, headers)
+                return fetch(tmp_url, wsdl_basedir)
             except Exception as e:
                 log.error(e)
         raise RuntimeError('No scheme given for url: %s' % url)
@@ -349,7 +349,7 @@ get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or Non
 
 
 def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
-                      http, wsdl_basedir, global_namespaces=None, qualified=False):
+                      wsdl_basedir, global_namespaces=None, qualified=False):
     """Find schema elements and complex types"""
 
     from .simplexml import SimpleXMLElement    # here to avoid recursive imports
@@ -393,8 +393,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             # Parse imported XML schema (recursively):
             imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
             preprocess_schema(imported_schema, imported_schemas, elements,
-                              xsd_uri, dialect, http,
-                              path, global_namespaces, qualified)
+                              xsd_uri, dialect, path, global_namespaces, qualified)
 
         element_type = element.get_local_name()
         if element_type in ('element', 'complexType', "simpleType"):

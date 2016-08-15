@@ -5,7 +5,6 @@ import logging
 logger = logging.getLogger(__name__)
 from .helpers import REVERSE_TYPE_MAP, fetch, urlsplit, get_local_name, preprocess_schema, \
         postprocess_element, get_namespace_prefix, Struct, make_key, get_message
-from .transport import get_Http
 from .simplexml import SimpleXMLElement
 
 __all__ = ('parse', )
@@ -41,16 +40,14 @@ def parse(wsdl_path):
 
     # TODO: extract "fetch_wsdl" function
     # Open uri and read xml:
-    Http = get_Http()
-    http = Http(timeout=60, cacert=None, proxy=None, sessions=False)
     _, netloc, path, _, _ = urlsplit(wsdl_path)
     wsdl_basedir = os.path.dirname(netloc + path)
-    xml = fetch(wsdl_path, wsdl_basedir, {})
+    xml = fetch(wsdl_path, wsdl_basedir)
     # Parse WSDL XML:
     wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
     # some wsdl are split down in several files, join them:
-    wsdl = _merge_imported_wsdl(wsdl, http, wsdl_basedir)
+    wsdl = _merge_imported_wsdl(wsdl, wsdl_basedir)
 
     # detect soap prefix and uri (xmlns attributes of <definitions>)
     soap_uris = {}
@@ -59,7 +56,7 @@ def parse(wsdl_path):
             soap_uris[get_local_name(k)] = v
 
     # check axis2 namespace at schema types attributes (europa.eu checkVat)
-    elements = _parse_imported_schemas(wsdl, http, wsdl_basedir)
+    elements = _parse_imported_schemas(wsdl, wsdl_basedir)
     messages = _parse_message(wsdl, elements)
     port_types = _parse_port_types(wsdl)
     bindings = _parse_bindings(wsdl, port_types, soap_uris, messages)
@@ -72,7 +69,7 @@ def parse(wsdl_path):
     return (elements, messages, port_types, bindings, services)
 
 
-def _merge_imported_wsdl(wsdl, http, wsdl_basedir):
+def _merge_imported_wsdl(wsdl, wsdl_basedir):
     imported_wsdls = {}
     for element in wsdl.children() or []:
         if element.get_local_name() in ('import'):
@@ -87,7 +84,7 @@ def _merge_imported_wsdl(wsdl, http, wsdl_basedir):
             imported_wsdls[wsdl_location] = wsdl_namespace
             logger.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
             # Open uri and read xml:
-            xml = fetch(wsdl_location, wsdl_basedir, {})
+            xml = fetch(wsdl_location, wsdl_basedir)
             # Parse imported XML schema (recursively):
             imported_wsdl = SimpleXMLElement(xml, namespace=xsd_uri)
             # merge the imported wsdl into the main document:
@@ -97,7 +94,7 @@ def _merge_imported_wsdl(wsdl, http, wsdl_basedir):
     return wsdl
 
 
-def _parse_imported_schemas(wsdl, http, wsdl_basedir):
+def _parse_imported_schemas(wsdl, wsdl_basedir):
     elements = {}
     imported_schemas = {}
     global_namespaces = _get_global_namespaces(wsdl)
@@ -107,7 +104,7 @@ def _parse_imported_schemas(wsdl, http, wsdl_basedir):
         schemas = types('schema', ns=xsd_uri, error=False)
         for schema in schemas or []:
             preprocess_schema(schema, imported_schemas, elements, xsd_uri,
-                              None, http, wsdl_basedir, global_namespaces)
+                              None, wsdl_basedir, global_namespaces)
 
     postprocess_element(elements, [])
 
