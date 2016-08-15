@@ -208,12 +208,11 @@ class SoapClient(object):
             soap_action = str(self.action)
         else:
             soap_action = str(self.action) + method
-        # TODO: support MIME header
         headers = {
             'Content-type': 'text/xml; charset="UTF-8"',
             'Content-length': str(len(xml)),
         }
-        headers.update(req_headers)
+        headers.update(req_headers) # if req_headers set Content-type, it will be overrided
 
         if self.action is not None:
             headers['SOAPAction'] = soap_action
