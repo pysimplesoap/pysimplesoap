@@ -21,9 +21,9 @@ import copy
 import logging
 import os
 import tempfile
+import requests
 
 from .simplexml import SimpleXMLElement
-from .transport import get_Http
 # Utility functions used throughout wsdl_parse, moved aside for readability
 from .helpers import Alias, fetch, sort_dict, make_key, postprocess_element, \
         get_message, preprocess_schema, get_local_name, get_namespace_prefix, \
@@ -54,7 +54,7 @@ class SoapClient(object):
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
             # parse the wsdl url, strip the scheme and filename
-            url_scheme, netloc, path, query, fragment = urlsplit(wsdl)
+            _, netloc, path, _, _ = urlsplit(wsdl)
             wsdl_basedir = os.path.dirname(netloc + path)
 
         self.wsdl_basedir = wsdl_basedir
@@ -76,23 +76,18 @@ class SoapClient(object):
         # check if the Certification Authority Cert is a string and store it
         if cacert and cacert.startswith('-----BEGIN CERTIFICATE-----'):
             fd, filename = tempfile.mkstemp()
-            f = os.fdopen(fd, 'w+b', -1)
             log.debug("Saving CA certificate to %s" % filename)
-            f.write(cacert)
+            with os.fdopen(fd, 'w+b', -1) as f:
+                f.write(cacert)
             cacert = filename
-            f.close()
         self.cacert = cacert
 
         # Create HTTP wrapper
-        Http = get_Http()
-        self.http = Http(timeout=timeout, cacert=cacert, proxy=proxy, sessions=sessions)
+        self.http = requests.session()
         if username and password:
-            if hasattr(self.http, 'add_credentials'):
-                self.http.add_credentials(username, password)
+            self.http.auth = (username, password)
         if cert and key_file:
-            if hasattr(self.http, 'add_certificate'):
-                self.http.add_certificate(key=key_file, cert=cert, domain='')
-
+            self.http.cert = (key_file, cert)
 
         # namespace prefix, None to use xmlns attribute or False to not use it:
         self.__ns = ns
@@ -207,7 +202,6 @@ class SoapClient(object):
         """Send SOAP request using HTTP"""
         if self.location == 'test': return
         # location = '%s' % self.location #?op=%s" % (self.location, method)
-        http_method = str('POST')
         location = str(self.location)
 
         if self.services:
@@ -236,12 +230,11 @@ class SoapClient(object):
             # httplib in python3 do the same inside itself, don't need to convert it here
             headers = dict((str(k), str(v)) for k, v in headers.items())
 
-        resp_headers, resp_content = self.http.request(
-            location, http_method, body=xml, headers=headers)
+        resp = self.http.post(location, data=xml, headers=headers)
 
-        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in resp_headers.items()]))
-        log.debug(resp_content)
-        return (resp_headers, resp_content)
+        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in resp.headers.iteritems()]))
+        log.debug(resp.content)
+        return (resp.headers, resp.content)
 
     def get_operation(self, method):
         # try to find operation in wsdl file
