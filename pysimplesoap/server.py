@@ -286,7 +286,7 @@ class SoapDispatcher(object):
 
     def list_methods(self):
         """Return a list of aregistered operations"""
-        return [(method, doc) for method, (function, returns, args, doc) in self.methods.items()]
+        return [(method, doc) for method, (function, returns, args, doc) in self.methods.iteritems()]
 
     def help(self, method=None):
         """Generate sample request and response messages"""
@@ -343,7 +343,7 @@ class SoapDispatcher(object):
 """ % {'namespace': self.namespace, 'name': self.name, 'documentation': self.documentation}
         wsdl = SimpleXMLElement(xml)
 
-        for method, (function, returns, args, doc) in self.methods.items():
+        for method, (function, returns, args, doc) in self.methods.iteritems():
             # create elements:
 
             def parse_element(name, values, array=False, complex_type=False):
@@ -402,7 +402,7 @@ class SoapDispatcher(object):
         # create ports
         portType = wsdl.add_child('wsdl:portType')
         portType['name'] = "%sPortType" % self.name
-        for method, (function, returns, args, doc) in self.methods.items():
+        for method, (function, returns, args, doc) in self.methods.iteritems():
             op = portType.add_child('wsdl:operation')
             op['name'] = method
             if doc:
@@ -419,7 +419,7 @@ class SoapDispatcher(object):
         soapbinding = binding.add_child('soap:binding')
         soapbinding['style'] = "document"
         soapbinding['transport'] = "http://schemas.xmlsoap.org/soap/http"
-        for method in self.methods.keys():
+        for method in self.methods:
             op = binding.add_child('wsdl:operation')
             op['name'] = method
             soapop = op.add_child('soap:operation')
