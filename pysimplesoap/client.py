@@ -115,10 +115,10 @@ class SoapClient(object):
 
     def __getattr__(self, attr):
         """Return a pseudo-method that can be called"""
-        if not self.services:  # not using WSDL?
-            return lambda *args, **kwargs: self.call(attr, *args, **kwargs)
-        else:  # using WSDL:
+        if self.services: # using WSDL:
             return lambda *args, **kwargs: self.wsdl_call(attr, *args, **kwargs)
+        else: # not using WSDL?
+            return lambda *args, **kwargs: self.call(attr, *args, **kwargs)
 
     def call(self, method, attachments, *args, **kwargs):
         """Prepare xml request and make SOAP call, returning a SimpleXMLElement.
@@ -127,8 +127,6 @@ class SoapClient(object):
         SimpleXMLElement object, then these headers will be inserted into the
         request.
         """
-        #TODO: method != input_message
-        # Basic SOAP request:
         req_headers, request = self._generate_request(method, args, kwargs, attachments)
 
         resp_headers, resp_content = self.send(method, req_headers, request)
@@ -200,25 +198,21 @@ class SoapClient(object):
 
     def send(self, method, req_headers, xml):
         """Send SOAP request using HTTP"""
-        if self.location == 'test': return
-        # location = '%s' % self.location #?op=%s" % (self.location, method)
-        location = str(self.location)
-
         if self.services:
             soap_action = str(self.action)
         else:
-            soap_action = str(self.action) + method
+            soap_action = str(self.action) + method # TODO: what does this mean?
         headers = {
             'Content-type': 'text/xml; charset="UTF-8"',
             'Content-length': str(len(xml)),
         }
         headers.update(req_headers) # if req_headers set Content-type, it will be overrided
 
-        if self.action is not None:
+        if self.action:
             headers['SOAPAction'] = soap_action
 
         headers.update(self.http_headers)
-        log.info("POST %s" % location)
+        log.info("POST %s" % self.location)
         log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.iteritems()]))
         log.debug(xml)
 
@@ -229,7 +223,7 @@ class SoapClient(object):
             # httplib in python3 do the same inside itself, don't need to convert it here
             headers = dict((str(k), str(v)) for k, v in headers.iteritems())
 
-        resp = self.http.post(location, data=xml, headers=headers)
+        resp = self.http.post(self.location, data=xml, headers=headers)
 
         log.debug('\n'.join(["%s: %s" % (k, v) for k, v in resp.headers.iteritems()]))
         log.debug(resp.content)
