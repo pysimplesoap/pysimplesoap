@@ -45,7 +45,7 @@ def parse(wsdl_path):
     http = Http(timeout=60, cacert=None, proxy=None, sessions=False)
     _, netloc, path, _, _ = urlsplit(wsdl_path)
     wsdl_basedir = os.path.dirname(netloc + path)
-    xml = fetch(wsdl_path, http, wsdl_basedir, {})
+    xml = fetch(wsdl_path, wsdl_basedir, {})
     # Parse WSDL XML:
     wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
@@ -87,7 +87,7 @@ def _merge_imported_wsdl(wsdl, http, wsdl_basedir):
             imported_wsdls[wsdl_location] = wsdl_namespace
             logger.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
             # Open uri and read xml:
-            xml = fetch(wsdl_location, http, wsdl_basedir, {})
+            xml = fetch(wsdl_location, wsdl_basedir, {})
             # Parse imported XML schema (recursively):
             imported_wsdl = SimpleXMLElement(xml, namespace=xsd_uri)
             # merge the imported wsdl into the main document:

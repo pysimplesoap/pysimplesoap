@@ -26,17 +26,21 @@ import logging
 import warnings
 
 try:
-    import urllib2
     from urlparse import urlsplit
 except ImportError:
-    from urllib import request as urllib2
     from urllib.parse import urlsplit
+
+import requests
+from requests_file import FileAdapter
+
+_session = requests.session()
+_session.mount('file://', FileAdapter())
 
 
 log = logging.getLogger(__name__)
 
 
-def fetch(url, http, wsdl_basedir='', headers={}):
+def fetch(url, wsdl_basedir='', headers={}):
     """Download a document from a URL, save it locally if cache enabled"""
 
     # check / append a valid schema if not given:
@@ -45,26 +49,19 @@ def fetch(url, http, wsdl_basedir='', headers={}):
         for scheme in ('file', 'http', 'https'):
             try:
                 path = os.path.normpath(os.path.join(wsdl_basedir, url))
-                if not url.startswith("/") and scheme in ('http', 'https'):
-                    tmp_url = "%s://%s" % (scheme, path)
-                else:
-                    tmp_url = "%s:%s" % (scheme, path)
+                tmp_url = "%s://%s" % (scheme, path)
                 log.debug('Scheme not found, trying %s' % scheme)
-                return fetch(tmp_url, http, wsdl_basedir, headers)
+                return fetch(tmp_url, wsdl_basedir, headers)
             except Exception as e:
                 log.error(e)
         raise RuntimeError('No scheme given for url: %s' % url)
 
     # make md5 hash of the url for caching...
-    if url_scheme == 'file':
-        log.info('Fetching url %s using urllib2' % url)
-        f = urllib2.urlopen(url)
-        xml = f.read()
-    else:
-        log.info('GET %s using %s' % (url, http._wrapper_version))
-        response, xml = http.request(url, 'GET', None, headers)
+    response = _session.get(url)
+    if not response.ok:
+        raise RuntimeError('failed to fetch url "%s"' % url)
 
-    return xml
+    return response.content
 
 
 def sort_dict(od, d):
@@ -387,7 +384,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             imported_schemas[schema_location] = schema_namespace
             log.debug('Importing schema %s from %s' % (schema_namespace, schema_location))
             # Open uri and read xml:
-            xml = fetch(schema_location, http, wsdl_basedir)
+            xml = fetch(schema_location, wsdl_basedir)
 
             # recalculate base path for relative schema locations
             path = os.path.normpath(os.path.join(wsdl_basedir, schema_location))

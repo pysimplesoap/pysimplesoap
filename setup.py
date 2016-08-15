@@ -36,6 +36,8 @@ setup(
     license=__license__,
     install_requires=[
         'xmltodict',
+        'requests',
+        'requests-file',
         ],
     cmdclass={"py2exe": build_installer},
     classifiers=[

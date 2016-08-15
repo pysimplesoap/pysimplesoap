@@ -440,7 +440,7 @@ class SoapClient(object):
     def _url_to_xml_tree(self, url):
         """Unmarshall the WSDL at the given url into a tree of SimpleXMLElement nodes"""
         # Open uri and read xml:
-        xml = fetch(url, self.http, self.wsdl_basedir, self.http_headers)
+        xml = fetch(url, self.wsdl_basedir, self.http_headers)
         # Parse WSDL XML:
         wsdl = SimpleXMLElement(xml, namespace=self.wsdl_uri)
 
@@ -463,7 +463,7 @@ class SoapClient(object):
                 imported_wsdls[wsdl_location] = wsdl_namespace
                 log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
                 # Open uri and read xml:
-                xml = fetch(wsdl_location, self.http, self.wsdl_basedir, self.http_headers)
+                xml = fetch(wsdl_location, self.wsdl_basedir, self.http_headers)
                 # Parse imported XML schema (recursively):
                 imported_wsdl = SimpleXMLElement(xml, namespace=self.xsd_uri)
                 # merge the imported wsdl into the main document:
