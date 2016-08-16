@@ -6,13 +6,13 @@ Initially it was inspired by [PHP Soap Extension](http://php.net/manual/en/book.
 
 **Supports Python 3** (same codebase, no need to run 2to3)
 
-#PySimpleSOAP structure specificaiton
+##PySimpleSOAP structure specificaiton
 
 The PySimpleSoap Library is transplanted from http://code.google.com/p/pysimplesoap/.And we just change interface base on it that can service for our NBS project.
 
-#Main file in PySimpleSOAP
+###Main file in PySimpleSOAP
 
-![Main file in PySimpleSOAP](imags/Main_file_name.png)
+![Main file in PySimpleSOAP](imgs/Mainfilename.png)
 
 
 
