@@ -1,3 +1,7 @@
+Note: the following modules need  to be installed beforing using this library
+1, requests_file
+2, xmltodict
+
 PySimpleSOAP / soap2py
 ======================
 Python simple and lightweight SOAP library for client and server webservices interfaces, aimed to be as small and easy as possible, supporting most common functionality.
