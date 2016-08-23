@@ -16,8 +16,6 @@ server.py |Pythonic simple SOAP Server implementation,nbs only use dispatcher mo
 simplexml.py|Simple XML manipulation,structure xml msg
 wsdl.py   |wsdl parsing module
 
-![Main file in PySimpleSOAP](imgs/Mainfilename.png)
-
 api.py: Decode soap message to a dict
 * Get content_type from headers
 * Get boundary from content_type
@@ -53,13 +51,27 @@ wsdl.py: Parse WSDL file
 
 Seq.|Service                          |Operations
 ----|---------------------------------|--------------
-1---|NE3SBasicNotificationService-----|transferNotification
-2---|NE3SRegistrationNotificationService|Reregister
-3---|NE3SOperationNotificaitonService-|reportOperationStatus
-----|---------------------------------|reportOperationInterrupt
-4---|NE3SSessionNotificationsService--|abortsession
+1   |NE3SBasicNotificationService     |transferNotification
+2   |NE3SRegistrationNotificationService|Reregister
+3   |NE3SOperationNotificaitonService |reportOperationStatus
+    |                                 |reportOperationInterrupt
+4   |NE3SSessionNotificationsService  |abortsession
+5   |NE3SSessionService               |startSession
+    |                                 |stopSession
+    |                                 |keepAliveSession
+6   |NE3SOperationService             |interruptOperation
+    |                                 |requestOperationStatus
+    |                                 |ping
+7   |NE3SBasicOperationsService       |get
+    |                                 |set
+8   |NE3SBulkOperationsService        |activate
+    |                                 |download
+    |                                 |upload
+    |                                 |validate
+    |                                 |provision
+9   |NE3SRegistrationService          |startRegistration
+    |                                 |unregister
+    |                                 |completeRegistration
 
 
 
-![wsdl.py:Parse WSDL file](imgs/parsewsdl.png)
-![wsdl.py:Parse WSDL file](imgs/parsewsdl1.png)
