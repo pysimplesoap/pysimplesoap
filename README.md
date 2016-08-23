@@ -7,6 +7,12 @@ Main function : Have four main modules: client, server, soap msg decode, soap ms
 
 Main file in PySimpleSOAP
 
+|File name|Main function
+----------|--------------------
+api.py    |Soap message decode
+
+
+
 ![Main file in PySimpleSOAP](imgs/Mainfilename.png)
 
 api.py: Decode soap message to a dict
