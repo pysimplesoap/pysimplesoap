@@ -51,5 +51,15 @@ wsdl.py: Parse WSDL file
 * Our NBS project only used the ‘services’ dict
 * The dict have 9 services and 21 Operations
 
+Seq.|Service                          |Operations
+----|---------------------------------|--------------
+1---|NE3SBasicNotificationService-----|transferNotification
+2---|NE3SRegistrationNotificationService|Reregister
+3---|NE3SOperationNotificaitonService-|reportOperationStatus
+----|---------------------------------|reportOperationInterrupt
+4---|NE3SSessionNotificationsService--|abortsession
+
+
+
 ![wsdl.py:Parse WSDL file](imgs/parsewsdl.png)
 ![wsdl.py:Parse WSDL file](imgs/parsewsdl1.png)
