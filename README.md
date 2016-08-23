@@ -10,8 +10,11 @@ Main file in PySimpleSOAP
 |File name|Main function
 ----------|--------------------
 api.py    |Soap message decode
-
-
+client.py |Simulate a client,send request and get response
+mime.py   |Structure MIME part of msg
+server.py |Pythonic simple SOAP Server implementation,nbs only use dispatcher module
+simplexml.py|Simple XML manipulation,structure xml msg
+wsdl.py   |wsdl parsing module
 
 ![Main file in PySimpleSOAP](imgs/Mainfilename.png)
 
