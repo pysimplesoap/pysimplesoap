@@ -1,6 +1,6 @@
 #PySimpleSOAP introduction
 
-The PySimpleSoap Library is transplanted from http://code.google.com/p/pysimplesoap/.And just changed interface base on it that can service for NOKIA NBS project.
+The PySimpleSoap Library is transplanted from http://code.google.com/p/pysimplesoap/.And just changed interface base on it.
 Main function : Have four main modules: client, server, soap msg decode, soap msg encode; Parse the WSDL file.
 
 ##PySimpleSOAP structure specificaiton
@@ -12,7 +12,7 @@ Main file in PySimpleSOAP
 api.py    |Soap message decode
 client.py |Simulate a client,send request and get response
 mime.py   |Structure MIME part of msg
-server.py |Pythonic simple SOAP Server implementation,nbs only use dispatcher module
+server.py |Pythonic simple SOAP Server implementation,used dispatcher module
 simplexml.py|Simple XML manipulation,structure xml msg
 wsdl.py   |wsdl parsing module
 
@@ -39,39 +39,13 @@ server.py: only introduce SoapDispatcher class
 * Simple Dispatcher for SOAP Server
 * Corresponding server dispatch by uri，soapaction
 * Get response operation by dispatch
-* Input case response parameter
 * Encode Response to xml form and return data.
 
 simplexml.py: structure xml msg according to arguments
 
 wsdl.py: Parse WSDL file
 * Parse wsdl file to five variable value (elements, messages, port_types, bindings, services)
-* Our NBS project only used the ‘services’ dict
-* The dict have 9 services and 21 Operations
 
-Seq.|Service                          |Operations
-----|---------------------------------|--------------
-1   |NE3SBasicNotificationService     |transferNotification
-2   |NE3SRegistrationNotificationService|Reregister
-3   |NE3SOperationNotificaitonService |reportOperationStatus
-    |                                 |reportOperationInterrupt
-4   |NE3SSessionNotificationsService  |abortsession
-5   |NE3SSessionService               |startSession
-    |                                 |stopSession
-    |                                 |keepAliveSession
-6   |NE3SOperationService             |interruptOperation
-    |                                 |requestOperationStatus
-    |                                 |ping
-7   |NE3SBasicOperationsService       |get
-    |                                 |set
-8   |NE3SBulkOperationsService        |activate
-    |                                 |download
-    |                                 |upload
-    |                                 |validate
-    |                                 |provision
-9   |NE3SRegistrationService          |startRegistration
-    |                                 |unregister
-    |                                 |completeRegistration
 
 
 
