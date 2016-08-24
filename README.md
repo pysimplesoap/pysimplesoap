@@ -37,7 +37,7 @@ mime.py: structure soap message body
 
 server.py: only introduce SoapDispatcher class
 * Simple Dispatcher for SOAP Server
-* Corresponding server dispatch by uri，soapaction
+* Corresponding server dispatch by url,soap_action
 * Get response operation by dispatch
 * Encode Response to xml form and return data.
 
