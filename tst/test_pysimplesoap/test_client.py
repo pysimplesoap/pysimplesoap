@@ -5,7 +5,7 @@ from pysimplesoap.simplexml import SimpleXMLElement
 from pysimplesoap.client import SoapClient
 
 
-client = SoapClient(wsdl=os.path.abspath('tst/data/register.wsdl'))
+client = SoapClient(wsdl=os.path.abspath('tst/data/ne3s.wsdl'))
 ns = 'http://schemas.xmlsoap.org/soap/envelope/'
 
 
