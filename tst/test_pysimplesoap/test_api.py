@@ -28,11 +28,10 @@ class TestMsgDecoding(BaseTestcase):
         resp = decode(headers, self.get_data('multi_mime'), wsdl)
         self.assertEqual(resp['queueId'], 'ne3s_atl_logUploadNotificationQueue')
         self.assertEqual(resp['sequenceNumber'], 11),
-        self.assertEqual(resp['attachmentProperties']['contentType'], 'oats')
+        self.assertEqual(resp['attachmentProperties']['contentType'], 'ofas')
         self.assertIn('transferNotificationContent1466676077553@nokiasiemens.com', resp)
         self.assertNotIn('', resp)
         attachment = resp['transferNotificationContent1466676077553@nokiasiemens.com']
-        self.assertEqual(attachment['log']['@logFileName'], 'AUDIT_LOG')
-        self.assertEqual(attachment['log']['@logType'], 'AUDIT_LOG')
-        self.assertEqual(attachment['log']['record']['interfaceType'], 'ne3s_ws')
+        self.assertEqual(attachment['notification']['alarmNew']['alarmId'], '1')
+        self.assertEqual(attachment['notification']['alarmNew']['alarmText'], 'Simple alarm text')
 
