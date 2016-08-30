@@ -127,13 +127,14 @@ BIN_TOKEN_TMPL = """<?xml version="1.0" encoding="UTF-8"?>
 class BinaryTokenSignature:
     "WebService Security extension to add a basic signature to xml request"
 
-    def __init__(self, certificate="", private_key="", password=None, cacert=None):
+    def __init__(self, certificate="", private_key="", password=None, cacert=None, response_signed=True):
         # read the X509v3 certificate (PEM)
         self.certificate = ''.join([line for line in open(certificate)
                                          if not line.startswith("---")])
         self.private_key = private_key
         self.password = password
         self.cacert = cacert
+        self.response_signed = response_signed
 
     def preprocess(self, client, request, method, args, kwargs, headers, soap_uri):
         "Sign the outgoing SOAP request"
@@ -160,56 +161,57 @@ class BinaryTokenSignature:
 
     def postprocess(self, client, response, method, args, kwargs, headers, soap_uri):
         "Verify the signature of the incoming response"
-        from . import xmlsec
-        # get xml elements:
-        body = response('Body', ns=soap_uri, )
-        header = response('Header', ns=soap_uri, )
-        wsse = header("Security", ns=WSSE_URI)
-        cert = wsse("BinarySecurityToken", ns=WSSE_URI)
-        # check that the cert (binary token) is coming in the correct format:
-        self.__check(cert["EncodingType"], Base64Binary_URI)
-        self.__check(cert["ValueType"], X509v3_URI)
-        # extract the certificate (in DER to avoid new line & padding issues!)
-        cert_der = str(cert).decode("base64")
-        public_key = xmlsec.x509_extract_rsa_public_key(cert_der, binary=True)
-        # validate the certificate using the certification authority:
-        if not self.cacert:
-            warnings.warn("No CA provided, WSSE not validating certificate")
-        elif not xmlsec.x509_verify(self.cacert, cert_der, binary=True):
-            raise RuntimeError("WSSE certificate validation failed")
-        # check body xml attributes was signed correctly (reference)
-        self.__check(body['xmlns:wsu'], WSU_URI)
-        ref_uri = body['wsu:Id']
-        signature = wsse("Signature", ns=XMLDSIG_URI)
-        signed_info = signature("SignedInfo", ns=XMLDSIG_URI)
-        signature_value = signature("SignatureValue", ns=XMLDSIG_URI)
-        # TODO: these sanity checks should be moved to xmlsec?
-        self.__check(signed_info("Reference", ns=XMLDSIG_URI)['URI'], "#" + ref_uri)
-        self.__check(signed_info("SignatureMethod", ns=XMLDSIG_URI)['Algorithm'], 
-                     XMLDSIG_URI + "rsa-sha1")
-        self.__check(signed_info("Reference", ns=XMLDSIG_URI)("DigestMethod", ns=XMLDSIG_URI)['Algorithm'], 
-                     XMLDSIG_URI + "sha1")
-        # TODO: check KeyInfo uses the correct SecurityTokenReference
-        # workaround: copy namespaces so lxml can parse the xml to be signed
-        for attr, value in response[:]:
-            if attr.startswith("xmlns"):
-                body[attr] = value
-        # use the internal tag xml representation (not the full xml document)
-        ref_xml = xmlsec.canonicalize(repr(body))
-        # verify the signed hash
-        computed_hash =  xmlsec.sha1_hash_digest(ref_xml)
-        digest_value = str(signed_info("Reference", ns=XMLDSIG_URI)("DigestValue", ns=XMLDSIG_URI))
-        if computed_hash != digest_value:
-            raise RuntimeError("WSSE SHA1 hash digests mismatch")
-        # workaround: prepare the signed info (assure the parent ns is present)
-        signed_info['xmlns'] = XMLDSIG_URI
-        xml = repr(signed_info)
-        # verify the signature using RSA-SHA1 (XML Security)
-        ok = xmlsec.rsa_verify(xml, str(signature_value), public_key)
-        if not ok:
-            raise RuntimeError("WSSE RSA-SHA1 signature verification failed")
-        # TODO: remove any unsigned part from the xml?
-        
+        if self.response_signed:
+            from . import xmlsec
+            # get xml elements:
+            body = response('Body', ns=soap_uri, )
+            header = response('Header', ns=soap_uri, )
+            wsse = header("Security", ns=WSSE_URI)
+            cert = wsse("BinarySecurityToken", ns=WSSE_URI)
+            # check that the cert (binary token) is coming in the correct format:
+            self.__check(cert["EncodingType"], Base64Binary_URI)
+            self.__check(cert["ValueType"], X509v3_URI)
+            # extract the certificate (in DER to avoid new line & padding issues!)
+            cert_der = str(cert).decode("base64")
+            public_key = xmlsec.x509_extract_rsa_public_key(cert_der, binary=True)
+            # validate the certificate using the certification authority:
+            if not self.cacert:
+                warnings.warn("No CA provided, WSSE not validating certificate")
+            elif not xmlsec.x509_verify(self.cacert, cert_der, binary=True):
+                raise RuntimeError("WSSE certificate validation failed")
+            # check body xml attributes was signed correctly (reference)
+            self.__check(body['xmlns:wsu'], WSU_URI)
+            ref_uri = body['wsu:Id']
+            signature = wsse("Signature", ns=XMLDSIG_URI)
+            signed_info = signature("SignedInfo", ns=XMLDSIG_URI)
+            signature_value = signature("SignatureValue", ns=XMLDSIG_URI)
+            # TODO: these sanity checks should be moved to xmlsec?
+            self.__check(signed_info("Reference", ns=XMLDSIG_URI)['URI'], "#" + ref_uri)
+            self.__check(signed_info("SignatureMethod", ns=XMLDSIG_URI)['Algorithm'], 
+                         XMLDSIG_URI + "rsa-sha1")
+            self.__check(signed_info("Reference", ns=XMLDSIG_URI)("DigestMethod", ns=XMLDSIG_URI)['Algorithm'], 
+                         XMLDSIG_URI + "sha1")
+            # TODO: check KeyInfo uses the correct SecurityTokenReference
+            # workaround: copy namespaces so lxml can parse the xml to be signed
+            for attr, value in response[:]:
+                if attr.startswith("xmlns"):
+                    body[attr] = value
+            # use the internal tag xml representation (not the full xml document)
+            ref_xml = xmlsec.canonicalize(repr(body))
+            # verify the signed hash
+            computed_hash =  xmlsec.sha1_hash_digest(ref_xml)
+            digest_value = str(signed_info("Reference", ns=XMLDSIG_URI)("DigestValue", ns=XMLDSIG_URI))
+            if computed_hash != digest_value:
+                raise RuntimeError("WSSE SHA1 hash digests mismatch")
+            # workaround: prepare the signed info (assure the parent ns is present)
+            signed_info['xmlns'] = XMLDSIG_URI
+            xml = repr(signed_info)
+            # verify the signature using RSA-SHA1 (XML Security)
+            ok = xmlsec.rsa_verify(xml, str(signature_value), public_key)
+            if not ok:
+                raise RuntimeError("WSSE RSA-SHA1 signature verification failed")
+            # TODO: remove any unsigned part from the xml?
+
     def __check(self, value, expected, msg="WSSE sanity check failed"):
         if value != expected:
             raise RuntimeError(msg)
