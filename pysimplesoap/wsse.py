@@ -65,7 +65,10 @@ class UsernameToken:
         if k in headers:
             self.token = headers[k]
         # convert the token to xml
-        header.marshall(k, self.token, ns=False, add_children_ns=False)
+        if k in header:
+            header(k).marshall('wsse:UsernameToken',self.token['wsse:UsernameToken'],ns=False,add_children_ns=False)
+        else:
+            header.marshall(k, self.token, ns=False, add_children_ns=False)
         header(k)['xmlns:wsse'] = WSSE_URI
         #<wsse:UsernameToken xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'>
 
