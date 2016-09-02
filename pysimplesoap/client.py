@@ -162,10 +162,7 @@ class SoapClient(object):
             # marshall parameters:
             use_ns = None if (self.__soap_server == "jetty" or self.qualified is False) else True
             elements_list = self.get_operation(method)['input'][method].keys()
-            for element in elements_list:
-                for num in range(len(parameters)):
-                    if element == parameters[num][0]:
-                        sort_parameters.append(parameters[num])
+            [sort_parameters.append(parameters[num]) for element in elements_list for num in range(len(parameters)) if element == parameters[num][0]]
             for k, v in sort_parameters:  # dict: tag=valor
                 if hasattr(v, "namespaces") and use_ns:
                     ns = v.namespaces.get(None, True)
