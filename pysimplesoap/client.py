@@ -135,7 +135,6 @@ class SoapClient(object):
 
 
     def _generate_request(self, method, args, kwargs, attachments):
-        sort_parameters = []
         soap_uri = SOAP_NAMESPACES[self.__soap_ns]
         xml = self.__xml % dict(method=method,              # method tag name
                                 namespace=self.namespace,   # method ns uri
@@ -161,8 +160,7 @@ class SoapClient(object):
         elif parameters:
             # marshall parameters:
             use_ns = None if (self.__soap_server == "jetty" or self.qualified is False) else True
-            elements_list = self.get_operation(method)['input'][method].keys()
-            [sort_parameters.append(parameters[num]) for element in elements_list for num in range(len(parameters)) if element == parameters[num][0]]
+            sort_parameters = [para for element in self.get_operation(method)['input'][method] for para in parameters if element == para[0]]
             for k, v in sort_parameters:  # dict: tag=valor
                 if hasattr(v, "namespaces") and use_ns:
                     ns = v.namespaces.get(None, True)
@@ -319,8 +317,6 @@ class SoapClient(object):
             else:
                 # use the message (element) name
                 method = inputname
-        #elif not input:
-            #TODO: no message! (see wsmtxca.dummy)
         else:
             params = kwargs and kwargs.iteritems()
 
