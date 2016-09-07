@@ -7,9 +7,13 @@ from pysimplesoap.client import SoapClient
 
 client = SoapClient(wsdl=os.path.abspath('tst/data/ne3s.wsdl'))
 ns = 'http://schemas.xmlsoap.org/soap/envelope/'
-
+kwargs = {u'soc': u'cid:12345', u'reRegisterInterval': u'20', u'managerIdentity': {u'release': u'1.0'}, u'agentUniqueId': u'lyj0034', u'notificationConsumerURL': u'http://localhost:30505/services', u'managerNonce': u'ODYzNTQ0NTg0'}
 
 class TestSimpleXmlElement(BaseTestcase):
+    def test_method_element_list(self):
+        self.assertEqual( client.get_operation('startRegistration')['input']['startRegistration'].keys(), [u'managerIdentity', u'agentUniqueId', u'notificationConsumerURL', u'reRegisterInterval', u'managerNonce', u'extensions', u'soc'])
+        self.assertEqual( client.get_operation('transferNotification')['input']['transferNotification'].keys(), [u'agentRegistrationId', u'agentRegistrationKey', u'queueId', u'notificationType', u'sequenceNumber', u'attachmentProperties', u'extensions', u'notificationContent'])
+
     def test_get_normal_xml(self):
         response = SimpleXMLElement(self.get_data('normal_xml'))
         output = client.get_operation('startRegistration')['output']
@@ -38,7 +42,7 @@ class TestGenerateClientRequest(BaseTestcase):
 </soap:Envelope>'''))
 
     def test_generate_mime_request(self):
-        header, body = client._generate_request('startRegistration', (), {}, [('abcde', '12345')])
+        header, body = client._generate_request('startRegistration', (), kwargs, [('abcde', '12345')])
         self.assertIn('multipart/related', header['Content-type'])
         ptn = re.compile(r'--\S+')
         self.assertEqual(ptn.sub('', body).replace('\r\n', '\n'), ptn.sub('', '''--8cf32b7e-5a0c-11e6-9fa3-080027d14c2a
@@ -48,7 +52,7 @@ Content-Type: text/xml
 <soap:Header/>
 <soap:Body>
     <startRegistration xmlns="">
-    </startRegistration>
+    <managerIdentity><release>1.0</release></managerIdentity><agentUniqueId>lyj0034</agentUniqueId><notificationConsumerURL>http://localhost:30505/services</notificationConsumerURL><reRegisterInterval>20</reRegisterInterval><managerNonce>ODYzNTQ0NTg0</managerNonce><soc>cid:12345</soc></startRegistration>
 </soap:Body>
 </soap:Envelope>
 --8cf32b7e-5a0c-11e6-9fa3-080027d14c2a

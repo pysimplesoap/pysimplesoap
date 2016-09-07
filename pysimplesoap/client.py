@@ -135,6 +135,7 @@ class SoapClient(object):
 
 
     def _generate_request(self, method, args, kwargs, attachments):
+        sort_parameters = []
         soap_uri = SOAP_NAMESPACES[self.__soap_ns]
         xml = self.__xml % dict(method=method,              # method tag name
                                 namespace=self.namespace,   # method ns uri
@@ -160,7 +161,9 @@ class SoapClient(object):
         elif parameters:
             # marshall parameters:
             use_ns = None if (self.__soap_server == "jetty" or self.qualified is False) else True
-            for k, v in parameters:  # dict: tag=valor
+            elements_list = self.get_operation(method)['input'][method].keys()
+            [sort_parameters.append(parameters[num]) for element in elements_list for num in range(len(parameters)) if element == parameters[num][0]]
+            for k, v in sort_parameters:  # dict: tag=valor
                 if hasattr(v, "namespaces") and use_ns:
                     ns = v.namespaces.get(None, True)
                 else:
