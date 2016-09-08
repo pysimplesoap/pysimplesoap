@@ -216,8 +216,8 @@ class SoapClient(object):
                 else:
                     ns = use_ns
                     if isinstance(v, list):
-            	        for i in v:
-            	            getattr(request, method).marshall(k, i, ns=ns)
+                        for i in v:
+                            getattr(request, method).marshall(k, i, ns=ns)
                     else:
                         getattr(request, method).marshall(k, v, ns=ns)
         elif self.__soap_server in ('jbossas6',):
