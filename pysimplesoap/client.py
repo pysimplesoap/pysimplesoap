@@ -24,7 +24,7 @@ import requests
 
 from .simplexml import SimpleXMLElement
 # Utility functions used throughout wsdl_parse, moved aside for readability
-from .helpers import Alias, sort_dict, TYPE_MAP, urlsplit, Struct, REVERSE_TYPE_MAP
+from .helpers import Alias, sort_dict, TYPE_MAP, urlsplit, Struct
 from .mime import MimeGenerator
 from .env import SOAP_NAMESPACES
 from .env import TIMEOUT
@@ -338,7 +338,7 @@ class SoapClient(object):
         if struct == str:
             struct = unicode        # fix for py2 vs py3 string handling
 
-        if not isinstance(struct, (list, dict, tuple)) and struct in TYPE_MAP.keys():
+        if not isinstance(struct, (list, dict, tuple)) and struct in TYPE_MAP:
             if not type(value) == struct  and value is not None:
                 try:
                     struct(value)       # attempt to cast input to parameter type
@@ -413,9 +413,6 @@ class SoapClient(object):
         )
 
     def wsdl_parse(self, url):
-        """Parse Web Service Description v1.1"""
-        # always return an unicode object:
-        REVERSE_TYPE_MAP['string'] = str
         _, _, _, _, services = parse(url)
 
         return services
