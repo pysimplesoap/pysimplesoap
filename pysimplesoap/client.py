@@ -108,7 +108,7 @@ class SoapClient(object):
 
         # parse wsdl url
         log.debug('wsdl: %s' % wsdl)
-        self.services = wsdl and self.wsdl_parse(wsdl)
+        self.services = wsdl and self.wsdl_parse(wsdl, self.wsdl_basedir)
         self.service_port = None                 # service port for late binding
 
     def __getattr__(self, attr):
@@ -412,8 +412,8 @@ class SoapClient(object):
             headers,
         )
 
-    def wsdl_parse(self, url):
-        _, _, _, _, services = parse(url)
+    def wsdl_parse(self, url, base_dir):
+        _, _, _, _, services = parse(url, base_dir)
 
         return services
 
