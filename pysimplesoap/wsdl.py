@@ -33,16 +33,19 @@ def cache(func):
 
 
 @cache
-def parse(wsdl_path):
+def parse(wsdl_path, wsdl_basedir=''):
     logger.debug('Parsing wsdl path: %s' % wsdl_path)
     # always return an unicode object:
     REVERSE_TYPE_MAP['string'] = str
 
     # TODO: extract "fetch_wsdl" function
     # Open uri and read xml:
-    _, netloc, path, _, _ = urlsplit(wsdl_path)
-    wsdl_basedir = os.path.dirname(netloc + path)
-    xml = fetch(wsdl_path, wsdl_basedir)
+    if isinstance(wsdl_path, (str, unicode)): # raw string
+        _, netloc, path, _, _ = urlsplit(wsdl_path)
+        wsdl_basedir = os.path.dirname(netloc + path)
+        xml = fetch(wsdl_path, wsdl_basedir)
+    else: # file object or stringio
+        xml = wsdl_path.read()
     # Parse WSDL XML:
     wsdl = SimpleXMLElement(xml, namespace=wsdl_uri)
 
