@@ -412,14 +412,6 @@ class SoapClient(object):
             headers,
         )
 
-    soap_ns_uris = {
-        'http://schemas.xmlsoap.org/wsdl/soap/': 'soap11',
-        'http://schemas.xmlsoap.org/wsdl/soap12/': 'soap12',
-    }
-    wsdl_uri = 'http://schemas.xmlsoap.org/wsdl/'
-    xsd_uri = 'http://www.w3.org/2001/XMLSchema'
-    xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
-
     def wsdl_parse(self, url):
         """Parse Web Service Description v1.1"""
         # always return an unicode object:
