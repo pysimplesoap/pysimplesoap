@@ -17,7 +17,6 @@ import sys
 if sys.version > '3':
     unicode = str
 
-import copy
 import logging
 import os
 import tempfile
@@ -25,20 +24,19 @@ import requests
 
 from .simplexml import SimpleXMLElement
 # Utility functions used throughout wsdl_parse, moved aside for readability
-from .helpers import Alias, fetch, sort_dict, make_key, postprocess_element, \
-        get_message, preprocess_schema, get_local_name, get_namespace_prefix, \
-        TYPE_MAP, urlsplit, Struct, REVERSE_TYPE_MAP
+from .helpers import Alias, sort_dict, TYPE_MAP, urlsplit, Struct, REVERSE_TYPE_MAP
 from .mime import MimeGenerator
 from .env import SOAP_NAMESPACES
 from .env import TIMEOUT
 from .api import decode
+from .wsdl import parse
 
 log = logging.getLogger(__name__)
 
 
 class SoapClient(object):
     """Simple SOAP Client (simil PHP)"""
-    def __init__(self, location=None, action=None, namespace=None,
+    def __init__(self, location=None, action=None, namespace='',
                  cert=None, proxy=None, ns=None,
                  soap_ns=None, wsdl=None, wsdl_basedir='', cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
@@ -422,297 +420,11 @@ class SoapClient(object):
     xsd_uri = 'http://www.w3.org/2001/XMLSchema'
     xsi_uri = 'http://www.w3.org/2001/XMLSchema-instance'
 
-    def _url_to_xml_tree(self, url):
-        """Unmarshall the WSDL at the given url into a tree of SimpleXMLElement nodes"""
-        # Open uri and read xml:
-        xml = fetch(url, self.wsdl_basedir)
-        # Parse WSDL XML:
-        wsdl = SimpleXMLElement(xml, namespace=self.wsdl_uri)
-
-        # Extract useful data:
-        self.namespace = ""
-        self.documentation = unicode(wsdl('documentation', error=False)) or ''
-
-        # some wsdl are split down in several files, join them:
-        imported_wsdls = {}
-        for element in wsdl.children() or []:
-            if element.get_local_name() in ('import'):
-                wsdl_namespace = element['namespace']
-                wsdl_location = element['location']
-                if wsdl_location is None:
-                    log.warning('WSDL location not provided for %s!' % wsdl_namespace)
-                    continue
-                if wsdl_location in imported_wsdls:
-                    log.warning('WSDL %s already imported!' % wsdl_location)
-                    continue
-                imported_wsdls[wsdl_location] = wsdl_namespace
-                log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
-                # Open uri and read xml:
-                xml = fetch(wsdl_location, self.wsdl_basedir)
-                # Parse imported XML schema (recursively):
-                imported_wsdl = SimpleXMLElement(xml, namespace=self.xsd_uri)
-                # merge the imported wsdl into the main document:
-                wsdl.import_node(imported_wsdl)
-                # warning: do not process schemas to avoid infinite recursion!
-
-        return wsdl
-
-    def _xml_tree_to_services(self, wsdl):
-        """Convert SimpleXMLElement tree representation of the WSDL into pythonic objects"""
-        # detect soap prefix and uri (xmlns attributes of <definitions>)
-        soap_uris = {}
-        for k, v in wsdl[:]:
-            if v in self.soap_ns_uris and k.startswith('xmlns:'):
-                soap_uris[get_local_name(k)] = v
-
-        elements = {}            # element: type def
-        messages = {}            # message: element
-        port_types = {}          # port_type_name: port_type
-        bindings = {}            # binding_name: binding
-        services = {}            # service_name: service
-
-        # check axis2 namespace at schema types attributes (europa.eu checkVat)
-        if "http://xml.apache.org/xml-soap" in dict(wsdl[:]).values():
-            # get the sub-namespace in the first schema element (see issue 8)
-            if wsdl('types', error=False):
-                schema = wsdl.types('schema', ns=self.xsd_uri)
-                attrs = dict(schema[:])
-                self.namespace = attrs.get('targetNamespace', self.namespace)
-            if not self.namespace or self.namespace == "urn:DefaultNamespace":
-                self.namespace = wsdl['targetNamespace'] or self.namespace
-
-        imported_schemas = {}
-        global_namespaces = {None: self.namespace}
-
-        for types in wsdl('types', error=False) or []:
-            # avoid issue if schema is not given in the main WSDL file
-            schemas = types('schema', ns=self.xsd_uri, error=False)
-            for schema in schemas or []:
-                preprocess_schema(schema, imported_schemas, elements, self.xsd_uri,
-                                  self.__soap_server, self.wsdl_basedir, global_namespaces)
-
-        # 2nd phase: alias, postdefined elements, extend bases, convert lists
-        postprocess_element(elements, [])
-
-        for message in wsdl.message:
-            for part in message('part', error=False) or []:
-                element = {}
-                element_name = part['element']
-                if not element_name:
-                    # some implementations (axis) uses type instead
-                    element_name = part['type']
-                type_ns = get_namespace_prefix(element_name)
-                type_uri = part.get_namespace_uri(type_ns)
-                part_name = part['name'] or None
-                if type_uri == self.xsd_uri:
-                    element_name = get_local_name(element_name)
-                    fn = REVERSE_TYPE_MAP.get(element_name, None)
-                    element = {part_name: fn}
-                    # emulate a true Element (complexType) for rpc style
-                    if (message['name'], part_name) not in messages:
-                        od = Struct()
-                        od.namespaces[None] = type_uri
-                        messages[(message['name'], part_name)] = {message['name']: od}
-                    else:
-                        od = messages[(message['name'], part_name)].values()[0]
-                    od.namespaces[part_name] = type_uri
-                    od.references[part_name] = False
-                    od.update(element)
-                else:
-                    element_name = get_local_name(element_name)
-                    fn = elements.get(make_key(element_name, 'element', type_uri))
-                    if not fn:
-                        # some axis servers uses complexType for part messages (rpc)
-                        fn = elements.get(make_key(element_name, 'complexType', type_uri))
-                        od = Struct()
-                        od[part_name] = fn
-                        od.namespaces[None] = type_uri
-                        od.namespaces[part_name] = type_uri
-                        od.references[part_name] = False
-                        element = {message['name']: od}
-                    else:
-                        element = {element_name: fn}
-                    messages[(message['name'], part_name)] = element
-
-        for port_type_node in wsdl.portType:
-            port_type_name = port_type_node['name']
-            port_type = port_types[port_type_name] = {}
-            operations = port_type['operations'] = {}
-
-            for operation_node in port_type_node.operation:
-                op_name = operation_node['name']
-                op = operations[op_name] = {}
-                op['style'] = operation_node['style']
-                op['parameter_order'] = (operation_node['parameterOrder'] or "").split(" ")
-                op['documentation'] = unicode(operation_node('documentation', error=False)) or ''
-
-                if operation_node('input', error=False):
-                    op['input_msg'] = get_local_name(operation_node.input['message'])
-                    ns = get_namespace_prefix(operation_node.input['message'])
-                    op['namespace'] = operation_node.get_namespace_uri(ns)
-
-                if operation_node('output', error=False):
-                    op['output_msg'] = get_local_name(operation_node.output['message'])
-
-                #Get all fault message types this operation may return
-                fault_msgs = op['fault_msgs'] = {}
-                faults = operation_node('fault', error=False)
-                if faults is not None:
-                    for fault in operation_node('fault', error=False):
-                        fault_msgs[fault['name']] = get_local_name(fault['message'])
-
-        for binding_node in wsdl.binding:
-            port_type_name = get_local_name(binding_node['type'])
-            if port_type_name not in port_types:
-                # Invalid port type
-                continue
-            port_type = port_types[port_type_name]
-            binding_name = binding_node['name']
-            soap_binding = binding_node('binding', ns=list(soap_uris.values()), error=False)
-            transport = soap_binding and soap_binding['transport'] or None
-            style = soap_binding and soap_binding['style'] or None  # rpc
-
-            binding = bindings[binding_name] = {
-                'name': binding_name,
-                'operations': copy.deepcopy(port_type['operations']),
-                'port_type_name': port_type_name,
-                'transport': transport,
-                'style': style,
-            }
-
-            for operation_node in binding_node.operation:
-                op_name = operation_node['name']
-                op_op = operation_node('operation', ns=list(soap_uris.values()), error=False)
-                action = op_op and op_op['soapAction']
-
-                op = binding['operations'].setdefault(op_name, {})
-                op['name'] = op_name
-                op['style'] = op.get('style', style)
-                if action is not None:
-                    op['action'] = action
-
-                # input and/or output can be not present!
-                input = operation_node('input', error=False)
-                body = input and input('body', ns=list(soap_uris.values()), error=False)
-                parts_input_body = body and body['parts'] or None
-
-                # parse optional header messages (some implementations use more than one!)
-                parts_input_headers = []
-                headers = input and input('header', ns=list(soap_uris.values()), error=False)
-                for header in headers or []:
-                    hdr = {'message': header['message'], 'part': header['part']}
-                    parts_input_headers.append(hdr)
-
-                if 'input_msg' in op:
-                    headers = {}    # base header message structure
-                    for input_header in parts_input_headers:
-                        header_msg = get_local_name(input_header.get('message'))
-                        header_part = get_local_name(input_header.get('part'))
-                        # warning: some implementations use a separate message!
-                        hdr = get_message(messages, header_msg or op['input_msg'], header_part)
-                        if hdr:
-                            headers.update(hdr)
-                        else:
-                            pass # not enough info to search the header message:
-                    op['input'] = get_message(messages, op['input_msg'], parts_input_body, op['parameter_order'])
-                    op['header'] = headers
-
-                    try:
-                        element = list(op['input'].values())[0]
-                        ns_uri = element.namespaces[None]
-                        qualified = element.qualified
-                    except (AttributeError, KeyError) as e:
-                        # TODO: fix if no parameters parsed or "variants"
-                        ns_uri = op['namespace']
-                        qualified = None
-                    if ns_uri:
-                        op['namespace'] = ns_uri
-                        op['qualified'] = qualified
-
-                    # Remove temporary property
-                    del op['input_msg']
-
-                else:
-                    op['input'] = None
-                    op['header'] = None
-
-                output = operation_node('output', error=False)
-                body = output and output('body', ns=list(soap_uris.values()), error=False)
-                parts_output_body = body and body['parts'] or None
-                if 'output_msg' in op:
-                    op['output'] = get_message(messages, op['output_msg'], parts_output_body)
-                    # Remove temporary property
-                    del op['output_msg']
-                else:
-                    op['output'] = None
-
-                if 'fault_msgs' in op:
-                    faults = op['faults'] = {}
-                    for msg in op['fault_msgs'].values():
-                        msg_obj = get_message(messages, msg, parts_output_body)
-                        tag_name = list(msg_obj)[0]
-                        faults[tag_name] = msg_obj
-
-                # useless? never used
-                parts_output_headers = []
-                headers = output and output('header', ns=list(soap_uris.values()), error=False)
-                for header in headers or []:
-                    hdr = {'message': header['message'], 'part': header['part']}
-                    parts_output_headers.append(hdr)
-
-
-
-
-        for service in wsdl("service", error=False) or []:
-            service_name = service['name']
-            if not service_name:
-                continue  # empty service?
-
-            serv = services.setdefault(service_name, {})
-            ports = serv['ports'] = {}
-            serv['documentation'] = service['documentation'] or ''
-            for port in service.port:
-                binding_name = get_local_name(port['binding'])
-
-                if not binding_name in bindings:
-                    continue    # unknown binding
-
-                binding = ports[port['name']] = copy.deepcopy(bindings[binding_name])
-                address = port('address', ns=list(soap_uris.values()), error=False)
-                location = address and address['location'] or None
-                soap_uri = address and soap_uris.get(address.get_prefix())
-                soap_ver = soap_uri and self.soap_ns_uris.get(soap_uri)
-
-                binding.update({
-                    'location': location,
-                    'service_name': service_name,
-                    'soap_uri': soap_uri,
-                    'soap_ver': soap_ver,
-                })
-
-        # create an default service if none is given in the wsdl:
-        if not services:
-            services[''] = {'ports': {'': None}}
-
-        elements = list(e for e in elements.values() if type(e) is type) + sorted(e for e in elements.values() if not(type(e) is type))
-        e = None
-        self.elements = []
-        for element in elements:
-            if e!= element: self.elements.append(element)
-            e = element
-
-        return services
-
     def wsdl_parse(self, url):
         """Parse Web Service Description v1.1"""
-
-        log.debug('Parsing wsdl url: %s' % url)
         # always return an unicode object:
         REVERSE_TYPE_MAP['string'] = str
-
-        wsdl = self._url_to_xml_tree(url)
-        services = self._xml_tree_to_services(wsdl)
-
+        _, _, _, _, services = parse(url)
 
         return services
 
