@@ -17,7 +17,8 @@ __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
 
 TIMEOUT = 60
-USE_SSLv3 = True    # prevent issues with SSLv23/TLSv1 on some systems (i.e. Ubuntu 14.04)
+USE_SSLv3 = None    # prevent issues with SSLv23/TLSv1 on some systems (i.e. Ubuntu 14.04)
+DEBUG = False
 
 import os
 import cPickle as pickle
@@ -26,6 +27,8 @@ from urlparse import urlparse
 import tempfile
 from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 import logging
+import warnings
+import time
 
 # Required in Python2.6+ to force SSLv3:
 try:
@@ -73,7 +76,22 @@ else:
             if httplib2.__version__ >= '0.7.0':
                 kwargs['disable_ssl_certificate_validation'] = cacert is None
                 kwargs['ca_certs'] = cacert
-            if USE_SSLv3 and ssl:
+            # downgrade to highest compatible protocol version available:
+            if ssl:
+                # SSLv3 is obsolete, use only if requested
+                if USE_SSLv3:
+                    self.ssl_version = ssl.PROTOCOL_SSLv3
+                elif USE_SSLv3 is not None:
+                    self.ssl_version = ssl.PROTOCOL_TLSv1
+                else:
+                    # by default, select higher protocol available:
+                    self.ssl_version = ssl.PROTOCOL_SSLv3        # default (warning: obsolete!)
+                    try:
+                        self.ssl_version = ssl.PROTOCOL_TLSv1
+                        self.ssl_version = ssl.PROTOCOL_TLSv1_2  # newer (not supported everywhere)
+                    except AttributeError:
+                        pass
+                # custom wrapper to create the socket with fallback
                 def _ssl_wrap_socket(sock, key_file, cert_file,
                                      disable_validation, ca_certs):
                     if disable_validation:
@@ -81,10 +99,35 @@ else:
                     else:
                         cert_reqs = ssl.CERT_REQUIRED
                     return ssl.wrap_socket(sock, keyfile=key_file, certfile=cert_file,
-                                   cert_reqs=cert_reqs, ca_certs=ca_certs,
-                                   ssl_version=ssl.PROTOCOL_SSLv3)
+                           cert_reqs=cert_reqs, ca_certs=ca_certs,
+                           suppress_ragged_eofs=True,
+                           ssl_version=self.ssl_version)
                 httplib2._ssl_wrap_socket = _ssl_wrap_socket
             httplib2.Http.__init__(self, **kwargs)
+
+        def _conn_request(self, conn, request_uri, method, body, headers):
+            try:
+                if DEBUG:
+                    print "Connecting to https://%s:%s%s using protocol %s" % (
+                        conn.host, conn.port, request_uri, ssl.get_protocol_name(self.ssl_version))
+                ##if False and DEBUG and self.ssl_version != ssl.PROTOCOL_TLSv1:
+                ##    raise ssl.SSLError
+                return httplib2.Http._conn_request(self, conn, request_uri, method, body, headers)
+            except (ssl.SSLError, httplib2.SSLHandshakeError), e:
+                # fallback to previous protocols
+                if hasattr(ssl, "PROTOCOL_TLSv1_2") and self.ssl_version == ssl.PROTOCOL_TLSv1_2:
+                    new_ssl_version = ssl.PROTOCOL_TLSv1
+                elif self.ssl_version == ssl.PROTOCOL_TLSv1:
+                    new_ssl_version = ssl.PROTOCOL_SSLv3
+                elif self.ssl_version == ssl.PROTOCOL_SSLv3:
+                    new_ssl_version = ssl.PROTOCOL_SSLv23
+                else:
+                    raise
+                warnings.warn("Protocol %s failed: %s; downgrading to %s" % 
+                                (ssl.get_protocol_name(self.ssl_version), e, 
+                                 ssl.get_protocol_name(new_ssl_version)))
+                self.ssl_version = new_ssl_version
+                return Httplib2Transport._conn_request(self, conn, request_uri, method, body, headers)
 
     _http_connectors['httplib2'] = Httplib2Transport
     _http_facilities.setdefault('proxy', []).append('httplib2')
@@ -175,6 +218,8 @@ else:
                 c.setopt(c.CAINFO, str(self.cacert)) 
             if USE_SSLv3:
                 c.setopt(pycurl.SSLVERSION, pycurl.SSLVERSION_SSLv3)
+            elif USE_SSLv3 is not None:
+                c.setopt(pycurl.SSLVERSION, pycurl.SSLVERSION_TLSv1)
             c.setopt(pycurl.SSL_VERIFYPEER, self.cacert and 1 or 0)
             c.setopt(pycurl.SSL_VERIFYHOST, self.cacert and 2 or 0)
             c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6) 
@@ -258,5 +303,6 @@ def get_Http():
     
 # define the default HTTP connection class (it can be changed at runtime!):
 set_http_wrapper()
+
 
 
