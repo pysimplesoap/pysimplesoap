@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.08d"
+__version__ = "1.08.10"
 
 TIMEOUT = 60
 
@@ -313,6 +313,7 @@ class SoapClient(object):
                         if isinstance(v, dict):
                             v = sort_dict(od[k], v)
                         elif isinstance(v, list):
+                            print v
                             v = [sort_dict(od[k][0], v1) 
                                     for v1 in v]
                         ret[str(k)] = v 
@@ -448,9 +449,12 @@ class SoapClient(object):
                     log.info("Writing file %s" % (filename, ))
                     if not os.path.isdir(cache):
                         os.makedirs(cache)
-                    f = open(filename, "w")
-                    f.write(xml)
-                    f.close()
+                    try:
+                        f = open(filename, "w")
+                        f.write(xml)
+                        f.close()
+                    except:
+                        print("Cannot write file %s", filename)
             return xml
         
         # Open uri and read xml:
@@ -765,16 +769,19 @@ class SoapClient(object):
         
         # Save parsed wsdl (cache)
         if cache:
-            f = open(filename_pkl, "wb")
-            pkl = {
-                'version': __version__.split(" ")[0], 
-                'url': url, 
-                'namespace': self.namespace, 
-                'documentation': self.documentation,
-                'services': services,
-                }
-            pickle.dump(pkl, f)
-            f.close()
+            try:
+                f = open(filename_pkl, "wb")
+                pkl = {
+                    'version': __version__.split(" ")[0], 
+                    'url': url, 
+                    'namespace': self.namespace, 
+                    'documentation': self.documentation,
+                    'services': services,
+                    }
+                pickle.dump(pkl, f)
+                f.close()
+            except:
+                print("Cannot write", filename_pkl)
         
         return services
 
