@@ -128,7 +128,14 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
             struct = Struct()
             struct.namespaces[None] = namespace   # set the default namespace
             struct.qualified = qualified
-
+        #append children of <choice>
+        fullchildren = []
+        for e in children:
+            if e.get_local_name() == 'choice':
+                fullchildren.extend(e.children())
+            else:
+                fullchildren.extend(e)
+        children = fullchildren
         # iterate over the element's components (sub-elements):
         for e in children:
 
