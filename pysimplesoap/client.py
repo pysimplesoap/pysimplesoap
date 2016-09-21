@@ -235,8 +235,7 @@ class SoapClient(object):
             for port_name, port in service['ports'].iteritems():
                 if port['soap_ver'] == soap_ver:
                     if method in port['operations']:
-                        if not self.location:
-                            self.location = port['location']
+                        self.location = port['location']
                         return port['operations'][method]
 
         raise RuntimeError('Cannot determine service in WSDL: '
