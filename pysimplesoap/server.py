@@ -30,8 +30,8 @@ try:
 except ImportError:
     from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from . import __author__, __copyright__, __license__, __version__
-from .simplexml import SimpleXMLElement, TYPE_MAP, Date, Decimal
+from .simplexml import SimpleXMLElement
+from .helpers import TYPE_MAP, Date, Decimal
 
 log = logging.getLogger(__name__)
 
@@ -125,7 +125,7 @@ class SoapDispatcher(object):
     def response_element_name(self, method):
         return '%sResponse' % method
 
-    def dispatch(self, xml, action=None, fault=None):
+    def dispatch(self, xml, action=None, fault=None, headers={}):
         """Receive and process SOAP call, returns the xml"""
         # a dict can be sent in fault to expose it to the caller
         # default values:
@@ -142,7 +142,7 @@ class SoapDispatcher(object):
         # _ns_reversed = {'http://external.mt.moboperator': 'external', 'http://model.common.mt.moboperator': 'model'}
 
         try:
-            request = SimpleXMLElement(xml, namespace=self.namespace)
+            request = SimpleXMLElement(xml, namespace=self.namespace, headers=headers)
 
             # detect soap prefix and uri (xmlns attributes of Envelope)
             for k, v in request[:]:
@@ -286,7 +286,7 @@ class SoapDispatcher(object):
 
     def list_methods(self):
         """Return a list of aregistered operations"""
-        return [(method, doc) for method, (function, returns, args, doc) in self.methods.items()]
+        return [(method, doc) for method, (function, returns, args, doc) in self.methods.iteritems()]
 
     def help(self, method=None):
         """Generate sample request and response messages"""
@@ -343,16 +343,16 @@ class SoapDispatcher(object):
 """ % {'namespace': self.namespace, 'name': self.name, 'documentation': self.documentation}
         wsdl = SimpleXMLElement(xml)
 
-        for method, (function, returns, args, doc) in self.methods.items():
+        for method, (function, returns, args, doc) in self.methods.iteritems():
             # create elements:
 
-            def parse_element(name, values, array=False, complex=False):
-                if not complex:
+            def parse_element(name, values, array=False, complex_type=False):
+                if not complex_type:
                     element = wsdl('wsdl:types')('xsd:schema').add_child('xsd:element')
-                    complex = element.add_child("xsd:complexType")
+                    complex_type = element.add_child("xsd:complexType")
                 else:
-                    complex = wsdl('wsdl:types')('xsd:schema').add_child('xsd:complexType')
-                    element = complex
+                    complex_type = wsdl('wsdl:types')('xsd:schema').add_child('xsd:complexType')
+                    element = complex_type
                 element['name'] = name
                 if values:
                     items = values
@@ -361,11 +361,11 @@ class SoapDispatcher(object):
                 else:
                     items = []
                 if not array and items:
-                    all = complex.add_child("xsd:all")
+                    all_type = complex_type.add_child("xsd:all")
                 elif items:
-                    all = complex.add_child("xsd:sequence")
+                    all_type = complex_type.add_child("xsd:sequence")
                 for k, v in items:
-                    e = all.add_child("xsd:element")
+                    e = all_type.add_child("xsd:element")
                     e['name'] = k
                     if array:
                         e[:] = {'minOccurs': "0", 'maxOccurs': "unbounded"}
@@ -378,11 +378,11 @@ class SoapDispatcher(object):
                         l = []
                         for d in v:
                             l.extend(d.items())
-                        parse_element(n, l, array=True, complex=True)
+                        parse_element(n, l, array=True, complex_type=True)
                         t = "tns:%s" % n
                     elif isinstance(v, dict):
                         n = "%s%s" % (name, k)
-                        parse_element(n, v.items(), complex=True)
+                        parse_element(n, v.items(), complex_type=True)
                         t = "tns:%s" % n
                     else:
                         raise TypeError("unknonw type %s for marshalling" % str(v))
@@ -402,13 +402,13 @@ class SoapDispatcher(object):
         # create ports
         portType = wsdl.add_child('wsdl:portType')
         portType['name'] = "%sPortType" % self.name
-        for method, (function, returns, args, doc) in self.methods.items():
+        for method, (function, returns, args, doc) in self.methods.iteritems():
             op = portType.add_child('wsdl:operation')
             op['name'] = method
             if doc:
                 op.add_child("wsdl:documentation", doc)
-            input = op.add_child("wsdl:input")
-            input['message'] = "tns:%sInput" % method
+            _input = op.add_child("wsdl:input")
+            _input['message'] = "tns:%sInput" % method
             output = op.add_child("wsdl:output")
             output['message'] = "tns:%sOutput" % method
 
@@ -419,18 +419,16 @@ class SoapDispatcher(object):
         soapbinding = binding.add_child('soap:binding')
         soapbinding['style'] = "document"
         soapbinding['transport'] = "http://schemas.xmlsoap.org/soap/http"
-        for method in self.methods.keys():
+        for method in self.methods:
             op = binding.add_child('wsdl:operation')
             op['name'] = method
             soapop = op.add_child('soap:operation')
             soapop['soapAction'] = self.action + method
             soapop['style'] = 'document'
-            input = op.add_child("wsdl:input")
-            ##input.add_attribute('name', "%sInput" % method)
-            soapbody = input.add_child("soap:body")
+            _input = op.add_child("wsdl:input")
+            soapbody = _input.add_child("soap:body")
             soapbody["use"] = "literal"
             output = op.add_child("wsdl:output")
-            ##output.add_attribute('name', "%sOutput" % method)
             soapbody = output.add_child("soap:body")
             soapbody["use"] = "literal"
 
@@ -476,12 +474,14 @@ class SOAPHandler(BaseHTTPRequestHandler):
             encoding = self.headers.getparam("charset")
         else:
             encoding = self.headers.get_param("charset")
-        request = request.decode(encoding)
+        request = request.decode(encoding or 'utf-8')
         fault = {}
         # execute the method
-        response = self.server.dispatcher.dispatch(request, fault=fault)
+        response = self.server.dispatcher.dispatch(request, fault=fault,
+            headers={'content-type': self.headers.get('content-type')})
         # check if fault dict was completed (faultcode, faultstring, detail)
         if fault:
+            log.error(fault)
             self.send_response(500)
         else:
             self.send_response(200)
@@ -504,14 +504,14 @@ class WSGISOAPHandler(object):
         elif environ['REQUEST_METHOD'] == 'POST':
             return self.do_post(environ, start_response)
         else:
-            start_response('405 Method not allowed', [('Content-Type', 'text/plain')])
+            start_response(str('405 Method not allowed'), [(str('Content-Type'), str('text/plain'))])
             return ['Method not allowed']
 
     def do_get(self, environ, start_response):
         path = environ.get('PATH_INFO').lstrip('/')
         query = environ.get('QUERY_STRING')
         if path != "" and path not in self.dispatcher.methods.keys():
-            start_response('404 Not Found', [('Content-Type', 'text/plain')])
+            start_response(str('404 Not Found'), [('Content-Type', 'text/plain')])
             return ["Method not found: %s" % path]
         elif path == "":
             # return wsdl if no method supplied
@@ -523,14 +523,15 @@ class WSGISOAPHandler(object):
                 response = req
             else:
                 response = res
-        start_response('200 OK', [('Content-Type', 'text/xml'), ('Content-Length', str(len(response)))])
+        start_response(str('200 OK'), [(str('Content-Type'), str('text/xml')), (str('Content-Length'), str(len(response)))])
         return [response]
 
     def do_post(self, environ, start_response):
         length = int(environ['CONTENT_LENGTH'])
         request = environ['wsgi.input'].read(length)
+        # FIXME: add content-type headers to dispatch
         response = self.dispatcher.dispatch(request)
-        start_response('200 OK', [('Content-Type', 'text/xml'), ('Content-Length', str(len(response)))])
+        start_response(str('200 OK'), [(str('Content-Type'), str('text/xml')), (str('Content-Length'), str(len(response)))])
         return [response]
 
 
@@ -608,7 +609,7 @@ if __name__ == "__main__":
         result = response.AddResult
         log.info(int(result.ab))
         log.info(str(result.dd))
-        
+
     if '--consume-wsdl' in sys.argv:
         from .client import SoapClient
         client = SoapClient(

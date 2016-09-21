@@ -18,70 +18,49 @@ import sys
 if sys.version > '3':
     basestring = unicode = str
 
+import time
 import datetime
 from decimal import Decimal
 import os
 import logging
-import hashlib
 import warnings
 
 try:
-    import urllib2
     from urlparse import urlsplit
 except ImportError:
-    from urllib import request as urllib2
     from urllib.parse import urlsplit
 
-from . import __author__, __copyright__, __license__, __version__
+import requests
+from requests_file import FileAdapter
+
+_session = requests.session()
+_session.mount('file://', FileAdapter())
 
 
 log = logging.getLogger(__name__)
 
 
-def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers={}):
+def fetch(url, wsdl_basedir=''):
     """Download a document from a URL, save it locally if cache enabled"""
 
     # check / append a valid schema if not given:
-    url_scheme, netloc, path, query, fragment = urlsplit(url)
-    if not url_scheme in ('http', 'https', 'file'):
-        for scheme in ('http', 'https', 'file'):
+    if url[:4] not in ('http', 'file'):
+        for scheme in ('file', 'http', 'https'):
             try:
                 path = os.path.normpath(os.path.join(wsdl_basedir, url))
-                if not url.startswith("/") and scheme in ('http', 'https'):
-                    tmp_url = "%s://%s" % (scheme, path)
-                else:
-                    tmp_url = "%s:%s" % (scheme, path)
+                tmp_url = "%s://%s" % (scheme, path)
                 log.debug('Scheme not found, trying %s' % scheme)
-                return fetch(tmp_url, http, cache, force_download, wsdl_basedir, headers)
+                return fetch(tmp_url, wsdl_basedir)
             except Exception as e:
                 log.error(e)
         raise RuntimeError('No scheme given for url: %s' % url)
 
     # make md5 hash of the url for caching...
-    filename = '%s.xml' % hashlib.md5(url.encode('utf8')).hexdigest()
-    if isinstance(cache, basestring):
-        filename = os.path.join(cache, filename)
-    if cache and os.path.exists(filename) and not force_download:
-        log.info('Reading file %s' % filename)
-        f = open(filename, 'r')
-        xml = f.read()
-        f.close()
-    else:
-        if url_scheme == 'file':
-            log.info('Fetching url %s using urllib2' % url)
-            f = urllib2.urlopen(url)
-            xml = f.read()
-        else:
-            log.info('GET %s using %s' % (url, http._wrapper_version))
-            response, xml = http.request(url, 'GET', None, headers)
-        if cache:
-            log.info('Writing file %s' % filename)
-            if not os.path.isdir(cache):
-                os.makedirs(cache)
-            f = open(filename, 'w')
-            f.write(xml)
-            f.close()
-    return xml
+    response = _session.get(url)
+    if not response.ok:
+        raise RuntimeError('failed to fetch url "%s"' % url)
+
+    return response.content
 
 
 def sort_dict(od, d):
@@ -102,8 +81,8 @@ def sort_dict(od, d):
             ret.references.update(od.references)
             ret.qualified = od.qualified
         return ret
-    else:
-        return d
+
+    return d
 
 
 def make_key(element_name, element_type, namespace):
@@ -149,7 +128,14 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
             struct = Struct()
             struct.namespaces[None] = namespace   # set the default namespace
             struct.qualified = qualified
-
+        #append children of <choice>
+        fullchildren = []
+        for e in children:
+            if e.get_local_name() == 'choice':
+                fullchildren.extend(e.children())
+            else:
+                fullchildren.extend(e)
+        children = fullchildren
         # iterate over the element's components (sub-elements):
         for e in children:
 
@@ -369,8 +355,7 @@ get_namespace_prefix = lambda s: s and str((':' in s) and s.split(':')[0] or Non
 
 
 def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
-                      http, cache, force_download, wsdl_basedir,
-                      global_namespaces=None, qualified=False):
+                      wsdl_basedir, global_namespaces=None, qualified=False):
     """Find schema elements and complex types"""
 
     from .simplexml import SimpleXMLElement    # here to avoid recursive imports
@@ -405,7 +390,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             imported_schemas[schema_location] = schema_namespace
             log.debug('Importing schema %s from %s' % (schema_namespace, schema_location))
             # Open uri and read xml:
-            xml = fetch(schema_location, http, cache, force_download, wsdl_basedir)
+            xml = fetch(schema_location, wsdl_basedir)
 
             # recalculate base path for relative schema locations
             path = os.path.normpath(os.path.join(wsdl_basedir, schema_location))
@@ -414,13 +399,12 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             # Parse imported XML schema (recursively):
             imported_schema = SimpleXMLElement(xml, namespace=xsd_uri)
             preprocess_schema(imported_schema, imported_schemas, elements,
-                              xsd_uri, dialect, http, cache, force_download,
-                              path, global_namespaces, qualified)
+                              xsd_uri, dialect, path, global_namespaces, qualified)
 
         element_type = element.get_local_name()
         if element_type in ('element', 'complexType', "simpleType"):
             namespace = local_namespaces[None]          # get targetNamespace
-            element_ns = global_namespaces[ns]          # get the prefix
+            # element_ns = global_namespaces[ns]          # get the prefix
             element_name = element['name']
             log.debug("Parsing Element %s: %s" % (element_type, element_name))
             if element.get_local_name() == 'complexType':
@@ -515,7 +499,7 @@ class Alias(object):
 
     def __eq__(self, other):
         return isinstance(other, Alias) and self.xml_type == other.xml_type
-        
+
     def __ne__(self, other):
         return not self.__eq__(other)
 
@@ -544,6 +528,7 @@ byte = Alias(str, 'byte')
 short = Alias(int, 'short')
 double = Alias(float, 'double')
 integer = Alias(long, 'integer')
+positiveInteger = Alias(long, 'positiveInteger')
 DateTime = datetime.datetime
 Date = datetime.date
 Time = datetime.time
@@ -559,6 +544,7 @@ TYPE_MAP = {
     int: 'int',
     long: 'long',
     integer: 'integer',
+    positiveInteger: 'positiveInteger',
     float: 'float',
     double: 'double',
     Decimal: 'decimal',

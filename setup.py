@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup
 import os
 import subprocess
 import sys
@@ -9,7 +9,7 @@ import warnings
 try:
     import py2exe
     from nsis import build_installer
-except:
+except ImportError:
     build_installer = None
 
 from pysimplesoap import __version__, __author__, __author_email__, __license__
@@ -34,7 +34,11 @@ setup(
     url='http://code.google.com/p/pysimplesoap',
     packages=['pysimplesoap'],
     license=__license__,
-    # console=['client.py'],
+    install_requires=[
+        'xmltodict',
+        'requests',
+        'requests-file',
+        ],
     cmdclass={"py2exe": build_installer},
     classifiers=[
         "Development Status :: 3 - Alpha",
