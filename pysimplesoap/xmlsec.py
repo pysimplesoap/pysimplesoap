@@ -215,6 +215,6 @@ if __name__ == "__main__":
     print (sample_xml % (SIGNATURE_TMPL % vars))
 
     # basic signature verification:
-    public_key = x509_extract_rsa_public_key(open("zunimercado.crt").read())
+    public_key = x509_extract_rsa_public_key(open("certificate.crt").read())
     assert rsa_verify(vars['signed_info'], vars['signature_value'], public_key,
                       c14n_exc=False)
