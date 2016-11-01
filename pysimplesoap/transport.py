@@ -85,7 +85,9 @@ else:
                     self.ssl_version = ssl.PROTOCOL_TLSv1
                 else:
                     # by default, select higher protocol available:
-                    self.ssl_version = ssl.PROTOCOL_SSLv3        # default (warning: obsolete!)
+                    # ubuntu 16.04 seems to have SSLv3 disabled:
+                    if hasattr(ssl, "PROTOCOL_SSLv3"):
+                        self.ssl_version = ssl.PROTOCOL_SSLv3    # default (warning: obsolete!)
                     try:
                         self.ssl_version = ssl.PROTOCOL_TLSv1
                         self.ssl_version = ssl.PROTOCOL_TLSv1_2  # newer (not supported everywhere)
@@ -117,13 +119,14 @@ else:
                 # fallback to previous protocols
                 if hasattr(ssl, "PROTOCOL_TLSv1_2") and self.ssl_version == ssl.PROTOCOL_TLSv1_2:
                     new_ssl_version = ssl.PROTOCOL_TLSv1
-                elif self.ssl_version == ssl.PROTOCOL_TLSv1:
-                    new_ssl_version = ssl.PROTOCOL_SSLv3
-                elif self.ssl_version == ssl.PROTOCOL_SSLv3:
-                    new_ssl_version = ssl.PROTOCOL_SSLv23
+                ##elif self.ssl_version == ssl.PROTOCOL_TLSv1:
+                ##    new_ssl_version = ssl.PROTOCOL_SSLv3
+                ##elif self.ssl_version == ssl.PROTOCOL_SSLv3:
+                ##    new_ssl_version = ssl.PROTOCOL_SSLv23
                 else:
                     raise
-                warnings.warn("Protocol %s failed: %s; downgrading to %s" % 
+                if DEBUG:
+                    warnings.warn("Protocol %s failed: %s; downgrading to %s" % 
                                 (ssl.get_protocol_name(self.ssl_version), e, 
                                  ssl.get_protocol_name(new_ssl_version)))
                 self.ssl_version = new_ssl_version
