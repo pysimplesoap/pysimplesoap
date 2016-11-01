@@ -25,6 +25,7 @@ import logging
 import os
 import tempfile
 import urllib2
+import warnings
 from urlparse import urlsplit
 from simplexml import SimpleXMLElement, TYPE_MAP, REVERSE_TYPE_MAP, OrderedDict
 from transport import get_http_wrapper, set_http_wrapper, get_Http
@@ -385,7 +386,6 @@ class SoapClient(object):
                 f.close()
                 # sanity check:
                 if pkl['version'][:-1] != __version__.split(" ")[0][:-1] or pkl['url'] != url:
-                    import warnings
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning) 
                     if debug:
                         log.debug('Version: %s %s' % (pkl['version'], __version__))
@@ -447,14 +447,14 @@ class SoapClient(object):
                     response, xml = self.http.request(url, "GET", None, {})
                 if cache:
                     log.info("Writing file %s" % (filename, ))
-                    if not os.path.isdir(cache):
-                        os.makedirs(cache)
                     try:
+                        if not os.path.isdir(cache):
+                            os.makedirs(cache)
                         f = open(filename, "w")
                         f.write(xml)
                         f.close()
                     except:
-                        print("Cannot write file %s", filename)
+                        warnings.warn("Cannot write file", filename)
             return xml
         
         # Open uri and read xml:
@@ -781,7 +781,7 @@ class SoapClient(object):
                 pickle.dump(pkl, f)
                 f.close()
             except:
-                print("Cannot write", filename_pkl)
+                warnings.warn("Cannot write", filename_pkl)
         
         return services
 
