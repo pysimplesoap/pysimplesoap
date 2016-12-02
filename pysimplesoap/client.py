@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.08.10"
+__version__ = "1.08.11"
 
 TIMEOUT = 60
 
@@ -308,16 +308,20 @@ class SoapClient(object):
             if isinstance(od, dict):
                 ret = OrderedDict()
                 for k in od.keys():
-                    v = d.get(k)
-                    # don't append null tags!
-                    if v is not None:
-                        if isinstance(v, dict):
-                            v = sort_dict(od[k], v)
-                        elif isinstance(v, list):
-                            print v
-                            v = [sort_dict(od[k][0], v1) 
-                                    for v1 in v]
-                        ret[str(k)] = v 
+                    if k is not None:
+                        v = d.get(k)
+                        # don't append null tags!
+                        if v is not None:
+                            if isinstance(v, dict):
+                                v = sort_dict(od[k], v)
+                            elif isinstance(v, list):
+                                #print v
+                                v = [sort_dict(od[k][0], v1) 
+                                        for v1 in v]
+                            ret[str(k)] = v 
+                    else:
+                        ret = v = d
+                        ##import pdb; pdb.set_trace()
                 return ret
             else:
                 return d

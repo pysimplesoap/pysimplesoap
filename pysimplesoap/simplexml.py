@@ -558,6 +558,8 @@ class SimpleXMLElement(object):
         # Change node name to that used by a client
         name = self._update_ns(name)
         
+        if name == "remito":
+            pass # import pdb; pdb.set_trace()
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
             for k,v in value.items():
@@ -575,11 +577,15 @@ class SimpleXMLElement(object):
             # 'vats': [{'vat': {'vat_amount': 50, 'vat_percent': 5}}, {...}]
             # or an array of complex types directly (a.k.a. jetty dialect)
             # 'vat': [{'vat_amount': 100, 'vat_percent': 21.0}, {...}]
-            child=self.add_child(name, ns=ns)
-            if not add_children_ns:
-                ns = False
-            if add_comments:
-                child.add_comment("Repetitive array of:")
+            if value and isinstance(value[0], dict):
+                child=self.add_child(name, ns=ns)
+                if not add_children_ns:
+                    ns = False
+                if add_comments:
+                    child.add_comment("Repetitive array of:")
+            else:
+                # scalar values [unicode, unicode], do not add a child level:
+                child = self
             for i, t in enumerate(value):
                 child.marshall(name, t, False, add_comments=add_comments, ns=ns)
                 # "jetty" arrays: add new base node (if not last) -see abobe-
