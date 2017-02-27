@@ -80,7 +80,7 @@ Code coverage:
 Support
 -------
 
-For community support, please fell free to fill an [issue](https://github.com/pysimplesoap/pysimplesoap/issues/new) or send a email to [soap@python.org](https://mail.python.org/mailman/listinfo/soap).
+For community support, please fell free to fill an [issue](https://github.com/pysimplesoap/pysimplesoap/issues/new) or send an email to [soap@python.org](https://mail.python.org/mailman/listinfo/soap).
 Please do not add comment to wiki pages if you have technical questions.
 
 For priority commercial technical support, you can contact [Mariano Reingart](mailto:reingart@gmail.com) (project creator and main maintainer, see [AUTHORS](AUTHORS.md) for more info).
