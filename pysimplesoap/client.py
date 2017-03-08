@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.08.11"
+__version__ = "1.08.12"
 
 TIMEOUT = 60
 
@@ -147,7 +147,7 @@ class SoapClient(object):
         else: # using WSDL:
             return lambda *args, **kwargs: self.wsdl_call(attr,*args,**kwargs)
         
-    def call(self, method, *args, **kwargs):
+    def call(self, method, types, *args, **kwargs):
         """Prepare xml request and make SOAP call, returning a SimpleXMLElement.
         
         If a keyword argument called "headers" is passed with a value of a
@@ -176,9 +176,9 @@ class SoapClient(object):
                 for param in parameters[0].children():
                     getattr(request,method).import_node(param)
         elif parameters:
-            # marshall parameters:
+            # marshall parameters (using typing information):
             for k,v in parameters: # dict: tag=valor
-                getattr(request,method).marshall(k,v)
+                getattr(request,method).marshall(k,v, types=types.get(k))
         elif not self.__soap_server in ('oracle', ) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=soap_namespaces.values(),), method)
@@ -333,7 +333,8 @@ class SoapClient(object):
             d = [(k, arg) for k, arg in zip(input.values()[0].keys(), args)]
             kwargs.update(dict(d))
         if input and kwargs:
-            params = sort_dict(input.values()[0], kwargs).items()
+            types = input.values()[0]
+            params = sort_dict(types, kwargs).items()
             if self.__soap_server == "axis":
                 # use the operation name
                 method = method
@@ -343,9 +344,10 @@ class SoapClient(object):
         #elif not input:
             #TODO: no message! (see wsmtxca.dummy) 
         else:
+            types = None
             params = kwargs and kwargs.items()
         # call remote procedure
-        response = self.call(method, *params)
+        response = self.call(method, types, *params)
         # parse results:
         resp = response('Body',ns=soap_uri).children().unmarshall(output)
         return resp and resp.values()[0] # pass Response tag children

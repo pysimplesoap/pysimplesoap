@@ -553,25 +553,28 @@ class SimpleXMLElement(object):
     
     
     def marshall(self, name, value, add_child=True, add_comments=False, 
-                 ns=False, add_children_ns=True):
+                 ns=False, add_children_ns=True, types=None):
         "Analize python value and add the serialized XML element using tag name"
+        # use typing information structures to aid conversion to xml
         # Change node name to that used by a client
         name = self._update_ns(name)
         
-        if name == "remito":
+        if name == "dte":
             pass # import pdb; pdb.set_trace()
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
             for k,v in value.items():
                 if not add_children_ns:
                     ns = False
-                child.marshall(k, v, add_comments=add_comments, ns=ns)
+                subtypes = types.get(k) if isinstance(types, dict) else None
+                child.marshall(k, v, add_comments=add_comments, ns=ns, types=subtypes)
         elif isinstance(value, tuple):  # serialize tuple (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
             if not add_children_ns:
                 ns = False
             for k,v in value:
-                getattr(self, name).marshall(k, v, add_comments=add_comments, ns=ns)
+                subtypes = types.get(k) if isinstance(types, dict) else None
+                getattr(self, name).marshall(k, v, add_comments=add_comments, ns=ns, types=subtypes)
         elif isinstance(value, list): # serialize lists name: [value1, value2]
             # list elements should be a dict with one element:
             # 'vats': [{'vat': {'vat_amount': 50, 'vat_percent': 5}}, {...}]
@@ -587,10 +590,11 @@ class SimpleXMLElement(object):
                 # scalar values [unicode, unicode], do not add a child level:
                 child = self
             for i, t in enumerate(value):
-                child.marshall(name, t, False, add_comments=add_comments, ns=ns)
+                subtypes = types[0] if isinstance(types, list) else None
+                child.marshall(name, t, False, add_comments=add_comments, ns=ns, types=subtypes)
                 # "jetty" arrays: add new base node (if not last) -see abobe-
                 # TODO: this could be an issue for some arrays of single values
-                if isinstance(t, dict) and len(t) > 1 and i < len(value) - 1:
+                if isinstance(t, dict) and (len(t) > 1 or len(subtypes)>1) and i < len(value) - 1:
                     child = self.add_child(name, ns=ns)
         elif isinstance(value, basestring): # do not convert strings or unicodes
             self.add_child(name, value,ns=ns)
