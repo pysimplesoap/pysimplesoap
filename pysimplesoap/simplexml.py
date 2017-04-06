@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.03b"
+__version__ = "1.04a"
 
 import base64
 import datetime
@@ -559,8 +559,7 @@ class SimpleXMLElement(object):
         # Change node name to that used by a client
         name = self._update_ns(name)
         
-        if name == "dte":
-            pass # import pdb; pdb.set_trace()
+        ##if name == "guia": import dbg; dbg.set_trace()
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
             for k,v in value.items():
@@ -580,6 +579,7 @@ class SimpleXMLElement(object):
             # 'vats': [{'vat': {'vat_amount': 50, 'vat_percent': 5}}, {...}]
             # or an array of complex types directly (a.k.a. jetty dialect)
             # 'vat': [{'vat_amount': 100, 'vat_percent': 21.0}, {...}]
+            # process parent tag:
             if value and isinstance(value[0], dict):
                 child=self.add_child(name, ns=ns)
                 if not add_children_ns:
@@ -589,12 +589,14 @@ class SimpleXMLElement(object):
             else:
                 # scalar values [unicode, unicode], do not add a child level:
                 child = self
-            for i, t in enumerate(value):
+            # process inner tags (values):
+            for i, item in enumerate(value):
                 subtypes = types[0] if isinstance(types, list) else None
-                child.marshall(name, t, False, add_comments=add_comments, ns=ns, types=subtypes)
+                child.marshall(name, item, False, add_comments=add_comments, ns=ns, types=subtypes)
                 # "jetty" arrays: add new base node (if not last) -see abobe-
                 # TODO: this could be an issue for some arrays of single values
-                if isinstance(t, dict) and (len(t) > 1 or len(subtypes)>1) and i < len(value) - 1:
+                if isinstance(item, dict) and (len(item) > 1 or len(subtypes)>1 or isinstance(subtypes, dict)) and i < len(value) - 1:
+                    # new parent tag for next item:
                     child = self.add_child(name, ns=ns)
         elif isinstance(value, basestring): # do not convert strings or unicodes
             self.add_child(name, value,ns=ns)
