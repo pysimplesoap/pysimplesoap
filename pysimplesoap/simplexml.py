@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008/009 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.04a"
+__version__ = "1.04b"
 
 import base64
 import datetime
@@ -595,9 +595,13 @@ class SimpleXMLElement(object):
                 child.marshall(name, item, False, add_comments=add_comments, ns=ns, types=subtypes)
                 # "jetty" arrays: add new base node (if not last) -see abobe-
                 # TODO: this could be an issue for some arrays of single values
-                if isinstance(item, dict) and (len(item) > 1 or len(subtypes)>1 or isinstance(subtypes, dict)) and i < len(value) - 1:
-                    # new parent tag for next item:
-                    child = self.add_child(name, ns=ns)
+                if isinstance(item, dict):
+                    if (len(item) > 1 or len(subtypes)>1 or 
+                        (isinstance(subtypes, dict) and 
+                         not isinstance(subtypes.values()[0], dict))): 
+                        if i < len(value) - 1:
+                            # new parent tag for next item:
+                            child = self.add_child(name, ns=ns)
         elif isinstance(value, basestring): # do not convert strings or unicodes
             self.add_child(name, value,ns=ns)
         elif value is None: # sent a empty tag?
