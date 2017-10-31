@@ -129,7 +129,7 @@ class SoapClient(object):
         if cacert and cacert.startswith('-----BEGIN CERTIFICATE-----'):
             fd, filename = tempfile.mkstemp()
             f = os.fdopen(fd, 'w+b', -1)
-            log.debug("Saving CA certificate to %s" % filename)
+            log.debug("Saving CA certificate to %s", filename)
             f.write(cacert)
             cacert = filename
             f.close()
@@ -303,7 +303,7 @@ class SoapClient(object):
             headers['SOAPAction'] = soap_action
 
         headers.update(self.http_headers)
-        log.info("POST %s" % location)
+        log.info("POST %s", location)
         log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
         log.debug(xml)
 
@@ -547,13 +547,13 @@ class SoapClient(object):
                 wsdl_namespace = element['namespace']
                 wsdl_location = element['location']
                 if wsdl_location is None:
-                    log.warning('WSDL location not provided for %s!' % wsdl_namespace)
+                    log.warning('WSDL location not provided for %s!', wsdl_namespace)
                     continue
                 if wsdl_location in imported_wsdls:
-                    log.warning('WSDL %s already imported!' % wsdl_location)
+                    log.warning('WSDL %s already imported!', wsdl_location)
                     continue
                 imported_wsdls[wsdl_location] = wsdl_namespace
-                log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
+                log.debug('Importing wsdl %s from %s', wsdl_namespace, wsdl_location)
                 # Open uri and read xml:
                 xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
                 # Parse imported XML schema (recursively):
@@ -831,7 +831,7 @@ class SoapClient(object):
     def wsdl_parse(self, url, cache=False):
         """Parse Web Service Description v1.1"""
 
-        log.debug('Parsing wsdl url: %s' % url)
+        log.debug('Parsing wsdl url: %s', url)
         # Try to load a previously parsed wsdl:
         force_download = False
         if cache:
@@ -840,15 +840,15 @@ class SoapClient(object):
             if isinstance(cache, basestring):
                 filename_pkl = os.path.join(cache, filename_pkl)
             if os.path.exists(filename_pkl):
-                log.debug('Unpickle file %s' % (filename_pkl, ))
+                log.debug('Unpickle file %s', filename_pkl)
                 f = open(filename_pkl, 'r')
                 pkl = pickle.load(f)
                 f.close()
                 # sanity check:
                 if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
-                    log.debug('Version: %s %s' % (pkl['version'], __version__))
-                    log.debug('URL: %s %s' % (pkl['url'], url))
+                    log.debug('Version: %s %s', pkl['version'], __version__)
+                    log.debug('URL: %s %s', pkl['url'], url)
                     force_download = True
                 else:
                     self.namespace = pkl['namespace']
@@ -887,7 +887,7 @@ class SoapClient(object):
         """Finish the connection and remove temp files"""
         self.http.close()
         if self.cacert.startswith(tempfile.gettempdir()):
-            log.debug('removing %s' % self.cacert)
+            log.debug('removing %s', self.cacert)
             os.unlink(self.cacert)
 
     def __repr__(self):

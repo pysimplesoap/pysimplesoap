@@ -462,7 +462,7 @@ class SimpleXMLElement(object):
             try:
                 name = name.replace(pref, self.__namespaces_map[pref])
             except KeyError:
-                log.warning('Unknown namespace alias %s' % name)
+                log.warning('Unknown namespace alias %s', name)
         return name
 
     def marshall(self, name, value, add_child=True, add_comments=False,
