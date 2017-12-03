@@ -12,7 +12,7 @@ For new developments, please use **Master Branch** (1.16 version), that has
 newer features and supports Python 3
 
 Sadly, in the migration from GoogleCode, there was some issue with hg/git and
-now these two branches has entirely different commit histories.
+now these two branches have entirely different commit histories.
 A manual merge is expected to reunify the codebase soon.
 
 Changelog
@@ -20,19 +20,16 @@ Changelog
 
 Last features (2014-2017):
 
-* Add ns prefix for new server type '.net' (in clients)
-* Fix special cases of array marshalling (scalar, complex, etc., "jetty style")
-* Add type information to marshalling (used to convert parmeters in webservice calls)
-* Base64 binary support (unmarshalling)
-
-* Handle missing cache folder and clenaups (avoid exceptions if no write permissions)
-
-* Fix version number to comply with PEP 440 and pypi...
-
-* TLSv1.2 and graceful fallback
-* Avoid fallback to obsolete SSLv3
-* Workaround for broken SSLv3/TLSv1 server negotiation
-* fixed PyCURL GnuTLS recv error (-9). ubuntu 14.04 and AFIP .NET
+ * Add ns prefix for new server type '.net' (in clients)
+ * Fix special cases of array marshalling (scalar, complex, etc., "jetty style")
+ * Add type information to marshalling (used to convert parmeters in webservice calls)
+ * Base64 binary support (unmarshalling)
+ * Handle missing cache folder and clenaups (avoid exceptions if no write permissions)
+ * Fix version number to comply with PEP 440 and pypi...
+ * TLSv1.2 and graceful fallback
+ * Avoid fallback to obsolete SSLv3
+ * Workaround for broken SSLv3/TLSv1 server negotiation
+ * fixed PyCURL GnuTLS recv error (-9). ubuntu 14.04 and AFIP .NET
 
 Goals
 -----
