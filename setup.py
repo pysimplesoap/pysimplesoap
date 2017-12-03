@@ -31,7 +31,7 @@ setup(
     long_description=long_desc,
     author=__author__,
     author_email=__author_email__,
-    url='http://code.google.com/p/pysimplesoap',
+    url='https://github.com/pysimplesoap/pysimplesoap',
     packages=['pysimplesoap'],
     license=__license__,
     # console=['client.py'],
