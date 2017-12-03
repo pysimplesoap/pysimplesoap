@@ -15,7 +15,7 @@
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.08.13"
+__version__ = "1.08.14"
 
 TIMEOUT = 60
 
@@ -178,7 +178,9 @@ class SoapClient(object):
         elif parameters:
             # marshall parameters (using typing information):
             for k,v in parameters: # dict: tag=valor
-                getattr(request,method).marshall(k,v, types=types.get(k))
+                # for .net, include namespace prefix
+                ns = self.__ns if self.__soap_server in ('.net', ) else False
+                getattr(request,method).marshall(k,v, ns=ns, types=types.get(k))
         elif not self.__soap_server in ('oracle', ) or self.__soap_server in ('jbossas6',):
             # JBossAS-6 requires no empty method parameters!
             delattr(request("Body", ns=soap_namespaces.values(),), method)
