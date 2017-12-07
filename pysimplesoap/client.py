@@ -262,7 +262,7 @@ class SoapClient(object):
 
             if detailXml and detailXml.children():
                 if self.services is not None:
-                    operation = self.get_operation(method)
+                    operation = self.get_operation(kwargs.get('method_origin', method))
                     fault_name = detailXml.children()[0].get_name()
                     # if fault not defined in WSDL, it could be an axis or other 
                     # standard type (i.e. "hostname"), try to convert it to string 
@@ -366,13 +366,15 @@ class SoapClient(object):
             self.namespace = operation['namespace'] or ''
             self.qualified = operation['qualified']
 
+        values = {'method_origin': method}
+
         # construct header and parameters
         if header:
             self.__call_headers = sort_dict(header, self.__headers)
         method, params = self.wsdl_call_get_params(method, input, args, kwargs)
 
         # call remote procedure
-        response = self.call(method, *params)
+        response = self.call(method, *params, **values)
         # parse results:
         resp = response('Body', ns=soap_uri).children().unmarshall(output, strict=self.strict)
         return resp and list(resp.values())[0]  # pass Response tag children
