@@ -81,6 +81,7 @@ byte = Alias(str,'byte')
 short = Alias(int,'short')
 double = Alias(float,'double')
 integer = Alias(int,'integer')
+long = Alias(int,'long')
 DateTime = datetime.datetime
 Date = datetime.date
 Time = datetime.time
@@ -93,7 +94,7 @@ TYPE_MAP = {
     short:'short', 
     byte:'byte',
     int:'int', 
-    int:'long', 
+    long:'long',
     integer:'integer', 
     float:'float', 
     double:'double',
@@ -119,7 +120,8 @@ REVERSE_TYPE_MAP.update({
 })
 
 
-class OrderedDict(dict):
+from collections import OrderedDict as ordered_dict
+class OrderedDict(ordered_dict):
     "Minimal ordered dictionary for xsd:sequences"
     def __init__(self):
         self.__keys = []
@@ -127,15 +129,15 @@ class OrderedDict(dict):
     def __setitem__(self, key, value):
         if key not in self.__keys:
             self.__keys.append(key)
-        dict.__setitem__(self, key, value)
+        ordered_dict.__setitem__(self, key, value)
     def insert(self, key, value, index=0):
         if key not in self.__keys:
             self.__keys.insert(index, key)
-        dict.__setitem__(self, key, value)
+        ordered_dict.__setitem__(self, key, value)
     def __delitem__(self, key):
         if key in self.__keys:
             self.__keys.remove(key)
-        dict.__delitem__(self, key)
+        ordered_dict.__delitem__(self, key)
     def __iter__(self):
         return iter(self.__keys)
     def keys(self):
@@ -154,7 +156,7 @@ class OrderedDict(dict):
         new.update(self)
         return new
     def __str__(self):
-        return "*%s*" % dict.__str__(self)
+        return "*%s*" % ordered_dict.__str__(self)
     def __repr__(self):
         s= "*{%s}*" % ", ".join(['%s: %s' % (repr(k),repr(v)) for k,v in list(self.items())])
         if self.array and False:
@@ -408,7 +410,7 @@ class SimpleXMLElement(object):
         "Search for a tag name in this element or child nodes"
         return self._element.getElementsByTagName(item)
     
-    def __unicode__(self):
+    def __str__(self):
         "Returns the unicode text nodes of the current element"
         if self._element.childNodes:
             rc = ""
@@ -418,9 +420,9 @@ class SimpleXMLElement(object):
             return rc
         return ''
     
-    def __str__(self):
-        "Returns the str text nodes of the current element"
-        return str(self).encode("utf8","ignore")
+    ##def __str__(self):
+    ##    "Returns the str text nodes of the current element"
+    ##    return str(self).encode("utf8","ignore")
 
     def __int__(self):
         "Returns the integer value of the current element"

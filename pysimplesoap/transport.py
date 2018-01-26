@@ -145,7 +145,7 @@ else:
 #
 import urllib.request, urllib.error, urllib.parse
 class urllib2Transport(TransportBase):
-    _wrapper_version = "urllib2 %s" % urllib2.__version__
+    _wrapper_version = "urllib2"
     _wrapper_name = 'urllib2' 
     def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
         import sys

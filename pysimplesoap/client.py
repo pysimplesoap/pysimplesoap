@@ -98,7 +98,7 @@ class SoapClient(object):
         # check if the Certification Authority Cert is a string and store it
         if cacert and cacert.startswith("-----BEGIN CERTIFICATE-----"):
             fd, filename = tempfile.mkstemp()
-            f = os.fdopen(fd, 'w+b', -1)
+            f = os.fdopen(fd, 'w+', -1)
             if self.trace: log.info("Saving CA certificate to %s" % filename)
             f.write(cacert)
             cacert = filename
@@ -236,12 +236,14 @@ class SoapClient(object):
             soap_action = self.action + method
 
         # prevent unicode encoding error (implicit conversions):
-        if isinstance(soap_action, str):
-            soap_action = soap_action.encode("utf8")
-        if isinstance(location, str):
-            location = location.encode("utf8")
-        if isinstance(xml, str):
-            xml = xml.encode("utf8")
+        if not soap_action:
+            soap_action = str(soap_action)
+        elif not isinstance(soap_action, str):
+            soap_action = soap_action.decode("utf8")
+        if not isinstance(location, str):
+            location = location.decode("utf8")
+        if not isinstance(xml, str):
+            xml = xml.decode("utf8")
         elif isinstance(xml, str):
             xml = xml #.decode("latin1").encode("utf8")  # asume encoding ok
 
@@ -258,7 +260,7 @@ class SoapClient(object):
             print("-"*80)
             print("POST %s" % location)
             print('\n'.join(["%s: %s" % (k,v) for k,v in list(headers.items())]))
-            print("\n%s" % xml.decode("utf8", "ignore").encode("ascii", "replace"))
+            print("\n%s" % xml)
         
         response, content = self.http.request(
             location, "POST", body=xml, headers=headers)
@@ -384,12 +386,12 @@ class SoapClient(object):
         force_download = False
         if cache:
             # make md5 hash of the url for caching... 
-            filename_pkl = "%s.pkl" % hashlib.md5(url).hexdigest()
+            filename_pkl = "%s.pkl" % hashlib.md5(url.encode("utf8")).hexdigest()
             if isinstance(cache, str):
                 filename_pkl = os.path.join(cache, filename_pkl) 
             if os.path.exists(filename_pkl):
                 log.debug("Unpickle file %s" % (filename_pkl, ))
-                f = open(filename_pkl, "r")
+                f = open(filename_pkl, "rb")
                 pkl = pickle.load(f)
                 f.close()
                 # sanity check:
@@ -437,7 +439,7 @@ class SoapClient(object):
                 raise RuntimeError("No scheme given for url: %s" % url)
 
             # make md5 hash of the url for caching... 
-            filename = "%s.xml" % hashlib.md5(url).hexdigest()
+            filename = "%s.xml" % hashlib.md5(url.encode("utf8")).hexdigest()
             if isinstance(cache, str):
                 filename = os.path.join(cache, filename) 
             if cache and os.path.exists(filename) and not force_download:
@@ -458,11 +460,12 @@ class SoapClient(object):
                     try:
                         if not os.path.isdir(cache):
                             os.makedirs(cache)
-                        f = open(filename, "w")
+                        f = open(filename, "wb")
                         f.write(xml)
                         f.close()
                     except:
-                        warnings.warn("Cannot write file", filename)
+                        raise
+                        warnings.warn(Warning("Cannot write file %s" % filename))
             return xml
         
         # Open uri and read xml:
@@ -530,12 +533,12 @@ class SoapClient(object):
                 d['parts'] = {}
                 # input and/or ouput can be not present!
                 input = operation('input', error=False)
-                body = input and eval(input('body', ns=list(soap_uris.values()), error=False))
+                body = input and input('body', ns=list(soap_uris.values()), error=False)
                 d['parts']['input_body'] = body and body['parts'] or None
                 output = operation('output', error=False)
                 body = output and output('body', ns=list(soap_uris.values()), error=False)
                 d['parts']['output_body'] = body and body['parts'] or None
-                header = input and eval(input('header', ns=list(soap_uris.values()), error=False))
+                header = input and input('header', ns=list(soap_uris.values()), error=False)
                 d['parts']['input_header'] = header and {'message': header['message'], 'part': header['part']} or None
                 headers = output and output('header', ns=list(soap_uris.values()), error=False)
                 d['parts']['output_header'] = header and {'message': header['message'], 'part': header['part']} or None
@@ -807,8 +810,8 @@ class SoapClient(object):
 
 def parse_proxy(proxy_str):
     "Parses proxy address user:pass@host:port into a dict suitable for httplib2"
-    if isinstance(proxy_str, str):
-        proxy_str = proxy_str.encode("utf8")
+    if proxy_str and not isinstance(proxy_str, str):
+        proxy_str = proxy_str.decode("utf8")
     proxy_dict = {}
     if proxy_str is None:
         return 
