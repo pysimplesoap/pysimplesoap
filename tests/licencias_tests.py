@@ -3,7 +3,7 @@
 
 import unittest
 from pysimplesoap.client import SoapClient, SoapFault
-from dummy_utils import DummyHTTP, TEST_DIR
+from .dummy_utils import DummyHTTP, TEST_DIR
 import os
 
 xml = open(os.path.join(TEST_DIR, "licencias.xml")).read()
@@ -46,11 +46,11 @@ class TestIssues(unittest.TestCase):
     def test_buscar_personas_wsdl(self):
         WSDL = "file://" + os.path.join(TEST_DIR, "licencias.wsdl")
         client = SoapClient(wsdl=WSDL, ns="web", trace=True)
-        print client.help("PersonaSearch")
+        print(client.help("PersonaSearch"))
         client['AuthHeaderElement'] = {'username': 'mariano', 'password': 'clave'}
         client.http = DummyHTTP(xml)
         resultado = client.PersonaSearch(numero_documento='31867063')
-        print resultado
+        print(resultado)
         
         # each resultado['result'][i]['item'] is xsd:anyType, so it is not unmarshalled 
         # they are SimpleXmlElement (see test_buscar_personas_raw)

@@ -88,7 +88,7 @@ class TestTrazamed(unittest.TestCase):
 
         # Analyze the response:
         ret = res['return']        
-        self.assertIsInstance(ret['codigoTransaccion'], unicode)
+        self.assertIsInstance(ret['codigoTransaccion'], str)
         self.assertEqual(ret['resultado'], True)
 
     def test_send_medicamentos_dh_serie(self):
@@ -119,7 +119,7 @@ class TestTrazamed(unittest.TestCase):
         ret = res['return']
         
         # Check the results:
-        self.assertIsInstance(ret['codigoTransaccion'], unicode)
+        self.assertIsInstance(ret['codigoTransaccion'], str)
         self.assertEqual(ret['errores'][0]['_c_error'], '3004')
         self.assertEqual(ret['errores'][0]['_d_error'], "El campo Hasta Nro Serial debe ser mayor o igual al campo Desde Nro Serial.")
         self.assertEqual(ret['resultado'], False)

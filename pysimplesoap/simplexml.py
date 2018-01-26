@@ -80,7 +80,7 @@ class Alias(object):
 byte = Alias(str,'byte')
 short = Alias(int,'short')
 double = Alias(float,'double')
-integer = Alias(long,'integer')
+integer = Alias(int,'integer')
 DateTime = datetime.datetime
 Date = datetime.date
 Time = datetime.time
@@ -88,12 +88,12 @@ Time = datetime.time
 # Define convertion function (python type): xml schema type
 TYPE_MAP = {
     str:'string',
-    unicode:'string',
+    str:'string',
     bool:'boolean', 
     short:'short', 
     byte:'byte',
     int:'int', 
-    long:'long', 
+    int:'long', 
     integer:'integer', 
     float:'float', 
     double:'double',
@@ -110,10 +110,10 @@ TYPE_UNMARSHAL_FN = {
     datetime.datetime:datetime_u, 
     datetime.date:date_u,
     bool:bool_u, 
-    str:unicode,
+    str:str,
 }
 
-REVERSE_TYPE_MAP = dict([(v,k) for k,v in TYPE_MAP.items()])
+REVERSE_TYPE_MAP = dict([(v,k) for k,v in list(TYPE_MAP.items())])
 REVERSE_TYPE_MAP.update({
     'base64Binary': base64.b64decode,
 })
@@ -143,7 +143,7 @@ class OrderedDict(dict):
     def items(self):
         return [(key, self[key]) for key in self.__keys]
     def update(self, other):
-        for k,v in other.items():
+        for k,v in list(other.items()):
             self[k] = v
         # do not change if we are an array but the other is not:
         if isinstance(other, OrderedDict) and not self.array:
@@ -156,7 +156,7 @@ class OrderedDict(dict):
     def __str__(self):
         return "*%s*" % dict.__str__(self)
     def __repr__(self):
-        s= "*{%s}*" % ", ".join(['%s: %s' % (repr(k),repr(v)) for k,v in self.items()])
+        s= "*{%s}*" % ", ".join(['%s: %s' % (repr(k),repr(v)) for k,v in list(self.items())])
         if self.array and False:
             s = "[%s]" % s
         return s
@@ -172,7 +172,7 @@ class SimpleXMLElement(object):
           {prefix: received_prefix}
         """
         self.__namespaces_map = namespaces_map
-        _rx = "|".join(namespaces_map.keys()) # {'external': 'ext', 'model': 'mod'} -> 'external|model'
+        _rx = "|".join(list(namespaces_map.keys())) # {'external': 'ext', 'model': 'mod'} -> 'external|model'
         self.__ns_rx = re.compile(r"^(%s):.*$" % _rx) # And now we build an expression ^(external|model):.*$
                                                       # to find prefixes in all xml nodes i.e.: <model:code>1</model:code>
                                                       # and later change that to <mod:code>1</mod:code>
@@ -204,7 +204,7 @@ class SimpleXMLElement(object):
                 element = self.__document.createElementNS(self.__ns, name)
         # don't append null tags!
         if text is not None:
-            if isinstance(text, unicode):
+            if isinstance(text, str):
                 element.appendChild(self.__document.createTextNode(text))
             else:
                 element.appendChild(self.__document.createTextNode(str(text)))
@@ -279,12 +279,12 @@ class SimpleXMLElement(object):
     def __getitem__(self, item):
         "Return xml tag attribute value or a slice of attributes (iter)"
         log.debug('__getitem__(%s)', item)
-        if isinstance(item, basestring):
+        if isinstance(item, str):
             if self._element.hasAttribute(item):
                 return self._element.attributes[item].value
         elif isinstance(item, slice):
             # return a list with name:values
-            return self._element.attributes.items()[item]
+            return list(self._element.attributes.items())[item]
         else:
             # return element by index (position)
             element = self.__elements[item]
@@ -302,11 +302,11 @@ class SimpleXMLElement(object):
  
     def __setitem__(self, item, value):
         "Set an attribute value"
-        if isinstance(item,basestring):
+        if isinstance(item,str):
             self.add_attribute(item, value)
         elif isinstance(item, slice):
             # set multiple attributes at once
-            for k, v in value.items():
+            for k, v in list(value.items()):
                 self.add_attribute(k, v)
 
     def __call__(self, tag=None, ns=None, children=False, root=False,
@@ -348,7 +348,7 @@ class SimpleXMLElement(object):
             if not elements:
                 #log.debug(self._element.toxml())
                 if error:
-                    raise AttributeError(u"No elements found")
+                    raise AttributeError("No elements found")
                 else:
                     return
             return SimpleXMLElement(
@@ -358,8 +358,8 @@ class SimpleXMLElement(object):
                 prefix=self.__prefix,
                 jetty=self.__jetty,
                 namespaces_map=self.__namespaces_map)
-        except AttributeError, e:
-            raise AttributeError(u"Tag not found: %s (%s)" % (tag, unicode(e)))
+        except AttributeError as e:
+            raise AttributeError("Tag not found: %s (%s)" % (tag, str(e)))
 
     def __getattr__(self, tag):
         "Shortcut for __call__"
@@ -411,7 +411,7 @@ class SimpleXMLElement(object):
     def __unicode__(self):
         "Returns the unicode text nodes of the current element"
         if self._element.childNodes:
-            rc = u""
+            rc = ""
             for node in self._element.childNodes:
                 if node.nodeType == node.TEXT_NODE:
                     rc = rc + node.data
@@ -420,7 +420,7 @@ class SimpleXMLElement(object):
     
     def __str__(self):
         "Returns the str text nodes of the current element"
-        return unicode(self).encode("utf8","ignore")
+        return str(self).encode("utf8","ignore")
 
     def __int__(self):
         "Returns the integer value of the current element"
@@ -447,7 +447,7 @@ class SimpleXMLElement(object):
             name = str(node.get_local_name())
             ref_name_type = None
             # handle multirefs: href="#id0"
-            if 'href' in node.attributes().keys():
+            if 'href' in list(node.attributes().keys()):
                 href = node['href'][1:]
                 for ref_node in self(root=True)("multiRef"):
                     if ref_node['id'] == href:
@@ -456,17 +456,17 @@ class SimpleXMLElement(object):
                         break
             try:
                 fn = types[name]
-            except (KeyError, ), e:
+            except (KeyError, ) as e:
                 if node.get_namespace_uri("soapenc"):
                     fn = None # ignore multirefs!
-                elif 'xsi:type' in node.attributes().keys():
+                elif 'xsi:type' in list(node.attributes().keys()):
                     xsd_type = node['xsi:type'].split(":")[1]
                     fn = REVERSE_TYPE_MAP[xsd_type]
                 elif strict:
-                    raise TypeError(u"Tag: %s invalid (type not found)" % (name,))
+                    raise TypeError("Tag: %s invalid (type not found)" % (name,))
                 else:
                     # if not strict, use default type conversion
-                    fn = unicode
+                    fn = str
             
             if isinstance(fn, list):
                 # append to existing list (if any) - unnested dict arrays -
@@ -484,7 +484,7 @@ class SimpleXMLElement(object):
                         for child in (node.children() or []):
                             # preserve lists (unnested unnested arrays...)
                             _d = child.unmarshall(fn[0], strict)
-                            _k, _v = _d.items()[0]
+                            _k, _v = list(_d.items())[0]
                             if isinstance(_v, list):
                                 tmp_dict.setdefault(_k, []).append(_v[0])
                             else:
@@ -529,11 +529,11 @@ class SimpleXMLElement(object):
                         fn = TYPE_UNMARSHAL_FN.get(fn,fn) 
                         if fn == str:
                             # always return an unicode object:
-                            value = unicode(node)
+                            value = str(node)
                         else:
-                            value = fn(unicode(node))
-                    except (ValueError, TypeError), e:
-                        raise ValueError(u"Tag: %s: %s" % (name, unicode(e)))
+                            value = fn(str(node))
+                    except (ValueError, TypeError) as e:
+                        raise ValueError("Tag: %s: %s" % (name, str(e)))
                 else:
                     value = None
             d[name] = value
@@ -562,7 +562,7 @@ class SimpleXMLElement(object):
         ##if name == "guia": import dbg; dbg.set_trace()
         if isinstance(value, dict):  # serialize dict (<key>value</key>)
             child = add_child and self.add_child(name, ns=ns) or self
-            for k,v in value.items():
+            for k,v in list(value.items()):
                 if not add_children_ns:
                     ns = False
                 subtypes = types.get(k) if isinstance(types, dict) else None
@@ -598,15 +598,15 @@ class SimpleXMLElement(object):
                 if isinstance(item, dict):
                     if (len(item) > 1 or len(subtypes)>1 or 
                         (isinstance(subtypes, dict) and 
-                         not isinstance(subtypes.values()[0], dict))): 
+                         not isinstance(list(subtypes.values())[0], dict))): 
                         if i < len(value) - 1:
                             # new parent tag for next item:
                             child = self.add_child(name, ns=ns)
-        elif isinstance(value, basestring): # do not convert strings or unicodes
+        elif isinstance(value, str): # do not convert strings or unicodes
             self.add_child(name, value,ns=ns)
         elif value is None: # sent a empty tag?
             self.add_child(name, ns=ns)
-        elif value in TYPE_MAP.keys():
+        elif value in list(TYPE_MAP.keys()):
             # add commented placeholders for simple tipes (for examples/help only)
             child = self.add_child(name, ns=ns) 
             child.add_comment(TYPE_MAP[value])

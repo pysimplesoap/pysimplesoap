@@ -19,7 +19,7 @@ class TestIssues(unittest.TestCase):
 
         lang = client.getValidLanguages()
 
-        self.assertEqual(lang, {'return': [{'item': u'no'},{'item': u'en'}, {'item': u'ny'}]})
+        self.assertEqual(lang, {'return': [{'item': 'no'},{'item': 'en'}, {'item': 'ny'}]})
 
     def test_issue35_raw(self):    
 
@@ -33,7 +33,7 @@ class TestIssues(unittest.TestCase):
         self.assertEqual(int(response.numberOfResults), 0)
 
         for result in response.results:
-            print str(result)
+            print(str(result))
 
     def test_issue35_wsdl(self):
         "Test positional parameters, multiRefs and axis messages"
@@ -80,11 +80,11 @@ class TestIssues(unittest.TestCase):
 
         client = SoapClient(wsdl="https://api.clarizen.com/v1.0/Clarizen.svc",trace=False)
 
-        print client.help("Login")
-        print client.help("Logout")
-        print client.help("Query")
-        print client.help("Metadata")
-        print client.help("Execute")
+        print(client.help("Login"))
+        print(client.help("Logout"))
+        print(client.help("Query"))
+        print(client.help("Metadata"))
+        print(client.help("Execute"))
 
     def test_issue46(self):
         "Example for sending an arbitrary header using SimpleXMLElement"
@@ -105,7 +105,7 @@ class TestIssues(unittest.TestCase):
             client.methodname(headers=headers)
         except:
             open("issue46.xml", "wb").write(client.xml_request)
-            self.assert_("""<soap:Header><MyTestHeader xmlns="service"><username>test</username><password>password</password></MyTestHeader></soap:Header>""" in client.xml_request,
+            self.assertTrue("""<soap:Header><MyTestHeader xmlns="service"><username>test</username><password>password</password></MyTestHeader></soap:Header>""" in client.xml_request,
                         "header not in request!")
 
     def test_issue47_wsdl(self):
@@ -120,7 +120,7 @@ class TestIssues(unittest.TestCase):
             client.Logout()
         except:
             open("issue47_wsdl.xml", "wb").write(client.xml_request)
-            self.assert_("""<soap:Header><Session><ID>1234</ID></Session></soap:Header>""" in client.xml_request,
+            self.assertTrue("""<soap:Header><Session><ID>1234</ID></Session></soap:Header>""" in client.xml_request,
                         "Session header not in request!")
 
     def test_issue47_raw(self):
@@ -138,7 +138,7 @@ class TestIssues(unittest.TestCase):
             client.call("Logout", headers=headers)
         except:
             open("issue47_raw.xml", "wb").write(client.xml_request)
-            self.assert_("""<soap:Header><ns1:Session xmlns="http://clarizen.com/api"><ID>1234</ID></ns1:Session></soap:Header>""" in client.xml_request,
+            self.assertTrue("""<soap:Header><ns1:Session xmlns="http://clarizen.com/api"><ID>1234</ID></ns1:Session></soap:Header>""" in client.xml_request,
                         "Session header not in request!")
 
     def test_issue66(self):
@@ -151,9 +151,9 @@ class TestIssues(unittest.TestCase):
             client.call('ChildlessRequest', request)
         except:
             open("issue66.xml", "wb").write(client.xml_request)
-            self.assert_("""<ChildlessRequest""" in client.xml_request,
+            self.assertTrue("""<ChildlessRequest""" in client.xml_request,
                         "<ChildlessRequest not in request!")
-            self.assert_("""</ChildlessRequest>""" in client.xml_request,
+            self.assertTrue("""</ChildlessRequest>""" in client.xml_request,
                         "</ChildlessRequest> not in request!")
 
     def test_issue69(self):
@@ -188,9 +188,9 @@ class TestIssues(unittest.TestCase):
             client.GetParticipantList()
         except:
             #open("issue78.xml", "wb").write(client.xml_request)
-            print client.xml_request
+            print(client.xml_request)
             header="""<soap:Header><qmw:Security xmlns:qmw="http://questionmark.com/QMWISe/"><qmw:ClientID>NAME</qmw:ClientID><qmw:Checksum>PASSWORD</qmw:Checksum></qmw:Security></soap:Header>"""
-            self.assert_(header in client.xml_request, "header not in request!")
+            self.assertTrue(header in client.xml_request, "header not in request!")
 
 if __name__ == '__main__':
     #unittest.main()
