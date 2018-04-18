@@ -392,12 +392,12 @@ class SoapDispatcher(object):
             parse_element(response_element_name, returns and returns.items())
 
             # create messages:
-            for m, e in ('Input', ''), ('Output', 'Response'):
+            for m, e in ('Input', method), ('Output', response_element_name):
                 message = wsdl.add_child('wsdl:message')
                 message['name'] = "%s%s" % (method, m)
                 part = message.add_child("wsdl:part")
                 part[:] = {'name': 'parameters',
-                           'element': 'tns:%s%s' % (method, e)}
+                           'element': 'tns:%s' % e}
 
         # create ports
         portType = wsdl.add_child('wsdl:portType')
