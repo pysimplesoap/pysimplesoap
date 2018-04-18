@@ -317,7 +317,7 @@ class SoapDispatcher(object):
         else:
             items = []
         for k, v in items:
-            response(self.response(method)).marshall(k, v, add_comments=True, ns=False)
+            response(response_element_name).marshall(k, v, add_comments=True, ns=False)
 
         return request.as_xml(pretty=True), response.as_xml(pretty=True), doc
 
