@@ -237,7 +237,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                 key = make_key(type_name, ref_type, fn_namespace)
                 fn = elements.setdefault(key, Struct(key))
 
-            if e['maxOccurs'] == 'unbounded' or (uri == soapenc_uri and type_name == 'Array'):
+            if (e['maxOccurs'] == 'unbounded' or int(e['maxOccurs'] or 0) > 1) or (uri == soapenc_uri and type_name == 'Array'):
                 # it's an array... TODO: compound arrays? and check ns uri!
                 if isinstance(fn, Struct):
                     if len(children) > 1 or (dialect in ('jetty', )):
