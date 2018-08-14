@@ -16,6 +16,8 @@
 import logging
 import ssl
 import sys
+from distutils.version import LooseVersion
+
 try:
     import urllib2
     from cookielib import CookieJar
@@ -62,7 +64,7 @@ class TransportBase:
 #
 try:
     import httplib2
-    if sys.version > '3' and httplib2.__version__ <= "0.7.7":
+    if sys.version > '3' and LooseVersion(httplib2.__version__) <= LooseVersion("0.7.7"):
         import http.client
         # httplib2 workaround: check_hostname needs a SSL context with either 
         #                      CERT_OPTIONAL or CERT_REQUIRED
@@ -92,9 +94,9 @@ else:
                 log.info("using proxy %s" % proxy)
 
             # set optional parameters according to supported httplib2 version
-            if httplib2.__version__ >= '0.3.0':
+            if LooseVersion(httplib2.__version__) >= LooseVersion('0.3.0'):
                 kwargs['timeout'] = timeout
-            if httplib2.__version__ >= '0.7.0':
+            if LooseVersion(httplib2.__version__) >= LooseVersion('0.7.0'):
                 kwargs['disable_ssl_certificate_validation'] = cacert is None
                 kwargs['ca_certs'] = cacert
             httplib2.Http.__init__(self, **kwargs)
