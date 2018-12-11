@@ -19,6 +19,10 @@ __version__ = "1.08.14"
 
 TIMEOUT = 60
 
+import sys
+if sys.version > '3':
+    unicode = str
+
 import pickle as pickle
 import hashlib
 import logging
@@ -46,9 +50,16 @@ class SoapFault(RuntimeError):
     def __unicode__(self):
         return '%s: %s' % (self.faultcode, self.faultstring)
 
+    if sys.version > '3':
+        __str__ = __unicode__
+    else:
+        def __str__(self):
+            return self.__unicode__().encode('ascii', 'ignore')
+
     def __repr__(self):
-        return "SoapFault(%s, %s)" % (repr(self.faultcode), 
-                                       repr(self.faultstring))
+        return "SoapFault(faultcode = %s, faultstring %s, detail = %s)" % (repr(self.faultcode),
+                                                                           repr(self.faultstring),
+                                                                           repr(self.detail))
 
 
 # soap protocol specification & namespace
@@ -234,18 +245,6 @@ class SoapClient(object):
             soap_action = self.action 
         else:
             soap_action = self.action + method
-
-        # prevent unicode encoding error (implicit conversions):
-        if not soap_action:
-            soap_action = str(soap_action)
-        elif not isinstance(soap_action, str):
-            soap_action = soap_action.decode("utf8")
-        if not isinstance(location, str):
-            location = location.decode("utf8")
-        if not isinstance(xml, str):
-            xml = xml.decode("utf8")
-        elif isinstance(xml, str):
-            xml = xml #.decode("latin1").encode("utf8")  # asume encoding ok
 
         headers={
             'Content-type': 'text/xml; charset="UTF-8"',
