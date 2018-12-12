@@ -252,6 +252,7 @@ class SoapClient(object):
             "SOAPAction": "\"%s\"" % (soap_action)
         }
         headers.update(self.http_headers)
+        headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
         log.info("POST %s" % location)
         log.info("Headers: %s" % headers)
         
@@ -453,7 +454,8 @@ class SoapClient(object):
                     xml = f.read()
                 else:
                     log.info("GET %s using %s" % (url, self.http._wrapper_version))
-                    response, xml = self.http.request(url, "GET", None, {})
+                    response, xml = self.http.request(url, "GET", None, {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'})
                 if cache:
                     log.info("Writing file %s" % (filename, ))
                     try:
