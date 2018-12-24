@@ -372,7 +372,8 @@ class SoapDispatcher(object):
                         e[:] = {'minOccurs': "0", 'maxOccurs': "unbounded"}
                     if v in TYPE_MAP.keys():
                         if v == enum.EnumMeta:
-                            # TODO add restriction type to an element
+                            # Restrict the values of an element using the values
+                            # listed in enum_values
                             t = None
                             st = e.add_child("xsd:simpleType")
                             rest = st.add_child("xsd:restriction")
