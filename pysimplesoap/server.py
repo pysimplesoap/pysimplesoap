@@ -14,6 +14,7 @@
 
 
 from __future__ import unicode_literals
+import enum
 import sys
 if sys.version > '3':
     unicode = str
@@ -119,8 +120,8 @@ class SoapDispatcher(object):
             xml = xml.replace('/>', ' ' + _ns_str + '/>')
         return xml
 
-    def register_function(self, name, fn, returns=None, args=None, doc=None):
-        self.methods[name] = fn, returns, args, doc or getattr(fn, "__doc__", "")
+    def register_function(self, name, fn, returns=None, enum_values=None, args=None, doc=None):
+        self.methods[name] = fn, returns, enum_values, args, doc or getattr(fn, "__doc__", "")
 
     def response_element_name(self, method):
         return '%sResponse' % method
@@ -343,7 +344,7 @@ class SoapDispatcher(object):
 """ % {'namespace': self.namespace, 'name': self.name, 'documentation': self.documentation}
         wsdl = SimpleXMLElement(xml)
 
-        for method, (function, returns, args, doc) in self.methods.items():
+        for method, (function, returns, enum_values, args, doc) in self.methods.items():
             # create elements:
 
             def parse_element(name, values, array=False, complex=False):
@@ -370,7 +371,17 @@ class SoapDispatcher(object):
                     if array:
                         e[:] = {'minOccurs': "0", 'maxOccurs': "unbounded"}
                     if v in TYPE_MAP.keys():
-                        t = 'xsd:%s' % TYPE_MAP[v]
+                        if v == enum.EnumMeta:
+                            # TODO add restriction type to an element
+                            t = None
+                            st = e.add_child("xsd:simpleType")
+                            rest = st.add_child("xsd:restriction")
+                            rest.add_attribute('base', 'xsd:token')
+                            for value in enum_values:
+                                en = rest.add_child("xsd:enumeration")
+                                en.add_attribute('value', value)
+                        else:
+                            t = 'xsd:%s' % TYPE_MAP[v]
                     elif v is None:
                         t = 'xsd:anyType'
                     elif isinstance(v, list):
@@ -386,7 +397,8 @@ class SoapDispatcher(object):
                         t = "tns:%s" % n
                     else:
                         raise TypeError("unknonw type %s for marshalling" % str(v))
-                    e.add_attribute('type', t)
+                    if t:
+                        e.add_attribute('type', t)
 
             parse_element("%s" % method, args and args.items())
             parse_element("%sResponse" % method, returns and returns.items())
@@ -402,7 +414,7 @@ class SoapDispatcher(object):
         # create ports
         portType = wsdl.add_child('wsdl:portType')
         portType['name'] = "%sPortType" % self.name
-        for method, (function, returns, args, doc) in self.methods.items():
+        for method, (function, returns, enum_values, args, doc) in self.methods.items():
             op = portType.add_child('wsdl:operation')
             op['name'] = method
             if doc:
