@@ -124,6 +124,7 @@ from collections import OrderedDict as ordered_dict
 class OrderedDict(ordered_dict):
     "Minimal ordered dictionary for xsd:sequences"
     def __init__(self):
+        super(OrderedDict, self).__init__()
         self.__keys = []
         self.array = False
     def __setitem__(self, key, value):
