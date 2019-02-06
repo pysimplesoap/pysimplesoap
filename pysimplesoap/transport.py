@@ -168,10 +168,11 @@ class urllib2Transport(TransportBase):
         req = urllib.request.Request(url, body, headers)
         try:
             f = self.request_opener(req, timeout=self._timeout)
+            return f.info(), f.read()
         except urllib.error.HTTPError as f:
             if f.code != 500:
                 raise
-        return f.info(), f.read()
+            return f.info(), f.read()
 
 _http_connectors['urllib2'] = urllib2Transport
 _http_facilities.setdefault('sessions', []).append('urllib2')
