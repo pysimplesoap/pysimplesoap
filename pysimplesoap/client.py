@@ -546,7 +546,7 @@ class SoapClient(object):
         def make_key(element_name, element_type):
             "return a suitable key for elements"
             # only distinguish 'element' vs other types
-            if element_type in ('complexType', 'simpleType'):
+            if element_type in ('complexType', 'simpleType', 'choice'):
                 eltype = 'complexType'
             else:
                 eltype = element_type
@@ -555,13 +555,15 @@ class SoapClient(object):
             return (unicode(element_name), eltype)
         
         #TODO: cleanup element/schema/types parsing:
-        def process_element(element_name, node, element_type):
+        def process_element(element_name, node, element_type, d=None):
             "Parse and define simple element types"
             if debug: 
                 log.debug("Processing element %s %s" % (element_name, element_type))
-            if element_name in ("ajusteBase", "LpgAjusteUnifBaseType"):
-                pass ##import pdb;pdb.set_trace()
-            for tag in node:
+
+            if node is None:
+                log.debug("Node is None for element %s %s" % (element_name, element_type))
+
+            for tag in (node if node is not None else []):
                 if tag.get_local_name() in ("annotation", "documentation"):
                     continue
                 elif tag.get_local_name() in ('element', 'restriction'):
@@ -570,13 +572,21 @@ class SoapClient(object):
                     alias = True
                 elif tag.children():
                     children = tag.children()
+                    # check if this is an not inlined choice (mixed with other elements):
+                    if children.get_local_name() == "choice" and not d:
+                        children = children.children()
                     alias = False
                 else:
                     if debug: log.debug("%s has not children! %s" % (element_name,tag))
                     continue #TODO: abstract?
-                d = OrderedDict()                    
+                # fill up previous element dict if given:
+                if d is None:
+                    d = OrderedDict()
                 for e in children:
                     t = e['type']
+                    if e.get_local_name() == "choice":
+                        process_element(element_name, e, element_type, d)
+                        continue
                     if not t:
                         t = e['base'] # complexContent (extension)!
                     if not t:
@@ -622,7 +632,7 @@ class SoapClient(object):
                     else:
                         if debug: log.debug("complexConent/simpleType/element %s = %s" % (element_name, type_name))
                         d[None] = fn
-                    if e is not None and e.get_local_name() == 'extension' and e.children():
+                    if e is not None and e.get_local_name() == 'extension' or e.get_local_name == 'choice' and e.children():
                         # extend base element:
                         process_element(element_name, e.children(), element_type)
                 elements.setdefault(make_key(element_name, element_type), OrderedDict()).update(d)
@@ -658,6 +668,11 @@ class SoapClient(object):
                     if debug: log.debug("Parsing Element %s: %s" % (element_type, element_name))
                     if element.get_local_name() == 'complexType':
                         children = element.children()
+                        if children.get_local_name() == "choice":
+                            # avoid nested compositor:
+                            comp_children = children.children()
+                            if comp_children.get_local_name() == "sequence":
+                                children = comp_children
                     elif element.get_local_name() == 'simpleType':
                         children = element("restriction", ns=xsd_uri)
                     elif element.get_local_name() == 'element' and element['type']:
