@@ -14,8 +14,11 @@
 
 from __future__ import unicode_literals
 import sys
+py3 = False
 if sys.version > '3':
+    py3 = True
     unicode = str
+    basestring = str
 
 try:
     import cPickle as pickle
@@ -836,14 +839,14 @@ class SoapClient(object):
         force_download = False
         if cache:
             # make md5 hash of the url for caching...
-            filename_pkl = '%s.pkl' % hashlib.md5(url).hexdigest()
+            filename_pkl = '%s.pkl' % hashlib.md5(url.encode('utf8')).hexdigest()
             if isinstance(cache, basestring):
                 filename_pkl = os.path.join(cache, filename_pkl)
             if os.path.exists(filename_pkl):
                 log.debug('Unpickle file %s' % (filename_pkl, ))
-                f = open(filename_pkl, 'r')
-                pkl = pickle.load(f)
-                f.close()
+                mode = 'rb' if py3 else 'r'
+                with open(filename_pkl, mode) as f:
+                    pkl = pickle.load(f)
                 # sanity check:
                 if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
@@ -866,7 +869,6 @@ class SoapClient(object):
 
         # Save parsed wsdl (cache)
         if cache:
-            f = open(filename_pkl, "wb")
             pkl = {
                 'version': __version__.split(' ')[0],
                 'url': url,
@@ -874,8 +876,9 @@ class SoapClient(object):
                 'documentation': self.documentation,
                 'services': services,
             }
-            pickle.dump(pkl, f)
-            f.close()
+            mode = 'wb' if py3 else 'w'
+            with open(filename_pkl, mode) as f:
+                pickle.dump(pkl, f, protocol=pickle.HIGHEST_PROTOCOL)
 
         return services
 
