@@ -611,6 +611,7 @@ class Struct(dict):
     def __init__(self, key=None):
         super(dict, self).__init__()
         self.key = key
+        self.__keys = []
         self.array = False
         self.namespaces = {}     # key: element, value: namespace URI
         self.references = {}     # key: element, value: reference name
