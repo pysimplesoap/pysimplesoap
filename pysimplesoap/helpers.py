@@ -15,7 +15,10 @@
 
 from __future__ import unicode_literals
 import sys
+
+py3 = False
 if sys.version > '3':
+    py3 = True
     basestring = unicode = str
 
 import datetime
@@ -63,9 +66,10 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers
         filename = os.path.join(cache, filename)
     if cache and os.path.exists(filename) and not force_download:
         log.info('Reading file %s' % filename)
-        f = open(filename, 'r')
-        xml = f.read()
-        f.close()
+        mode = 'rt' if py3 else 'r'
+        with open(filename, mode) as f:
+            xml = f.read()
+            f.close()
     else:
         if url_scheme == 'file':
             log.info('Fetching url %s using urllib2' % url)
@@ -78,7 +82,8 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers
             log.info('Writing file %s' % filename)
             if not os.path.isdir(cache):
                 os.makedirs(cache)
-            f = open(filename, 'w')
+            mode = 'wb' if py3 else 'w'
+            f = open(filename, mode)
             f.write(xml)
             f.close()
     return xml
@@ -601,7 +606,8 @@ if str not in TYPE_MAP:
 
 class Struct(dict):
     """Minimal ordered dictionary to represent elements (i.e. xsd:sequences)"""
-
+    __keys = []
+    
     def __init__(self, key=None):
         self.key = key
         self.__keys = []
