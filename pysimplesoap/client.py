@@ -876,8 +876,7 @@ class SoapClient(object):
                 'documentation': self.documentation,
                 'services': services,
             }
-            mode = 'wb' if py3 else 'w'
-            with open(filename_pkl, mode) as f:
+            with open(filename_pkl, 'wb') as f:
                 pickle.dump(pkl, f, protocol=pickle.HIGHEST_PROTOCOL)
 
         return services
