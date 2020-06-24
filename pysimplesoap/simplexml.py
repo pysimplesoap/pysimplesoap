@@ -244,9 +244,9 @@ class SimpleXMLElement(object):
     def as_xml(self, filename=None, pretty=False):
         "Return the XML representation of the document"
         if not pretty:
-            return self.__document.toxml('UTF-8')
+            return self.__document.toxml('UTF-8').decode('UTF-8')
         else:
-            return self.__document.toprettyxml(encoding='UTF-8')
+            return self.__document.toprettyxml(encoding='UTF-8').decode('UTF-8')
 
     def __repr__(self):
         "Return the XML representation of this tag"
@@ -599,9 +599,9 @@ class SimpleXMLElement(object):
                 # "jetty" arrays: add new base node (if not last) -see abobe-
                 # TODO: this could be an issue for some arrays of single values
                 if isinstance(item, dict):
-                    if (len(item) > 1 or len(subtypes)>1 or 
-                        (isinstance(subtypes, dict) and 
-                         not isinstance(list(subtypes.values())[0], dict))): 
+                    if (len(item) > 1 or subtypes and len(subtypes) > 1 or
+                            (isinstance(subtypes, dict) and
+                             not isinstance(list(subtypes.values())[0], dict))):
                         if i < len(value) - 1:
                             # new parent tag for next item:
                             child = self.add_child(name, ns=ns)

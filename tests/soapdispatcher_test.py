@@ -49,7 +49,7 @@ class TestSoapDispatcher(unittest.TestCase):
         
     def test_classic_dialect(self):
         # adder local test (clasic soap dialect)
-        resp = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soap:Body><AdderResponse xmlns="http://example.com/pysimplesoapsamle/"><dd>5000000.3</dd><ab>3</ab><dt>2011-07-24</dt></AdderResponse></soap:Body></soap:Envelope>"""
+        resp = """<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soap:Body><AdderResponse xmlns="http://example.com/pysimplesoapsamle/"><ab>3</ab><dd>5000000.3</dd><dt>2011-07-24</dt></AdderResponse></soap:Body></soap:Envelope>"""
         xml = """<?xml version="1.0" encoding="UTF-8"?> 
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
        <soap:Body>
@@ -62,7 +62,7 @@ class TestSoapDispatcher(unittest.TestCase):
         
     def test_modern_dialect(self):
         # adder local test (modern soap dialect, SoapUI)
-        resp = """<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:pys="http://example.com/pysimplesoapsamle/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><pys:AdderResponse><dd>15.021</dd><ab>12</ab><dt>1970-07-20</dt></pys:AdderResponse></soapenv:Body></soapenv:Envelope>"""
+        resp = """<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:pys="http://example.com/pysimplesoapsamle/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><pys:AdderResponse><ab>12</ab><dd>15.021</dd><dt>1970-07-20</dt></pys:AdderResponse></soapenv:Body></soapenv:Envelope>"""
         xml = """
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pys="http://example.com/pysimplesoapsamle/">
    <soapenv:Header/>
