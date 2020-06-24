@@ -4,16 +4,9 @@ PySimpleSOAP / soap2py
 Python simple and lightweight SOAP library for client and server webservices interfaces, aimed to be as small and easy as possible, supporting most common functionality.
 Initially it was inspired by [PHP Soap Extension](http://php.net/manual/en/book.soap.php) (mimicking its functionality, simplicity and ease of use), with many advanced features added.
 
-This is a **Stable Branch** ("long-term-support" / bug-fixes for 1.08.x series)
-mainly to be used with [PyAfipWs](https://github.com/reingart/pyafipws) under
-Python 2.7
-
-For new developments, please use **Master Branch** (1.16 version), that has
-newer features and supports Python 3
-
-Sadly, in the migration from GoogleCode, there was some issue with hg/git and
-now these two branches have entirely different commit histories.
-A manual merge is expected to reunify the codebase soon.
+This is a **Stable Branch** ("stable_py3k")
+mainly to be used with [https://github.com/reingart/pyafipws/tree/py3k]() under
+Python 3
 
 Changelog
 ---------
@@ -59,21 +52,7 @@ Source Code originally available on [GoogleCode](https://code.google.com/p/pysim
 Testing
 -------
 
-Using Python 2.7+:
-
-    python -m unittest discover
-
-Using older Python versions:
-
-    python -m unittest tests/suite.py
-
-Code coverage:
-
-    sudo pip install coverage
-    coverage run tests/suite.py
-    coverage report -m
-    coverage html
-
+     python -m unittest discover -s tests -p "*_test.py"
 
 Support
 -------
@@ -81,4 +60,4 @@ Support
 For community support, please fell free to fill an [issue](https://github.com/pysimplesoap/pysimplesoap/issues/new) or send an email to [soap@python.org](https://mail.python.org/mailman/listinfo/soap).
 Please do not add comment to wiki pages if you have technical questions.
 
-For priority commercial technical support, you can contact [Mariano Reingart](mailto:reingart@gmail.com) (project creator and main maintainer, see [AUTHORS](AUTHORS.md) for more info).
+For priority commercial technical support, you can contact [Mariano Reingart](mailto:reingart@gmail.com) (project creator and main maintainer).
