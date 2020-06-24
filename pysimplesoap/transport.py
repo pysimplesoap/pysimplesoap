@@ -115,7 +115,7 @@ else:
                 ##if False and DEBUG and self.ssl_version != ssl.PROTOCOL_TLSv1:
                 ##    raise ssl.SSLError
                 return httplib2.Http._conn_request(self, conn, request_uri, method, body, headers)
-            except (ssl.SSLError, httplib2.SSLHandshakeError) as e:
+            except ssl.SSLError as e:
                 # fallback to previous protocols
                 if hasattr(ssl, "PROTOCOL_TLSv1_2") and self.ssl_version == ssl.PROTOCOL_TLSv1_2:
                     new_ssl_version = ssl.PROTOCOL_TLSv1
@@ -126,8 +126,8 @@ else:
                 else:
                     raise
                 if DEBUG:
-                    warnings.warn("Protocol %s failed: %s; downgrading to %s" % 
-                                (ssl.get_protocol_name(self.ssl_version), e, 
+                    warnings.warn("Protocol %s failed: %s; downgrading to %s" %
+                                (ssl.get_protocol_name(self.ssl_version), e,
                                  ssl.get_protocol_name(new_ssl_version)))
                 self.ssl_version = new_ssl_version
                 return Httplib2Transport._conn_request(self, conn, request_uri, method, body, headers)
@@ -146,7 +146,7 @@ else:
 import urllib.request, urllib.error, urllib.parse
 class urllib2Transport(TransportBase):
     _wrapper_version = "urllib2"
-    _wrapper_name = 'urllib2' 
+    _wrapper_name = 'urllib2'
     def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
         import sys
         if (timeout is not None) and not self.supports_feature('timeout'):
@@ -161,7 +161,7 @@ class urllib2Transport(TransportBase):
             from http.cookiejar import CookieJar
             opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(CookieJar()))
             self.request_opener = opener.open
-            
+
         self._timeout = timeout
 
     def request(self, url, method="GET", body=None, headers={}):
@@ -200,10 +200,10 @@ else:
         _wrapper_version = pycurl.version
         _wrapper_name = 'pycurl'
         def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
-            self.timeout = timeout 
+            self.timeout = timeout
             self.proxy = proxy or {}
             self.cacert = cacert
-               
+
         def request(self, url, method, body, headers):
             c = pycurl.Curl()
             c.setopt(pycurl.URL, str(url))
@@ -219,18 +219,18 @@ else:
             #self.body = StringIO(body)
             #c.setopt(pycurl.HEADERFUNCTION, self.header)
             if self.cacert:
-                c.setopt(c.CAINFO, str(self.cacert)) 
+                c.setopt(c.CAINFO, str(self.cacert))
             if USE_SSLv3:
                 c.setopt(pycurl.SSLVERSION, pycurl.SSLVERSION_SSLv3)
             elif USE_SSLv3 is not None:
                 c.setopt(pycurl.SSLVERSION, pycurl.SSLVERSION_TLSv1)
             c.setopt(pycurl.SSL_VERIFYPEER, self.cacert and 1 or 0)
             c.setopt(pycurl.SSL_VERIFYHOST, self.cacert and 2 or 0)
-            c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6) 
+            c.setopt(pycurl.CONNECTTIMEOUT, self.timeout/6)
             c.setopt(pycurl.TIMEOUT, self.timeout)
             if method=='POST':
                 c.setopt(pycurl.POST, 1)
-                c.setopt(pycurl.POSTFIELDS, body)            
+                c.setopt(pycurl.POSTFIELDS, body)
             if headers:
                 hdrs = ['%s: %s' % (str(k), str(v)) for k, v in list(headers.items())]
                 ##print hdrs
@@ -248,10 +248,10 @@ else:
 
 class DummyTransport:
     "Testing class to load a xml response"
-    
+
     def __init__(self, xml_response):
         self.xml_response = xml_response
-        
+
     def request(self, location, method, body, headers):
         if False:
             print(method, location)
@@ -304,7 +304,7 @@ def get_Http():
     global Http
     return Http
 
-    
+
 # define the default HTTP connection class (it can be changed at runtime!):
 set_http_wrapper()
 
