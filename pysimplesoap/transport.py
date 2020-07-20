@@ -29,7 +29,7 @@ from .simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 import logging
 import warnings
 import time
-from disutils.version import LooseVersion
+from distutils.version import LooseVersion
 
 # Required in Python2.6+ to force SSLv3:
 try:
