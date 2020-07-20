@@ -29,6 +29,7 @@ from .simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 import logging
 import warnings
 import time
+from disutils.version import LooseVersion
 
 # Required in Python2.6+ to force SSLv3:
 try:
@@ -71,9 +72,9 @@ else:
                 print("using proxy", proxy)
 
             # set optional parameters according supported httplib2 version
-            if httplib2.__version__ >= '0.3.0':
+            if LooseVersion(httplib2.__version__) >= LooseVersion('0.3.0'):
                 kwargs['timeout'] = timeout
-            if httplib2.__version__ >= '0.7.0':
+            if LooseVersion(httplib2.__version__) >= LooseVersion('0.7.0'):
                 kwargs['disable_ssl_certificate_validation'] = cacert is None
                 kwargs['ca_certs'] = cacert
             # downgrade to highest compatible protocol version available:
