@@ -34,7 +34,7 @@ Changelog
 ---------
 
 Recent changes (2014/2015):
-
+* added marshalling of list arguments (worked for axis server, xml compliant??)
 * Plug-in system to support for WSSE (Web-Services Security extensions)
 * WSSE UsernameToken, UsernameDigestToken and BinaryTokenSignature support
 * Pythonic XML Security Library basic implementation (canonicalization, SHA1 hashing and RSA signing / verification using X509 digital certificates)
