@@ -51,7 +51,7 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers
                     tmp_url = "%s://%s" % (scheme, path)
                 else:
                     tmp_url = "%s:%s" % (scheme, path)
-                log.debug('Scheme not found, trying %s' % scheme)
+                log.debug('Scheme not found, trying %s', scheme)
                 return fetch(tmp_url, http, cache, force_download, wsdl_basedir, headers)
             except Exception as e:
                 log.error(e)
@@ -62,20 +62,20 @@ def fetch(url, http, cache=False, force_download=False, wsdl_basedir='', headers
     if isinstance(cache, basestring):
         filename = os.path.join(cache, filename)
     if cache and os.path.exists(filename) and not force_download:
-        log.info('Reading file %s' % filename)
+        log.info('Reading file %s', filename)
         f = open(filename, 'r')
         xml = f.read()
         f.close()
     else:
         if url_scheme == 'file':
-            log.info('Fetching url %s using urllib2' % url)
+            log.info('Fetching url %s using urllib2', url)
             f = urllib2.urlopen(url)
             xml = f.read()
         else:
-            log.info('GET %s using %s' % (url, http._wrapper_version))
+            log.info('GET %s using %s', url, http._wrapper_version)
             response, xml = http.request(url, 'GET', None, headers)
         if cache:
-            log.info('Writing file %s' % filename)
+            log.info('Writing file %s', filename)
             if not os.path.isdir(cache):
                 os.makedirs(cache)
             f = open(filename, 'w')
@@ -124,7 +124,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                     struct=None):
     """Parse and define simple element types as Struct objects"""
 
-    log.debug('Processing element %s %s' % (element_name, element_type))
+    log.debug('Processing element %s %s', element_name, element_type)
 
     # iterate over inner tags of the element definition:
     for tag in node:
@@ -133,14 +133,14 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
         if tag.get_local_name() in ('annotation', 'documentation'):
             continue
         elif tag.get_local_name() in ('element', 'restriction', 'list'):
-            log.debug('%s has no children! %s' % (element_name, tag))
+            log.debug('%s has no children! %s', element_name, tag)
             children = tag  # element "alias"?
             alias = True
         elif tag.children():
             children = tag.children()
             alias = False
         else:
-            log.debug('%s has no children! %s' % (element_name, tag))
+            log.debug('%s has no children! %s', element_name, tag)
             continue  # TODO: abstract?
 
         # check if extending a previous processed element ("extension"):
@@ -267,7 +267,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                 struct.references[e_name] = e['ref']
                 struct.namespaces[e_name] = namespace  # set the element namespace
             else:
-                log.debug('complexContent/simpleType/element %s = %s' % (element_name, type_name))
+                log.debug('complexContent/simpleType/element %s = %s', element_name, type_name)
                 # use None to point this is a complex element reference
                 struct.refers_to = fn
             if e is not None and e.get_local_name() == 'extension' and e.children():
@@ -311,7 +311,7 @@ def postprocess_element(elements, processed):
                     # clean the reference:
                     v.refers_to = None
                 else:  # "alias", just replace
-                    ##log.debug('Replacing %s = %s' % (k, v.refers_to))
+                    ##log.debug('Replacing %s = %s', k, v.refers_to)
                     elements[k] = v.refers_to
             if v.array:
                 elements[k] = [v]  # convert arrays to python lists
@@ -352,7 +352,7 @@ def get_message(messages, message_name, part_name, parameter_order=None):
             for part_name_key in parameter_order:
                 part = parts.get(part_name_key)
                 if not part:
-                    log.error('Part %s not found for %s' % (part_name_key, message_name))
+                    log.error('Part %s not found for %s', part_name_key, message_name)
                 elif not new_msg:
                     new_msg = part.copy()
                 else:
@@ -397,13 +397,13 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             schema_namespace = element['namespace']
             schema_location = element['schemaLocation']
             if schema_location is None:
-                log.debug('Schema location not provided for %s!' % schema_namespace)
+                log.debug('Schema location not provided for %s!', schema_namespace)
                 continue
             if schema_location in imported_schemas:
-                log.debug('Schema %s already imported!' % schema_location)
+                log.debug('Schema %s already imported!', schema_location)
                 continue
             imported_schemas[schema_location] = schema_namespace
-            log.debug('Importing schema %s from %s' % (schema_namespace, schema_location))
+            log.debug('Importing schema %s from %s', schema_namespace, schema_location)
             # Open uri and read xml:
             xml = fetch(schema_location, http, cache, force_download, wsdl_basedir)
 
@@ -422,7 +422,7 @@ def preprocess_schema(schema, imported_schemas, elements, xsd_uri, dialect,
             namespace = local_namespaces[None]          # get targetNamespace
             element_ns = global_namespaces[ns]          # get the prefix
             element_name = element['name']
-            log.debug("Parsing Element %s: %s" % (element_type, element_name))
+            log.debug("Parsing Element %s: %s", element_type, element_name)
             if element.get_local_name() == 'complexType':
                 children = element.children()
             elif element.get_local_name() == 'simpleType':
