@@ -205,7 +205,7 @@ def process_element(elements, element_name, node, element_type, xsd_uri,
                             # get the scalar conversion function (if any)
                             fn_array = REVERSE_TYPE_MAP.get(type_name, None)
                             if fn_array is None and type_name != "anyType" and fn_namespace:
-                                # get the complext element:
+                                # get the complex element:
                                 ref_type = "complexType"
                                 key = make_key(type_name, ref_type, fn_namespace)
                                 fn_complex = elements.setdefault(key, Struct(key))

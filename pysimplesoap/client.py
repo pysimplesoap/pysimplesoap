@@ -815,7 +815,7 @@ class SoapClient(object):
                     'soap_ver': soap_ver,
                 })
 
-        # create an default service if none is given in the wsdl:
+        # create a default service if none is given in the wsdl:
         if not services:
             services[''] = {'ports': {'': None}}
    

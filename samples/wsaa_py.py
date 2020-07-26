@@ -42,7 +42,7 @@ DEBUG = True
 
 
 def create_tra(service=None, ttl=2400, cert=None):
-    "Create a Access Request Ticket (TRA)"
+    "Create an Access Request Ticket (TRA)"
     # Base TRA squeleton (Ticket de Requerimiento de Acceso)
     tra = SimpleXMLElement(
         '<?xml version="1.0" encoding="UTF-8"?>'
@@ -70,7 +70,7 @@ def sign_tra(tra,cert=CERT,privatekey=PRIVATEKEY,passphrase=""):
     buf = BIO.MemoryBuffer(tra)             # create the buffer from the file
     #Rand.load_file('randpool.dat', -1)     # seed the PRNG
     s = SMIME.SMIME()                       # instantiate the SMIME
-    # support encription passwords (for private key, optional)
+    # support encryption passwords (for private key, optional)
     callback = lambda *args, **kwarg: passphrase
     # load the private key and certificate
     s.load_key(privatekey, cert, callback)      # (frmo file)
