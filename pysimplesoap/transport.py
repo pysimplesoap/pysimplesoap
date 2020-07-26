@@ -66,10 +66,10 @@ try:
     import httplib2
     if sys.version > '3' and LooseVersion(httplib2.__version__) <= LooseVersion("0.7.7"):
         import http.client
-        # httplib2 workaround: check_hostname needs a SSL context with either 
+        # httplib2 workaround: check_hostname needs a SSL context with either
         #                      CERT_OPTIONAL or CERT_REQUIRED
         # see https://code.google.com/p/httplib2/issues/detail?id=173
-        orig__init__ = http.client.HTTPSConnection.__init__ 
+        orig__init__ = http.client.HTTPSConnection.__init__
         def fixer(self, host, port, key_file, cert_file, timeout, context,
                         check_hostname, *args, **kwargs):
             chk = kwargs.get('disable_ssl_certificate_validation', True) ^ True
@@ -86,7 +86,7 @@ else:
         _wrapper_name = 'httplib2'
 
         def __init__(self, timeout, proxy=None, cacert=None, sessions=False):
-#            httplib2.debuglevel=4 
+#            httplib2.debuglevel=4
             kwargs = {}
             if proxy:
                 import socks
@@ -219,6 +219,59 @@ else:
     _http_facilities.setdefault('cacert', []).append('pycurl')
     _http_facilities.setdefault('timeout', []).append('pycurl')
 
+
+#
+# Requests support.
+# Add digest authentication
+#
+try:
+    import requests
+except ImportError:
+    pass
+else:
+    class RequestsDigestTransport(TransportBase):
+        _wrapper_version = "Requests %s" % requests.__version__
+        _wrapper_name = 'requests.digest'
+
+        def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
+            if proxy:
+                raise NotImplementedError('Proxy is not yet supported.')
+            if cacert:
+                raise NotImplementedError('Cacert is not yet support.')
+
+            self.cacert = cacert
+            self.timeout = timeout
+            self.request_opener = requests.get
+            if sessions:
+                self._cookies = {}
+
+            self._timeout = timeout
+            self._auth = None
+
+        def add_credentials(self, username, password):
+            self._auth = requests.auth.HTTPDigestAuth(username, password)
+
+        def request(self, url, method="GET", body=None, headers={}):
+            url = url.replace('\\', '/')
+            args = {
+                'url': url,
+                'auth': self._auth,
+                'headers': headers,
+                'data' : body,
+                'timeout': self.timeout,
+            }
+            methods = {
+                'get' : requests.get,
+                'post' : requests.post,
+            }
+            response = methods[method.lower()](**args)
+            if not response.ok:
+                raise Exception('Invalid response with status %d' % response.status_code)
+
+            return {}, response.content
+
+    _http_connectors['requests.digest'] = RequestsDigestTransport
+    _http_facilities.setdefault('sessions', []).append('requests.digest')
 
 class DummyTransport:
     """Testing class to load a xml response"""
