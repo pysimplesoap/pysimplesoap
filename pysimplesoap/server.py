@@ -369,11 +369,7 @@ class SoapDispatcher(object):
                     e['name'] = k
                     if array:
                         e[:] = {'minOccurs': "0", 'maxOccurs': "unbounded"}
-                    if v in TYPE_MAP.keys():
-                        t = 'xsd:%s' % TYPE_MAP[v]
-                    elif v is None:
-                        t = 'xsd:anyType'
-                    elif isinstance(v, list):
+                    if isinstance(v, list):
                         n = "ArrayOf%s%s" % (name, k)
                         l = []
                         for d in v:
@@ -384,8 +380,12 @@ class SoapDispatcher(object):
                         n = "%s%s" % (name, k)
                         parse_element(n, v.items(), complex=True)
                         t = "tns:%s" % n
+                    elif v in TYPE_MAP.keys():
+                        t = 'xsd:%s' % TYPE_MAP[v]
+                    elif v is None:
+                        t = 'xsd:anyType'
                     else:
-                        raise TypeError("unknonw type %s for marshalling" % str(v))
+                        raise TypeError("unknown type %s for marshalling" % str(v))
                     e.add_attribute('type', t)
 
             parse_element("%s" % method, args and args.items())
