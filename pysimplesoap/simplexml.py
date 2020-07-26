@@ -130,15 +130,15 @@ class OrderedDict(ordered_dict):
     def __setitem__(self, key, value):
         if key not in self.__keys:
             self.__keys.append(key)
-        ordered_dict.__setitem__(self, key, value)
+        super().__setitem__(key, value)
     def insert(self, key, value, index=0):
         if key not in self.__keys:
             self.__keys.insert(index, key)
-        ordered_dict.__setitem__(self, key, value)
+        super().__setitem__(key, value)
     def __delitem__(self, key):
         if key in self.__keys:
             self.__keys.remove(key)
-        ordered_dict.__delitem__(self, key)
+        super().__delitem__(key)
     def __iter__(self):
         return iter(self.__keys)
     def keys(self):
@@ -157,7 +157,7 @@ class OrderedDict(ordered_dict):
         new.update(self)
         return new
     def __str__(self):
-        return "*%s*" % ordered_dict.__str__(self)
+        return "*%s*" % super().__str__()
     def __repr__(self):
         s= "*{%s}*" % ", ".join(['%s: %s' % (repr(k),repr(v)) for k,v in list(self.items())])
         if self.array and False:
