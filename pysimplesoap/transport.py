@@ -172,7 +172,7 @@ else:
         try:
             from StringIO import StringIO
         except ImportError:
-            from io import StringIO
+            from io import BytesIO as StringIO
 
     class pycurlTransport(TransportBase):
         _wrapper_version = pycurl.version
