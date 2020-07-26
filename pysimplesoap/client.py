@@ -37,8 +37,6 @@ from .helpers import Alias, fetch, sort_dict, make_key, process_element, \
                      get_local_name, get_namespace_prefix, TYPE_MAP, urlsplit
 from .wsse import UsernameToken
 
-log = logging.getLogger(__name__)
-
 class SoapFault(RuntimeError):
     def __init__(self, faultcode, faultstring, detail=None):
         self.faultcode = faultcode
@@ -77,7 +75,7 @@ class SoapClient(object):
                  cert=None, exceptions=True, proxy=None, ns=None,
                  soap_ns=None, wsdl=None, wsdl_basedir='', cache=False, cacert=None,
                  sessions=False, soap_server=None, timeout=TIMEOUT,
-                 http_headers=None, trace=False,
+                 http_headers=None, trace=False, log_id = __name__,
                  username=None, password=None,
                  key_file=None, plugins=None, strict=True,
                  ):
@@ -102,14 +100,20 @@ class SoapClient(object):
 
         self.wsdl_basedir = wsdl_basedir
 
+        if log_id:
+            self.log_id = log_id
+        else:
+            self.log_id = 'pysimplesoap_{0}'.format(id(self))
+        self.log = logging.getLogger(self.log_id)
+
         # shortcut to print all debugging info and sent / received xml messages
         if trace:
             if trace is True:
                 level = logging.DEBUG           # default logging level
             else:
                 level = trace                   # use the provided level
-            logging.basicConfig(level=level)
-            log.setLevel(level)
+            logging.basicConfig()
+            self.log.setLevel(level)
 
         if not soap_ns and not ns:
             self.__soap_ns = 'soap'  # 1.1
@@ -129,7 +133,7 @@ class SoapClient(object):
         if cacert and cacert.startswith('-----BEGIN CERTIFICATE-----'):
             fd, filename = tempfile.mkstemp()
             f = os.fdopen(fd, 'w+b', -1)
-            log.debug("Saving CA certificate to %s" % filename)
+            self.log.debug("Saving CA certificate to %s" % filename)
             f.write(cacert)
             cacert = filename
             f.close()
@@ -303,9 +307,9 @@ class SoapClient(object):
             headers['SOAPAction'] = '"' + soap_action + '"'
 
         headers.update(self.http_headers)
-        log.info("POST %s" % location)
-        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
-        log.debug(xml)
+        self.log.info("POST %s" % location)
+        self.log.debug('\n'.join(["%s: %s" % (k, v) for k, v in headers.items()]))
+        self.log.debug(xml)
 
         if sys.version < '3':
             # Ensure http_method, location and all headers are binary to prevent
@@ -319,8 +323,8 @@ class SoapClient(object):
         self.response = response
         self.content = content
 
-        log.debug('\n'.join(["%s: %s" % (k, v) for k, v in response.items()]))
-        log.debug(content)
+        self.log.debug('\n'.join(["%s: %s" % (k, v) for k, v in response.items()]))
+        self.log.debug(content)
         return content
 
     def get_operation(self, method):
@@ -547,13 +551,13 @@ class SoapClient(object):
                 wsdl_namespace = element['namespace']
                 wsdl_location = element['location']
                 if wsdl_location is None:
-                    log.warning('WSDL location not provided for %s!' % wsdl_namespace)
+                    self.log.warning('WSDL location not provided for %s!' % wsdl_namespace)
                     continue
                 if wsdl_location in imported_wsdls:
-                    log.warning('WSDL %s already imported!' % wsdl_location)
+                    self.log.warning('WSDL %s already imported!' % wsdl_location)
                     continue
                 imported_wsdls[wsdl_location] = wsdl_namespace
-                log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
+                self.log.debug('Importing wsdl %s from %s' % (wsdl_namespace, wsdl_location))
                 # Open uri and read xml:
                 xml = fetch(wsdl_location, self.http, cache, force_download, self.wsdl_basedir, self.http_headers)
                 # Parse imported XML schema (recursively):
@@ -831,7 +835,7 @@ class SoapClient(object):
     def wsdl_parse(self, url, cache=False):
         """Parse Web Service Description v1.1"""
 
-        log.debug('Parsing wsdl url: %s' % url)
+        self.log.debug('Parsing wsdl url: %s' % url)
         # Try to load a previously parsed wsdl:
         force_download = False
         if cache:
@@ -840,15 +844,15 @@ class SoapClient(object):
             if isinstance(cache, basestring):
                 filename_pkl = os.path.join(cache, filename_pkl)
             if os.path.exists(filename_pkl):
-                log.debug('Unpickle file %s' % (filename_pkl, ))
+                self.log.debug('Unpickle file %s' % (filename_pkl, ))
                 f = open(filename_pkl, 'r')
                 pkl = pickle.load(f)
                 f.close()
                 # sanity check:
                 if pkl['version'][:-1] != __version__.split(' ')[0][:-1] or pkl['url'] != url:
                     warnings.warn('version or url mismatch! discarding cached wsdl', RuntimeWarning)
-                    log.debug('Version: %s %s' % (pkl['version'], __version__))
-                    log.debug('URL: %s %s' % (pkl['url'], url))
+                    self.log.debug('Version: %s %s' % (pkl['version'], __version__))
+                    self.log.debug('URL: %s %s' % (pkl['url'], url))
                     force_download = True
                 else:
                     self.namespace = pkl['namespace']
@@ -862,7 +866,7 @@ class SoapClient(object):
         services = self._xml_tree_to_services(wsdl, cache, force_download)
 
         # dump the full service/port/operation map
-        #log.debug(pprint.pformat(services))
+        #self.log.debug(pprint.pformat(services))
 
         # Save parsed wsdl (cache)
         if cache:
@@ -887,7 +891,7 @@ class SoapClient(object):
         """Finish the connection and remove temp files"""
         self.http.close()
         if self.cacert.startswith(tempfile.gettempdir()):
-            log.debug('removing %s' % self.cacert)
+            self.log.debug('removing %s' % self.cacert)
             os.unlink(self.cacert)
 
     def __repr__(self):
