@@ -79,7 +79,7 @@ class SoapClient(object):
                  sessions=False, soap_server=None, timeout=TIMEOUT,
                  http_headers=None, trace=False,
                  username=None, password=None,
-                 key_file=None, plugins=None, strict=True,
+                 key_file=None, plugins=None, strict=True, no_ns_children=False,
                  ):
         """
         :param http_headers: Additional HTTP Headers; example: {'Host': 'ipsec.example.com'}
@@ -94,6 +94,7 @@ class SoapClient(object):
         self.http_headers = http_headers or {}
         self.plugins = plugins or []
         self.strict = strict
+        self.no_ns_children = no_ns_children
         # extract the base directory / url for wsdl relative imports:
         if wsdl and wsdl_basedir == '':
             # parse the wsdl url, strip the scheme and filename
@@ -209,7 +210,8 @@ class SoapClient(object):
             body.import_node(parameters[0])
         elif parameters:
             # marshall parameters:
-            use_ns = None if (self.__soap_server == "jetty" or self.qualified is False) else True
+            use_ns = None if (self.no_ns_children or self.__soap_server == "jetty" or self.qualified is False) else True
+
             for k, v in parameters:  # dict: tag=valor
                 if hasattr(v, "namespaces") and use_ns:
                     ns = v.namespaces.get(None, True)
