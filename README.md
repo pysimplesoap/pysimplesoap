@@ -1,23 +1,23 @@
 PySimpleSOAP / soap2py
 ======================
 
-Python simple and lightweight SOAP library for client and server webservices interfaces, aimed to be as small and easy as possible, supporting most common functionality.
+Python simple and lightweight SOAP library for client and server web services interfaces, aimed to be as small and easy as possible, supporting most common functionality.
 Initially it was inspired by [PHP Soap Extension](http://php.net/manual/en/book.soap.php) (mimicking its functionality, simplicity and ease of use), with many advanced features added.
 
-**Supports Python 3** (same codebase, no need to run 2to3)
+**Supports Python 3** (same codebase, no need to run 2-3)
 
 Goals
 -----
-
+/
  * Simple: originally less than 200LOC client/server concrete implementation for easy maintainability and enhancements.
- * Flexible: adapted to several SOAP dialects/servers (Java Axis, .Net, WCF, JBoss, "jetty"), with the possibility of fine-tuning XML request and responses
- * Pythonic: no artifacts, no class generation, no special types, RPC calls parameters and return values are simple python structures (dicts, list, etc.)
- * Dynamic: no definition (WSDL) required, dynamic generation and parsing supported (cached in a pickle file for performance, supporting fixing broken WSDL)
- * Easy: simple xml manipulation, including basic serialization and raw object-like access to SOAP messages
- * Extensible: supports several HTTP wrappers (httplib2, pycurl, urllib2) for special transport needs over SSL and proxy (ISA)
- * WSGI compliant: server dispatcher can be integrated to other python frameworks (web2py, django, etc.)
- * Backwards compatible: stable API, no breaking changes between releases
- * Lightweight: low memory footprint and fast processing (an order of magnitude in some situations, relative to other implementations)
+ * Flexible: adapted to several SOAP dialects/servers (Java Axis, .Net, WCF, JBoss, "jetty"), with the possibility of fine-tuning XML request and responses.
+ * Pythonic: no artifacts, no class generation, no special types, RPC calls parameters and return values are simple python structures.(dicts, list, etc.)
+ * Dynamic: no definition (WSDL) required, dynamic generation and parsing supported.(cached in a pickle file for performance, supporting fixing broken WSDL)
+ * Easy: simple xml manipulation, including basic serialization and raw object-like access to SOAP messages.
+ * Extensible: supports several HTTP wrappers (httplib2, pycurl, urllib2) for special transport needs over SSL and proxy.(ISA)
+ * WSGI compliant: server dispatcher can be integrated to other python frameworks.(web2py, django, etc.)
+ * Backwards compatible: stable API, no breaking changes between releases.
+ * Lightweight: low memory footprint and fast processing.(an order of magnitude in some situations, relative to other implementations)
 
 History
 -------
