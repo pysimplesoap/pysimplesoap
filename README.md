@@ -1,7 +1,7 @@
 PySimpleSOAP / soap2py
 ======================
 
-Python simple and lightweight SOAP library for client and server webservices interfaces, aimed to be as small and easy as possible, supporting most common functionality.
+Python simple and lightweight SOAP library for client and server webservices interfaces, aim to be as small and easy as possible, supporting most common functionality.
 Initially it was inspired by [PHP Soap Extension](http://php.net/manual/en/book.soap.php) (mimicking its functionality, simplicity and ease of use), with many advanced features added.
 
 **Supports Python 3** (same codebase, no need to run 2to3)
