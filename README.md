@@ -1,4 +1,4 @@
-PySimpleSOAP / soap2py
+PySimpleSOAP / soap2py Awesome work
 ======================
 
 Python simple and lightweight SOAP library for client and server webservices interfaces, aimed to be as small and easy as possible, supporting most common functionality.
