@@ -115,7 +115,7 @@ else:
                 ##if False and DEBUG and self.ssl_version != ssl.PROTOCOL_TLSv1:
                 ##    raise ssl.SSLError
                 return httplib2.Http._conn_request(self, conn, request_uri, method, body, headers)
-            except (ssl.SSLError, httplib2.SSLHandshakeError), e:
+            except ssl.SSLError as e:
                 # fallback to previous protocols
                 if hasattr(ssl, "PROTOCOL_TLSv1_2") and self.ssl_version == ssl.PROTOCOL_TLSv1_2:
                     new_ssl_version = ssl.PROTOCOL_TLSv1
