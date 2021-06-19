@@ -21,11 +21,11 @@ USE_SSLv3 = None    # prevent issues with SSLv23/TLSv1 on some systems (i.e. Ubu
 DEBUG = False
 
 import os
-import cPickle as pickle
-import urllib2
-from urlparse import urlparse
+import pickle as pickle
+import urllib.request, urllib.error, urllib.parse
+from urllib.parse import urlparse
 import tempfile
-from simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
+from .simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 import logging
 import warnings
 import time
@@ -68,7 +68,7 @@ else:
             if proxy:
                 import socks
                 kwargs['proxy_info'] = httplib2.ProxyInfo(proxy_type=socks.PROXY_TYPE_HTTP, **proxy)
-                print "using proxy", proxy
+                print("using proxy", proxy)
 
             # set optional parameters according supported httplib2 version
             if httplib2.__version__ >= '0.3.0':
@@ -110,12 +110,12 @@ else:
         def _conn_request(self, conn, request_uri, method, body, headers):
             try:
                 if DEBUG:
-                    print "Connecting to https://%s:%s%s using protocol %s" % (
-                        conn.host, conn.port, request_uri, ssl.get_protocol_name(self.ssl_version))
+                    print("Connecting to https://%s:%s%s using protocol %s" % (
+                        conn.host, conn.port, request_uri, ssl.get_protocol_name(self.ssl_version)))
                 ##if False and DEBUG and self.ssl_version != ssl.PROTOCOL_TLSv1:
                 ##    raise ssl.SSLError
                 return httplib2.Http._conn_request(self, conn, request_uri, method, body, headers)
-            except (ssl.SSLError, httplib2.SSLHandshakeError), e:
+            except ssl.SSLError as e:
                 # fallback to previous protocols
                 if hasattr(ssl, "PROTOCOL_TLSv1_2") and self.ssl_version == ssl.PROTOCOL_TLSv1_2:
                     new_ssl_version = ssl.PROTOCOL_TLSv1
@@ -143,9 +143,9 @@ else:
 #
 # urllib2 support.
 #
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 class urllib2Transport(TransportBase):
-    _wrapper_version = "urllib2 %s" % urllib2.__version__
+    _wrapper_version = "urllib2"
     _wrapper_name = 'urllib2' 
     def __init__(self, timeout=None, proxy=None, cacert=None, sessions=False):
         import sys
@@ -156,22 +156,23 @@ class urllib2Transport(TransportBase):
         if cacert:
             raise RuntimeError('cacert is not support with urllib2 transport')
 
-        self.request_opener = urllib2.urlopen
+        self.request_opener = urllib.request.urlopen
         if sessions:
-            from cookielib import CookieJar
-            opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(CookieJar()))
+            from http.cookiejar import CookieJar
+            opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(CookieJar()))
             self.request_opener = opener.open
             
         self._timeout = timeout
 
     def request(self, url, method="GET", body=None, headers={}):
-        req = urllib2.Request(url, body, headers)
+        req = urllib.request.Request(url, body, headers)
         try:
             f = self.request_opener(req, timeout=self._timeout)
-        except urllib2.HTTPError, f:
+            return f.info(), f.read()
+        except urllib.error.HTTPError as f:
             if f.code != 500:
                 raise
-        return f.info(), f.read()
+            return f.info(), f.read()
 
 _http_connectors['urllib2'] = urllib2Transport
 _http_facilities.setdefault('sessions', []).append('urllib2')
@@ -191,9 +192,9 @@ except ImportError:
     pass
 else:
     try:
-        from cStringIO import StringIO
+        from io import StringIO
     except ImportError:
-        from StringIO import StringIO
+        from io import StringIO
 
     class pycurlTransport(TransportBase):
         _wrapper_version = pycurl.version
@@ -231,7 +232,7 @@ else:
                 c.setopt(pycurl.POST, 1)
                 c.setopt(pycurl.POSTFIELDS, body)            
             if headers:
-                hdrs = ['%s: %s' % (str(k), str(v)) for k, v in headers.items()]
+                hdrs = ['%s: %s' % (str(k), str(v)) for k, v in list(headers.items())]
                 ##print hdrs
                 c.setopt(pycurl.HTTPHEADER, hdrs)
             c.perform()
@@ -253,9 +254,9 @@ class DummyTransport:
         
     def request(self, location, method, body, headers):
         if False:
-            print method, location
-            print headers
-            print body
+            print(method, location)
+            print(headers)
+            print(body)
         return {}, self.xml_response
 
 
@@ -274,7 +275,7 @@ def get_http_wrapper(library=None, features=[]):
 
     # If we are asked for a connector which supports the given features, then we will
     # try that.
-    current_candidates = _http_connectors.keys()
+    current_candidates = list(_http_connectors.keys())
     new_candidates = []
     for feature in features:
         for candidate in current_candidates:
