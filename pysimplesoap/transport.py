@@ -71,7 +71,7 @@ try:
         # see https://code.google.com/p/httplib2/issues/detail?id=173
         orig__init__ = http.client.HTTPSConnection.__init__ 
         def fixer(self, host, port, key_file, cert_file, timeout, context,
-                        check_hostname, *args, **kwargs):
+                        check_hostname=False, *args, **kwargs):
             chk = kwargs.get('disable_ssl_certificate_validation', True) ^ True
             orig__init__(self, host, port=port, key_file=key_file,
                 cert_file=cert_file, timeout=timeout, context=context,
