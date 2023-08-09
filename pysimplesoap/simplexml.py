@@ -185,6 +185,9 @@ class SimpleXMLElement(object):
 
         if text is not None:
             try:
+                # condition for special character
+                if isinstance(text, bytes):
+                    text = text.decode().replace("&#x1F;", "?").encode()
                 self.__document = xml.dom.minidom.parseString(text)
             except:
                 log.error(text)
