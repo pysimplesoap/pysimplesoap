@@ -106,7 +106,7 @@ else:
     _http_facilities.setdefault('cacert', []).append('httplib2')
 
     import inspect
-    if 'timeout' in inspect.getargspec(httplib2.Http.__init__)[0]:
+    if 'timeout' in inspect.getfullargspec(httplib2.Http.__init__)[0]:
         _http_facilities.setdefault('timeout', []).append('httplib2')
 
 
