@@ -14,7 +14,6 @@
 
 
 import logging
-import socket
 import ssl
 import sys
 from distutils.version import LooseVersion
