@@ -93,9 +93,8 @@ else:
                 kwargs['proxy_info'] = httplib2.ProxyInfo(proxy_type=socks.PROXY_TYPE_HTTP, **proxy)
                 log.info("using proxy %s" % proxy)
 
+            kwargs['timeout'] = timeout 
             # set optional parameters according to supported httplib2 version
-            if LooseVersion(httplib2.__version__) >= LooseVersion('0.3.0'):
-                kwargs['timeout'] = timeout
             if LooseVersion(httplib2.__version__) >= LooseVersion('0.7.0'):
                 kwargs['disable_ssl_certificate_validation'] = cacert is None
                 kwargs['ca_certs'] = cacert
