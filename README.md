@@ -33,6 +33,29 @@ Source Code originally available on [GoogleCode](https://code.google.com/p/pysim
 Changelog
 ---------
 
+Recent updates (2024):
+
+* Improved compatibility with Python 3.7+ up to 3.12
+* Modernized setup process using setuptools and importlib.metadata
+* Added contributor recognition in package metadata
+* Refactored code to use more current Python practices
+
+These changes offer several advantages:
+
+1. **Broader Python Support**: The library now works seamlessly with the latest Python versions, ensuring long-term compatibility and access to newer language features.
+
+2. **Improved Package Management**: The use of modern setuptools practices makes installation and dependency management more robust and reliable.
+
+3. **Better Contributor Recognition**: The new metadata structure allows for proper acknowledgment of project contributors, encouraging community involvement.
+
+4. **Enhanced Maintainability**: Code refactoring and modernization make the library easier to understand, modify, and extend for both maintainers and contributors.
+
+5. **Increased Performance**: Updates to use more current Python practices may result in performance improvements in certain scenarios.
+
+6. **Easier Integration**: The modernized structure makes it easier to integrate PySimpleSOAP into other projects and workflows.
+
+7. **Future-Proofing**: These updates lay the groundwork for easier adoption of future Python features and continued maintenance of the library.
+
 Recent changes (2014/2015):
 
 * Plug-in system to support for WSSE (Web-Services Security extensions)
