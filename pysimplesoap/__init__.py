@@ -1,16 +1,16 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# pysimplesoap/__init__.py
 
-"""PySimpleSOAP"""
-
-
+__version__ = "1.16.3"
 __author__ = "Mariano Reingart"
 __author_email__ = "reingart@gmail.com"
-__copyright__ = "Copyright (C) 2013 Mariano Reingart"
 __license__ = "LGPL 3.0"
-__version__ = "1.16.2"
+__description__ = "Python simple and lightweight SOAP library"
+__url__ = "https://github.com/diegonaranjo/pysimplesoap"
 
-TIMEOUT = 60
+# Nuevo campo para contribuidores
+__contributors__ = [
+    "Diego Naranjo <diego.s.naranjo@gmail.com>",
+]
 
-
+# Importa los módulos principales para facilitar su uso
 from . import client, server, simplexml, transport
