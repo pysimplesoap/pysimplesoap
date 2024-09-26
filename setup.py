@@ -1,50 +1,54 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
-import os
-import subprocess
-import sys
-import warnings
+from setuptools import setup, find_packages
 
-try:
-    import py2exe
-    from nsis import build_installer
-except:
-    build_installer = None
+# Importar la información de versión y metadatos desde __init__.py
+from pysimplesoap import (
+    __version__, __author__, __author_email__, __license__,
+    __description__, __url__, __contributors__
+)
 
-from pysimplesoap import __version__, __author__, __author_email__, __license__
-
-# convert the README and format in restructured text (only when registering)
-long_desc = ""
-if os.path.exists("README.md") and sys.platform == "linux2":
-    try:
-        cmd = ['pandoc', '--from=markdown', '--to=rst', 'README.md']
-        long_desc = subprocess.check_output(cmd).decode("utf8")
-        print("Long DESC", long_desc)
-    except Exception as e:
-        warnings.warn("Exception when converting the README format: %s" % e)
+# Leer el contenido de README.md
+with open('README.md', 'r', encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
     name='PySimpleSOAP',
     version=__version__,
-    description='Python simple and lightweight SOAP Library',
-    long_description=long_desc,
+    packages=find_packages(),
     author=__author__,
     author_email=__author_email__,
-    url='https://github.com/pysimplesoap/pysimplesoap',
-    packages=['pysimplesoap'],
     license=__license__,
-    # console=['client.py'],
-    cmdclass={"py2exe": build_installer},
-    classifiers=[
-        "Development Status :: 3 - Alpha",
-        "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        "Topic :: Communications",
-        "Topic :: Software Development :: Libraries :: Python Modules",
+    description=__description__,
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url=__url__,
+    install_requires=[
+        'requests',
+        'lxml',
     ],
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
+    python_requires='>=3.7',
+    project_urls={
+        'Source': __url__,
+        'Tracker': f"{__url__}/issues",
+    },
+    # Agregar la información de los contribuidores
+    extras_require={
+        'Contributors': __contributors__,
+    },
 )
