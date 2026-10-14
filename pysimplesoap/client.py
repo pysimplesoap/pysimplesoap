@@ -459,7 +459,7 @@ class SoapClient(object):
                 if cache:
                     log.info("Writing file %s" % (filename, ))
                     try:
-                        if not os.path.isdir(cache):
+                        if isinstance(cache, str) and not os.path.isdir(cache):
                             os.makedirs(cache)
                         f = open(filename, "wb")
                         f.write(xml)
