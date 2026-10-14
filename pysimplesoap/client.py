@@ -444,7 +444,7 @@ class SoapClient(object):
                 filename = os.path.join(cache, filename) 
             if cache and os.path.exists(filename) and not force_download:
                 log.info("Reading file %s" % (filename, ))
-                f = open(filename, "r")
+                f = open(filename, "rb")
                 xml = f.read()
                 f.close()
             else:
