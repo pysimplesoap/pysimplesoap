@@ -79,7 +79,8 @@ else:
             if _version_tuple(httplib2.__version__) >= (0, 3, 0):
                 kwargs['timeout'] = timeout
             if _version_tuple(httplib2.__version__) >= (0, 7, 0):
-                kwargs['disable_ssl_certificate_validation'] = cacert is None
+                # without cacert, verify against httplib2's default CA bundle
+                kwargs['disable_ssl_certificate_validation'] = False
                 kwargs['ca_certs'] = cacert
             # downgrade to highest compatible protocol version available:
             if ssl:
