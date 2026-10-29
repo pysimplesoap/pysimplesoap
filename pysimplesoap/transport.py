@@ -29,7 +29,7 @@ from .simplexml import SimpleXMLElement, TYPE_MAP, OrderedDict
 import logging
 import warnings
 import time
-from distutils.version import LooseVersion
+import re
 
 # Required in Python2.6+ to force SSLv3:
 try:
@@ -45,6 +45,10 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.WARNING)
 #
 _http_connectors = {} # libname: classimpl mapping
 _http_facilities = {} # functionalitylabel: [sequence of libname] mapping
+
+def _version_tuple(version):
+    "Return the leading numbers of a version string as a tuple of ints"
+    return tuple(int(x) for x in re.findall(r'\d+', version)[:3])
 
 class TransportBase:
     @classmethod
@@ -72,10 +76,11 @@ else:
                 print("using proxy", proxy)
 
             # set optional parameters according supported httplib2 version
-            if LooseVersion(httplib2.__version__) >= LooseVersion('0.3.0'):
+            if _version_tuple(httplib2.__version__) >= (0, 3, 0):
                 kwargs['timeout'] = timeout
-            if LooseVersion(httplib2.__version__) >= LooseVersion('0.7.0'):
-                kwargs['disable_ssl_certificate_validation'] = cacert is None
+            if _version_tuple(httplib2.__version__) >= (0, 7, 0):
+                # without cacert, verify against httplib2's default CA bundle
+                kwargs['disable_ssl_certificate_validation'] = False
                 kwargs['ca_certs'] = cacert
             # downgrade to highest compatible protocol version available:
             if ssl:
